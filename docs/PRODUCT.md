@@ -3,6 +3,11 @@
 Fresh start. Do not look for older code or designs.
 Open questions live in `docs/OPEN-QUESTIONS.md`.
 
+## 0. Problem (draft, team to confirm)
+College friend groups in Pune want to go out on a low budget, but planning where to go,
+in what order, and agreeing on it takes too long, so plans die in the group chat.
+Success metrics: `docs/PROCESS.md` section 1.
+
 ## 1. Product
 - **Vybe** (working name; final brand undecided). Bundle ID: `com.lohitaksh.Vybe`.
 - A social app for discovering places and doing multi-spot Hangouts with friends.
@@ -23,16 +28,25 @@ Use exactly, in code, comments and UI text.
 | Start Hangout (the main button) | Go, Begin |
 
 - **Hangout** is the only noun for the thing people browse, save, do and post.
-  Its state is shown with status words: *Saved*, *Draft*, *Live*, *Done*, *Posted*.
+  In the data (see `docs/DATA-MODEL.md`): a Hangout is *Draft* or *Published*;
+  each time someone does it, that run is *Live*, then *Done*, then maybe *Posted*;
+  *Saved* is a bookmark, not a state.
 - **Spot**: one place inside a Hangout. **Place**: the real venue (code word).
 - **Remix**: make your own editable copy of a Hangout.
-- **Picks**: Hangouts made and verified by the Vybe team. Shown with a Picks badge.
+- **Picks**: Hangouts the Vybe team has actually done and posted from the official
+  Vybe account. They look a little different (Picks badge) but behave exactly like any
+  other post (like, comment, Save, Remix, Share).
 - No "Organiser". No voting inside Hangouts. Polls live in group chats (later).
 
-## 3. Phase 1: this week (feature freeze Thu 5 Nov 2026, 18:00)
-SwiftUI frontend on local sample data. No backend.
+## 3. Phase 1: the whole frontend on sample data (no backend)
+SwiftUI frontend for **every screen** on local sample data. The work is a pool of tasks
+(`docs/TASKS.md`); the earlier "feature freeze Thu 5 Nov" is superseded (new date to be set
+after measuring speed: `docs/BEFORE-BUILD.md` 4). The tables below list the screens; the
+complete list with IDs is `docs/IA.md` section 4.
 
-Tabs: **Discover**, **Community** (placeholder this week), **Search**, **Profile**.
+Tabs (4): **Discover**, **Community** (placeholder this week), **Profile**, and
+**Search** as a separate tab at the trailing end (never in the middle).
+Chat lives inside Community, not in its own tab.
 Search is a dedicated search-role tab and the only search in the app:
 no segment control, results ranked by the last non-Search tab.
 
@@ -48,7 +62,7 @@ and the Figma frame name.
 | O3 | Interests | chips, pick 3 or more; used for suggestions, changeable later |
 | O4 | Location | explain, then system prompt; if denied, the user picks an area |
 | D1 | Discover map | full-screen Apple Maps, pins, filter chips |
-| D2 | Pin preview sheet | slides up from the bottom |
+| D2 | Pin preview card | an overlay card on the map (not a sheet, so the tab bar stays visible) |
 | D3 | Filters sheet | full filter set; "See more" |
 | HD1 | Hangout detail | photo header, ordered Spots; actions: Start Hangout, Save, Share |
 | HD2 | Spot sheet | one Place: photos, address, hours |
@@ -69,15 +83,18 @@ Every data screen needs loading, empty and error states.
 - PR1 saved Hangout, then HD1.
 - HD1 Spot, then HD2.
 - HD1 Start Hangout, then H1 (with H2 as a popup), then H3, then back to Discover.
-- Share is the system share sheet.
+- Share is the system share sheet. In version 1 the shared link opens a public **web page**
+  (WEB1) for people without the app, so Android friends can see it and say "I'm in".
 
 ### Phase 1 data
 Small local sample set in the app bundle, one JSON file per Hangout and per Place,
 using real Kothrud names. The verified full dataset is built after the vacation.
 Saved Hangouts persist on the device.
 
-## 4. The full app (target 18 Dec 2026)
-Phase 2 = backend, verification and TestFlight. Decisions so far:
+## 4. The full app (version 1, target 18 Dec 2026)
+"Phase 1" and "Phase 2" are build order only: **everything in this section ships in
+version 1.** Phase 2 = backend, verification and TestFlight. Decisions so far
+(data-level decisions are in `docs/DATA-MODEL.md` section 7):
 
 ### Hangouts
 - Fields: title, summary, tags (e.g. "good for groups"), vibe tags, budget per person
@@ -97,7 +114,7 @@ Phase 2 = backend, verification and TestFlight. Decisions so far:
 - "Mark visited" is trusted, no location check.
 - A Hangout can be posted when done, or partly done. Only visited Spots are shown.
   Minimum 2 visited Spots to post.
-- Photos: asked for and nudged, but optional. Max 2 × number of Spots.
+- Photos: asked for and nudged, but optional. Max 2 × the number of **visited** Spots.
 - After posting: title, caption, photos, tags and visibility can change; Spots cannot.
 - Remixed Hangouts cannot be posted until actually done.
 - Post card: cover photo (or route mini-map), title, avatar and username,
@@ -128,7 +145,8 @@ Phase 2 = backend, verification and TestFlight. Decisions so far:
 ### Chat (inside Community)
 - Friends only. Direct messages and groups.
 - Groups are permanent friend groups (not one per Hangout), minimum 3 people.
-  The group admin removes members; any member adds friends; groups can be renamed.
+  The group admin removes members; any member can add their own friends, but anyone added
+  by a non-friend must accept first ("Join" / "Leave and block"); groups can be renamed.
   New members do not see earlier messages.
 - Messages: text, photos (max 2 per message), shared Hangouts, links, voice notes.
 - Delete for everyone and edit are allowed. Read receipts are always on.
@@ -140,7 +158,7 @@ Phase 2 = backend, verification and TestFlight. Decisions so far:
 
 ### Places
 - Our own Place database is the source of truth, checked by the team.
-- Apple's Place ID (iOS 18+) is stored on each Place for live details. MapKit and Google
+- Apple's Place ID is stored on each Place for live details. MapKit and Google
   data are never copied into our files.
 - Users can suggest Places. The team reviews suggestions (pending, approved, rejected).
 
@@ -159,11 +177,40 @@ Phase 2 = backend, verification and TestFlight. Decisions so far:
 - Online app. When offline, screens keep showing the last loaded state, read-only,
   with no actions. A small offline game is a later nice-to-have.
 
+### Safety defaults (accepted 3 Nov; reasons in `docs/RISKS.md`)
+- New posts are **Friends** only; Public is opt-in with a one-line warning.
+- Other people never see exact visit times: only the order, "3 of 5 Spots", a rounded
+  duration ("about 3 h") and the day.
+- A post appears at least **30 minutes** after the Hangout ends (options: 2 h, next day).
+- A live Hangout is never visible to anyone else. The GPS track is never uploaded.
+- Comments on a public post: Friends by default. Friend requests from people with no mutual
+  friends go to an "Other" folder; at most 30 requests a day and 100 pending.
+- Settings: who can comment, who can send requests, who can add me to groups, show me in
+  search.
+- Report reasons include "photo of me without consent", "private address" and
+  "impersonation". Nudity, self-harm and threats are hidden automatically on report;
+  the self-harm flow shows Tele-MANAS 14416 and 112.
+- Treks and waterfalls show a safety note; a monsoon banner runs June to September; a
+  Place can be marked "closed by authorities".
+- Deleted usernames are held for 30 days.
+
+### Web page for Android friends (version 1)
+iOS is about 5% of phones in India, so most friend groups include Android users. Every
+shared Hangout and post gets a public web page (WEB1) with a proper WhatsApp preview
+(cover photo, title, "3 Spots, ₹150 to 400"), the Spots list, and an "I'm in" button that
+works without an account. Hosted on Firebase Hosting's free web.app address at first.
+Opening the app from the link (universal links) needs the paid Apple account.
+
+### Branding rule
+The college where we launch (MIT-WPU) is used only in advertising. Its name never
+appears in the app, and the app collects no college field.
+
 ## 5. Design rules
 - Photo-led, visual, not text-heavy. Hangouts look tappable with photos.
 - Native iOS components (tab bar, sheets, nav bar, search). Follow Apple's Human Interface Guidelines.
 - Must not look AI-generated. One main action per screen.
-- Sheets slide up from the bottom over the map.
+- Detail sheets (Spot, Filters, Mark visited) slide up from the bottom over the map. The
+  pin preview is a card, not a sheet.
 - Hangout live: big text, glanceable while walking.
 - Real Kothrud place names and words in previews, never lorem ipsum.
 - Colours, fonts and spacing live only in `Theme` tokens (values to be decided).
@@ -172,45 +219,41 @@ Phase 2 = backend, verification and TestFlight. Decisions so far:
   Read the frame before building a screen. If a frame is unclear, ask.
 
 ## 6. Technical decisions
-- iOS 18 minimum. iPhone only, portrait only, light only.
+- **iOS 26 minimum** (decided 3 Nov; iPhone XS/XR can't install). iPhone only, portrait
+  only, light only.
 - SwiftUI and `@Observable`. No third-party libraries (a backend SDK will need an
   exception; see open questions).
 - Plain `Codable` structs with stable string IDs.
+- **MVVM**: every screen is a `SomethingView` (layout only) plus a `SomethingViewModel`
+  (`@Observable`, holds the screen's state and logic). Data structs and repositories are
+  the Model layer. Details in `docs/ARCHITECTURE.md`.
 - Code names: `Hangout` (the blueprint: Spots, author, isPick) and `HangoutRun`
   (one person doing it: visited Spots, photos, times, visibility). Both are
   "Hangout" in the UI. `Place` is the venue; `Spot` is a Place inside a Hangout.
-- One `NavigationStack` per tab. Typed Route enums carry IDs only. An `AppRouter`.
-- A shared `@Observable` store, injected via the SwiftUI Environment, so the data
-  source (local JSON now, a server later) can be swapped without changing screens.
+- One `NavigationStack` per tab (plus one for onboarding and one inside each full-screen
+  cover). Typed `Route` enums carry IDs only. One `Router`.
+- Shared `@Observable` stores and repositories are created once (`AppDependencies`) and
+  passed to ViewModels through their `init`s (nothing is read from the SwiftUI Environment),
+  so the data source (local JSON now, a server later) can be swapped without changing screens.
 - Core never imports Features. Features never import each other. Shared views go in `Components`.
 - Location: real permission. Simulated movement for Hangout live so it demos at a desk.
 - Signing: everyone uses the simulator. Only Lohitaksh installs on the lab iPhone.
   Signing and project settings are never committed without his OK.
 
-## 7. Folder layout (final layout is confirmed in the coding plan)
-```
-Vybe/
-  App/            app entry, tabs, AppRouter            (Lohitaksh only)
-  Core/           store, router, location, saved Hangouts
-  Theme/          colour, spacing tokens                (Lohitaksh only)
-  Components/     HangoutCard, SpotRow, FilterChip, PrimaryButton, SecondaryButton,
-                  PlaceImage, EmptyStateView, Avatar
-  Features/
-    Onboarding/  Discover/  HangoutDetail/  Search/  Profile/  HangoutLive/  Community/
-  Resources/      assets, photos
-VybeCore/         local Swift package: models and JSON loading
-Vybe.xcodeproj, VybeTests/, scripts/, .swiftlint.yml   (repo root)
-docs/             PRODUCT.md, PLAN.md, OPEN-QUESTIONS.md
-AGENTS.md
-CLAUDE.md         contains exactly: @AGENTS.md
-```
+## 7. Folder layout
+The full application folder structure (every folder and file, what may import what, and
+"where does X go?") is in `docs/ARCHITECTURE.md` section 3.2. In short:
+`Vybe/` (app wiring) + `VybeKit/` (local package: Models, Core, Design, Components,
+LocalData, one target per feature, later Remote) + `backend/` (Phase 2) + `docs/` +
+`scripts/`. `AGENTS.md` and `CLAUDE.md` (contains exactly `@AGENTS.md`) sit at the root.
 
 ## 8. Content rules
 - Real Pune places only. Real photos only (team photos with a credit). No AI images.
-- **Place fields:** id, name, category, city, area, latitude, longitude, hours,
-  costPerPerson, photoFiles, photoCredit, applePlaceID (optional).
-- **Hangout fields:** see section 4.
-- IDs never change once set.
+- **Fields for every model** (Place, Hangout, Spot, run, and the rest), with JSON
+  examples: `docs/DATA-MODEL.md`. Money is whole rupees as a min-max range; each
+  photo has its own credit.
+- **IDs:** team content `place-<slug>-<4 chars>` / `hangout-<slug>-<4 chars>`; user
+  content a random UUID. IDs never change once set.
 - Content is written in a shared Google Sheet, then converted to JSON by a script (K1).
   A content test must load every JSON file.
 - Gemini or other AI may suggest ideas only. A human verifies every Place.

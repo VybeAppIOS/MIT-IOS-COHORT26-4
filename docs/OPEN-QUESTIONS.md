@@ -128,7 +128,7 @@ Research so far:
   [pricing summary](https://designrevision.com/blog/supabase-pricing.md))
 - Firebase: Mumbai region per blogs only (verify); phone login built in but paid; push built in.
   ([Supabase vs Firebase for India](https://rohitraj.tech/en/notes/supabase-vs-firebase-india-mvp-2026))
-- Current lean: Firebase if phone login, Supabase if email/Apple/Google only.
+- Current lean: **Firebase** (see `docs/ARCHITECTURE.md` section 8), whichever login methods are chosen.
 
 Questions:
 - [ ] Backend: Firebase or Supabase? Build a tiny test (login + one table) in each.
@@ -152,6 +152,49 @@ Questions:
 - [ ] "You might know": mutual friends only, or more later?
 - [ ] Limits: Spots 2 to 10, photos 2 × Spots, 2 per chat message, 500 friends. Final?
 - [ ] Code word check: is "Place" (venue) vs "Spot" (inside a Hangout) clear to everyone?
+
+## 8a. Data decisions — DECIDED 3 Nov (see `docs/DATA-MODEL.md` section 7)
+- [x] All 12 decided. Everything ships in version 1; phases are build order only.
+- [x] Picks are posts by the Vybe account (one feed card type).
+- [x] Same Place twice allowed, with a warning.
+- [x] Deleted usernames are held for 30 days (changed 3 Nov from "free immediately").
+- [ ] Team: are Picks physically done by the team before posting? With ~40 Picks by
+      Thursday, that's a lot of outings. Can early Picks be posted from the team's
+      past real visits?
+
+## 8a-2. Decisions of 3 Nov (evening)
+- [x] **No cut list:** build all frontend screens properly on sample data; no fixed roles; a task pool.
+- [x] **Figma** is only a loose reference (not the spec).
+- [x] **Picks** come from the team's **real past visits**.
+- [x] **Account deletion deletes all of the person's photos**; posts stay as "[deleted]".
+- [x] **No Claude Code settings/hook files** are added.
+- [ ] **New "frontend done" date** after measuring speed (see `docs/BEFORE-BUILD.md` 4).
+
+## 8b. Project changes — APPROVED for Phase 1 (3 Nov)
+- [x] Location permission text (`NSLocationWhenInUseUsageDescription`).
+- [x] Kothrud `.gpx` simulated walk in the Xcode scheme.
+- [x] Background Modes → Location updates + `CLBackgroundActivitySession` for the live Hangout.
+      (Apple: it is only the `UIBackgroundModes` Info.plist key, no entitlement; whether a
+      free account allows the capability toggle in Xcode is UNVERIFIED: test on Fri 6 Nov.)
+- [ ] Later: camera and microphone permission texts; a UI test target for the accessibility audit.
+
+## 8c. New decisions from the 3 Nov research (Team, then mentors) — details in `docs/RISKS.md`
+- [ ] **Name:** "Vybe" is used by two going-out apps on the App Store. Reserve a longer
+      name now, check trademarks, and pick the final brand before TestFlight?
+- [x] **Safety defaults ACCEPTED 3 Nov** (RISKS section 3): friends-only posts by default,
+      exact visit times never shown, 30-minute post delay, no GPS track upload,
+      ask-before-group-add. (Team note: accepted without reviewing the detail; mentors
+      and a lawyer should look at them.)
+- [x] **Android friends: web page + web "I'm in" in version 1** (decided 3 Nov).
+- [x] **Deleted usernames: 30-day hold** (decided 3 Nov).
+- [x] **First launch group: MIT-WPU, for advertising only.** The college's name must not
+      appear anywhere in the app, and no college field is collected.
+- [x] **iOS 26 minimum** (decided 3 Nov). Project setting changed; docs updated.
+- [ ] **App name:** being researched in parallel; use `docs/prompts/NAME-RESEARCH.md`.
+- [ ] **Firestore edition** (Standard vs Enterprise) if Firebase is chosen; permanent.
+- [ ] **Server photo screening** (e.g. SafeSearch) in version 1?
+- [ ] Install an iOS 26 simulator runtime (our minimum; only iOS 27 is installed).
+- [ ] Lawyer questions: `docs/RISKS.md` section 7.
 
 ## 9. Design (Team, later)
 - [ ] Theme values (colours, fonts) and who decides.

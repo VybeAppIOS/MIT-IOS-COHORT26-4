@@ -1,0 +1,5 @@
+// Copy this file to Config/Local.xcconfig (git-ignored) on YOUR machine. Never commit Local.xcconfig.
+// Only Lohitaksh sets signing. Everyone else runs on the simulator and leaves this alone.
+// Wiring this file into the project is a project-setting change (Lohitaksh, in Xcode).
+DEVELOPMENT_TEAM = YOUR_TEAM_ID
+// PRODUCT_BUNDLE_IDENTIFIER = com.lohitaksh.Vybe.lab   // optional: a different ID for the lab iPhone

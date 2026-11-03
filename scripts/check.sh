@@ -17,4 +17,13 @@ xcodebuild test \
   -destination "platform=iOS Simulator,name=$SIMULATOR" \
   -quiet
 
+# The local Swift package (VybeKit): builds every target and runs every test target.
+if [ -f VybeKit/Package.swift ]; then
+  echo "==> VybeKit package tests on: $SIMULATOR"
+  (cd VybeKit && xcodebuild test \
+    -scheme VybeKit-Package \
+    -destination "platform=iOS Simulator,name=$SIMULATOR" \
+    -quiet)
+fi
+
 echo "==> All checks passed"
