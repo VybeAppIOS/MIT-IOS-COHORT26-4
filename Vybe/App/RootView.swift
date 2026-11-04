@@ -27,7 +27,7 @@ struct RootView: View {
         .task {
             // The person's own data loads once at launch: who they are, then what they saved.
             if let profile = try? await deps.profiles.currentProfile() { deps.session.setCurrentUser(profile) }
-            await deps.libraryStore.load()
+            await deps.libraryStore.ensureLoaded()
             // A Hangout that was live when the app closed comes back (minimised).
             await deps.liveStore.restore()
         }

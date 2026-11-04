@@ -1,0 +1,3 @@
+id,name,category,city,area,address,latitude,longitude,cost_lower,cost_upper,hours_note,apple_place_id,status,verified_on,trek_difficulty,trek_season,trek_start_point,trek_safety_note
+place-example-cafe-a1b2,EXAMPLE Café,cafe,Pune,Kothrud,"EXAMPLE address line, Kothrud",18.5,73.8,100,250,,,approved,2026-11-03,,,,
+place-example-park-e5f6,EXAMPLE Park,park-garden,Pune,Kothrud,"EXAMPLE address line, Kothrud",18.501,73.802,0,0,EXAMPLE hours note,,approved,2026-11-03,,,,

@@ -56,14 +56,18 @@ public final class LiveHangoutStore {
         run = saved
         times = libraryStore.library.runTimes[saved.id]
         isMinimised = true
-        spots = (try? await hangouts.hangout(id: saved.hangoutID).spots) ?? []
+        spots = (try? await findHangout(id: saved.hangoutID).spots) ?? []
     }
 
     /// Starts a run of this Hangout, or returns the one already live (starting twice never makes two runs).
+    /// The Hangout may be published or one of the person's own Drafts (a Remix must be done before it can be posted).
     @discardableResult
     public func startOrResume(hangoutID: HangoutID) async throws -> HangoutRun {
         if let run { isMinimised = false; return run }
-        let hangout = try await hangouts.hangout(id: hangoutID)
+        // The run is saved into the library, so the library must be read first (or the save would replace it).
+        await libraryStore.ensureLoaded()
+        guard libraryStore.hasLoaded else { throw libraryStore.lastError ?? AppError.unknown }
+        let hangout = try await findHangout(id: hangoutID)
         if let run { isMinimised = false; return run }   // another call finished first while this one was loading
         guard let user = session.currentUser else { throw AppError.invalid("Sign in to start a Hangout.") }
 
@@ -132,6 +136,12 @@ public final class LiveHangoutStore {
     public func flush() async { await libraryStore.flush() }
 
     // MARK: Private
+
+    /// The person's own Draft with this ID, else the published Hangout (the repository serves only published ones).
+    private func findHangout(id: HangoutID) async throws -> Hangout {
+        if let draft = libraryStore.drafts.first(where: { $0.id == id }) { return draft }
+        return try await hangouts.hangout(id: id)
+    }
 
     private func commit(_ changed: HangoutRun, _ changedTimes: RunTimes?) {
         run = changed

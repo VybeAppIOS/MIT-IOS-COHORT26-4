@@ -271,6 +271,33 @@ struct LiveHangoutStoreTests {
         #expect(LiveHangoutStore.roundedMinutes(from: start, to: start.addingTimeInterval(minutes * 60)) == expected)
     }
 
+    /// A Remix is a Draft until it has been done, so the person's own Drafts must be startable (review fix, 4 Nov).
+    @Test func aDraftCanBeStarted() async throws {
+        let setup = Setup()
+        let original = SampleData.morning
+        let draft = Hangout(
+            id: "hangout-draft-remix", title: original.title, summary: original.summary, spots: original.spots,
+            budgetPerPerson: original.budgetPerPerson, estimatedMinutes: original.estimatedMinutes,
+            authorID: SampleData.signedInUser.id, status: .draft, remixedFromID: original.id,
+            createdAt: SampleData.day, updatedAt: SampleData.day)
+        await setup.libraryStore.saveDraft(draft)
+        let run = try await setup.store.startOrResume(hangoutID: draft.id)
+        #expect(run.hangoutID == draft.id && run.card.totalSpots == draft.spots.count)
+        #expect(setup.store.markVisited(spotID: "s1"))
+    }
+
+    /// Starting reads the library first, so the new run is added to what is on disk instead of replacing it.
+    @Test func startingReadsTheLibraryFirst() async throws {
+        let shared = RecordingLibrary()
+        let earlier = Setup(repository: shared)
+        await earlier.libraryStore.toggleSave(SampleData.evening.id)
+        let later = Setup(repository: shared)
+        try await later.store.startOrResume(hangoutID: evening)
+        await later.store.flush()
+        let saved = try await shared.load()
+        #expect(saved.saves.map(\.hangoutID) == [SampleData.evening.id] && saved.runs.count == 1)
+    }
+
     @Test func savingOtherLibraryItemsDoesNotEraseTheLiveRun() async throws {
         let setup = Setup()
         await setup.libraryStore.load()

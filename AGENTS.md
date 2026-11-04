@@ -9,6 +9,8 @@ Applies to every tool and every teammate.
   `docs/BEFORE-BUILD.md` (setup, risks). Later decisions: `docs/LATER.md`.
 - Unanswered questions: `docs/OPEN-QUESTIONS.md`. If your task touches one, stop and ask a human.
 - Decisions that are expensive to change: `docs/adr/` (they win over older documents). First day: `docs/DAY-ONE.md`.
+- Evidence links behind the decisions: `docs/SOURCES.md`.
+- Building a screen: `docs/SCREENS-GUIDE.md` (components, `scripts/new_screen.py`, the routine).
 
 ## 1. Start of every task
 Read `AGENTS.md`, `docs/START-HERE.md` and **your task in `docs/tasks/`** (the person gives you its
@@ -80,8 +82,8 @@ Four college students who are new to shipping code and rely heavily on AI.
   or ViewModels. Never put personal data or tokens in `UserDefaults`.
 - Import rules: Features never import each other, **`LocalData` or `Remote`**. Shared views go
   in `Components`. (Full list: `docs/ARCHITECTURE.md` 3.2.)
-- `Models`, `Core` and `LocalData` are not main-actor by default. Only `Router`, the stores and `NetworkMonitor` are
-  `@MainActor`, written explicitly. Never put `@MainActor` on a repository protocol, a rule or a service protocol, and
+- `Models`, `Core` and `LocalData` are not main-actor by default. Only `Router`, the stores, `NetworkMonitor` and `AudioPlayer`
+  are `@MainActor`, written explicitly. Never put `@MainActor` on a repository protocol, a rule or a service protocol, and
   never hand-write `nonisolated` to make something compile (`docs/adr/001-concurrency.md`). The project builds in
   Swift 6 language mode: fix data-race errors properly, never with `@unchecked Sendable`, `nonisolated(unsafe)` or
   `assumeIsolated` unless a human says yes.
@@ -110,10 +112,12 @@ Four college students who are new to shipping code and rely heavily on AI.
   text: `@ScaledMetric`.
 - **Accessibility:** every icon-only button, map pin and photo has an
   `accessibilityLabel`; tap targets at least 44×44 pt; never colour alone for state.
-- **Text:** ViewModels give display text as `String(localized: "feature.key", bundle: #bundle)` (never without
-  `bundle:`, see `docs/templates/new-screen/README.md`) or
-  `LocalizedStringResource`; one `Localizable.xcstrings` per target, shared words in `Design`. Money, distance and time only with `.formatted(...)`
-  (₹, km). Plurals in `Localizable.xcstrings`. Never type "Rs" or "km" by hand.
+- **Text:** ViewModels give display text as `String(localized: "feature.key", bundle: #bundle)`, Views as
+  `Text("feature.key", bundle: #bundle)`, and a `LocalizedStringResource` also needs `bundle: #bundle`. Never
+  leave `bundle:` out (see `docs/templates/new-screen/README.md`), and never write `#bundle` in a test file: it
+  points at the test bundle. One `Localizable.xcstrings` per target; shared words live in `Design`.
+  Money, distance and time only with `.formatted(...)` (₹, km). Plurals in `Localizable.xcstrings`.
+  Never type "Rs" or "km" by hand.
 - **Icons:** SF Symbols. **Colours:** Asset Catalog colours through Theme, no hex.
 - **System components only** for tab bar, navigation bars and sheets; no custom backgrounds.
 - **Logging:** `os.Logger`, never `print`. No personal data in logs.

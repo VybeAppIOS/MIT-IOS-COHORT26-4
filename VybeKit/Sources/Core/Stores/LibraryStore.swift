@@ -45,9 +45,18 @@ public final class LibraryStore {
         }
     }
 
+    /// Reads the library from disk if that has not happened yet. Every change calls it first: saving before the file
+    /// was read would write a nearly empty library over the person's real one (for example when the file is from a
+    /// newer app version and `load()` refused it).
+    public func ensureLoaded() async {
+        if !hasLoaded { await load() }
+    }
+
     public func isSaved(_ id: HangoutID) -> Bool { library.saves.contains { $0.hangoutID == id } }
 
     public func toggleSave(_ id: HangoutID) async {
+        await ensureLoaded()
+        guard hasLoaded else { return }   // `lastError` already says why
         var changed = library
         if isSaved(id) {
             changed.saves.removeAll { $0.hangoutID == id }
@@ -59,6 +68,8 @@ public final class LibraryStore {
 
     /// Saves or replaces a draft.
     public func saveDraft(_ hangout: Hangout) async {
+        await ensureLoaded()
+        guard hasLoaded else { return }
         var changed = library
         changed.drafts.removeAll { $0.id == hangout.id }
         changed.drafts.append(hangout)
@@ -66,6 +77,8 @@ public final class LibraryStore {
     }
 
     public func deleteDraft(_ id: HangoutID) async {
+        await ensureLoaded()
+        guard hasLoaded else { return }
         var changed = library
         changed.drafts.removeAll { $0.id == id }
         await apply(changed)
@@ -112,6 +125,12 @@ public final class LibraryStore {
     private func drainSaves() async {
         while pendingSave {
             pendingSave = false
+            // Never write before the file was read: that would replace the person's library with this one.
+            guard hasLoaded else {
+                persistenceError = lastError ?? .unknown
+                Log.data.error("The library was not saved because it has not been read from disk yet.")
+                break
+            }
             do {
                 try await repository.save(library)
                 persistenceError = nil

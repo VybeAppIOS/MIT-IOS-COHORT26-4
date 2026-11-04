@@ -67,7 +67,7 @@ files). They run in parallel with the screen work.
 
 ### X-3 — String Catalogs per module  `[M]`
 - **Depends on:** F-0
-- **Read:** ARCHITECTURE 3.2 ("Package details to verify" #2) · AGENTS 5a · F-0 proof (e)
+- **Read:** ARCHITECTURE 3.2 (Package details) · AGENTS 5a · F-0 proof (e)
 - **Build:** use F-0's result to decide and document how `String(localized:)` finds strings in a **package**. Proposal: one
   `Localizable.xcstrings` **per target that shows text** (a single shared catalog is one big JSON file that Xcode rewrites, so
   every PR would conflict), with shared words in `Design`. Prove it with one string in `DiscoverFeature` and one in `Design`.

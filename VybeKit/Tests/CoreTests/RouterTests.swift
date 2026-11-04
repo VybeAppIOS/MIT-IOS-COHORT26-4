@@ -168,6 +168,16 @@ struct RouterTests {
         #expect(router.path(for: .onboarding).isEmpty)
     }
 
+    /// A sheet that is up when a cover opens closes first; otherwise the cover's sheet host would show it again.
+    @Test func presentingACoverClosesASheet() {
+        let router = Router()
+        router.present(.spot("p1"))
+        router.open(.report(.place("p1")))
+        router.presentCover(.live("h1"))
+        #expect(router.sheet == nil && router.path(for: .sheet).isEmpty)
+        #expect(router.currentStack == .live)
+    }
+
     @Test func changesAreObservable() {
         let router = Router()
         let changed = Mutex(false)
