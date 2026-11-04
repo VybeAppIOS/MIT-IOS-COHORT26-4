@@ -1,30 +1,28 @@
 import Core
 import Foundation
+import LocalData
 import Models
 
 extension AppDependencies {
-    /// The dependencies the running app uses, built once in `RootView`.
+    /// The dependencies the running app uses, built once in `RootView`: the bundled team content, and the person's
+    /// own files in Application Support. Phase 2 swaps these lines for the backend (one place, no screen changes).
     @MainActor
     static func local() -> AppDependencies {
-        #if DEBUG
-        // Until task F-8 adds the LocalData repositories (bundled JSON), the app runs on the stub repositories
-        // with the EXAMPLE sample data. F-8 replaces these lines; no screen changes.
-        let library = StubLibraryRepository(mode: .empty)
+        let loader = ContentLoader.bundled
+        let content = ContentStore(loader: loader)
+        let library = LocalLibraryRepository()
         let now: @Sendable () -> Date = { Date() }
         return AppDependencies(
-            hangouts: StubHangoutRepository(),
-            places: StubPlaceRepository(),
+            hangouts: LocalHangoutRepository(content: content),
+            places: LocalPlaceRepository(content: content),
             library: library,
-            profiles: StubProfileRepository(),
-            search: StubSearchRepository(),
-            photos: StubPhotoStore(),
-            session: SessionStore(settings: AppSettings(), currentUser: SampleData.signedInUser),
+            profiles: LocalProfileRepository(now: now),
+            search: LocalSearchRepository(content: content),
+            photos: LocalPhotoStore(loader: loader),
+            session: SessionStore(settings: AppSettings()),
             libraryStore: LibraryStore(repository: library, now: now),
             router: Router(),
             flags: .current,
             now: now)
-        #else
-        fatalError("Release builds need the LocalData repositories from task F-8.")
-        #endif
     }
 }

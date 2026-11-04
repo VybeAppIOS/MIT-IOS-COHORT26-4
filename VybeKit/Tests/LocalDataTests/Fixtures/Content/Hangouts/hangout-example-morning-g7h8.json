@@ -1,0 +1,41 @@
+{
+  "authorID": "user-sample-friend",
+  "bestTimes": [
+    "morning"
+  ],
+  "budgetPerPerson": {
+    "lower": 100,
+    "upper": 250
+  },
+  "createdAt": "2026-11-03T10:00:00Z",
+  "estimatedMinutes": 90,
+  "id": "hangout-example-morning-g7h8",
+  "isPick": false,
+  "remixedFromID": null,
+  "remixedFromPlaceIDs": null,
+  "schemaVersion": 1,
+  "spots": [
+    {
+      "id": "s1",
+      "minutes": 40,
+      "note": null,
+      "placeID": "place-example-park-e5f6"
+    },
+    {
+      "id": "s2",
+      "minutes": 50,
+      "note": null,
+      "placeID": "place-example-cafe-a1b2"
+    }
+  ],
+  "status": "published",
+  "summary": "EXAMPLE summary text.",
+  "tags": [
+    "outdoors"
+  ],
+  "title": "EXAMPLE Morning Hangout",
+  "updatedAt": "2026-11-04T10:00:00Z",
+  "vibeTags": [
+    "fresh"
+  ]
+}
