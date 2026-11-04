@@ -1,0 +1,41 @@
+{
+  "authorID": "user-vybe-team",
+  "bestTimes": [
+    "evening"
+  ],
+  "budgetPerPerson": {
+    "lower": 150,
+    "upper": 400
+  },
+  "createdAt": "2026-11-03T10:00:00Z",
+  "estimatedMinutes": 120,
+  "id": "hangout-example-evening-c3d4",
+  "isPick": true,
+  "remixedFromID": null,
+  "remixedFromPlaceIDs": null,
+  "schemaVersion": 1,
+  "spots": [
+    {
+      "id": "s1",
+      "minutes": 45,
+      "note": "EXAMPLE note",
+      "placeID": "place-example-cafe-a1b2"
+    },
+    {
+      "id": "s2",
+      "minutes": 30,
+      "note": null,
+      "placeID": "place-example-park-e5f6"
+    }
+  ],
+  "status": "published",
+  "summary": "EXAMPLE summary text.",
+  "tags": [
+    "good-for-groups"
+  ],
+  "title": "EXAMPLE Evening Hangout",
+  "updatedAt": "2026-11-03T10:00:00Z",
+  "vibeTags": [
+    "chill"
+  ]
+}

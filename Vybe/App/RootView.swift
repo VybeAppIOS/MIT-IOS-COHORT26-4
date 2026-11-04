@@ -23,6 +23,11 @@ struct RootView: View {
             RoutedStack(stack: Self.stack(for: cover), deps: deps) { ScreenFactory(deps: deps).cover(for: cover) }
                 .modifier(RouterSheetHost(deps: deps, coverIsUp: true))
         }
+        .task {
+            // The person's own data loads once at launch: who they are, then what they saved.
+            if let profile = try? await deps.profiles.currentProfile() { deps.session.setCurrentUser(profile) }
+            await deps.libraryStore.load()
+        }
         .onAppear { deps.router.setOnboarding(!deps.session.onboardingDone) }
         .onChange(of: deps.session.onboardingDone) { _, done in
             if done { deps.router.reset() } else { deps.router.setOnboarding(true) }

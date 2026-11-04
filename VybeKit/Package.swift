@@ -61,7 +61,8 @@ let package = Package(
         // Tests (Swift Testing). Test code that touches main-actor types is marked @MainActor.
         .testTarget(name: "ContentTests", dependencies: ["Models", "Core", "LocalData"]),
         .testTarget(name: "CoreTests", dependencies: ["Models", "Core"]),
-        .testTarget(name: "LocalDataTests", dependencies: ["Models", "Core", "LocalData"]),
+        .testTarget(name: "LocalDataTests", dependencies: ["Models", "Core", "LocalData"],
+                    resources: [.copy("Fixtures")]),
         .testTarget(name: "DesignTests", dependencies: ["Models", "Design"]),
         .testTarget(name: "ComponentsTests", dependencies: ["Models", "Design", "Components"]),
         .testTarget(name: "OnboardingFeatureTests", dependencies: ["OnboardingFeature", "Core"]),

@@ -1,0 +1,40 @@
+{
+  "authorID": "user-sample-friend",
+  "bestTimes": [],
+  "budgetPerPerson": {
+    "lower": 120,
+    "upper": 300
+  },
+  "createdAt": "2026-11-03T10:00:00Z",
+  "estimatedMinutes": 100,
+  "id": "hangout-example-remix-i9j0",
+  "isPick": false,
+  "remixedFromID": "hangout-example-evening-c3d4",
+  "remixedFromPlaceIDs": [
+    "place-example-cafe-a1b2",
+    "place-example-park-e5f6"
+  ],
+  "schemaVersion": 1,
+  "spots": [
+    {
+      "id": "s1",
+      "minutes": 60,
+      "note": null,
+      "placeID": "place-example-cafe-a1b2"
+    },
+    {
+      "id": "s2",
+      "minutes": 30,
+      "note": null,
+      "placeID": "place-example-park-e5f6"
+    }
+  ],
+  "status": "published",
+  "summary": "EXAMPLE summary text.",
+  "tags": [
+    "rainy-day"
+  ],
+  "title": "EXAMPLE Remix",
+  "updatedAt": "2026-11-03T10:00:00Z",
+  "vibeTags": []
+}

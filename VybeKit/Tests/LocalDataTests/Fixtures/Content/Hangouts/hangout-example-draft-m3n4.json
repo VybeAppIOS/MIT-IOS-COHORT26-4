@@ -1,0 +1,35 @@
+{
+  "authorID": "user-vybe-team",
+  "bestTimes": [],
+  "budgetPerPerson": {
+    "lower": 0,
+    "upper": 0
+  },
+  "createdAt": "2026-11-03T10:00:00Z",
+  "estimatedMinutes": 60,
+  "id": "hangout-example-draft-m3n4",
+  "isPick": false,
+  "remixedFromID": null,
+  "remixedFromPlaceIDs": null,
+  "schemaVersion": 1,
+  "spots": [
+    {
+      "id": "s1",
+      "minutes": 30,
+      "note": null,
+      "placeID": "place-example-cafe-a1b2"
+    },
+    {
+      "id": "s2",
+      "minutes": 30,
+      "note": null,
+      "placeID": "place-example-park-e5f6"
+    }
+  ],
+  "status": "draft",
+  "summary": "EXAMPLE summary text.",
+  "tags": [],
+  "title": "EXAMPLE Draft",
+  "updatedAt": "2026-11-03T10:00:00Z",
+  "vibeTags": []
+}
