@@ -3,47 +3,157 @@
   "strings" : {
     "common.cancel" : {
       "comment" : "Shared word: dismisses a sheet or a dialog without saving.",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } } }
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
     },
-    "component.badge.picks" : {
-      "comment" : "Official Vybe Hangout mark, shown with a star.",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Picks" } } }
-    },
-    "component.badge.saved" : {
-      "comment" : "Status badge: the Hangout is saved.",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved" } } }
-    },
-    "component.badge.draft" : {
-      "comment" : "Status badge: the Hangout is a draft.",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Draft" } } }
-    },
-    "component.badge.scheduled" : {
-      "comment" : "Status badge: the Hangout is scheduled.",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Scheduled" } } }
-    },
-    "component.badge.live" : {
-      "comment" : "Status badge: the Hangout is being done now.",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Live" } } }
-    },
-    "component.badge.done" : {
-      "comment" : "Status badge: the Hangout is finished.",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Done" } } }
+    "common.retry" : {
+      "comment" : "Shared word: the button on an error screen that tries the failed load again.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        }
+      }
     },
     "component.badge.closed" : {
       "comment" : "Place badge: the authorities have closed this place.",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Closed by authorities" } } }
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Closed by authorities"
+          }
+        }
+      }
     },
-    "component.safetynote.prefixNote" : {
-      "comment" : "Spoken before an info safety note (VoiceOver).",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Note. " } } }
+    "component.badge.done" : {
+      "comment" : "Status badge: the Hangout is finished.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
     },
-    "component.safetynote.prefixWarning" : {
-      "comment" : "Spoken before a warning safety note (VoiceOver).",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Warning. " } } }
+    "component.badge.draft" : {
+      "comment" : "Status badge: the Hangout is a draft.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Draft"
+          }
+        }
+      }
+    },
+    "component.badge.live" : {
+      "comment" : "Status badge: the Hangout is being done now.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live"
+          }
+        }
+      }
+    },
+    "component.badge.picks" : {
+      "comment" : "Official Vybe Hangout mark, shown with a star.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picks"
+          }
+        }
+      }
+    },
+    "component.badge.saved" : {
+      "comment" : "Status badge: the Hangout is saved.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
+    "component.badge.scheduled" : {
+      "comment" : "Status badge: the Hangout is scheduled.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled"
+          }
+        }
+      }
     },
     "component.safetynote.monsoon" : {
       "comment" : "DRAFT wording for the June to September monsoon banner. Needs team approval (docs/RISKS.md).",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Monsoon season: paths can be slippery and water can rise fast. Check conditions before you go." } } }
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monsoon season: paths can be slippery and water can rise fast. Check conditions before you go."
+          }
+        }
+      }
+    },
+    "component.safetynote.prefixNote" : {
+      "comment" : "Spoken before an info safety note (VoiceOver).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note. "
+          }
+        }
+      }
+    },
+    "component.safetynote.prefixWarning" : {
+      "comment" : "Spoken before a warning safety note (VoiceOver).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warning. "
+          }
+        }
+      }
+    },
+    "design.loading" : {
+      "comment" : "Read by VoiceOver while a screen shows its greyed-out placeholder.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading"
+          }
+        }
+      }
+    },
+    "design.offlineBanner" : {
+      "comment" : "Banner above content that may be out of date (shown whenever the content is stale).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline. Showing what you last saw."
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
