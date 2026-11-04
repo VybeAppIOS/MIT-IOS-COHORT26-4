@@ -37,3 +37,9 @@ Undo: each item is independent.
 ## Verify
 - [ ] F-1 tests: ID dictionary key is a JSON object; both date forms decode; a `Place` ID cannot be passed as a `Hangout` ID.
 - [ ] F-8: `schemaVersion` handling and the samples-equal-content test pass.
+
+## F-0 results (4 Nov 2026, Xcode 27.1, iPhone 18 Pro simulator)
+- [x] `String(localized: "key", bundle: #bundle)` AND `bundle: .module` both find `Localizable.xcstrings` in the Design
+      package target. Use `#bundle` (feeds X-3).
+- [x] A colour in `Design/Resources/Colors.xcassets` resolves via `UIColor(named:in:)` with `.module` in a test, and a
+      view using `Color("…", bundle: .module)` rendered in the app. Canvas preview not opened by the agent.

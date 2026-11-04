@@ -43,3 +43,11 @@ C. Split Core into two targets, one per isolation (more targets, same result as 
 - [ ] A `Sendable` repository protocol in Core, implemented in LocalData by a struct that reads a bundled JSON file,
       runs off the main thread (check with `Thread.isMainThread` in a test) and compiles in Swift 6 mode.
 - [ ] The empty skeleton and the F-0 spike compile in Swift 6 mode with zero warnings.
+
+## F-0 results (4 Nov 2026, Xcode 27.1, iPhone 18 Pro simulator)
+- [x] `@MainActor @Observable` store in Core used from a Feature ViewModel: compiles, tests pass, no warnings.
+- [x] `Sendable` repository protocol in Core, implemented in LocalData by a struct reading bundled JSON via
+      `Bundle.module`: a test called from `@MainActor` shows the read ran off the main thread.
+      Note: `Thread.isMainThread` is unavailable inside `async` functions in Swift 6; read it in a small synchronous helper.
+- [x] Package and app build in **Swift 6 language mode** (`SWIFT_VERSION = 6.0`); `./scripts/check.sh` green, no concurrency warnings.
+- Decision stands: no fallback to Swift 5 mode needed.

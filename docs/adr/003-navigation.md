@@ -62,3 +62,9 @@ public enum Route: Hashable, Codable, Sendable {
 sheet; `setPath` shrinks a stack (back swipe); `show(_:in:)` clears cover and sheet; `reset`; `lastNonSearchTab`
 ignores `.search` (checks that `didSet` on an `@Observable` property fires; if not, use a method); every route
 round-trips through JSON.
+
+## F-0 results (4 Nov 2026, Xcode 27.1, iPhone 18 Pro simulator)
+- [x] `TabView` with `Tab(value:role: .search)` last renders as the trailing Search tab (simulator screenshot).
+      `.searchable` inside the search stack compiled; typing into it was **not exercised** (needs a manual check).
+- [x] `NavigationStack(path:)` bound to a `[Route]` in an `@Observable` router compiles; unit test: `setPath` shrinks the path.
+- [ ] The real **back swipe** was **not driven** (no UI automation). Manual check pending; the fallback is unchanged.
