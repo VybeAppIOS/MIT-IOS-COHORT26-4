@@ -4,6 +4,7 @@ import SwiftUI
 public struct SearchField: View {
     private let prompt: VybeText
     @Binding private var text: String
+    @FocusState private var isFocused: Bool
 
     public init(_ prompt: LocalizedStringResource, text: Binding<String>) {
         self.prompt = .fixed(prompt)
@@ -25,6 +26,7 @@ public struct SearchField: View {
                 .submitLabel(.search)
                 .textInputAutocapitalization(.never)
                 .autocorrectionDisabled()
+                .focused($isFocused)
             if !text.isEmpty {
                 IconButton(
                     systemImage: "xmark.circle.fill",
@@ -35,6 +37,9 @@ public struct SearchField: View {
         .padding(.leading, Theme.Spacing.medium)
         .frame(minHeight: Theme.Size.minTapTarget)
         .background(Theme.Color.surfaceRaised, in: .capsule)
+        // The text field itself is shorter than 44 pt; tapping anywhere in the capsule focuses it.
+        .contentShape(.capsule)
+        .onTapGesture { isFocused = true }
     }
 }
 
