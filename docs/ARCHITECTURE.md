@@ -244,9 +244,10 @@ Rules that avoid known pitfalls:
   reappears, for example after popping back.
 - **ViewModels get dependencies through `init`**, never from the Environment (an
   `@Observable` class cannot read `@Environment`).
-- **Text:** fixed labels that never change ("Start Hangout") are literals in the View and
-  go into the String Catalog; any computed or data-dependent text (budgets, counts,
-  distances) is built in the ViewModel with `String(localized:)` and `.formatted(...)`.
+- **Text:** fixed labels that never change ("Start Hangout") are keys in the View
+  (`Text("feature.key", bundle: #bundle)`) and go into the target's String Catalog; any computed or
+  data-dependent text (budgets, counts, distances) is built in the ViewModel with
+  `String(localized:bundle: #bundle)` and `.formatted(...)`.
 - **ViewModels never write `router.cover = …`**; they call the Router's methods (2.6).
 - **Testing:** ViewModels don't import SwiftUI, so each is tested directly with the
   stubs in `Core/Fakes` (2.7): call `load()` or `startTapped()`, check `state`, the
@@ -768,7 +769,7 @@ let package = Package(
 | 2 | **Live Hangout survives the app being closed** | save the run to disk on every change; time is worked out from `startedAt` (`Text(start, style: .timer)`), never a running timer; restore on launch | Phase 1 |
 | 3 | **Dynamic Type** | Theme fonts are text styles (`.title`, `.body`) or `relativeTo:`; never `.system(size:)`; spacing that grows with text uses `@ScaledMetric`; one preview at a large text size | Phase 1 |
 | 4 | **VoiceOver and touch** | every icon-only button, map pin and meaningful photo has an `accessibilityLabel`; decorative images hidden; tap targets at least 44×44 pt; never colour alone for state | Phase 1 |
-| 5 | **Text and numbers** | ViewModels give text as `String(localized:)` / `LocalizedStringResource` (Foundation, so no SwiftUI import); money, distance, time with `.formatted(...)` (₹, km); plurals in one `Localizable.xcstrings` String Catalog | Phase 1 |
+| 5 | **Text and numbers** | ViewModels give text as `String(localized:bundle: #bundle)` / `LocalizedStringResource` (Foundation, so no SwiftUI import); money, distance, time with `.formatted(...)` (₹, km); plurals in the target's own `Localizable.xcstrings` String Catalog | Phase 1 |
 | 6 | **Logging** | `os.Logger` per feature, never `print`; no names, coordinates or tokens in logs without `privacy: .private` | Phase 1 |
 | 7 | **Design system the Apple way** | colours are Asset Catalog colour sets used through Theme (no hex in Swift); icons are SF Symbols; only system bars, tabs and sheets with no custom backgrounds (they get Liquid Glass on iOS 26+ automatically) | Phase 1 |
 | 8 | **Modern location code** | only through Core's `LocationService`, using `CLLocationUpdate.liveUpdates` (iOS 17) and `CLServiceSession` (iOS 18); no old delegate code; **never ask for "Always"** | Phase 1 |
