@@ -1,0 +1,13 @@
+# Shared "hotspot" files: the lead reviews every change (see docs/ARCHITECTURE.md 3.2).
+# Replace @lohitakshcodes if the GitHub username changes. This only auto-requests reviews;
+# it is not enforced until branch protection is available (docs/PROCESS.md).
+*                              @lohitakshcodes
+/AGENTS.md                     @lohitakshcodes
+/VybeKit/Package.swift         @lohitakshcodes
+/VybeKit/Sources/Core/Navigation/   @lohitakshcodes
+/VybeKit/Sources/Design/Theme/      @lohitakshcodes
+/VybeKit/Sources/Models/            @lohitakshcodes
+/Vybe/                         @lohitakshcodes
+/Vybe.xcodeproj/               @lohitakshcodes
+/.github/                      @lohitakshcodes
+/backend/                      @lohitakshcodes

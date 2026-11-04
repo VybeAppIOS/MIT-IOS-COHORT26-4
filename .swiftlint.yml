@@ -1,0 +1,7 @@
+included:
+  - Vybe
+  - VybeTests
+  - VybeKit
+excluded:
+  - VybeKit/.build
+  - VybeKit/.swiftpm
