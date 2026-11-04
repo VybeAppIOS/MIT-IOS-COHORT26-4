@@ -14,6 +14,10 @@ public extension AppDependencies {
         let hangouts = StubHangoutRepository(mode: mode)
         let session = SessionStore(settings: settings, currentUser: SampleData.signedInUser)
         let libraryStore = LibraryStore(repository: library, now: fixedNow)
+        let social = SocialStubStore()
+        let feed = StubFeedRepository(mode: mode, store: social)
+        let friends = StubFriendsRepository(mode: mode, store: social)
+        let chat = StubChatRepository(mode: mode, store: social)
         return AppDependencies(
             hangouts: hangouts,
             places: StubPlaceRepository(mode: mode),
@@ -21,10 +25,17 @@ public extension AppDependencies {
             profiles: StubProfileRepository(mode: mode),
             search: StubSearchRepository(mode: mode),
             photos: StubPhotoStore(),
+            feed: feed,
+            friends: friends,
+            chat: chat,
+            safety: StubSafetyRepository(mode: mode, store: social),
+            auth: StubAuthRepository(mode: mode),
+            admin: StubAdminRepository(mode: mode, store: social),
             session: session,
             libraryStore: libraryStore,
             liveStore: LiveHangoutStore(libraryStore: libraryStore, hangouts: hangouts, session: session,
                                         now: fixedNow),
+            badges: BadgeStore(chat: chat, feed: feed, friends: friends),
             router: Router(),
             flags: .allOn,
             now: fixedNow)
