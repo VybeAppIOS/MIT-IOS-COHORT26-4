@@ -24,4 +24,15 @@ func requireNotFound(_ what: String, _ body: () async throws -> Void) async thro
         try require(error == .notFound, "\(what): expected AppError.notFound, got \(error)")
     }
 }
+
+/// Runs `body` and checks that it throws `AppError.invalid` (a refused action, with a friendly reason).
+func requireInvalid(_ body: () async throws -> Void) async throws {
+    do {
+        try await body()
+    } catch let error as AppError {
+        if case .invalid = error { return }
+        throw ContractFailure("expected AppError.invalid, got \(error)")
+    }
+    throw ContractFailure("expected AppError.invalid, but the call succeeded")
+}
 #endif
