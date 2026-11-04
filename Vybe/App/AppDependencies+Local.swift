@@ -8,6 +8,16 @@ extension AppDependencies {
     /// own files in Application Support. Phase 2 swaps these lines for the backend (one place, no screen changes).
     @MainActor
     static func local() -> AppDependencies {
+        #if DEBUG
+        // Debug launch options (task X-14): reset or skip onboarding first, then maybe swap in the stubs.
+        let options = LaunchOptions.current
+        options.prepareState()
+        if let mode = options.stubMode { return .preview(mode) }
+        let location: any LocationService = options.simulateWalk ? SimulatedLocationService.examplePreview
+            : LiveLocationService()
+        #else
+        let location: any LocationService = LiveLocationService()
+        #endif
         let loader = ContentLoader.bundled
         let content = ContentStore(loader: loader)
         let library = LocalLibraryRepository()
@@ -29,6 +39,7 @@ extension AppDependencies {
             safety: social.safety,
             auth: social.auth,
             admin: social.admin,
+            location: location,
             session: session,
             libraryStore: libraryStore,
             liveStore: LiveHangoutStore(libraryStore: libraryStore, hangouts: hangouts, session: session, now: now),

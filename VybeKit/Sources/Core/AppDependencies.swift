@@ -16,6 +16,7 @@ public struct AppDependencies: Sendable {
     public let safety: any SafetyRepository
     public let auth: any AuthRepository
     public let admin: any AdminRepository
+    public let location: any LocationService
     public let session: SessionStore
     public let libraryStore: LibraryStore
     public let liveStore: LiveHangoutStore
@@ -29,6 +30,7 @@ public struct AppDependencies: Sendable {
         profiles: any ProfileRepository, search: any SearchRepository, photos: any PhotoStore,
         feed: any FeedRepository, friends: any FriendsRepository, chat: any ChatRepository,
         safety: any SafetyRepository, auth: any AuthRepository, admin: any AdminRepository,
+        location: any LocationService,
         session: SessionStore, libraryStore: LibraryStore, liveStore: LiveHangoutStore, badges: BadgeStore,
         router: Router, flags: FeatureFlags,
         now: @escaping @Sendable () -> Date
@@ -45,6 +47,7 @@ public struct AppDependencies: Sendable {
         self.safety = safety
         self.auth = auth
         self.admin = admin
+        self.location = location
         self.session = session
         self.libraryStore = libraryStore
         self.liveStore = liveStore
