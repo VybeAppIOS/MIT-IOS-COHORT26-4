@@ -1,0 +1,26 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "duration.aboutHours %@" : {
+      "comment" : "A rounded length of time in hours, for example 'about 3 h'.",
+      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "about %@ h" } } }
+    },
+    "duration.aboutMinutes %@" : {
+      "comment" : "A rounded length of time in minutes, for example 'about 40 min'.",
+      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "about %@ min" } } }
+    },
+    "error.notFound" : {
+      "comment" : "Shown when something no longer exists.",
+      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "This is no longer available." } } }
+    },
+    "error.offline" : {
+      "comment" : "Shown when there is no internet connection.",
+      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "You're offline. Check your connection and try again." } } }
+    },
+    "error.unknown" : {
+      "comment" : "Shown for any unexpected error.",
+      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Something went wrong. Please try again." } } }
+    }
+  },
+  "version" : "1.0"
+}

@@ -35,7 +35,8 @@ silently invent places. Harder: the content test and sample test must be kept gr
 Undo: each item is independent.
 
 ## Verify
-- [ ] F-1 tests: ID dictionary key is a JSON object; both date forms decode; a `Place` ID cannot be passed as a `Hangout` ID.
+- [x] F-1 tests (5 Nov 2026): ID dictionary key is a JSON object; both date forms decode; a `Place` ID cannot be passed as a
+      `Hangout` ID (compile-time, shown in `IDTests`). Dates are written as whole seconds in UTC and read with or without fractions.
 - [ ] F-8: `schemaVersion` handling and the samples-equal-content test pass.
 
 ## F-0 results (4 Nov 2026, Xcode 27.1, iPhone 18 Pro simulator)
