@@ -1,0 +1,10 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "discover.title" : {
+      "comment" : "Title of the Discover tab.",
+      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Discover" } } }
+    }
+  },
+  "version" : "1.0"
+}
