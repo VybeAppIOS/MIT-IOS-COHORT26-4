@@ -1,6 +1,6 @@
 # Vybe: Think About Later (does NOT block building now)
 
-Written 3 Nov 2026. These don't change what you build this week, but each has a
+Written 3 Nov 2026. These don't change what you build now, but each has a
 deadline after which it gets expensive. "Decide by" uses these milestones:
 **Phase 2 start (16 Nov)** · **Before TestFlight (~10 Dec)** · **Before public launch** ·
 **After launch**. Items that DO block building are in `docs/BEFORE-BUILD.md`.

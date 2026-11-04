@@ -474,7 +474,7 @@ VybeKit/Sources/
                  each uses Models, Core, Design, Components
   (Phase 2: EditorFeature, PostingFeature, FriendsFeature, ChatFeature,
    ModerationFeature, Remote)
-VybeKit/Tests/   ModelsTests (content test), CoreTests (router, rules), LocalDataTests
+VybeKit/Tests/   ContentTests (loads every JSON file), a Models test target if needed, CoreTests (router, rules), LocalDataTests
 Vybe/            app target: VybeApp, tabs, Route → screen map, store setup
 ```
 

@@ -9,7 +9,7 @@ are also listed in `docs/OPEN-QUESTIONS.md`.
 
 ## 1. Where data lives
 
-| Data | Phase 1 (this week) | Phase 2 (with a backend) |
+| Data | Phase 1 (frontend, sample data) | Phase 2 (with a backend) |
 |---|---|---|
 | Places and Picks (team content) | JSON files bundled in the app (read-only) | backend database |
 | Saved Hangouts, Drafts, Hangout runs | one JSON file `Application Support/Vybe/library.json` | backend; the **live run** stays in `library.json` until it ends |
@@ -324,7 +324,7 @@ See `docs/RISKS.md`. The model changes like this:
 
 "Phase" means build order only. **Everything below ships in version 1 (18 Dec).**
 
-1. **Drafts:** part of version 1. Phase 1 (this week) builds Saved first; Drafts arrive
+1. **Drafts:** part of version 1. Phase 1 builds Saved first; Drafts arrive
    with the editor and Remix in Phase 2.
 2. **Live run without signal:** the live run always works offline (saved on the phone)
    and uploads when it ends. This is the one exception to "no actions offline".

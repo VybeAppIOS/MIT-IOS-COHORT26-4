@@ -46,3 +46,34 @@ cut the H3 photos first, then the route line. Never cut Mark visited.
 
 ## 6. If 18 Dec is at risk (cut order, decided later with measured speed)
 1. Voice notes. 2. Chat polls. 3. Threaded replies (flat first). 4. Remix credit on the map.
+
+## 7. PROPOSED: milestones, tiers and a cut line (needs the team's OK; written 4 Nov)
+Why: `docs/BEFORE-BUILD.md` 4 shows the frontend alone uses about 88% of all Mac time. Without
+milestones, a slip is only noticed on 10 Dec. Dates below are a starting point; re-set them after the
+first 10 merged tasks give a measured speed. Fix the time, vary the scope.
+
+| Milestone | Target | Done when | Owner |
+|---|---|---|---|
+| **M0 Foundation** | Fri 6 Nov | F-0 (package linked, **preview spike passed or fallback chosen**), F-1, DS-1, F-4 merged. Fix the Core isolation question (`docs/PLAN-REVIEW.md` item 2) **before** F-5 | Lohitaksh + 1 |
+| **M1 Walking skeleton** | ~20 Nov | One thin path works on stubs: O1-O4 → D1 → HD1 → H1 → H3, with Theme, LoadStateView and the router. Proves the pattern before 3 more people copy it | all |
+| **M2 Core loop complete** | ~27 Nov | Tier A + B below are merged | all |
+| **M3 Social on stubs** | ~4 Dec | Tier C merged against stub repositories; backend chosen (16-17 Nov) and its first slice (auth + hangouts read) running | split |
+| **M4 Integration + TestFlight** | ~10 Dec | `Remote` module swapped in behind the same protocols; contract tests pass for local and remote | Lohitaksh + 1 |
+| **M5 Polish + release** | 18 Dec | Q1 checklist, App Review notes, demo account | all |
+
+**Tiers (cut from the bottom):**
+- **Tier A, the core loop:** onboarding, Discover map, pin preview, Hangout detail, Spot sheet, live Hangout
+  (Mark visited), summary, Saved.
+- **Tier B:** Search, Profile, Settings, Filters, offline state, accessibility and Q1 pass.
+- **Tier C, social:** Community feed, post detail, Friends, Chat, Posting, Editor/Remix.
+- **Tier D:** Trending, Admin, voice notes, chat polls, threaded replies, Remix credit on the map.
+- **Not cuttable:** Report, Block and in-app contact details (App Store guideline 1.2) and in-app account
+  deletion (5.1.1(v)) once any user-generated content ships. If Tier C ships, these ship with it.
+
+**Rules to keep the plan honest**
+1. At most **1 task in progress per person**; an unfinished task is reviewed or handed over after 2 days.
+2. **Measure every Friday:** tasks merged, days used, estimate vs real; update `docs/TASKS.md` totals.
+3. **Stub-heavy screens (chat, feed) are written against the protocol, not the stub's quirks**, and the
+   shared contract test must pass for stub and remote, so M4 is a swap, not a rewrite.
+4. A task with no GitHub issue and no named owner does not start.
+5. Every Monday: triage tester feedback and re-read `docs/OPEN-QUESTIONS.md` for blockers.

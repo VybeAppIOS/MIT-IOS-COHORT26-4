@@ -34,7 +34,7 @@ There are no fixed roles. The task list (`docs/TASKS.md`, details in `docs/tasks
 1. **Pick** a task whose "Depends on" tasks are merged (see the board). Put your name on the
    GitHub issue for it (one issue per task) so two people don't take the same one.
 2. **Plan first** (also with AI): read "Read first", then write down what you will create.
-3. **Branch**: `<your-initial>/<task-id>-<short-name>`, for example `t/sc-d1-discover-map`.
+3. **Branch**: `<your-initial>/<task-id>-<short-name>`, for example `t/sc-d1-discover-map` (same pattern as `AGENTS.md` section 7).
 4. **Build** exactly what the task says. Use the template in `docs/templates/new-screen/`.
 5. **Check**: `./scripts/check.sh` must pass. Add the three previews and a ViewModel test.
 6. **Pull request** (about 300 lines or fewer): fill in the template, paste the check output

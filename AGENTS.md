@@ -123,16 +123,27 @@ Four college students who are new to shipping code and rely heavily on AI.
 - The author can explain every line.
 
 ## 7. Git
-- Branch: `initial/screen-id-short-name`, for example `t/d1-discover-map`. Short-lived.
+- Branch: `<initial>/<task-id>-<short-name>`, for example `t/sc-d1-discover-map`. Short-lived.
 - Everything goes through a pull request. Squash-merge. Small PRs.
-- PR title: `ID: what it does` (IDs are in `docs/PRODUCT.md`).
+- PR title: `<task-id>: what it does`, for example `SC-D1: show pins on the map` (task IDs are in
+  `docs/TASKS.md`; screen IDs like D1 are in `docs/IA.md`).
 - PR description: how to test, a screenshot, which AI was used,
   and "In my own words" (3 to 5 sentences written by the author).
 
 ## 8. Safety
 Never paste passwords, keys or personal data into any AI.
 
-## 9. Out of scope in Phase 1 (this week)
-Real login or backend, posting, friends, chat, Community content (placeholder tab only),
-creating Hangouts from scratch, Remix, Report, Dynamic Island, turn-by-turn navigation,
-dark mode, iPad, landscape.
+## 9. Scope (decided 3 Nov: build the whole frontend on sample data first, backend after)
+- **Your task file is your scope.** Build what `docs/tasks/` says for your task ID, nothing more.
+- **In scope now:** every screen with a task in `docs/TASKS.md`, including Community, Friends, Chat,
+  Editor, Remix, Posting, Report and Settings. They run on the stub repositories and the sample
+  data (F-5, F-7, F-8), never on a server.
+- **Not yet (no task, backend phase):** real network calls, the `Remote` module, any server SDK,
+  real sign-in and accounts, push notifications, deep links and URL schemes, universal links.
+  Sign-in screens are built against stubs only.
+- **Not in version 1:** Dynamic Island, Live Activity, turn-by-turn navigation, dark mode, iPad,
+  landscape, multi-person live Hangouts.
+- **"Phase 1 / Phase 2"** (in `docs/IA.md`, Route comments, `docs/DATA-MODEL.md`) means *build order
+  only*. It never means "skip this" and never means "this week". Phase 1 = frontend on sample
+  data, Phase 2 = backend swap and release. Everything ships in version 1 (18 Dec).
+- If you are not sure whether something is in scope, stop and ask a human.

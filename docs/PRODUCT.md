@@ -44,7 +44,7 @@ SwiftUI frontend for **every screen** on local sample data. The work is a pool o
 after measuring speed: `docs/BEFORE-BUILD.md` 4). The tables below list the screens; the
 complete list with IDs is `docs/IA.md` section 4.
 
-Tabs (4): **Discover**, **Community** (placeholder this week), **Profile**, and
+Tabs (4): **Discover**, **Community** (feed, friends and chat are built on sample social data; see `docs/tasks/40-...`), **Profile**, and
 **Search** as a separate tab at the trailing end (never in the middle).
 Chat lives inside Community, not in its own tab.
 Search is a dedicated search-role tab and the only search in the app:
@@ -52,7 +52,7 @@ no segment control, results ranked by the last non-Search tab.
 
 ### Screen IDs
 A screen ID is a short code name for one screen, so everyone means the same thing.
-Use it in your branch name (`t/d1-discover-map`), your PR title (`D1: show pins on the map`)
+Use it in your branch name (`t/sc-d1-discover-map`), your PR title (`SC-D1: show pins on the map`)
 and the Figma frame name.
 
 | ID | Screen | Notes |
@@ -72,7 +72,7 @@ and the Figma frame name.
 | H1 | Hangout live | big text, route line, current Spot, distance and time |
 | H2 | Mark visited | small popup |
 | H3 | Hangout summary | Spots visited, time, distance, photos |
-| CM1 | Community | placeholder only this week |
+| CM1 | Community | feed on sample social data (a "Coming soon" state only if its task is not merged yet) |
 
 Every data screen needs loading, empty and error states.
 
