@@ -180,6 +180,8 @@ custom_rules:
       - '/VybeKit/Sources/Core/Stores/'
       - '/Router[^/]*\.swift$'
       - '/NetworkMonitor[^/]*\.swift$'
+      # AppDependencies.preview lives here, with @MainActor on its own line (F-5; foundation task text).
+      - '/VybeKit/Sources/Core/Fakes/AppDependencies\+Preview\.swift$'
     excluded_match_kinds: *not_code
     message: "In Core, only Router, the stores, NetworkMonitor and AppDependencies.preview are @MainActor (ADR 001, ADR 006)."
     severity: error
@@ -187,8 +189,9 @@ custom_rules:
   run_times_confined:
     name: "RunTimes outside its allowed modules"
     regex: '\bRunTimes\b'
-    included: '/VybeKit/(?:Sources|Tests)/'
-    excluded: '/VybeKit/(?:Sources|Tests)/(?:Models|Core|LocalData|Remote|LiveFeature|PostingFeature|ProfileFeature)(?:Tests)?/'
+    # App code only: test code (VybeKit/Tests/ and VybeTests/) may use RunTimes to test it.
+    included: '/VybeKit/Sources/'
+    excluded: '/VybeKit/Sources/(?:Models|Core|LocalData|Remote|LiveFeature|PostingFeature|ProfileFeature)/'
     excluded_match_kinds: *not_code
     message: "RunTimes (private visit times) stays in Models, Core, LocalData, Remote, Live, Posting and Profile (ADR 006, RISKS 3)."
     severity: error
