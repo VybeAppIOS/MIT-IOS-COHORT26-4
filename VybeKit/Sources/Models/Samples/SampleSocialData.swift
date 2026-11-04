@@ -130,7 +130,7 @@ public enum SampleSocialData {
         message(3, in: friendChat, by: friend, hoursAgo: 5.8, .hangout(SampleData.evening.id)),
         message(4, in: aaravChat, by: aarav, hoursAgo: 40, .link(URL(string: "https://example.com/EXAMPLE")!)),
         message(5, in: aaravChat, by: currentUser, hoursAgo: 39, .text("EXAMPLE thanks")),
-        message(6, in: crew, by: isha, hoursAgo: 12, .text("EXAMPLE Hangout on Saturday?")),
+        message(6, in: crew, by: isha, hoursAgo: 12, .text("EXAMPLE what are we doing on Saturday?")),
         message(7, in: crew, by: currentUser, hoursAgo: 11, .poll(question: "EXAMPLE: coffee at 5?")),
         message(8, in: crew, by: aarav, hoursAgo: 10, .voice(path: "voice/EXAMPLE.m4a", seconds: 12)),
         message(9, in: crew, by: friend, hoursAgo: 2, .photos([Photo(id: "photo-sample-1", path: "EXAMPLE.jpg",

@@ -35,7 +35,12 @@ struct RootView: View {
             // Finish writing the live run before the app is suspended.
             if phase == .background { Task { await deps.liveStore.flush() } }
         }
-        .onAppear { deps.router.setOnboarding(!deps.session.onboardingDone) }
+        .onAppear {
+            deps.router.setOnboarding(!deps.session.onboardingDone)
+            #if DEBUG
+            LaunchOptions.current.apply(to: deps)   // -debugRoute: open one screen straight away (task X-14)
+            #endif
+        }
         .onChange(of: deps.session.onboardingDone) { _, done in
             if done { deps.router.reset() } else { deps.router.setOnboarding(true) }
         }

@@ -27,3 +27,9 @@ jobs:
       - name: SwiftLint
         # github-actions-logging shows each violation on the PR's "Files changed" tab.
         run: swiftlint lint --strict --reporter github-actions-logging
+
+      - name: Architecture rules (task X-13)
+        run: ./scripts/check_architecture.sh
+
+      - name: Architecture check self-test
+        run: ./scripts/check_architecture_selftest.sh

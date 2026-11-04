@@ -66,6 +66,20 @@ third-party analytics.
 - **4.5 Bug report:** `.github/ISSUE_TEMPLATE/bug.md` (screen ID, device + iOS, build, steps, expected, actual, screenshot, severity
   crash | blocks a flow | wrong | cosmetic).
 
+### 4.6 Look at your own screen: debug launch options and `scripts/snap.sh` (task X-14)
+Every screen PR needs screenshots, and an agent can look at its own result before asking for review. The app (DEBUG builds
+only, never Release) understands these launch options: `-stubMode loaded|empty|failing|loading` (the whole app on the sample
+stubs in that state), `-debugRoute <short form or JSON Route>` (open one screen), `-skipOnboarding`, `-resetState` and
+`-simulateWalk`. One command does it all:
+
+```
+scripts/snap.sh hd1 hangout/hangout-example-evening-c3d4 all    # four screenshots: loaded, empty, failing, loading
+scripts/snap.sh settings settings/privacy loaded                 # one screenshot
+```
+Pictures go to `build/screenshots/` (git-ignored). The short forms (`hangout/<id>`, `saved`, `sheet/spot/<id>`,
+`cover/live/<id>` ...) are listed in `Vybe/App/LaunchOptions.swift`. No personal data is used: the stubs only hold
+EXAMPLE and "Sample" data.
+
 ## 5. Rhythm
 - **This week:** stand-up 9:30, merge windows 13:00 and 19:00 (unchanged).
 - **Phase 2:** kanban (not sprints); a 30-minute Friday demo to a mentor, then a 15-minute "keep / stop / try" retro; a rotating release
