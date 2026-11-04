@@ -1,0 +1,23 @@
+{
+  "address": "EXAMPLE address line, Kothrud",
+  "applePlaceID": null,
+  "area": "Kothrud",
+  "category": "park-garden",
+  "city": "Pune",
+  "coordinate": {
+    "latitude": 18.501,
+    "longitude": 73.802
+  },
+  "costPerPerson": {
+    "lower": 0,
+    "upper": 0
+  },
+  "hours": [],
+  "hoursNote": "EXAMPLE hours note",
+  "id": "place-example-park-e5f6",
+  "name": "EXAMPLE Park",
+  "photos": [],
+  "schemaVersion": 1,
+  "status": "approved",
+  "verifiedAt": "2026-11-03T10:00:00Z"
+}

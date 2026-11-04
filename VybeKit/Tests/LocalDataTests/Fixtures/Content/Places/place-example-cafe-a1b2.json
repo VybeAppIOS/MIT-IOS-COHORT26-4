@@ -1,0 +1,42 @@
+{
+  "address": "EXAMPLE address line, Kothrud",
+  "applePlaceID": null,
+  "area": "Kothrud",
+  "category": "cafe",
+  "city": "Pune",
+  "coordinate": {
+    "latitude": 18.5,
+    "longitude": 73.8
+  },
+  "costPerPerson": {
+    "lower": 100,
+    "upper": 250
+  },
+  "hours": [
+    {
+      "close": "22:00",
+      "open": "09:00",
+      "weekday": 1
+    },
+    {
+      "close": "22:00",
+      "open": "09:00",
+      "weekday": 2
+    }
+  ],
+  "hoursNote": null,
+  "id": "place-example-cafe-a1b2",
+  "name": "EXAMPLE Café",
+  "photos": [
+    {
+      "credit": "EXAMPLE Teammate",
+      "height": 1200,
+      "id": "photo-example-cafe-1",
+      "path": "place-example-cafe-a1b2-1.jpg",
+      "width": 1600
+    }
+  ],
+  "schemaVersion": 1,
+  "status": "approved",
+  "verifiedAt": "2026-11-03T10:00:00Z"
+}

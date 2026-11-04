@@ -567,10 +567,11 @@ MIT-IOS-COHORT26-4/
 | a new permission or capability | stop and ask Lohitaksh |
 
 **Package details.** Done in F-0: a package target finds its String Catalog (use `bundle: #bundle`) and its colour assets (ADR 004);
-the package builds in Swift 6 mode. Still to check: previews inside the package (above); `Bundle.module` finds `Content/`
-(`.copy` keeps subfolders for JSON and photos); the app target still picks up new files in `Vybe/`. The real manifest is
-`VybeKit/Package.swift`: `uiSettings` (main-actor default) on Design, Components and Features only, none on Models, Core and
-LocalData, one `.library` per target the App imports, a test target per module, `swiftLanguageModes: [.v6]`.
+the package builds in Swift 6 mode. **Decided (F-0 proof e, X-3):** each target that shows text owns its own
+`Localizable.xcstrings`; shared words live in `Design` and are exposed as `SharedStrings`. Still to check: previews inside the
+package (above); `Bundle.module` finds `Content/` (`.copy` keeps subfolders for JSON and photos); the app target still picks up
+new files in `Vybe/`. The real manifest is `VybeKit/Package.swift`: `uiSettings` (main-actor default) on Design, Components and
+Features only, none on Models, Core and LocalData, one `.library` per target the App imports, a test target per module.
 
 ## 4. Apple platform decisions (from Apple's docs)
 

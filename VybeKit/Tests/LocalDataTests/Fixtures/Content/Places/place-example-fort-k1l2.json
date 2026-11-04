@@ -1,0 +1,21 @@
+{
+  "address": "EXAMPLE address",
+  "area": "Sinhagad Road",
+  "category": "fort",
+  "city": "Pune",
+  "coordinate": {
+    "latitude": 18.36,
+    "longitude": 73.75
+  },
+  "costPerPerson": {
+    "lower": 0,
+    "upper": 50
+  },
+  "hours": [],
+  "id": "place-example-fort-k1l2",
+  "name": "EXAMPLE Fort",
+  "photos": [],
+  "schemaVersion": 1,
+  "status": "hidden",
+  "verifiedAt": "2026-11-03T10:00:00Z"
+}

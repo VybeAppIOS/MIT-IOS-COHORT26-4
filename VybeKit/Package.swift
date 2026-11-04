@@ -36,7 +36,7 @@ let package = Package(
         .library(name: "ModerationFeature", targets: ["ModerationFeature"])
     ],
     targets: [
-        .target(name: "Models", exclude: readme),
+        .target(name: "Models", exclude: readme, resources: [.process("Resources")]),
         // Core has no default isolation (ADR 001): only Router and the stores are @MainActor, written explicitly.
         .target(name: "Core", dependencies: ["Models"], exclude: readme),
         .target(name: "Design", dependencies: ["Models"], exclude: readme,
@@ -45,7 +45,8 @@ let package = Package(
         .target(name: "LocalData", dependencies: ["Core"], exclude: readme,
                 resources: [.copy("Resources/Content")]),
         .target(name: "OnboardingFeature", dependencies: featureDeps, exclude: readme, swiftSettings: uiSettings),
-        .target(name: "DiscoverFeature", dependencies: featureDeps, exclude: readme, swiftSettings: uiSettings),
+        .target(name: "DiscoverFeature", dependencies: featureDeps, exclude: readme,
+                resources: [.process("Resources")], swiftSettings: uiSettings),
         .target(name: "HangoutDetailFeature", dependencies: featureDeps, exclude: readme, swiftSettings: uiSettings),
         .target(name: "LiveFeature", dependencies: featureDeps, exclude: readme, swiftSettings: uiSettings),
         .target(name: "SearchFeature", dependencies: featureDeps, exclude: readme, swiftSettings: uiSettings),
@@ -60,7 +61,8 @@ let package = Package(
         // Tests (Swift Testing). Test code that touches main-actor types is marked @MainActor.
         .testTarget(name: "ContentTests", dependencies: ["Models", "Core", "LocalData"]),
         .testTarget(name: "CoreTests", dependencies: ["Models", "Core"]),
-        .testTarget(name: "LocalDataTests", dependencies: ["Models", "Core", "LocalData"]),
+        .testTarget(name: "LocalDataTests", dependencies: ["Models", "Core", "LocalData"],
+                    resources: [.copy("Fixtures")]),
         .testTarget(name: "DesignTests", dependencies: ["Models", "Design"]),
         .testTarget(name: "ComponentsTests", dependencies: ["Models", "Design", "Components"]),
         .testTarget(name: "OnboardingFeatureTests", dependencies: ["OnboardingFeature", "Core"]),

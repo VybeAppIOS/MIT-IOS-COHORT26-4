@@ -20,3 +20,4 @@ with friends, do it live on a map, and post it. Built in SwiftUI by four student
 | `VybeKit/` | the local Swift package: almost all the code |
 
 Run all checks: `./scripts/check.sh`
+CI: Lint runs on every pull request; Test (macOS) runs once a pull request is ready for review.
