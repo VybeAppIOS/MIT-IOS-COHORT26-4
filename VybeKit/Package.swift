@@ -36,7 +36,7 @@ let package = Package(
         .library(name: "ModerationFeature", targets: ["ModerationFeature"])
     ],
     targets: [
-        .target(name: "Models", exclude: readme),
+        .target(name: "Models", exclude: readme, resources: [.process("Resources")]),
         // Core has no default isolation (ADR 001): only Router and the stores are @MainActor, written explicitly.
         .target(name: "Core", dependencies: ["Models"], exclude: readme),
         .target(name: "Design", dependencies: ["Models"], exclude: readme,
