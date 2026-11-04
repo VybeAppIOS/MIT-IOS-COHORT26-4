@@ -10,6 +10,7 @@ Applies to every tool and every teammate.
 - Unanswered questions: `docs/OPEN-QUESTIONS.md`. If your task touches one, stop and ask a human.
 - Decisions that are expensive to change: `docs/adr/` (they win over older documents). First day: `docs/DAY-ONE.md`.
 - Evidence links behind the decisions: `docs/SOURCES.md`.
+- Building a screen: `docs/SCREENS-GUIDE.md` (components, `scripts/new_screen.py`, the routine).
 
 ## 1. Start of every task
 Read `AGENTS.md`, `docs/START-HERE.md` and **your task in `docs/tasks/`** (the person gives you its
@@ -81,8 +82,8 @@ Four college students who are new to shipping code and rely heavily on AI.
   or ViewModels. Never put personal data or tokens in `UserDefaults`.
 - Import rules: Features never import each other, **`LocalData` or `Remote`**. Shared views go
   in `Components`. (Full list: `docs/ARCHITECTURE.md` 3.2.)
-- `Models`, `Core` and `LocalData` are not main-actor by default. Only `Router`, the stores and `NetworkMonitor` are
-  `@MainActor`, written explicitly. Never put `@MainActor` on a repository protocol, a rule or a service protocol, and
+- `Models`, `Core` and `LocalData` are not main-actor by default. Only `Router`, the stores, `NetworkMonitor` and `AudioPlayer`
+  are `@MainActor`, written explicitly. Never put `@MainActor` on a repository protocol, a rule or a service protocol, and
   never hand-write `nonisolated` to make something compile (`docs/adr/001-concurrency.md`). The project builds in
   Swift 6 language mode: fix data-race errors properly, never with `@unchecked Sendable`, `nonisolated(unsafe)` or
   `assumeIsolated` unless a human says yes.
