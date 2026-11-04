@@ -10,6 +10,7 @@ public extension View {
 
 /// Runs `body` inside an animation made from a `Theme.Motion` token, for a tap handler.
 /// Outside a View there is no SwiftUI environment, so this asks the system setting directly.
+/// That also means the preview-only `vybeReduceMotionOverride` does not reach it; only `vybeAnimation` honours it.
 @MainActor
 public func withVybeAnimation<Result>(
     _ animation: Animation,
