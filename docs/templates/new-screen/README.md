@@ -1,7 +1,7 @@
 # Template: a new screen (copy this, rename `Example`)
 
-Reference implementation to copy: the first finished screen (`HangoutDetail`, task SC-HD1). Once task X-5 exists, run
-`scripts/new_screen.py <Feature> <Screen>` instead of copying by hand. Until SC-HD1 exists, copy the patterns below.
+Reference implementation to copy: the first finished screen (`HangoutDetail`, task SC-HD1). Run
+`scripts/new_screen.py <Feature> <Screen>` instead of copying by hand: it writes the files below with your names.
 Rules: `docs/ARCHITECTURE.md` 2.4, 2.5, 2.7 and the ADRs in `docs/adr/` (they win where they differ). The code below is
 **unverified** until F-0 compiles it.
 
@@ -9,8 +9,8 @@ Create, inside the right feature folder (for example `VybeKit/Sources/HangoutDet
 `internal`.** The feature's only `public` type is its `<Name>Screens` (ADR 002).
 
 ## Strings (task X-3)
-Each target that shows text owns `Resources/Localizable.xcstrings` (it needs `resources: [.process("Resources")]` in its
-`Package.swift` target; ask Lohitaksh). Always write `String(localized: "feature.key", bundle: #bundle)`: without
+Each target that shows text owns `Resources/Localizable.xcstrings`; every feature already has one (added 5 Nov), so just
+use it: Xcode adds each `String(localized: …, bundle: #bundle)` key to it when you build. Always write `String(localized: "feature.key", bundle: #bundle)`: without
 `bundle:` Swift reads the app's catalog and the string silently stays as the key. Keys are `<feature>.<name>`. A word used
 by several features goes in `Design/Resources/Localizable.xcstrings` and is exposed as a value in `Design/Strings/SharedStrings.swift`
 (a feature cannot read another target's catalog by key). Test it: `#expect(MyStrings.title == "...")`.
@@ -59,6 +59,9 @@ final class ExampleViewModel {
         }
     }
 
+    /// Empty-state text is built here, not in the View.
+    var emptyMessage: String { String(localized: "example.empty", bundle: #bundle) }
+
     func somethingTapped() { /* router.open(...), a store call, ... */ }
 }
 ```
@@ -76,6 +79,10 @@ struct ExampleView: View {
         LoadStateView(viewModel.state, onRetry: { Task { await viewModel.reload() } }) { content in
             Text(content.title)                       // layout only; Theme tokens only
                 .accessibilityIdentifier("example.title")   // <screen>.<element>, used by UI tests and snapshots
+        } placeholder: {
+            Text(verbatim: "Placeholder title")       // the same layout with dummy text; drawn greyed out while loading
+        } empty: {
+            EmptyStateView(systemImage: "map", message: viewModel.emptyMessage)   // text from the ViewModel
         }
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
