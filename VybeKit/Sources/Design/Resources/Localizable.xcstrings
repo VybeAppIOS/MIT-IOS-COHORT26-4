@@ -1,6 +1,424 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "category.art-gallery" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Art gallery"
+          }
+        }
+      }
+    },
+    "category.board-game-cafe" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Board-game café"
+          }
+        }
+      }
+    },
+    "category.bookstore-library" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookstore or library"
+          }
+        }
+      }
+    },
+    "category.bowling" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bowling"
+          }
+        }
+      }
+    },
+    "category.cafe" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Café"
+          }
+        }
+      }
+    },
+    "category.camping" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Camping"
+          }
+        }
+      }
+    },
+    "category.chai-tapri" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chai tapri"
+          }
+        }
+      }
+    },
+    "category.cinema" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cinema"
+          }
+        }
+      }
+    },
+    "category.comedy-open-mic" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comedy and open mic"
+          }
+        }
+      }
+    },
+    "category.cycling" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cycling"
+          }
+        }
+      }
+    },
+    "category.dessert" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dessert"
+          }
+        }
+      }
+    },
+    "category.escape-room" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escape room"
+          }
+        }
+      }
+    },
+    "category.events" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Events"
+          }
+        }
+      }
+    },
+    "category.fort" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fort"
+          }
+        }
+      }
+    },
+    "category.gaming-arcade" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gaming arcade"
+          }
+        }
+      }
+    },
+    "category.go-karting" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go-karting"
+          }
+        }
+      }
+    },
+    "category.heritage-temple" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heritage or temple"
+          }
+        }
+      }
+    },
+    "category.juice-shakes" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Juice and shakes"
+          }
+        }
+      }
+    },
+    "category.karaoke" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Karaoke"
+          }
+        }
+      }
+    },
+    "category.lake-dam" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lake or dam"
+          }
+        }
+      }
+    },
+    "category.library" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Library"
+          }
+        }
+      }
+    },
+    "category.live-music" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live music"
+          }
+        }
+      }
+    },
+    "category.mall" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mall"
+          }
+        }
+      }
+    },
+    "category.museum" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Museum"
+          }
+        }
+      }
+    },
+    "category.park-garden" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Park or garden"
+          }
+        }
+      }
+    },
+    "category.restaurant" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restaurant"
+          }
+        }
+      }
+    },
+    "category.sports-turf" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sports turf"
+          }
+        }
+      }
+    },
+    "category.street-food" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street food"
+          }
+        }
+      }
+    },
+    "category.street-market" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street market"
+          }
+        }
+      }
+    },
+    "category.study-cafe" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study café"
+          }
+        }
+      }
+    },
+    "category.swimming" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swimming"
+          }
+        }
+      }
+    },
+    "category.theatre" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Theatre"
+          }
+        }
+      }
+    },
+    "category.thrift" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thrift store"
+          }
+        }
+      }
+    },
+    "category.trampoline" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trampoline park"
+          }
+        }
+      }
+    },
+    "category.trek" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trek"
+          }
+        }
+      }
+    },
+    "category.unknown" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place"
+          }
+        }
+      }
+    },
+    "category.viewpoint-hill" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Viewpoint or hill"
+          }
+        }
+      }
+    },
+    "category.waterfall" : {
+      "comment" : "Name of a Place category, shown on Spot rows and filters.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waterfall"
+          }
+        }
+      }
+    },
     "common.cancel" : {
       "comment" : "Shared word: dismisses a sheet or a dialog without saving.",
       "localizations" : {
@@ -19,6 +437,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Retry"
+          }
+        }
+      }
+    },
+    "component.avatar.more %lld" : {
+      "comment" : "VoiceOver: people not shown in a stack of profile photos.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld more"
+          }
+        }
+      }
+    },
+    "component.avatar.photo %@" : {
+      "comment" : "VoiceOver label of a tappable profile photo.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@'s profile photo"
+          }
+        }
+      }
+    },
+    "component.avatar.verified" : {
+      "comment" : "VoiceOver: the ring on the Vybe account's photo.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Official Vybe account"
           }
         }
       }
@@ -100,6 +551,583 @@
         }
       }
     },
+    "component.card.accessibility %@" : {
+      "comment" : "VoiceOver label of a Hangout card; %@ is the title and facts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangout: %@"
+          }
+        }
+      }
+    },
+    "component.card.spots %lld" : {
+      "comment" : "Number of Spots in a Hangout, on cards.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Spot"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Spots"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "component.comment.delete" : {
+      "comment" : "Menu item: delete this.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "component.comment.deleted" : {
+      "comment" : "Shown instead of a deleted comment.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This comment was deleted"
+          }
+        }
+      }
+    },
+    "component.comment.more" : {
+      "comment" : "VoiceOver label of the ••• button on a comment or message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More options"
+          }
+        }
+      }
+    },
+    "component.comment.moreReplies" : {
+      "comment" : "Button under a deep comment thread.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View more replies"
+          }
+        }
+      }
+    },
+    "component.comment.reply" : {
+      "comment" : "Button: reply to a comment.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reply"
+          }
+        }
+      }
+    },
+    "component.comment.report" : {
+      "comment" : "Menu item: report this.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        }
+      }
+    },
+    "component.gallery.credit %@" : {
+      "comment" : "Credit line under a Place photo; %@ is the photographer.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo: %@"
+          }
+        }
+      }
+    },
+    "component.gallery.page %lld %lld" : {
+      "comment" : "VoiceOver: which photo of a gallery is shown.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "component.message.deleted" : {
+      "comment" : "Shown instead of a deleted chat message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This message was deleted"
+          }
+        }
+      }
+    },
+    "component.message.delivered" : {
+      "comment" : "Read receipt: delivered.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delivered"
+          }
+        }
+      }
+    },
+    "component.message.edited" : {
+      "comment" : "Small tag on an edited chat message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edited"
+          }
+        }
+      }
+    },
+    "component.message.pause" : {
+      "comment" : "Button: pause a voice note.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pause voice note"
+          }
+        }
+      }
+    },
+    "component.message.photo" : {
+      "comment" : "VoiceOver: a photo in a chat.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo"
+          }
+        }
+      }
+    },
+    "component.message.play" : {
+      "comment" : "Button: play a voice note.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Play voice note"
+          }
+        }
+      }
+    },
+    "component.message.seen" : {
+      "comment" : "Read receipt: seen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seen"
+          }
+        }
+      }
+    },
+    "component.message.sent" : {
+      "comment" : "Read receipt: sent.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent"
+          }
+        }
+      }
+    },
+    "component.message.voice %@" : {
+      "comment" : "VoiceOver: a voice note and its length.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice note, %@"
+          }
+        }
+      }
+    },
+    "component.message.you" : {
+      "comment" : "Sender name for your own messages (VoiceOver).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You"
+          }
+        }
+      }
+    },
+    "component.photo.unavailable" : {
+      "comment" : "Shown when a photo cannot be loaded.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo unavailable"
+          }
+        }
+      }
+    },
+    "component.pin.cluster %lld" : {
+      "comment" : "VoiceOver label of a map pin that groups Hangouts.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Hangout here, double tap to zoom"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Hangouts here, double tap to zoom"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "component.poll.imIn" : {
+      "comment" : "Poll answer in group chats.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I'm in"
+          }
+        }
+      }
+    },
+    "component.poll.notForMe" : {
+      "comment" : "Poll answer in group chats.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not for me"
+          }
+        }
+      }
+    },
+    "component.poll.title" : {
+      "comment" : "VoiceOver: a poll message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poll"
+          }
+        }
+      }
+    },
+    "component.poll.yourVote" : {
+      "comment" : "Marks the answer the person chose.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your vote"
+          }
+        }
+      }
+    },
+    "component.post.comment" : {
+      "comment" : "Button: open the comments.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment"
+          }
+        }
+      }
+    },
+    "component.post.comments %lld" : {
+      "comment" : "VoiceOver: number of comments.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld comment"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld comments"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "component.post.like" : {
+      "comment" : "Button: like a post or comment.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Like"
+          }
+        }
+      }
+    },
+    "component.post.likes %lld" : {
+      "comment" : "VoiceOver: number of likes.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld like"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld likes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "component.post.remix" : {
+      "comment" : "Button: make your own version of this Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remix"
+          }
+        }
+      }
+    },
+    "component.post.remixes %lld" : {
+      "comment" : "VoiceOver: number of Remixes.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Remix"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld Remixes"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "component.post.routeMap" : {
+      "comment" : "VoiceOver label of the small route drawing on a post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Route between the Spots"
+          }
+        }
+      }
+    },
+    "component.post.share" : {
+      "comment" : "Button: share this post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share"
+          }
+        }
+      }
+    },
+    "component.post.unlike" : {
+      "comment" : "Button: remove your like.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unlike"
+          }
+        }
+      }
+    },
+    "component.post.visited %lld %lld" : {
+      "comment" : "How many Spots of the Hangout the person visited.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld of %2$lld Spots"
+          }
+        }
+      }
+    },
+    "component.profile.addFriend" : {
+      "comment" : "Button: send a friend request.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add friend"
+          }
+        }
+      }
+    },
+    "component.profile.blocked" : {
+      "comment" : "Button state: you blocked this person (tap to unblock).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked"
+          }
+        }
+      }
+    },
+    "component.profile.edit" : {
+      "comment" : "Button on your own profile.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit profile"
+          }
+        }
+      }
+    },
+    "component.profile.friendCount" : {
+      "comment" : "Profile stat label (own profile only).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    },
+    "component.profile.friends" : {
+      "comment" : "Button state: you are friends.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    },
+    "component.profile.hangoutsDone" : {
+      "comment" : "Profile stat label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangouts done"
+          }
+        }
+      }
+    },
+    "component.profile.private" : {
+      "comment" : "Shown instead of a private profile's posts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This account is private"
+          }
+        }
+      }
+    },
+    "component.profile.privateHint" : {
+      "comment" : "Under the private-account line.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add them as a friend to see their Hangouts."
+          }
+        }
+      }
+    },
+    "component.profile.requested" : {
+      "comment" : "Button state: a friend request was sent (tap to cancel).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requested"
+          }
+        }
+      }
+    },
+    "component.profile.respond" : {
+      "comment" : "Button: answer this person's friend request.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respond"
+          }
+        }
+      }
+    },
+    "component.profile.spotsVisited" : {
+      "comment" : "Profile stat label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spots visited"
+          }
+        }
+      }
+    },
     "component.safetynote.monsoon" : {
       "comment" : "DRAFT wording for the June to September monsoon banner. Needs team approval (docs/RISKS.md).",
       "localizations" : {
@@ -129,6 +1157,61 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Warning. "
+          }
+        }
+      }
+    },
+    "component.spot.current" : {
+      "comment" : "The Spot the person is heading to during a live Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Next Spot"
+          }
+        }
+      }
+    },
+    "component.spot.duplicate" : {
+      "comment" : "Editor warning when the same Place is in a Hangout twice.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've added this place twice"
+          }
+        }
+      }
+    },
+    "component.spot.position %lld %lld" : {
+      "comment" : "VoiceOver: position of a Spot in its Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spot %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "component.spot.reorder" : {
+      "comment" : "VoiceOver hint for the reorder handle in the editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drag to reorder"
+          }
+        }
+      }
+    },
+    "component.spot.visited" : {
+      "comment" : "A Spot the person has been to.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visited"
           }
         }
       }
