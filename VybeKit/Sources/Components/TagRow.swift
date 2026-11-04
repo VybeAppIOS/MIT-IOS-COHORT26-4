@@ -18,8 +18,8 @@ public struct TagRow: View {
                     .foregroundStyle(Theme.Color.textPrimary)
                     .padding(.horizontal, Theme.Spacing.small)
                     .padding(.vertical, Theme.Spacing.tiny)
-                    .background(Theme.Color.surfaceRaised, in: .capsule)
-                    .overlay(Capsule().stroke(Theme.Color.separator))
+                    .background(Theme.Color.surfaceRaised, in: .rect(cornerRadius: Theme.Radius.medium))
+                    .overlay(RoundedRectangle(cornerRadius: Theme.Radius.medium).stroke(Theme.Color.separator))
             }
         }
         // FlowLayout is only as wide as its widest row; this keeps a few short tags at the leading edge.

@@ -23,8 +23,9 @@ public struct InfoPill: View {
         .font(Theme.Font.footnote)
         .padding(.horizontal, Theme.Spacing.small)
         .padding(.vertical, Theme.Spacing.tiny)
-        .background(Theme.Color.surfaceRaised, in: .capsule)
-        .overlay(Capsule().stroke(Theme.Color.separator))
+        // A rounded rectangle, not a capsule: the text can wrap onto several lines at large text sizes.
+        .background(Theme.Color.surfaceRaised, in: .rect(cornerRadius: Theme.Radius.medium))
+        .overlay(RoundedRectangle(cornerRadius: Theme.Radius.medium).stroke(Theme.Color.separator))
         .accessibilityElement(children: .combine)
     }
 }
