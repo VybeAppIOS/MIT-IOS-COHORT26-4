@@ -11,15 +11,20 @@ public extension AppDependencies {
         settings.onboardingDone = true
         let library = StubLibraryRepository(mode: mode)
         let fixedNow: @Sendable () -> Date = { SampleData.day }
+        let hangouts = StubHangoutRepository(mode: mode)
+        let session = SessionStore(settings: settings, currentUser: SampleData.signedInUser)
+        let libraryStore = LibraryStore(repository: library, now: fixedNow)
         return AppDependencies(
-            hangouts: StubHangoutRepository(mode: mode),
+            hangouts: hangouts,
             places: StubPlaceRepository(mode: mode),
             library: library,
             profiles: StubProfileRepository(mode: mode),
             search: StubSearchRepository(mode: mode),
             photos: StubPhotoStore(),
-            session: SessionStore(settings: settings, currentUser: SampleData.signedInUser),
-            libraryStore: LibraryStore(repository: library, now: fixedNow),
+            session: session,
+            libraryStore: libraryStore,
+            liveStore: LiveHangoutStore(libraryStore: libraryStore, hangouts: hangouts, session: session,
+                                        now: fixedNow),
             router: Router(),
             flags: .allOn,
             now: fixedNow)
