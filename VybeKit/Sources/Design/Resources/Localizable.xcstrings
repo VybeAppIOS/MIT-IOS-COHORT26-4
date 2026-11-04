@@ -4,6 +4,18 @@
     "common.cancel" : {
       "comment" : "Shared word: dismisses a sheet or a dialog without saving.",
       "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } } }
+    },
+    "common.retry" : {
+      "comment" : "Shared word: the button on an error screen that tries the failed load again.",
+      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Retry" } } }
+    },
+    "design.loading" : {
+      "comment" : "Read by VoiceOver while a screen shows its greyed-out placeholder.",
+      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Loading" } } }
+    },
+    "design.offlineBanner" : {
+      "comment" : "Banner above content that may be out of date (shown whenever the content is stale).",
+      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "You're offline. Showing what you last saw." } } }
     }
   },
   "version" : "1.0"
