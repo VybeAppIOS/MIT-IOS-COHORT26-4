@@ -21,7 +21,7 @@ C. Split Core into two targets, one per isolation (more targets, same result as 
 1. **Models, Core, LocalData (and later Remote) have no default isolation and do not enable
    `NonisolatedNonsendingByDefault`.** A plain `async` repository method then hops off the main thread by design.
 2. In Core, only these are `@MainActor`, written explicitly: `Router`, every store (`SessionStore`, `LibraryStore`,
-   `LiveHangoutStore`, `BadgeStore`), `NetworkMonitor`, and the `AppDependencies.preview(_:)` factory.
+   `LiveHangoutStore`, `BadgeStore`), `AudioPlayer` (its progress is read by a screen), `NetworkMonitor`, and the `AppDependencies.preview(_:)` factory.
    **Never** put `@MainActor` on a repository protocol, a rule, or a service protocol.
 3. Design, Components and every Feature keep `defaultIsolation(MainActor)` and `NonisolatedNonsendingByDefault`.
 4. **Swift 6 language mode** for the package (remove `swiftLanguageModes: [.v5]`) and `SWIFT_VERSION = 6.0` for the app.
