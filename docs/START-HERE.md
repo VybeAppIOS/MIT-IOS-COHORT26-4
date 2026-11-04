@@ -13,6 +13,7 @@ it for their friends. This file tells you what to read, how to work, and where e
 | 1 | `docs/PRODUCT.md` sections 1, 2, 3, 4 | 10 min | what the app is, the exact words we use (Hangout, Spot, Remix, Picks), every feature |
 | 2 | `docs/IA.md` sections 1, 2, 4, 6 | 15 min | every screen (with its ID like `D1`, `HD1`), where it sits, how you get there |
 | 3 | `docs/ARCHITECTURE.md` sections 0, 1, 2.1-2.7, 3.2 | 30 min | MVVM, the router, the folder map, what may import what |
+| 3a | `docs/adr/` 001, 002, 003 | 10 min | the three decisions that shape every file you write (concurrency, who owns a screen's wiring, navigation) |
 | 4 | `AGENTS.md` (whole file, it is short) | 10 min | the rules every person and every AI tool follows |
 | 5 | `docs/DATA-MODEL.md` sections 2, 3, 5 | 10 min | the data structs, IDs, privacy rules |
 | 6 | `docs/MOTION.md` sections 2, 3 | 5 min | the five animation timings and the haptic rules |
@@ -44,15 +45,17 @@ There are no fixed roles. The task list (`docs/TASKS.md`, details in `docs/tasks
    the **next task**. Never sit idle: if everything is blocked, review someone's PR.
 
 **Files only Lohitaksh edits** (they are shared by everyone): `VybeKit/Package.swift`,
-`Vybe.xcodeproj`, signing. Everything else is fair game inside your task's folder. If you
-think a shared file needs a change, ask in the group; do not edit it.
+`Vybe.xcodeproj`, signing. Lohitaksh also reviews every change to `Models/`, `Core/Navigation/`,
+`Design/Theme/`, the App target, `AGENTS.md`, `docs/adr/` and `.github/`. Everything else is fair game inside your
+task's folder (your feature's screen folder, your `case` in `<Name>Screens.swift`, your tests). If you think a shared
+file needs a change, ask in the group; do not edit it.
 
 ## 3. The map of the repository
 
 ```
 MIT-IOS-COHORT26-4/
 ├── AGENTS.md  CLAUDE.md          rules for AI tools (CLAUDE.md just says @AGENTS.md)
-├── docs/                         all the documents (this file, the tasks, IA, architecture...)
+├── docs/                         all the documents (this file, DAY-ONE, the tasks, IA, architecture, adr/...)
 ├── Vybe/                         THE APP TARGET: only wiring (tabs, router hookup, dependencies)
 ├── Vybe.xcodeproj  VybeTests/    Xcode project (Lohitaksh only) and app-level tests
 ├── VybeKit/                      THE LOCAL PACKAGE: nearly all the code lives here
@@ -74,7 +77,8 @@ may import. The full map is in `docs/ARCHITECTURE.md` section 3.2.
 
 ## 4. The five rules to remember
 
-1. **A screen = a View (layout only) + a ViewModel (all logic, no SwiftUI import).**
+1. **A screen = a View (layout only) + a ViewModel (all logic, no SwiftUI import).** Both are `internal`; a feature's
+   only `public` type is its `<Name>Screens`, and you wire your screen by replacing your placeholder `case` there.
 2. **Screens never open other screens.** They call `router.open(...)`. Features never import
    each other, `LocalData` or `Remote`.
 3. **Only Theme tokens** for colours, fonts, spacing and animation. No hex, no raw `.easeInOut`.
@@ -98,9 +102,9 @@ passwords, keys or personal data into an AI.
 > **Models** are plain data. **Core** holds the rules of the app: the router, the data
 > contracts (protocols) and the shared stores. **Design** holds our colours, fonts and
 > animation timings. **Components** are reusable views. **LocalData** is today's data
-> source: JSON files in the app. Later a **Remote** module plugs into the same contracts, so
+> source: JSON files in the app. Later a separate **VybeRemote** package plugs into the same contracts, so
 > no screen changes when we add a server. Each of the 13 **features** is a folder of
-> screens, and every screen is a View plus a ViewModel (MVVM). The **router** is the only way
+> screens with one public `Screens` type that builds them, and every screen is a View plus a ViewModel (MVVM). The **router** is the only way
 > to go from one screen to another, and only the app target knows which screen a route
 > opens. That is how four people can build different features at the same time without
 > stepping on each other."

@@ -244,7 +244,7 @@ appears in the app, and the app collects no college field.
 The full application folder structure (every folder and file, what may import what, and
 "where does X go?") is in `docs/ARCHITECTURE.md` section 3.2. In short:
 `Vybe/` (app wiring) + `VybeKit/` (local package: Models, Core, Design, Components,
-LocalData, one target per feature, later Remote) + `backend/` (Phase 2) + `docs/` +
+LocalData, one target per feature) + later a `VybeRemote/` package + `backend/` (Phase 2) + `docs/` +
 `scripts/`. `AGENTS.md` and `CLAUDE.md` (contains exactly `@AGENTS.md`) sit at the root.
 
 ## 8. Content rules

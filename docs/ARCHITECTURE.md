@@ -10,6 +10,13 @@ Status: **proposal, not approved.** Written 3 Nov 2026. Based on:
 
 Every recommendation says how confident we are and why. Sources are at the end.
 
+> **Replan, 4 Nov 2026.** The decisions in `docs/adr/` (001 to 007) change parts of this document and **win where they
+> differ**: Core is not main-actor by default and the project uses Swift 6 mode (001); each feature builds its own screens
+> and only its `Screens` type is public (002); routes are grouped per feature, `Codable`, with a stack for sheets (003);
+> the JSON/ID/clock contract (004); refresh and persistence rules (005); machine-checked guardrails (006); the backend is its
+> own package (007). Sections 2.4, 2.6, 2.7, 3.1 and 3.2 below were updated to match. Code sketches are **unverified**
+> until task F-0 compiles them on a Mac.
+
 ---
 
 ## 0. Our environment (checked on the lead's Mac)
@@ -37,16 +44,17 @@ Cost of this choice: iPhone XS, XS Max and XR cannot run iOS 26, so they are exc
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │ App target (Vybe/)                                          │
-│ VybeApp · tab bar · Route → screen map · builds the stores  │
+│ VybeApp · tab bar · thin ScreenFactory · builds the stores  │
 │ · deep links · (Phase 2) backend setup                      │
 └───────────────┬─────────────────────────────────────────────┘
                 │ uses everything below
 ┌───────────────▼─────────────────────────────────────────────┐
 │ Feature modules: one per area, never import each other      │
-│ Phase 1: Discover · Community (placeholder) · Profile ·     │
-│          Search · HangoutDetail · Live · Onboarding         │
-│ Each feature = Views + ViewModels (MVVM)                    │
-│ Phase 2: + Editor · Posting · Friends · Chat · Auth · Moderation │
+│ All 13 are in scope now (AGENTS.md 9): Discover ·           │
+│ HangoutDetail · Live · Onboarding · Search · Profile ·      │
+│ Community · Editor · Posting · Friends · Chat · Auth ·      │
+│ Moderation. Each = Views + ViewModels (MVVM) and ONE        │
+│ public type, its Screens (ADR 002)                          │
 └──────┬──────────────────────┬─────────────────────┬─────────┘
        │                      │                     │
 ┌──────▼───────┐   ┌──────────▼──────────┐   ┌──────▼─────────┐
@@ -62,7 +70,7 @@ Cost of this choice: iPhone XS, XS Max and XR cannot run iOS 26, so they are exc
                └─────────────┘  Page, AppError, sample data for previews
   Data sources (implement Core's repository protocols):
   LocalData (Phase 1: JSON in the app + saved items on the phone)
-  Remote   (Phase 2: the only module allowed to import Firebase/Supabase)
+  VybeRemote (Phase 2: its own package, the only place allowed to import Firebase/Supabase; ADR 007)
 ```
 
 Rule: arrows point down only. A feature may use Core, Components, Design and Models.
@@ -158,15 +166,16 @@ consistency and testability, which suits beginners and AI agents.
 
 ```swift
 // A ViewModel exposes VIEW-READY values, never raw models (a raw Hangout has no Place names).
-public struct HangoutDetailContent: Equatable, Sendable {
-    public let title: String
-    public let budgetText: String        // "₹150–400 per person" built with .formatted
-    public let spots: [SpotRowData]      // plain values for the SpotRow component
+// Everything in a feature is internal; only <Name>Screens is public (docs/adr/002).
+struct HangoutDetailContent: Equatable, Sendable {
+    let title: String
+    let budgetText: String        // "₹150–400 per person" built with .formatted
+    let spots: [SpotRowData]      // plain values for the SpotRow component
 }
 
 @MainActor @Observable
-public final class HangoutDetailViewModel {
-    public private(set) var state: LoadState<HangoutDetailContent> = .loading
+final class HangoutDetailViewModel {
+    private(set) var state: LoadState<HangoutDetailContent> = .loading
     private let id: HangoutID
     private let hangouts: any HangoutRepository
     private let places: any PlaceRepository
@@ -175,16 +184,21 @@ public final class HangoutDetailViewModel {
     private let router: Router
     private var hasLoaded = false
 
-    public init(id: HangoutID, hangouts: any HangoutRepository, places: any PlaceRepository,
-                library: LibraryStore, liveStore: LiveHangoutStore, router: Router) {
+    init(id: HangoutID, hangouts: any HangoutRepository, places: any PlaceRepository,
+         library: LibraryStore, liveStore: LiveHangoutStore, router: Router) {
         self.id = id; self.hangouts = hangouts; self.places = places
         self.library = library; self.liveStore = liveStore; self.router = router   // cheap: no loading here
     }
 
-    public var isSaved: Bool { library.isSaved(id) }
+    var isSaved: Bool { library.isSaved(id) }
 
-    public func load() async {
+    func load() async {
         guard !hasLoaded else { return }          // .task runs again whenever the screen reappears
+        await fetch()
+    }
+    func reload() async { await fetch() }         // pull to refresh and the Retry button
+
+    private func fetch() async {
         do {
             let hangout = try await hangouts.hangout(id: id)
             let spots = try await places.spots(for: hangout)
@@ -192,24 +206,33 @@ public final class HangoutDetailViewModel {
                                                  budgetText: hangout.budgetPerPerson.formattedPerPerson,
                                                  spots: spots))
             hasLoaded = true
-        } catch { state = .failed(AppError(error)) }
+        } catch is CancellationError {
+            return                                // leaving the screen is not an error (ADR 005)
+        } catch {
+            if case .loaded(let content, _) = state {
+                state = .loaded(content, isStale: true)   // a failed refresh keeps what is on screen
+            } else {
+                state = .failed(AppError(error))          // only a first load can fail
+            }
+        }
     }
-    public func startTapped() {
+    func startTapped() {
         liveStore.startOrResume(hangoutID: id)    // creates the HangoutRun (or resumes the live one)
         router.presentCover(.live(id))
     }
-    public func saveTapped() { library.toggleSave(id) }
+    func saveTapped() { library.toggleSave(id) }
 }
 
-public struct HangoutDetailView: View {
+struct HangoutDetailView: View {
     @State private var viewModel: HangoutDetailViewModel
-    public init(viewModel: HangoutDetailViewModel) { _viewModel = State(initialValue: viewModel) }
-    public var body: some View {
-        LoadStateView(viewModel.state, onRetry: { Task { await viewModel.load() } }) { content in
+    init(viewModel: HangoutDetailViewModel) { _viewModel = State(initialValue: viewModel) }
+    var body: some View {
+        LoadStateView(viewModel.state, onRetry: { Task { await viewModel.reload() } }) { content in
             // layout only
             PrimaryButton("Start Hangout") { viewModel.startTapped() }
         }
         .task { await viewModel.load() }
+        .refreshable { await viewModel.reload() }
     }
 }
 ```
@@ -256,51 +279,51 @@ model. One shared `LoadStateView(state, onRetry:)` draws all four the same way:
 placeholder skeleton (`.redacted(reason: .placeholder)`), `ContentUnavailableView` for
 empty, a retry button for errors, and the offline banner when stale. Copied from how Ice
 Cubes does it. Lists that load more pages use `Page<T>` with a cursor and a "loading more" flag.
+`LoadState` describes the **first** load. Once content is on screen, a failed refresh keeps it and sets `isStale`;
+cancellation (leaving the screen) never changes the state; "not found" is its own `AppError` (`docs/adr/005-state-and-persistence.md`).
 
 ### 2.6 Navigation: Router and Routes
 ```swift
 // Tab bar order: Discover, Community, Profile, then Search as a separate
 // search-role tab at the trailing end.
-public enum AppTab: Hashable { case discover, community, profile, search }
+public enum AppTab: Hashable, Codable, Sendable { case discover, community, profile, search }
 
-/// Every NavigationStack has an ID: one per tab, one for onboarding, one inside each full-screen cover.
-public enum StackID: Hashable { case onboarding, tab(AppTab), live, editor }
+/// Every NavigationStack has an ID: one per tab, one for onboarding, one inside each full-screen cover,
+/// and one inside the sheet that is up.
+public enum StackID: Hashable, Codable, Sendable { case onboarding, tab(AppTab), live, editor, sheet }
 
-public enum Route: Hashable {                   // pushes; carries IDs only
-    // onboarding (P1: O2-O4; P2: sign-in)
-    case nameAndPhoto, interests, location
-    case signIn, emailSignIn, accountBasics, findFriends                        // P2
-    // content
-    case hangout(HangoutID)                     // HD1
-    case remixTree(HangoutID)                   // HD3 (P2)
-    case post(RunID)                            // CM2 (P2)
-    case profile(UserID)                        // PR3 (P2)
-    case mutualFriends(UserID)                  // PR7 (P2)
-    // profile area
-    case saved, drafts, readyToPost, settings   // PR4, PR5, PR8, PR2
-    case settingsPage(SettingsPage)             // ST1...ST7 (P2)
-    case deleteAccount                          // ST8 (P2)
-    case admin(AdminPage)                       // AD1-AD3 (P2, team accounts only)
-    // community area (P2 except the placeholder feed)
-    case friends, activity, trending            // FR1, CM5, CM4
-    case chats, conversation(ConversationID), groupInfo(ConversationID)   // CH1, CH2, CH4
-    // inside the live-Hangout cover
-    case liveSummary(RunID)                     // H3
-    case composePost(RunID)                     // PO1
-    // search
-    case searchSeeAll(SearchKind)               // S2
-    // when a sheet is already up, Report opens as a push inside that sheet
-    case report(ReportTarget)                   // R1 (P2)
+/// One case per feature; each carries that feature's own route enum. F-4 declares ALL of them (every screen in
+/// docs/IA.md, all phases). Pushes carry IDs only.
+public enum Route: Hashable, Codable, Sendable {
+    case onboarding(OnboardingRoute), auth(AuthRoute), hangoutDetail(HangoutDetailRoute),
+         live(LiveRoute), posting(PostingRoute), search(SearchRoute), profile(ProfileRoute),
+         community(CommunityRoute), friends(FriendsRoute), chat(ChatRoute),
+         moderation(ModerationRoute), editor(EditorRoute)       // Discover has no pushed routes of its own
 }
 
+// Core/Navigation/Routes/HangoutDetailRoute.swift: a feature's cases + the short constructors the docs use
+public enum HangoutDetailRoute: Hashable, Codable, Sendable {
+    case detail(HangoutID)                      // HD1
+    case remixTree(HangoutID)                   // HD3
+}
+public extension Route {
+    static func hangout(_ id: HangoutID) -> Route { .hangoutDetail(.detail(id)) }
+    static func remixTree(_ id: HangoutID) -> Route { .hangoutDetail(.remixTree(id)) }
+}
+// Same pattern for the other features, for example
+//   OnboardingRoute: nameAndPhoto, interests, location, findFriends       // O2, O3, O4, O5
+//   ProfileRoute:    saved, drafts, readyToPost, settings, settingsPage(SettingsPage), deleteAccount
+//   ChatRoute:       list, conversation(ConversationID), groupInfo(ConversationID)   // CH1, CH2, CH4
+//   LiveRoute:       summary(RunID)                                          // H3
+
 /// Sheets that more than one feature can ask for. Shown by exactly one host at a time (see below).
-public enum Sheet: Identifiable {
+public enum Sheet: Hashable, Codable, Sendable, Identifiable {
     case spot(PlaceID)                          // HD2: opened from Search, Hangout detail AND the live screen
-    case report(ReportTarget)                   // R1 (P2)
-    case share(ShareItem)                       // CH5 (P2)
-    case suggestPlace                           // E3 (P2): opened from Search (empty) and the editor
-    case editPost(RunID)                        // PO2 (P2): opened from the post detail
-    case groupInvitation(ConversationID)        // CH7 (P2)
+    case report(ReportTarget)                   // R1
+    case share(ShareItem)                       // CH5
+    case suggestPlace                           // E3: opened from Search (empty) and the editor
+    case editPost(RunID)                        // PO2: opened from the post detail
+    case groupInvitation(ConversationID)        // CH7
     public var id: String {
         switch self {
         case .spot(let p): "spot-\(p.rawValue)"
@@ -313,7 +336,7 @@ public enum Sheet: Identifiable {
     }
 }
 
-public enum Cover: Identifiable {               // full-screen
+public enum Cover: Hashable, Codable, Sendable, Identifiable {   // full-screen
     case live(HangoutID)                        // H1 → H3 → PO1, on the `.live` stack
     case editor(EditorStart)                    // E1: .new, .draft(id) or .remix(id)
     public var id: String {
@@ -323,19 +346,21 @@ public enum Cover: Identifiable {               // full-screen
 
 @MainActor @Observable public final class Router {
     public var selectedTab: AppTab = .discover { didSet { if selectedTab != .search { lastNonSearchTab = selectedTab } } }
-    public private(set) var paths: [StackID: [Route]] = [:]   // one stack per tab, onboarding and each cover
+    public private(set) var paths: [StackID: [Route]] = [:]   // tabs, onboarding, each cover and the sheet
     public private(set) var cover: Cover?
     public private(set) var sheet: Sheet?
     public private(set) var lastNonSearchTab: AppTab = .discover   // used to rank Search results (read at query time)
 
-    /// Push onto the stack that is on screen (the cover's if one is up, else the selected tab's).
+    /// Push onto the stack that is on screen (the sheet's if one is up, else the cover's, else the selected tab's).
     public func open(_ route: Route) { paths[currentStack, default: []].append(route) }
     public func pop() { _ = paths[currentStack]?.popLast() }
     public func popToRoot() { paths[currentStack] = [] }
-    public func present(_ sheet: Sheet) { self.sheet = sheet }
-    public func dismissSheet() { sheet = nil }
+    /// The system popped a screen (back swipe): the host writes the new path back. A private(set) alone would not allow this.
+    public func setPath(_ path: [Route], for stack: StackID) { paths[stack] = path }
+    public func present(_ sheet: Sheet) { self.sheet = sheet; paths[.sheet] = [] }
+    public func dismissSheet() { sheet = nil; paths[.sheet] = nil }
     public func presentCover(_ cover: Cover) { self.cover = cover }
-    public func dismissCover() { if let c = cover { paths[stack(for: c)] = [] }; cover = nil; sheet = nil }
+    public func dismissCover() { if let c = cover { paths[stack(for: c)] = [] }; cover = nil; dismissSheet() }
     /// Leave whatever is up and show a screen in a tab (e.g. "post made → show it in Community", "Done → Drafts").
     public func show(_ route: Route?, in tab: AppTab) {
         dismissCover(); selectedTab = tab; paths[.tab(tab)] = route.map { [$0] } ?? []
@@ -343,18 +368,18 @@ public enum Cover: Identifiable {               // full-screen
     /// Sign out, account deletion, "reset onboarding": clear every stack, sheet and cover.
     public func reset() { paths = [:]; cover = nil; sheet = nil; selectedTab = .discover }
 
-    private var currentStack: StackID { cover.map(stack(for:)) ?? .tab(selectedTab) }
+    private var currentStack: StackID { sheet != nil ? .sheet : (cover.map(stack(for:)) ?? .tab(selectedTab)) }
     private func stack(for cover: Cover) -> StackID { switch cover { case .live: .live; case .editor: .editor } }
 }
 ```
-(Typechecked with `swiftc` in Swift 5 and 6 language modes; the `Identifiable` `id`
-properties are required because an enum with payloads gets none automatically.)
+(The first version of this sketch was typechecked with `swiftc`; the grouped routes, the sheet stack and `setPath`
+are new and **unverified** until F-4 compiles them. The `Identifiable` `id` properties are required because an enum
+with payloads gets none automatically.)
 
 **Rules**
-- **Declare Phase 1 cases only in F0** (types for Phase 2 cases don't exist yet); the
-  `ScreenFactory` `switch` must stay exhaustive, so each Phase 2 case is added by the owner together with
-  its stub when that feature starts. `ReportTarget`, `ShareItem` and similar payloads are small
-  IDs-only structs.
+- **F-4 declares every route for every screen in `docs/IA.md`, all phases.** Each feature's `Screens` shows a
+  placeholder with the screen ID until its task replaces that one `case`, so adding a screen never touches the App or the
+  router. `ReportTarget`, `ShareItem` and similar payloads are small IDs-only types.
 - **Which presentation do I use?**
 
   | Situation | Use |
@@ -368,20 +393,23 @@ properties are required because an enum with payloads gets none automatically.)
   a sheet. So `.sheet(item:)` is attached in **two** places: on `TabShell` (active only
   while `router.cover == nil`) and on the root of each cover's content (active only while a
   cover is up). Only the Spot sheet (HD2) and the local Mark-visited sheet (H2) are allowed
-  inside the live cover.
+  inside the live cover. The sheet has its own `NavigationStack` bound to `StackID.sheet`, which is how Report is pushed
+  inside the Spot sheet.
 - **Onboarding** has its own stack: `RootView` shows
   `NavigationStack(path: …paths[.onboarding])` until `session.onboardingDone`, then
   `TabShell`. Finishing calls `session.completeOnboarding()` and `router.reset()`.
 - **Each stack needs its own** `.navigationDestination(for: Route.self)` on its root view
-  (every tab, onboarding, `.live` and `.editor`), never inside a `List` or `LazyVStack`.
+  (every tab, onboarding, `.live`, `.editor` and the sheet), never inside a `List` or `LazyVStack`. Each path `Binding`
+  reads `router.paths` and writes through `router.setPath(_:for:)`, so the system back swipe works.
 - **Starting a Hangout:** `HangoutDetailViewModel.startTapped()` calls
   `liveStore.startOrResume(...)` and then `router.presentCover(.live(id))`. If a run is
   already live or minimised, Start asks to resume it instead of creating a second one.
 - **Leaving a flow in another tab** uses `router.show(_, in:)`: post made → show it in
   Community; editor Done → Profile › Drafts; Phase 1 summary → Discover root.
-- **Adding a Route (checklist):** 1) Lohitaksh adds the `Route` case; 2) a stub for it is
-  added to `ScreenFactory`; 3) the author writes the View, ViewModel and Preview in their
-  feature; 4) the author writes the ViewModel test; 5) the screen gets a row in `docs/IA.md`.
+- **Adding a screen (checklist):** 1) its route case already exists (F-4); if the screen is genuinely new, its owner adds
+  the case and the short constructor in that feature's one file in `Core/Navigation/Routes/` (the lead reviews it);
+  2) replace the screen's placeholder `case` in `<Name>Screens.swift`; 3) write the View, ViewModel and Preview in your
+  feature; 4) write the ViewModel test; 5) the screen gets a row in `docs/IA.md`.
 
 Decisions and why:
 - **One `NavigationStack` per tab** with a typed `[Route]` array (not `NavigationPath`,
@@ -390,8 +418,9 @@ Decisions and why:
 - **Routes carry IDs only.** Each detail screen loads by ID and handles "not found"
   (Apple's Backyard Birds pattern). Damus shows the alternative going wrong: routes
   holding live objects and bindings. (Confidence: high.)
-- **The Route → screen `switch` lives only in the App target.** That is how Discover
-  opens a Hangout without importing the HangoutDetail feature. (Ice Cubes, IcySky.)
+- **Only the App target maps a route group to a feature.** Its thin `ScreenFactory` calls `<Name>Screens`, which is
+  how Discover opens a Hangout without importing the HangoutDetail feature. (Ice Cubes, IcySky, adapted: ADR 002.)
+- **Routes are `Codable`** so they can be restored, deep-linked and opened by the debug launch options (ADR 003, 006).
 - **Deep links** (vybe://hangout/<id>) arrive in **Phase 2** (registering a URL scheme is a
   project setting; Phase 1 shares plain text). Policy when a link arrives:
 
@@ -412,47 +441,64 @@ Decisions and why:
 - Never call `canOpenURL` (deprecated in iOS 27): call `openURL` and handle failure.
 
 ### 2.7 Dependency injection, fakes and previews
-With MVVM, dependencies flow through `init`s, which makes them explicit and testable.
-- `VybeApp` creates one `AppDependencies` (App target) holding the repositories
-  (`hangouts`, `places`, `library`, `search`, `profile`, `photos`, ...), the stores and the
-  `Router` (local data in Phase 1, remote in Phase 2).
-- `ScreenFactory` (App target) has three builders: `screen(for: Route)`,
-  `sheet(for: Sheet)` and `cover(for: Cover)`. Each builds the ViewModel with exactly what
-  it needs and passes it to the View. Views never fetch dependencies themselves.
-- **F0 puts a stub case (`Text("HD1")`) for every Phase 1 route.** A screen's author
-  replaces only their own case; the `switch` stays Lohitaksh's.
+With MVVM, dependencies flow through `init`s, which makes them explicit and testable. Decision record:
+`docs/adr/002-feature-owned-screens.md`.
+- **`AppDependencies`** is a `Sendable` struct in `Core` holding the repositories (`hangouts`, `places`, `library`,
+  `search`, `profile`, `photos`, ...), the stores, the `Router`, `FeatureFlags` and the clock. The App target builds the
+  real one once (`AppDependencies.local()`: local data in Phase 1, remote in Phase 2); `Core/Fakes` builds the preview one
+  (`AppDependencies.preview(.loaded)`).
+- **Each feature owns its wiring.** Its one `public` type, `<Name>Screens`, builds that feature's Views and ViewModels from
+  `AppDependencies`. A ViewModel's `init` still takes only what it needs. Views never fetch dependencies themselves.
+- The App's `ScreenFactory` is thin: it maps a route group, a `Sheet` or a `Cover` to the owning feature's `Screens`
+  function and never names a View or ViewModel.
+- **F-16 creates a placeholder (`Text("HD1")`) for every route** in every `Screens`. A screen's author replaces only
+  their own `case`, in their own feature.
 
 ```swift
-// App target only
+// HangoutDetailFeature/HangoutDetailScreens.swift: the only public thing in the feature (UNVERIFIED sketch)
+public enum HangoutDetailScreens {
+    @ViewBuilder
+    public static func view(for route: HangoutDetailRoute, _ deps: AppDependencies) -> some View {
+        switch route {
+        case .detail(let id):
+            HangoutDetailView(viewModel: HangoutDetailViewModel(
+                id: id, hangouts: deps.hangouts, places: deps.places, library: deps.library,
+                liveStore: deps.liveStore, router: deps.router))
+        case .remixTree: Text("HD3")                       // replaced by task SC-HD3
+        }
+    }
+    @ViewBuilder
+    public static func spotSheet(_ id: PlaceID, _ deps: AppDependencies) -> some View {
+        SpotSheetView(viewModel: SpotSheetViewModel(id: id, places: deps.places, router: deps.router))
+    }
+}
+
+// App target: thin
 @ViewBuilder func screen(for route: Route) -> some View {
     switch route {
-    case .hangout(let id):
-        HangoutDetailView(viewModel: HangoutDetailViewModel(
-            id: id, hangouts: deps.hangouts, places: deps.places, library: deps.library,
-            liveStore: deps.liveStore, router: deps.router))
-    // ...one case per Route
+    case .hangoutDetail(let r): HangoutDetailScreens.view(for: r, deps)
+    case .profile(let r):       ProfileScreens.view(for: r, deps)
+    // ...one case per feature
     }
 }
 @ViewBuilder func sheet(for sheet: Sheet) -> some View {
     switch sheet {
-    case .spot(let id):
-        SpotSheetView(viewModel: SpotSheetViewModel(id: id, places: deps.places, router: deps.router))
+    case .spot(let id): HangoutDetailScreens.spotSheet(id, deps)
     // ...
     }
 }
 ```
-- **Isolation rule** (verified by compiling): UI targets default to MainActor, so in Core
-  every **repository protocol**, every function in `Rules/` and everything `LocalData` or
-  `Remote` implements or calls must be written `nonisolated`, for example
-  `public nonisolated protocol HangoutRepository: Sendable` and
-  `public nonisolated static func isValid(...)`. Otherwise `LocalData` fails to compile and
-  JSON loading silently runs on the main thread.
-- **Fakes and previews:** `Core/Fakes/` holds `nonisolated` stubs
-  (`StubHangoutRepository(result:)` with loaded, empty, failing and never-returning modes).
-  Each screen's `+Preview.swift` (wrapped in `#if DEBUG`) builds the **real** ViewModel on
-  the stubs: `HangoutDetailViewModel.preview(.loaded)`, `.preview(.empty)`, `.preview(.failed)`.
-  Previews and ViewModel tests share the same stubs. No Environment setup is needed, so
-  previews can't crash from a missing object.
+- **Isolation rule** (`docs/adr/001-concurrency.md`; verified by compiling in F-0): `Models`, `Core` and `LocalData` are
+  **not** main-actor by default and do not enable `NonisolatedNonsendingByDefault`, so repository protocols, `Rules/` and
+  services are plain `Sendable` types and a plain `async` repository method runs off the main thread. Only `Router`, the
+  stores, `NetworkMonitor` and `AppDependencies.preview` are `@MainActor`, written explicitly. Design, Components and the
+  Features default to the main actor. Nobody hand-writes `nonisolated`.
+- **Fakes and previews:** `Core/Fakes/` holds the stubs (`StubHangoutRepository(result:)` with loaded, empty, failing
+  and never-returning modes) and `AppDependencies.preview(_:)`. Each screen's `+Preview.swift` (wrapped in `#if DEBUG`)
+  builds the **real** ViewModel from `AppDependencies.preview(mode)`: `HangoutDetailViewModel.preview(.loaded)`,
+  `.preview(.empty)`, `.preview(.failing)`. Previews and ViewModel tests share the same stubs, and the repository
+  contract checks (`Core/Fakes/Contracts`) hold every implementation to the same behaviour. No Environment setup is
+  needed, so previews can't crash from a missing object.
 
 ## 3. Modules: how the folders enforce the rules
 
@@ -473,7 +519,7 @@ VybeKit/Sources/
   SearchFeature/ ProfileFeature/ CommunityFeature/
                  each uses Models, Core, Design, Components
   (Phase 2: EditorFeature, PostingFeature, FriendsFeature, ChatFeature,
-   ModerationFeature, Remote)
+   ModerationFeature; the backend is its own package, ADR 007)
 VybeKit/Tests/   ContentTests (loads every JSON file), a Models test target if needed, CoreTests (router, rules), LocalDataTests
 Vybe/            app target: VybeApp, tabs, Route → screen map, store setup
 ```
@@ -482,7 +528,7 @@ Choices and evidence:
 - **One package with many targets**, not many packages. Point-Free's isowords and
   Majid both recommend this for small teams. (Confidence: high.)
 - **All 13 feature targets exist from day one** (empty, with a README each), because the whole
-  frontend is built on sample data now; only `Remote` waits for the backend. Empty targets cost
+  frontend is built on sample data now; only the backend package waits for it. Empty targets cost
   nothing to compile.
 - **Known costs:** `public` everywhere (2.1), resources need `Bundle.module`, and
   `Package.swift` becomes a shared file (one owner).
@@ -496,21 +542,19 @@ Choices and evidence:
   (the Element X / Landmarks / Damus shape) and enforce the import rule by review.
   (Confidence: medium; this is mentor question 1.)
 
-### 3.1 Concurrency settings must match (a real bug we found)
-The app target uses Swift 5 mode with "default MainActor" and "approachable
-concurrency". A Swift package **does not inherit** those settings, so the same code
-could compile in the app and fail in the package, which would confuse AI agents badly.
-Fix, in `Package.swift` (swift-tools-version 6.2 or newer):
-- Screen, Core, Design, Components and feature targets:
-  `.defaultIsolation(MainActor.self)` plus the same upcoming features the app uses.
-- Models and LocalData stay non-isolated, with `Sendable` types (Apple and SE-0470:
-  otherwise `Codable` conformances become main-actor-only). Inside Core, repository
-  protocols and everything in `Rules/` must be written `nonisolated` (see 2.7).
-- **Language mode: `swiftLanguageModes: [.v5]`** on the package, to match the app
-  (`SWIFT_VERSION = 5.0`). Without it, `swift-tools-version: 6.2` turns on Swift 6 mode
-  for every target, and ordinary code such as a global `var` stops compiling (verified).
-  Moving the app and package to Swift 6 mode together is a mentor question.
-(Confidence: high; checked in our project file and Swift Evolution SE-0466 and SE-0470.)
+### 3.1 Concurrency settings (decision: `docs/adr/001-concurrency.md`)
+A Swift package **does not inherit** the app target's settings, so settings must be written down for every target:
+- `Design`, `Components` and every `*Feature`: `.defaultIsolation(MainActor.self)` plus
+  `NonisolatedNonsendingByDefault` and `InferIsolatedConformances` (the same as the app target).
+- `Models`, `Core` and `LocalData`: **no default isolation and no `NonisolatedNonsendingByDefault`.** Types are `Sendable`
+  (Apple and SE-0470: otherwise `Codable` conformances become main-actor-only). The few main-actor types in Core are marked
+  `@MainActor` explicitly (`Router`, stores, `NetworkMonitor`, `AppDependencies.preview`). This removes the old rule of
+  hand-writing `nonisolated` on every protocol and rule.
+- **Language mode: Swift 6** for the package (no `swiftLanguageModes: [.v5]`) and `SWIFT_VERSION = 6.0` for the app. The
+  code base is empty now, which is the cheapest moment; a global `var` no longer compiles, so there is no global mutable
+  state. A backend package may opt down per target. If F-0 shows Swift 6 mode blocks us, fall back to Swift 5 mode with
+  complete strict-concurrency warnings (errors in CI) and say so in ADR 001.
+(Confidence: high for the reasoning, medium until F-0 compiles it. Checked: Swift Evolution SE-0466 and SE-0470.)
 - `Package.swift` must say `platforms: [.iOS(.v26)]` explicitly; never rely on the default.
 
 ### 3.2 Full application folder structure (the map every teammate and AI tool follows)
@@ -558,8 +602,9 @@ MIT-IOS-COHORT26-4/                          repo root
 │   │   │   ├── State/                       LoadState.swift, Page.swift, AppError.swift (no UI)
 │   │   │   └── Samples/SampleData.swift     preview data (clearly fake EXAMPLE values)
 │   │   ├── Core/ ●                          uses Models
-│   │   │   ├── Navigation/ ★                AppTab.swift, Route.swift, Cover.swift, Router.swift
-│   │   │   ├── Repositories/                nonisolated protocols: HangoutRepository, PlaceRepository,
+│   │   │   ├── Navigation/ ★                AppTab.swift, StackID.swift, Route.swift, Routes/<Feature>Route.swift (12),
+│   │   │   │                                Sheet.swift, Cover.swift, Payloads.swift, Router.swift
+│   │   │   ├── Repositories/                Sendable protocols (not main-actor): HangoutRepository, PlaceRepository,
 │   │   │   │                                LibraryRepository (Saved, Drafts, runs), ProfileRepository,
 │   │   │   │                                SearchRepository, PhotoStore · ○ FeedRepository,
 │   │   │   │                                FriendsRepository, ChatRepository, SafetyRepository (report,
@@ -586,9 +631,10 @@ MIT-IOS-COHORT26-4/                          repo root
 │   │   │   ├── LibraryFile.swift            library.json read/write (atomic, schemaVersion)
 │   │   │   └── Resources/Content/           Places/ (place-*.json) · Hangouts/ (hangout-*.json) · Photos/
 │   │   ├── <Name>Feature/                   one folder per feature: uses Models, Core, Design, Components
+│   │   │   ├── <Name>Screens.swift          the feature's ONLY public type (ADR 002); everything else is internal
 │   │   │   ├── <Screen>/<Screen>View.swift
 │   │   │   ├── <Screen>/<Screen>ViewModel.swift
-│   │   │   └── <Screen>/<Screen>+Preview.swift   .preview(.loaded / .empty / .failed)
+│   │   │   └── <Screen>/<Screen>+Preview.swift   .preview(.loaded / .empty / .failing)
 │   │   │
 │   │   │   ● OnboardingFeature   Welcome/ NameAndPhoto/ Interests/ Location/ · FindFriends/ (O1–O4, O5)
 │   │   │   ● DiscoverFeature     Map/ (incl. PinClusterer) PinPreview/ Filters/        (D1–D3)
@@ -604,7 +650,7 @@ MIT-IOS-COHORT26-4/                          repo root
 │   │   │   ● ChatFeature         List/ Conversation/ NewChat/ GroupInfo/ Invitation/ Poll/ ShareSheet/  (CH1–CH7)
 │   │   │   ● AuthFeature         SignIn/ EmailCode/ AccountBasics/                     (A1–A3)
 │   │   │   ● ModerationFeature   Report/ BlockConfirm/ Admin/ (Reports, Suggestions, Users)  (R1–R2, AD1–AD3)
-│   │   └── Remote/ ○                        uses Core; the ONLY target allowed to import the backend SDK
+│   │   (no Remote here: the backend is its own package, VybeRemote/ ○, next to VybeKit/; ADR 007)
 │   └── Tests/
 │       ├── ContentTests/ ●                  content test: every JSON file loads and passes HangoutRules
 │       ├── CoreTests/ ●                     Router, deep links, HangoutRules, LoadState
@@ -628,22 +674,24 @@ MIT-IOS-COHORT26-4/                          repo root
 | `Components` | Models, Design |
 | `LocalData` | Core |
 | every `<Name>Feature` | Models, Core, Design, Components. **Never another Feature, LocalData or Remote.** |
-| `Remote` | Core (+ the backend SDK) |
+| `VybeRemote` (own package, later) | Models and Core from VybeKit (+ the backend SDK) |
 | App target (`Vybe/`) | everything |
 
 **File rules**
 - One screen = one folder = `SomethingView.swift` + `SomethingViewModel.swift` +
   `Something+Preview.swift` (sample ViewModels for the loaded, empty and failed previews).
   The ViewModel test lives in `Tests/<Name>FeatureTests/SomethingViewModelTests.swift`.
-- Models, Route, Router, Theme, `Package.swift`, `ScreenFactory.swift`: Lohitaksh only.
-  All Phase 1 `Route` cases are declared in F0, so nobody else needs to touch them.
-- Every type used across targets is `public` with an explicit `public init`.
+- Models, `Core/Navigation`, Theme, `Package.swift` and the App target are reviewed by Lohitaksh (CODEOWNERS).
+  Every route is declared in F-4 and every feature has its `Screens` from F-16, so screen authors do not touch them.
+- In `Models` and `Core`, every type used across targets is `public` with an explicit `public init`. In a feature,
+  **nothing is `public` except its `<Name>Screens`**; tests use `@testable import`.
 
 **Where does X go?** (for people and AI tools)
 
 | I am adding… | It goes in… |
 |---|---|
-| a screen | its `<Name>Feature/<Screen>/` folder (View + ViewModel + Preview) |
+| a screen | its `<Name>Feature/<Screen>/` folder (View + ViewModel + Preview), wired by replacing its `case` in `<Name>Screens.swift` |
+| a route for a brand-new screen | the feature's one file in `Core/Navigation/Routes/` (lead reviews) |
 | a view used by two features | `Components` (plain values, no ViewModel) |
 | a colour, font size, spacing, animation timing | `Design/Theme` (ask Lohitaksh) |
 | a data struct | `Models` (ask Lohitaksh) |
@@ -668,7 +716,7 @@ below only shows the pattern.
 // VybeKit/Package.swift (sketch)
 // swift-tools-version: 6.2
 import PackageDescription
-let ui: [SwiftSetting] = [.defaultIsolation(MainActor.self),
+let ui: [SwiftSetting] = [.defaultIsolation(MainActor.self),   // Design, Components, Features ONLY (ADR 001)
                           .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
                           .enableUpcomingFeature("InferIsolatedConformances")]
 let package = Package(
@@ -677,7 +725,7 @@ let package = Package(
     products: [ .library(name: "Models", targets: ["Models"]), /* every target the App imports needs a .library */ ],
     targets: [
         .target(name: "Models"),                                   // non-isolated, Sendable
-        .target(name: "Core", dependencies: ["Models"], swiftSettings: ui),
+        .target(name: "Core", dependencies: ["Models"]),                       // non-isolated; Router and stores are @MainActor
         .target(name: "Design", dependencies: ["Models"], resources: [.process("Resources")], swiftSettings: ui),
         .target(name: "Components", dependencies: ["Models", "Design"], swiftSettings: ui),
         .target(name: "LocalData", dependencies: ["Core"], resources: [.copy("Resources/Content")]),
@@ -686,7 +734,7 @@ let package = Package(
         // …one per feature
         .testTarget(name: "ContentTests", dependencies: ["Models", "Core", "LocalData"]),
     ],
-    swiftLanguageModes: [.v5])      // match the app target (SWIFT_VERSION = 5.0)
+    swiftLanguageModes: [.v6])      // Swift 6 from the start, app target SWIFT_VERSION = 6.0 (ADR 001; F-0 verifies)
 ```
 
 ## 4. Apple platform decisions (from Apple's docs)
@@ -780,11 +828,13 @@ Donny Wals (2026): the test suite is the "contract" AI agents must satisfy.
 
 | Guardrail | What |
 |---|---|
-| Golden example | One complete feature built by hand first (HangoutDetail), with a copy-me template |
+| Golden example | One complete feature built by hand first (HangoutDetail), with a copy-me template and a generator (`scripts/new_screen.py`, X-5) |
+| Machine checks | SwiftLint custom rules + `scripts/check_architecture.sh` (X-1, X-13, ADR 006): imports, `public` only in `Screens`, `RunTimes` confinement, a test file per ViewModel |
+| Agent loop | debug launch options + `scripts/snap.sh` (X-14): open one screen in one state and screenshot it |
 | Screen recipe in `AGENTS.md` | folder, `SomethingView` + `SomethingViewModel`, LoadStateView, Theme tokens, router calls from the ViewModel, three previews, a ViewModel test, `check.sh` |
 | SwiftLint custom rules | ban hard-coded colours (`Color(red:`), `.foregroundColor(`, `NavigationLink(destination:`, `ObservableObject`, and banned words (Plan, Trace, Stop, Node, outing, Fork, Organiser) **only inside string literals and type, case and file names, with word boundaries** (so `.sensoryFeedback(.stop)` and Apple API names are fine) |
 | iOS 26 rule | "Use iOS 26 APIs only; iOS 27-only ones inside `if #available(iOS 27, *)`" stated in `AGENTS.md` |
-| Shared files | `VybeKit/Package.swift`, `Vybe.xcodeproj` and signing: Lohitaksh only. `Route`/`Router`, Theme tokens and `ScreenFactory` are created once by their tasks (F-4, DS-1, F-9); after that a screen's author replaces only their own `ScreenFactory` case, and Theme changes go through a PR to Lohitaksh |
+| Shared files | `VybeKit/Package.swift`, `Vybe.xcodeproj` and signing: Lohitaksh only. `Route`/`Router`, Theme tokens, the feature `Screens` and the thin `ScreenFactory` are created once by their tasks (F-4, DS-1, F-16, F-9); after that a screen's author replaces only their own `case` in their feature's `Screens`, and Theme changes go through a PR to Lohitaksh |
 | Short `AGENTS.md` | Anthropic's guidance: keep it short; hard rules belong in tools (lint, CI, hooks), not paragraphs |
 | Claude Code settings (optional, needs the lead's OK) | deny edits to `*.pbxproj`, `Local.xcconfig`, signing; run `check.sh` automatically at the end of a task |
 | CI | `check.sh` on every PR (see section 7) |
@@ -895,11 +945,11 @@ Either way, the "no third-party libraries" rule needs one exception for the back
 ### Architecture
 1. One package with a target per feature (compiler-enforced boundaries, but `public`
    everywhere and preview risk), or plain folders in the app target with lint rules?
-2. Swift 6 language mode now, or Swift 5 mode until Phase 2?
+2. Swift 6 language mode now, or Swift 5 mode until Phase 2? **Decided: Swift 6 now (ADR 001); F-0 verifies.**
 3. MVVM with every ViewModel built in the App's Route → screen map: will that map get
-   too big with 12 features, and is a small factory per feature better?
+   too big with 12 features, and is a small factory per feature better? **Decided: a factory per feature (ADR 002).**
 4. Is a central `Route` enum plus one Route → screen map going to become a bottleneck
-   with 12 features and deep links?
+   with 12 features and deep links? **Decided: routes grouped per feature and `Codable` (ADR 003).**
 5. Offline read-only cache: rely on the backend SDK's cache, or our own?
 
 ### Backend and data

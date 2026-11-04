@@ -92,6 +92,9 @@ the component has logic (for example a text-formatting function).
   (map preview and chat message), `.featured` (Picks row). Photo-led, tappable, Picks badge when
   `isPick`, a Save indicator, "3 Spots · ₹150–400 · about 3 h". Whole card is one accessibility element
   ("Hangout: title, 3 Spots, ₹150 to 400, about 3 hours, Picks").
+- **Also:** `HangoutCardData.init(_ hangout: Hangout, coverURL: URL?, isSaved: Bool)`, built with the `Models`
+  formatting helpers, so Discover, Search, Profile, Community and Chat all make a card the same way (a feature never
+  formats "₹150–400" itself).
 - **Files:** `Components/HangoutCard.swift, HangoutCardData.swift`
 - **Done when:** previews: each style, long title, no photo, Picks, saved, `.accessibility3`.
 
@@ -102,6 +105,8 @@ the component has logic (for example a text-formatting function).
   .current / .closedByAuthorities`, `hasDuplicateWarning`) and `SpotRow` with numbered marker, thumbnail,
   visited checkmark (never colour alone), "Closed by authorities" label, "You've added this place twice"
   warning, reorder handle variant for the editor.
+- **Also:** `SpotRowData.init(...)` from a `Spot`, its `Place` and a state, with the same rule (formatting lives here, not in
+  each ViewModel).
 - **Files:** `Components/SpotRow.swift, SpotRowData.swift`
 - **Done when:** previews for every state; VoiceOver reads "Spot 2 of 4, Name, visited".
 
@@ -138,6 +143,7 @@ the component has logic (for example a text-formatting function).
   remixCount, isPick, isLiked, isSaved) and `PostCard` with Like / Comment / Remix / Share buttons as
   callbacks. A Picks post looks a little different (badge, verified avatar ring) but has the same actions.
   **Never** shows a clock time. Route mini-map = straight lines between Place pins (Canvas, no GPS).
+- **Also:** `PostCardData.init(...)` built only from the public post fields (never `RunTimes`), using the `Models` formatting helpers.
 - **Files:** `Components/PostCard.swift, PostCardData.swift, RouteMiniMap.swift`
 - **Done when:** previews: photo post, no-photo (mini-map) post, Picks, liked, long caption; counts format
   with `.formatted(.number.notation(.compactName))`.

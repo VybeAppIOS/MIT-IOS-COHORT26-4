@@ -1,13 +1,14 @@
 # Backend and web tasks (NOT started: after the frontend is on sample data, from 16 Nov)
 
-These plug into the repository protocols from F-5/F-7 through a new `Remote` target, so **no screen
+These plug into the repository protocols from F-5/F-7 through a new `VybeRemote` package (ADR 007), so **no screen
 changes**. Details come after the backend decision (Firebase or Supabase, `docs/ARCHITECTURE.md` section 8
-and `docs/OPEN-QUESTIONS.md` section 6). They are listed so nothing is forgotten; do not start them yet.
+and `docs/OPEN-QUESTIONS.md` section 6). They are listed so nothing is forgotten; do not start them yet, **except BK-1**,
+which should happen before the social repository protocols (F-7) are merged (`docs/PLAN.md` 7, rule 5).
 
 | ID | Task | Notes |
 |---|---|---|
 | BK-1 | One-day backend test (login + one table + one listener + People prefix search with blocks + WhatsApp preview page) | decides Firebase vs Supabase |
-| BK-2 | `Remote` target + SDK exception decision | the only module that may import the backend SDK |
+| BK-2 | `VybeRemote` package + SDK exception decision | a **separate local package** (`docs/adr/007-remote-package.md`) that depends on VybeKit; the only place that may import the backend SDK; runs the same repository contract checks as LocalData |
 | BK-3 | Auth: Apple, Google, email code; username uniqueness; 30-day username hold | replaces the `AuthRepository` stub |
 | BK-4 | Data rules: deny-by-default database and storage rules + rule tests in CI | privacy per `docs/DATA-MODEL.md` 3; blocking everywhere |
 | BK-5 | Hangouts, Places, Saves, runs, feed (friends-first fan-out) | `HangoutRepository`, `FeedRepository` |

@@ -8,7 +8,7 @@ deadline after which it gets expensive. "Decide by" uses these milestones:
 ## Decide by Phase 2 start (16 Nov)
 | Item | Why then |
 |---|---|
-| **Backend choice** (Firebase vs Supabase) and the SDK exception to "no third-party libraries" | the Remote module and the data rules depend on it (`docs/ARCHITECTURE.md` section 8) |
+| **Backend choice** (Firebase vs Supabase) and the SDK exception to "no third-party libraries" | the backend package (`VybeRemote`, ADR 007) and the data rules depend on it (`docs/ARCHITECTURE.md` section 8) |
 | **Firestore edition** (Standard vs Enterprise), if Firebase | permanent once the database exists |
 | **Moderation operations**: who is on call, how reports are triaged, the 2-hour and 3-hour rules | shapes the report data and admin screens (`docs/RISKS.md`) |
 | **Data retention vs deletion** (180-day records vs Apple's and DPDP's deletion rules) | a lawyer question; affects what we store |

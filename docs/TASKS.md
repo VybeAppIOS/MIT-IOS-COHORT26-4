@@ -1,38 +1,43 @@
 # Vybe task pool (generated: do not edit; run `python3 scripts/build_task_index.py`)
 
 Take any task whose **Depends on** tasks are merged. Details are in the linked file. Claim a task by
-assigning yourself on its GitHub issue. Start with `docs/START-HERE.md`. **Size:** S ≈ ½ day · M ≈ 1 day · L ≈ 1½–2 days.
+assigning yourself on its GitHub issue. Start with `docs/START-HERE.md` and `docs/DAY-ONE.md`.
+**Size** (S, M, L) is only a hint for how big one pull request will be.
 
-**Total (estimates, not measured):** frontend + tooling + content ≈ 98.5 person-days; backend (later) ≈ 24.5.
-Re-estimate after the first week from how many tasks actually get merged per day.
+**Gates (proof, not dates):** **G1** = F-0 merged (settings final; tasks that write code in `Core/` may start) ·
+**G2** = F-4, F-5, F-16, F-9 and DS-1/2/3 merged (the app runs; screens may start) · **G3** = SC-HD1 merged
+(the golden screen exists; copy it with `scripts/new_screen.py`). **common** (in screen tasks) = F-4, F-5, F-9 (which
+brings F-16), DS-1, DS-2, DS-3.
 
 ## Start now (no dependencies)
 
-**F-0** Link VybeKit into the Xcode project, **F-1** IDs and shared value types, **DS-1** Theme: colours, type, spacing, radii, motion tokens, **DS-6** ImageLoader, **X-C1** First sample data: 5 Places + 2 Hangouts (with photos), **X-1** SwiftLint custom rules, **X-2** GitHub Actions: lint on every PR, **X-6** Create GitHub issues from the task files, **X-7** App icon and launch screen placeholder
+**F-0** Link VybeKit, set the concurrency and language modes, prove the architecture, **F-1** IDs, shared value types and the JSON coder, **DS-1** Theme: colours, type, spacing, radii, motion tokens, **DS-6** ImageLoader, **X-C1** First sample data: 5 Places + 2 Hangouts (with photos), **X-1** SwiftLint custom rules, **X-2** GitHub Actions: lint on every PR, **X-6** Create GitHub issues from the task files, **X-7** App icon and launch screen placeholder
 
-**Suggested order:** wave 0 = F-0 (Lohitaksh), F-1, DS-1, DS-6, X-C1, X-1 · wave 1 = F-2, F-3, F-4, DS-2/3/4/5, F-11, F-13, F-15 ·
-wave 2 = F-5, F-6, F-7, F-8, F-10, F-14, F-9 · wave 3 = components CP-1…CP-11, then any screen whose dependencies are merged · X tasks any time.
+**Suggested order:** day one = F-0 (Lohitaksh) · F-1 then F-2, F-3 (Models) · DS-1 then DS-6 · X-C1 · X-1, X-2, X-6 ·
+after G1 = F-4, F-6, F-11, F-13, F-14, F-15, then F-5, F-16, F-7, F-8, F-10 · G2 = F-9 and DS-2/3/4/5, then components
+CP-1…CP-11, X-13, X-14 · G3 = SC-HD1 first, then any screen whose dependencies are merged · other X tasks any time.
 
 ## Foundation (do first)
 
 | ID | Task | Size | Depends on | Details |
 |---|---|---|---|---|
-| **F-0** | Link VybeKit into the Xcode project *(Lohitaksh only: project setting)* | S | — | `docs/tasks/00-foundation.md` |
-| **F-1** | IDs and shared value types | S | — | `docs/tasks/00-foundation.md` |
+| **F-0** | Link VybeKit, set the concurrency and language modes, prove the architecture *(Lohitaksh only: project settings)* | M | — | `docs/tasks/00-foundation.md` |
+| **F-1** | IDs, shared value types and the JSON coder | S | — | `docs/tasks/00-foundation.md` |
 | **F-2** | Content models | M | F-1 | `docs/tasks/00-foundation.md` |
 | **F-3** | Community, chat and safety models | M | F-1 | `docs/tasks/00-foundation.md` |
-| **F-4** | Navigation: Route, Sheet, Cover, Router | M | F-1 | `docs/tasks/00-foundation.md` |
-| **F-5** | Content repositories, stubs, stores, settings | L | F-1, F-2 | `docs/tasks/00-foundation.md` |
-| **F-6** | Hangout rules | S | F-2 | `docs/tasks/00-foundation.md` |
+| **F-4** | Navigation: grouped Routes, Sheet, Cover, Router | M | F-0, F-1 | `docs/tasks/00-foundation.md` |
+| **F-5** | Content repositories, stubs, stores, settings, AppDependencies | L | F-0, F-1, F-2, F-4 | `docs/tasks/00-foundation.md` |
+| **F-6** | Hangout rules | S | F-0, F-2 | `docs/tasks/00-foundation.md` |
 | **F-7** | Community, chat and safety repositories + sample social data | M | F-3, F-5 | `docs/tasks/00-foundation.md` |
-| **F-8** | LocalData: loader, sample content, content test | L | F-2, F-5 | `docs/tasks/00-foundation.md` |
-| **F-9** | App shell: dependencies, tabs, screen factory | L | F-0, F-4, F-5, DS-1 | `docs/tasks/00-foundation.md` |
+| **F-8** | LocalData: loader, sample content, persistence, content test | L | F-2, F-5 | `docs/tasks/00-foundation.md` |
+| **F-9** | App shell: dependencies, tabs, thin screen factory | L | F-0, F-4, F-5, F-16, DS-1 | `docs/tasks/00-foundation.md` |
 | **F-10** | Live run store (survives the app closing) | M | F-2, F-5 | `docs/tasks/00-foundation.md` |
-| **F-11** | LocationService (real + simulated walk) | M | F-1 | `docs/tasks/00-foundation.md` |
+| **F-11** | LocationService (real + simulated walk) | M | F-0, F-1 | `docs/tasks/00-foundation.md` |
 | **F-12** | (moved) ImageLoader is task DS-6 | S | — | `docs/tasks/00-foundation.md` |
-| **F-13** | PhotoProcessor (resize, strip location) | M | F-1 | `docs/tasks/00-foundation.md` |
+| **F-13** | PhotoProcessor (resize, strip location) | M | F-0, F-1 | `docs/tasks/00-foundation.md` |
 | **F-14** | NetworkMonitor and offline state | S | F-5 | `docs/tasks/00-foundation.md` |
-| **F-15** | Voice notes: AudioRecorder and player | M | F-1 | `docs/tasks/00-foundation.md` |
+| **F-15** | Voice notes: AudioRecorder and player | M | F-0, F-1 | `docs/tasks/00-foundation.md` |
+| **F-16** | Feature `Screens` scaffolds (all 13 features) | M | F-4, F-5 | `docs/tasks/00-foundation.md` |
 
 ## Design system and components
 
@@ -142,9 +147,11 @@ wave 2 = F-5, F-6, F-7, F-8, F-10, F-14, F-9 · wave 3 = components CP-1…CP-11
 | **X-2** | GitHub Actions: lint on every PR | S | — | `docs/tasks/60-cross-cutting-and-content.md` |
 | **X-3** | String Catalogs per module | M | F-0 | `docs/tasks/60-cross-cutting-and-content.md` |
 | **X-4** | Accessibility review (repeat per feature) | M | SC-HD1 | `docs/tasks/60-cross-cutting-and-content.md` |
-| **X-5** | Golden example + template refresh | S | SC-HD1 | `docs/tasks/60-cross-cutting-and-content.md` |
+| **X-5** | Golden example, template refresh and screen generator | M | SC-HD1 | `docs/tasks/60-cross-cutting-and-content.md` |
 | **X-6** | Create GitHub issues from the task files | S | — | `docs/tasks/60-cross-cutting-and-content.md` |
 | **X-7** | App icon and launch screen placeholder | S | — | `docs/tasks/60-cross-cutting-and-content.md` |
+| **X-13** | Architecture check script | S | F-16 | `docs/tasks/60-cross-cutting-and-content.md` |
+| **X-14** | Agent loop: debug launch options and screenshot script | M | F-9, F-4 | `docs/tasks/60-cross-cutting-and-content.md` |
 | **X-9** | Permissions, capabilities, simulated walk, privacy manifest | S | F-0 | `docs/tasks/60-cross-cutting-and-content.md` |
 | **X-10** | UI-test target + accessibility audit | M | SC-O1, SC-HD1 | `docs/tasks/60-cross-cutting-and-content.md` |
 | **X-11** | Quality and performance pass on the lab iPhone | M | SC-D1, SC-HD1, SC-H1, SC-CM1, SC-CH2 | `docs/tasks/60-cross-cutting-and-content.md` |
@@ -155,7 +162,7 @@ wave 2 = F-5, F-6, F-7, F-8, F-10, F-14, F-9 · wave 3 = components CP-1…CP-11
 | ID | Task | Size | Depends on | Details |
 |---|---|---|---|---|
 | **BK-1** | One-day backend test (login + one table + one listener + People prefix search with blocks + WhatsApp preview page) | L | — | `docs/tasks/70-backend-later.md` |
-| **BK-2** | `Remote` target + SDK exception decision | L | — | `docs/tasks/70-backend-later.md` |
+| **BK-2** | `VybeRemote` package + SDK exception decision | L | — | `docs/tasks/70-backend-later.md` |
 | **BK-3** | Auth: Apple, Google, email code; username uniqueness; 30-day username hold | L | — | `docs/tasks/70-backend-later.md` |
 | **BK-4** | Data rules: deny-by-default database and storage rules + rule tests in CI | L | — | `docs/tasks/70-backend-later.md` |
 | **BK-5** | Hangouts, Places, Saves, runs, feed (friends-first fan-out) | L | — | `docs/tasks/70-backend-later.md` |

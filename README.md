@@ -8,9 +8,11 @@ with friends, do it live on a map, and post it. Built in SwiftUI by four student
 
 | Where | What |
 |---|---|
+| `docs/DAY-ONE.md` | what to start today, who does what, the prompt for your AI tool |
 | `docs/START-HERE.md` | reading list, how we work, repository map |
 | `docs/TASKS.md`, `docs/tasks/` | the pool of tasks (what to build, what to read, when it is done) |
 | `docs/PRODUCT.md`, `docs/IA.md` | what the app is, every screen |
+| `docs/adr/` | the short decision records that win over older documents (read 001 to 003 first) |
 | `docs/ARCHITECTURE.md`, `docs/DATA-MODEL.md`, `docs/MOTION.md` | how it is built |
 | `AGENTS.md` | rules every person and AI tool follows |
 | `Vybe/` | the app target (wiring only) |

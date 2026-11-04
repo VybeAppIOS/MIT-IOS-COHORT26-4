@@ -50,7 +50,7 @@ If we pick Supabase (no cache), revisit only if offline search becomes a real ne
 | **Versioning** | every JSON file has `schemaVersion: Int`. New fields are optional, so older app builds still load newer data. |
 | **Soft delete** | `deletedAt: Date?` on users, comments and messages, shown as "[deleted]". Photo files are really deleted (proposal; whether *all* of a person's photos go is still open in `OPEN-QUESTIONS.md`). |
 | **JSON decoding** | `JSONDecoder` with `.iso8601` dates; the `schemaVersion` key in files is read by the loader, not by the model structs. |
-| Backend wrappers | Firebase-only property wrappers (`@DocumentID`, `@ServerTimestamp`) live in the Remote module only; Models never import a backend SDK. |
+| Backend wrappers | Firebase-only property wrappers (`@DocumentID`, `@ServerTimestamp`) live in the backend package (`VybeRemote`) only; Models never import a backend SDK. |
 
 ## 3. Every entity
 

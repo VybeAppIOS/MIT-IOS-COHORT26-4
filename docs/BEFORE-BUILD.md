@@ -33,6 +33,7 @@ Everything that does not block building is in `docs/LATER.md`.
 ## 3. Risk spikes (1 hour each; stop at the limit and use the fallback)
 | # | Spike | Stop rule / fallback |
 |---|---|---|
+| 0 | **Architecture proofs** (task F-0, step 3, a to g): isolation, Swift 6 mode, `Screens` factory, strings in a package, tab shell, path binding. The list and the fallbacks are in F-0 and in `docs/adr/001` to `004`. | each item 60 min → record the fallback in the ADR |
 | 1 | **Previews inside the package** (task F-0). Previews broke in Xcode 26.4 and were still reported broken on 26.6 (checked); 27.1 is untested. Try: target name equals library name, build the package scheme once, accept trust prompts. | 60 min → same-named **folders in the app target** instead of package targets |
 | 2 | **Tab shell** with `Tab(role: .search)` last (task F-9); keep `.searchable` inside `SearchView`, not on the TabView root (forum reports of glitches). | 60 min → ship Search without the morph |
 | 3 | **Map with pins and selection** (task SC-D1). | 60 min → a list view for Discover |

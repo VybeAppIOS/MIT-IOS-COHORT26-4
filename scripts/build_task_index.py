@@ -45,7 +45,7 @@ for t in tasks.values():
         base = re.sub(r'[…]+.*$', '', base).rstrip('/')
         if not base or os.path.exists(base): continue
         # allow paths a task is going to create
-        if re.search(r'\.(swift|json|md|py|yml|xcassets|gpx|xcprivacy|xcconfig)$', p) or 'Sources' in p or p.startswith(('docs/TOKENS', 'backend/')):
+        if re.search(r'\.(swift|json|md|py|sh|yml|xcassets|gpx|xcprivacy|xcconfig)$', p) or 'Sources' in p or p.startswith(('docs/TOKENS', 'backend/')):
             continue
         problems.append(f"{t['id']}: references missing path {p}")
 
@@ -82,21 +82,21 @@ areas = [('00-foundation', 'Foundation (do first)'), ('10-design', 'Design syste
          ('40-screens', 'Screens: Community, Friends, Chat'),
          ('50-screens', 'Screens: Editor, Posting, Report/Block, Admin'),
          ('60-cross', 'Cross-cutting, content, project settings'), ('70-backend', 'Backend (later)')]
-W = {'S': 0.5, 'M': 1.0, 'L': 1.75}
-def days(prefixes):
-    return sum(W[t['size']] for t in tasks.values() if t['id'].split('-')[0] in prefixes)
-front = days({'F', 'DS', 'CP', 'SC', 'X'}); back = days({'BK'})
 start_now = [t for t in (tasks[i] for i in order) if not t['deps'] and 'common' not in t.get('deps_raw', '')
              and not t['id'].startswith('BK') and t['id'] != 'F-12']
 out = ['# Vybe task pool (generated: do not edit; run `python3 scripts/build_task_index.py`)', '',
        'Take any task whose **Depends on** tasks are merged. Details are in the linked file. Claim a task by',
-       'assigning yourself on its GitHub issue. Start with `docs/START-HERE.md`. **Size:** S ≈ ½ day · M ≈ 1 day · L ≈ 1½–2 days.', '',
-       f'**Total (estimates, not measured):** frontend + tooling + content ≈ {front:g} person-days; backend (later) ≈ {back:g}.',
-       'Re-estimate after the first week from how many tasks actually get merged per day.', '',
+       'assigning yourself on its GitHub issue. Start with `docs/START-HERE.md` and `docs/DAY-ONE.md`.',
+       '**Size** (S, M, L) is only a hint for how big one pull request will be.', '',
+       '**Gates (proof, not dates):** **G1** = F-0 merged (settings final; tasks that write code in `Core/` may start) ·',
+       '**G2** = F-4, F-5, F-16, F-9 and DS-1/2/3 merged (the app runs; screens may start) · **G3** = SC-HD1 merged',
+       '(the golden screen exists; copy it with `scripts/new_screen.py`). **common** (in screen tasks) = F-4, F-5, F-9 (which',
+       'brings F-16), DS-1, DS-2, DS-3.', '',
        '## Start now (no dependencies)', '',
        ', '.join(f"**{t['id']}** {t['title']}" for t in start_now), '',
-       '**Suggested order:** wave 0 = F-0 (Lohitaksh), F-1, DS-1, DS-6, X-C1, X-1 · wave 1 = F-2, F-3, F-4, DS-2/3/4/5, F-11, F-13, F-15 ·',
-       'wave 2 = F-5, F-6, F-7, F-8, F-10, F-14, F-9 · wave 3 = components CP-1…CP-11, then any screen whose dependencies are merged · X tasks any time.', '']
+       '**Suggested order:** day one = F-0 (Lohitaksh) · F-1 then F-2, F-3 (Models) · DS-1 then DS-6 · X-C1 · X-1, X-2, X-6 ·',
+       'after G1 = F-4, F-6, F-11, F-13, F-14, F-15, then F-5, F-16, F-7, F-8, F-10 · G2 = F-9 and DS-2/3/4/5, then components',
+       'CP-1…CP-11, X-13, X-14 · G3 = SC-HD1 first, then any screen whose dependencies are merged · other X tasks any time.', '']
 n = 0
 for key, label in areas:
     rows = [tasks[i] for i in order if os.path.basename(tasks[i]['file']).startswith(key)]

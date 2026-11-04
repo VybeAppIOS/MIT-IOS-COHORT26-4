@@ -10,6 +10,12 @@ backend is not built yet). Navigation only through `router`. The screen IDs (`O1
 Common "Depends on" for every screen: **F-4** (router), **F-5** (repositories/stubs/stores), **F-9**
 (app shell with your route stub), **DS-1/DS-2/DS-3** (Theme, state views, buttons). Only extras are listed.
 
+**Wiring (ADR 002 and 003):** your screen's route already exists (F-4) and its placeholder `case` is in
+`<Name>Feature/<Name>Screens.swift` (F-16). Replace that one `case` with your View built on your ViewModel; keep Views and
+ViewModels `internal` (the feature's only `public` type is its `Screens`); do not edit the App target, `Core/Navigation`, `Models`
+or `Package.swift`. Start from `scripts/new_screen.py` once X-5 exists, otherwise from the template. Stop and ask if you need a
+change in any of those shared places.
+
 ---
 
 ## Onboarding (stack `StackID.onboarding`; folder `OnboardingFeature/`)

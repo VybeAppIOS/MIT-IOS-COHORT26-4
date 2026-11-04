@@ -2,42 +2,75 @@
 
 Size: **S** ≈ half a day · **M** ≈ one day · **L** ≈ one and a half to two days.
 "DoD" = the Definition of Done in `AGENTS.md` section 6. Before any task, read
-`docs/START-HERE.md`. Code goes in `VybeKit/Sources/<Module>/` (folders already exist).
-Everything is `public` with an explicit `public init`. Models and LocalData are not main-actor
-isolated; Core protocols and `Rules` functions are written `nonisolated` (ARCHITECTURE 2.7).
+`docs/START-HERE.md` and the ADRs your task names (`docs/adr/`, short; they win over older documents).
+Code goes in `VybeKit/Sources/<Module>/` (folders already exist).
+Types in `Models` and `Core` that other modules use are `public` with an explicit `public init`.
+**Isolation (ADR 001):** `Models`, `Core` and `LocalData` are not main-actor by default. Write plain
+`public protocol X: Sendable`; never hand-write `nonisolated`, and never put `@MainActor` on a repository protocol,
+a rule or a service protocol. Only `Router`, the stores, `NetworkMonitor` and `AppDependencies.preview` are `@MainActor`.
+**Features (ADR 002):** a feature's only `public` type is its `<Name>Screens`; Views and ViewModels are `internal`.
 
-Order: **F-0** and **F-1** first (small, unblock all). Then F-2, F-3, F-4, DS-1 can run in
-parallel. Then F-5, F-6, F-7, F-8, F-9, F-10. After those, every other task in the pool is open.
+Gates (no dates, only proof): **G1** = F-0 merged (settings are final; Core tasks may start). **G2** = F-4, F-5,
+F-16, F-9, DS-1/2/3 merged (the app runs; screens may start). **G3** = SC-HD1 merged (the golden screen exists; copy it
+with `scripts/new_screen.py`).
 
-### F-0 — Link VybeKit into the Xcode project  `[S]`  *(Lohitaksh only: project setting)*
+Order: **F-0** (Lohitaksh) and **F-1** first. Models (F-1, F-2, F-3), Design (DS-*), content (X-C*) and tooling (X-*)
+do not wait for G1. Everything that writes code in `Core/` waits for F-0. Then F-4, DS-1 in parallel; then F-5, F-16,
+F-6, F-7, F-8, F-9, F-10. After G2, every other task in the pool is open.
+
+### F-0 — Link VybeKit, set the concurrency and language modes, prove the architecture  `[M]`  *(Lohitaksh only: project settings)*
 - **Depends on:** nothing
-- **Read:** ARCHITECTURE 3.2 ("Package details to verify"), BEFORE-BUILD 4 (spike 1)
-- **Build:** In Xcode: File › Add Package Dependencies › Add Local › select `VybeKit`. Add the
-  libraries `Models, Core, Design, Components, LocalData` and all 13 `*Feature` libraries to the
-  `Vybe` app target. Put a temporary `#Preview` in `Design` that imports `Models` and open it in
-  the canvas (the **60-minute preview spike**). If previews fail, try: build the package scheme once,
-  accept any "trust macro" prompt. If they still fail, write the decision in OPEN-QUESTIONS.md and
-  tell the group (fallback: same-named folders inside the app target).
-- **Files:** `Vybe.xcodeproj` (via Xcode only)
-- **Done when:** the app builds with `import Models` in `VybeApp.swift`; the spike result is
-  recorded; the temporary preview is deleted; `./scripts/check.sh` is green.
+- **Unlocks (G1):** every task that writes code in `Core/` (F-4, F-5, F-6, F-7, F-10, F-11, F-13, F-14, F-15) and F-16.
+- **Read:** `docs/adr/001-concurrency.md`, `002`, `003`, `004` · ARCHITECTURE 3.1, 3.2 ("Package details to verify") · BEFORE-BUILD 3
+- **Build:**
+  1. *Link:* Xcode › File › Add Package Dependencies › Add Local › `VybeKit`. Add the libraries `Models, Core, Design,
+     Components, LocalData` and all 13 `*Feature` libraries to the `Vybe` app target.
+  2. *Settings (ADR 001):* in `VybeKit/Package.swift` take the `uiSettings` off **Core** (Models, Core and LocalData: no
+     default isolation, no `NonisolatedNonsendingByDefault`); keep it on Design, Components and every Feature; remove
+     `swiftLanguageModes: [.v5]`; set the app's `SWIFT_VERSION` to 6.0. If Swift 6 mode blocks the proofs, stay in
+     Swift 5 mode with complete strict-concurrency checking as warnings and write that in ADR 001.
+  3. *Prove (60 minutes per item; at the limit stop, record the fallback in the ADR and tell the team).* Use a throwaway
+     slice in `DiscoverFeature` and `Core`, deleted at the end:
+     a. a `#Preview` works in a Feature target that depends on Core, Design and Components;
+     b. a `@MainActor @Observable` store in Core is used from an `internal` ViewModel in a Feature, zero warnings;
+     c. a `Sendable` repository protocol in Core is implemented in LocalData by a struct that reads bundled JSON through
+        `Bundle.module`, and runs off the main thread (assert in a test);
+     d. a Feature with `internal` View and ViewModel and a `public` `Screens` type is called from the App, and a
+        `@testable import` test passes under `xcodebuild test`;
+     e. strings and colours: `String(localized:)` finds a catalog inside a package target (try `bundle: #bundle`, then
+        `.module`), and a colour from `Design/Resources/Colors.xcassets` resolves in a preview and in the app
+        (the result feeds X-3);
+     f. a `TabView` with `Tab(role: .search)` last and `.searchable` inside the search stack (BEFORE-BUILD spike 2);
+     g. a `NavigationStack(path:)` bound to a `[Route]` held by an `@Observable` router: the back swipe pops
+        (the result feeds F-4's `setPath`).
+  4. Write each result (date, Xcode, simulator) at the bottom of ADRs 001 to 004. If a proof fails, change the ADR first.
+- **Files:** `Vybe.xcodeproj` (via Xcode only), `VybeKit/Package.swift`, `docs/adr/*` (results)
+- **Done when:** the app builds with `import Models`; `./scripts/check.sh` is green; every proof is ticked or has a
+  written fallback; the throwaway code is deleted.
 
-### F-1 — IDs and shared value types  `[S]`
+### F-1 — IDs, shared value types and the JSON coder  `[S]`
 - **Depends on:** nothing
-- **Note:** do this first; it blocks most of the other foundation tasks.
-- **Read:** DATA-MODEL 2, 5 · ARCHITECTURE 2.1, 2.5
-- **Build in `Models`:** `ID<Tag>` (the generic typed ID from DATA-MODEL 5: `Hashable`, `Codable` as a
-  plain string, `Sendable`, `ExpressibleByStringLiteral`) and typealiases `PlaceID, HangoutID,
-  SpotID, RunID, PhotoID, UserID, CommentID, ConversationID, MessageID, ReportID`; `Coordinate`;
-  `RupeeRange { lower, upper }` with a `formattedPerPerson` that uses `.formatted(.currency(code: "INR"))`
-  (en_IN grouping); `Photo`; `AppError` (`Error`, `Equatable`, `Sendable`, `init(_ error:)`, a
-  friendly `message`); `LoadState<Content>` (`loading / loaded(_, isStale:) / empty / failed`) with
-  `Equatable` conformance when `Content: Equatable`; `Page<T>` (items, `nextCursor: String?`).
+- **Note:** do this first (Lohitaksh does F-0 at the same time); it blocks most other foundation tasks. `Models` is not
+  main-actor isolated and every type is `Sendable`.
+- **Read:** DATA-MODEL 2, 5 · ARCHITECTURE 2.1, 2.5 · `docs/adr/004-data-contract.md`, `docs/adr/005-state-and-persistence.md`
+- **Build in `Models`:** `ID<Tag>` (the generic typed ID from DATA-MODEL 5: `Hashable`, `Codable` as a plain string,
+  `Sendable`, `ExpressibleByStringLiteral`, **and `CodingKeyRepresentable`** so an ID works as a JSON object key) and
+  typealiases `PlaceID, HangoutID, SpotID, RunID, PhotoID, UserID, CommentID, ConversationID, MessageID, ReportID`;
+  `Coordinate`; `RupeeRange { lower, upper }` with a `formattedPerPerson` that uses
+  `.formatted(.currency(code: "INR"))` (en_IN grouping); `Photo`; `ReportTarget` (IDs only: run, comment, user,
+  message or place; used by `Report` in F-3 and by the router in F-4); `AppError` (`Error`, `Equatable`, `Sendable`,
+  `init(_ error:)`, a friendly `message`; at least `notFound`, `offline`, `invalid(String)`, `unknown`);
+  `LoadState<Content>` (`loading / loaded(_, isStale:) / empty / failed`) with `Equatable` conformance when
+  `Content: Equatable`; `Page<T>` (items, `nextCursor: String?`); **`JSONCoding`** (`decoder` and `encoder`: ISO 8601
+  dates with and without fractional seconds, unknown keys ignored, `.sortedKeys`); and **display formatting helpers**
+  in `Models/Formatting/` (money `₹150–400`, duration "about 3 h", distance in km, compact counts; all through
+  `.formatted(...)`) so every feature, and every `*Data` initializer in `Components`, writes these the same way.
 - **Files:** `Models/Content/IDs.swift, Coordinate.swift, RupeeRange.swift, Photo.swift` ·
-  `Models/State/LoadState.swift, Page.swift, AppError.swift` · tests in `Tests/ContentTests/`
-- **Done when:** `swift`/Xcode builds; tests: an ID encodes/decodes as a plain JSON string; a
-  `Place` ID cannot be passed where a `Hangout` ID is expected (compile-time, show in a comment);
-  `RupeeRange` formats `₹150–400`.
+  `Models/Safety/ReportTarget.swift` · `Models/State/LoadState.swift, Page.swift, AppError.swift` ·
+  `Models/Coding/JSONCoding.swift` · `Models/Formatting/*.swift` · tests in `Tests/ContentTests/`
+- **Done when:** `swift`/Xcode builds; tests: an ID encodes/decodes as a plain JSON string; **a `[SpotID: Date]` encodes
+  as a JSON object, not an array**; a date with and without fractional seconds both decode; a `Place` ID cannot be passed
+  where a `Hangout` ID is expected (compile-time, show in a comment); `RupeeRange` formats `₹150–400`; 170 minutes formats as "about 3 h".
 
 ### F-2 — Content models  `[M]`
 - **Depends on:** F-1
@@ -61,49 +94,63 @@ parallel. Then F-5, F-6, F-7, F-8, F-9, F-10. After those, every other task in t
   `Conversation` (dm/group), `Membership` (role, `status` pending/active, joinedAt, lastReadAt),
   `Message` with `MessagePayload` (`text / photos(≤2) / hangout(HangoutID) / link(URL) /
   voice(path, seconds) / poll(question)`, encoded as `{"kind": "...", ...}`), `PollVote`,
-  `Report` (+ `ReportReason`, `ReportTarget`), `Activity` (+ kinds), `GuestResponse`,
+  `Report` (+ `ReportReason`; `ReportTarget` comes from F-1), `Activity` (+ kinds), `GuestResponse`,
   `PlaceSuggestion` (+ status), `RemixCredit`.
 - **Files:** `Models/Community/*.swift, Chat/*.swift, Safety/*.swift` · tests in `ContentTests/`
 - **Done when:** every type round-trips JSON; `MessagePayload` decodes each kind; `Report` has all
-  reasons listed in PRODUCT 4 (Safety defaults); `ReportTarget` is an IDs-only struct.
+  reasons listed in PRODUCT 4 (Safety defaults); `Report` uses F-1's IDs-only `ReportTarget`.
 
-### F-4 — Navigation: Route, Sheet, Cover, Router  `[M]`
-- **Depends on:** F-1
-- **Read:** ARCHITECTURE 2.6 (the whole section; the code there compiles in Swift 5 and 6) · IA 5
-- **Build in `Core/Navigation/`:** `AppTab` (discover, community, profile, search), `StackID`,
-  `Route` (**all** cases listed in ARCHITECTURE 2.6), `Sheet`, `Cover` (each with `id`), `EditorStart`,
-  `SettingsPage`, `AdminPage`, `SearchKind`, `ShareItem` (IDs-only payloads), and `Router`
-  (`open, pop, popToRoot, present, dismissSheet, presentCover, dismissCover, show(_:in:), reset`,
-  `lastNonSearchTab`).
-- **Files:** `Core/Navigation/AppTab.swift, Route.swift, Sheet.swift, Cover.swift, Router.swift` ·
-  `Tests/CoreTests/RouterTests.swift`
-- **Done when:** tests: `open` pushes on the selected tab's stack; with a cover up it pushes on
-  the cover's stack; `dismissCover` clears that stack; `show(.hangout(id), in: .profile)` selects the
-  tab, dismisses cover and sheet and leaves that single route; `reset` clears everything;
-  `lastNonSearchTab` ignores `.search`.
+### F-4 — Navigation: grouped Routes, Sheet, Cover, Router  `[M]`
+- **Depends on:** F-0, F-1
+- **Read:** `docs/adr/003-navigation.md` · ARCHITECTURE 2.6 (its Router code is the base; ADR 003 changes the `Route`
+  enum, adds the sheet stack and `setPath`, and wins where they differ) · IA 4 and 5
+- **Build in `Core/Navigation/`:** `AppTab` (discover, community, profile, search); `StackID` (`onboarding`, `tab(AppTab)`,
+  `live`, `editor`, `sheet`); the **12 feature route enums** in `Routes/<Feature>Route.swift` (every feature except Discover, whose screens are a
+  tab root, a card and a local sheet), covering **every pushed screen in `docs/IA.md` section 4, all phases**, each file also holding that feature's short constructors (`Route.hangout(id)`,
+  `.saved`, `.settings`, `.conversation(id)` ... the names the docs already use); `Route` (one case per feature);
+  `Sheet` and `Cover` (each with `id`); the payload types `EditorStart`, `SettingsPage`, `AdminPage`, `SearchKind` and
+  `ShareItem` (IDs and small enums only; `ReportTarget` comes from F-1); all of them `Hashable, Codable, Sendable`; and
+  `Router` (`@MainActor @Observable`: `open, pop, popToRoot, setPath(_:for:), present, dismissSheet, presentCover,
+  dismissCover, show(_:in:), reset`, `lastNonSearchTab`). The current stack is the sheet's if a sheet is up, else the
+  cover's, else the selected tab's.
+- **Files:** `Core/Navigation/AppTab.swift, StackID.swift, Route.swift, Routes/*Route.swift, Sheet.swift, Cover.swift,
+  Payloads.swift, Router.swift` · `Tests/CoreTests/RouterTests.swift, RouteCodingTests.swift`
+- **Done when:** tests: `open` pushes on the selected tab's stack; with a cover up it pushes on the cover's stack; with a
+  sheet up it pushes on the sheet stack, which disappears with the sheet (Report inside the Spot sheet); `setPath` shrinks a
+  stack (back swipe); `dismissCover` clears that stack; `show(.hangout(id), in: .profile)` selects the tab, dismisses cover
+  and sheet and leaves that single route; `reset` clears everything; `lastNonSearchTab` ignores `.search`; **every route case
+  round-trips through JSON**. There is a route for every screen in `docs/IA.md` section 4. `./scripts/check.sh` is green.
 
-### F-5 — Content repositories, stubs, stores, settings  `[L]`
-- **Depends on:** F-1, F-2
-- **Read:** ARCHITECTURE 2.2, 2.3, 2.7 · DATA-MODEL 1, 7
-- **Build in `Core/`:**
-  - `Repositories/` (all `nonisolated`, `Sendable`): `HangoutRepository` (hangout(id:),
-    hangouts(near:filters:), picks(), remixes(of:), stats(for:) → done and remix counts), `PlaceRepository` (place(id:), places(in:), spots(for:)),
-    `LibraryRepository` (saved/drafts/runs: load, save, delete), `ProfileRepository`, `SearchRepository`
-    (search(text:scope:) over Hangouts, Places, People), `PhotoStore` (`func url(for: Photo) -> URL?`).
-  - `Fakes/` (`#if DEBUG`, `nonisolated`): `Stub*Repository` for each, with modes
-    `loaded / empty / failing / neverReturns`, using sample data from `Models/Samples`.
-  - `Stores/`: `SessionStore` (current user, `onboardingDone`, blocked IDs, an **onboarding draft** holding name/photo/interests/area until `completeOnboarding()`, `resetOnboarding()`, `isTeamAccount` for the hidden admin screens),
-    `LibraryStore` (`isSaved`, `toggleSave`, drafts, finished runs). `@MainActor @Observable`.
-  - `Services/AppSettings.swift` (Foundation `UserDefaults` wrapper: onboardingDone, selectedAreaID,
-    interests) and `Logging/Log.swift` (`os.Logger` helpers per feature).
+### F-5 — Content repositories, stubs, stores, settings, AppDependencies  `[L]`
+- **Depends on:** F-0, F-1, F-2, F-4
+- **Read:** ARCHITECTURE 2.2, 2.3, 2.7 · DATA-MODEL 1, 7 · `docs/adr/001-concurrency.md`, `002-feature-owned-screens.md`, `004-data-contract.md`, `005-state-and-persistence.md`
+- **Build in `Core/`** (Core is not main-actor by default: plain `public protocol X: Sendable`, no hand-written
+  `nonisolated`, no `@MainActor` on protocols):
+  - `Repositories/`: `HangoutRepository` (hangout(id:), hangouts(near:filters:), picks(), remixes(of:), stats(for:) →
+    done and remix counts), `PlaceRepository` (place(id:), places(in:), spots(for:)), `LibraryRepository` (saved/drafts/
+    runs: load, save, delete), `ProfileRepository`, `SearchRepository` (search(text:scope:) over Hangouts, Places,
+    People), `PhotoStore` (`func url(for: Photo) -> URL?`).
+  - `Fakes/` (`#if DEBUG`): `Stub*Repository` for each, with modes `loaded / empty / failing / neverReturns`
+    (`StubMode`), using sample data from `Models/Samples`; `AppDependencies.preview(_ mode: StubMode)` (`@MainActor`);
+    `Contracts/`: repository contract checks (`HangoutRepositoryContract.verify(_:)` and so on: plain throwing functions,
+    no test framework) that LocalData (F-8) and later Remote call from their own tests.
+  - `Stores/` (`@MainActor @Observable`, written explicitly): `SessionStore` (current user, `onboardingDone`, blocked IDs,
+    an **onboarding draft** holding name/photo/interests/area until `completeOnboarding()`, `resetOnboarding()`,
+    `isTeamAccount` for the hidden admin screens), `LibraryStore` (`isSaved`, `toggleSave`, drafts, finished runs).
+  - `Services/AppSettings.swift` (Foundation `UserDefaults` wrapper: onboardingDone, selectedAreaID, interests),
+    `Services/FeatureFlags.swift` (a `Sendable` struct of booleans such as `communityEnabled`, `chatEnabled`,
+    `postingEnabled`, all true in DEBUG; an unfinished area can show its "Coming soon" state so `main` can always ship)
+    and `Logging/Log.swift` (`os.Logger` helpers per feature).
+  - **`AppDependencies`** (`Sendable` struct, ADR 002): the repositories as `any ...`, the stores, the `Router`,
+    `FeatureFlags` and `now: @Sendable () -> Date`. F-7 adds the social repositories.
 - **Files:** as above · `Tests/CoreTests/`
-- **Done when:** a test drives `LibraryStore` with a stub; stubs compile in a `#Preview`; no
-  `@AppStorage` anywhere; `nonisolated` rules respected (project builds).
+- **Done when:** a test drives `LibraryStore` with a stub; stubs compile in a `#Preview`; `AppDependencies.preview(.empty)`
+  builds; the contract checks pass on the stubs; no `@AppStorage` anywhere; project builds with no concurrency warnings.
 
 ### F-6 — Hangout rules  `[S]`
-- **Depends on:** F-2
+- **Depends on:** F-0, F-2
 - **Read:** PRODUCT 4 (Hangouts, Doing and posting) · DATA-MODEL 7 · RISKS 3
-- **Build in `Core/Rules/HangoutRules.swift`** (all `public nonisolated static func`, pure):
+- **Build in `Core/Rules/HangoutRules.swift`** (all `public static func`, pure, no `Date()` inside: dates are parameters):
   `isValidSpotCount(_:)` (2…10), `hasDuplicatePlace(_:)` (for the "same place twice" warning),
   `remixKeepsEnough(original:remix:)` (≥70% of the original's Spots kept), `canPost(visitedCount:)`
   (≥2 visited), `maxPhotos(visitedCount:)` (2 × visited), `earliestPostTime(endedAt:delay:)`
@@ -113,66 +160,75 @@ parallel. Then F-5, F-6, F-7, F-8, F-9, F-10. After those, every other task in t
 
 ### F-7 — Community, chat and safety repositories + sample social data  `[M]`
 - **Depends on:** F-3, F-5
-- **Read:** ARCHITECTURE 2.2, 2.7 · DATA-MODEL 3 · IA 4 (Community, Friends, Chat)
+- **Read:** ARCHITECTURE 2.2, 2.7 · DATA-MODEL 3, 6 ("the hardest parts") · IA 4 (Community, Friends, Chat)
+- **Shape the protocols so both backends can implement them:** cursor paging with `Page` (no offsets), listeners as
+  `AsyncStream`, no cross-collection joins, blocking applied by the repository. Re-check them against the BK-1 result
+  (`docs/tasks/70-backend-later.md`) before the social screens (SC-CM*, SC-FR1, SC-CH*) start.
 - **Build in `Core/`:** protocols `FeedRepository` (feed, trending, post(id:), comments(for:), like,
   comment), `FriendsRepository` (friends, requests incl. "other", suggestions, send/accept/cancel),
   `ChatRepository` (conversations, messages as `AsyncStream`, send, edit, delete, markRead, polls),
   `SafetyRepository` (report, block, unblock), `AuthRepository` (sign in methods as stubs),
   `AdminRepository` (reports queue, place suggestions, ban); `Stores/BadgeStore`; matching
-  `Fakes/Stub*Repository`; and in `Models/Samples/` believable **fake** social data (12 people with
+  `Fakes/Stub*Repository`, contract checks and entries in `AppDependencies` and its `.preview`; and in `Models/Samples/` believable **fake** social data (12 people with
   Kothrud-style names and no real persons, 8 posts incl. 2 Picks, comment threads, 3 chats incl. 1
   group, reports). Clearly mark everything sample.
 - **Files:** `Core/Repositories/…`, `Core/Fakes/…`, `Core/Stores/BadgeStore.swift`, `Models/Samples/…`
 - **Done when:** every stub supports loaded / empty / failing / neverReturns; chat stub can
   simulate an incoming message after 2 seconds; tests for `BadgeStore` counts.
 
-### F-8 — LocalData: loader, sample content, content test  `[L]`
+### F-8 — LocalData: loader, sample content, persistence, content test  `[L]`
 - **Depends on:** F-2, F-5
-- **Read:** DATA-MODEL 1, 4 · ARCHITECTURE 3.2 (LocalData, "Package details to verify") · PRODUCT 8
-- **Build in `LocalData/`:** `ContentLoader` (public; reads every `Places/*.json` and `Hangouts/*.json`
-  from `Bundle.module` `Content/`, checks `schemaVersion`), `LocalHangoutRepository`,
-  `LocalPlaceRepository`, `LocalSearchRepository` (on-device search: title > tag > area scoring using
-  `localizedStandardContains`), `LocalLibraryRepository` (+ `LibraryFile`: `library.json` in Application
-  Support, atomic writes, `schemaVersion`), `LocalProfileRepository`, `LocalPhotoStore` (`Photo` →
-  bundle URL). Put the **5 Places and 2 Hangouts** from task X-C1 in `Resources/Content/`.
-- **Files:** `LocalData/*.swift`, `LocalData/Resources/Content/**` · `Tests/ContentTests/ContentTests.swift`
-- **Done when:** the **content test** loads every JSON file and checks: IDs unique, every Spot's place
-  exists, 2…10 Spots, coordinates inside Pune (lat 18.3–18.7, lon 73.6–74.1), every photo file exists;
-  library round-trips to disk; search finds a Hangout by tag.
+- **Read:** DATA-MODEL 1, 4 · ARCHITECTURE 3.2 (LocalData, "Package details to verify") · PRODUCT 8 · `docs/adr/004-data-contract.md`, `005-state-and-persistence.md`
+- **Build in `LocalData/`:** `ContentLoader` (public; reads every `Places/*.json` and `Hangouts/*.json` from `Bundle.module`
+  `Content/`, checks `schemaVersion`: older is accepted, a newer major version is rejected with a clear error),
+  `LocalHangoutRepository`, `LocalPlaceRepository`, `LocalSearchRepository` (on-device search: title > tag > area scoring
+  using `localizedStandardContains`), `LocalLibraryRepository` (+ `LibraryFile`: an `actor`, one serial writer for
+  `library.json` in Application Support, atomic writes, coalesces to the latest snapshot, `schemaVersion`; a file that cannot
+  be read is renamed `library.corrupt-<timestamp>.json`, logged without personal data, and the store starts empty),
+  `LocalProfileRepository`, `LocalPhotoStore` (`Photo` → bundle URL). All JSON goes through `JSONCoding`. Put the **5 Places
+  and 2 Hangouts** from task X-C1 in `Resources/Content/`.
+- **Files:** `LocalData/*.swift`, `LocalData/Resources/Content/**` · `Tests/ContentTests/ContentTests.swift`, `Tests/LocalDataTests/`
+- **Done when:** the **content test** loads every JSON file and checks: IDs unique, every Spot's place exists, 2…10 Spots,
+  coordinates inside Pune (lat 18.3–18.7, lon 73.6–74.1), every photo file exists; **every Place and Hangout in
+  `Models/Samples` equals its bundled JSON file** (samples never invent data); the F-5 contract checks pass on the Local
+  repositories; ten quick successive saves leave one valid `library.json`; a corrupt file is quarantined and the app starts
+  empty; the library round-trips to disk; search finds a Hangout by tag.
 
-### F-9 — App shell: dependencies, tabs, screen factory  `[L]`
-- **Depends on:** F-0, F-4, F-5, DS-1
-- **Read:** ARCHITECTURE 1, 2.6, 2.7, 3.2 (App target) · IA 2
-- **Build in `Vybe/App/`:** `AppDependencies` (creates local repositories, stores, `Router`),
-  `RootView` (onboarding gate: `NavigationStack(path:)` on `StackID.onboarding` until
-  `session.onboardingDone`, then `TabShell`; the live and editor covers via `.fullScreenCover(item:)`),
-  `TabShell` (`TabView(selection: $router.selectedTab)` with `Tab` for Discover, Community, Profile and
-  `Tab(role: .search)` last; one `NavigationStack` per tab bound to `router.paths[.tab(...)]` with
-  `.navigationDestination(for: Route.self)`; the router's `Sheet` host active only while
-  `router.cover == nil`; the second sheet host on each cover's root), `ScreenFactory`
-  (`screen(for: Route)`, `sheet(for: Sheet)`, `cover(for: Cover)`): **a stub `Text("<ID>")` for every
-  route**, so each screen task only replaces its own case. Search lives inside `SearchView` (S1).
-- **Files:** `Vybe/App/AppDependencies.swift, RootView.swift, TabShell.swift, ScreenFactory.swift`
-- **Done when:** the app runs on the simulator showing 4 tabs with Search separate at the right end;
-  every route/sheet/cover shows its placeholder; `router.show` switches tabs; **no tab selection can be
-  hidden** (iOS 27 rule); `./scripts/check.sh` green.
+### F-9 — App shell: dependencies, tabs, thin screen factory  `[L]`
+- **Depends on:** F-0, F-4, F-5, F-16, DS-1
+- **Read:** ARCHITECTURE 1, 2.6, 2.7, 3.2 (App target) · IA 2 · `docs/adr/002-feature-owned-screens.md`, `003-navigation.md`
+- **Build in `Vybe/App/`:** `AppDependencies+Local.swift` (`AppDependencies.local()`: the LocalData repositories, the stores,
+  the `Router`, `FeatureFlags`), `RootView` (onboarding gate: `NavigationStack` on `StackID.onboarding` until
+  `session.onboardingDone`, then `TabShell`; the live and editor covers via `.fullScreenCover(item:)`), `TabShell`
+  (`TabView(selection:)` with `Tab` for Discover, Community, Profile and `Tab(role: .search)` last; one `NavigationStack`
+  per tab whose path binding reads `router.paths` and writes through `router.setPath`; `.navigationDestination(for: Route.self)`
+  on every stack root; the router's `Sheet` host active only while `router.cover == nil`, with its own `NavigationStack` for
+  `StackID.sheet`; the second sheet host on each cover's root) and a **thin `ScreenFactory`**: `screen(for: Route)` has one
+  `case` per feature route group and calls `<Name>Screens.view(for:_:)`; `sheet(for: Sheet)` and `cover(for: Cover)` call the
+  owning feature's `Screens`. It never names a View or a ViewModel (ADR 002). Search lives inside `SearchView` (S1).
+- **Files:** `Vybe/App/AppDependencies+Local.swift, RootView.swift, TabShell.swift, ScreenFactory.swift`
+- **Done when:** the app runs on the simulator showing 4 tabs with Search separate at the right end; every route, sheet and
+  cover shows the placeholder from F-16; a test resolves a `.hangout` route through `HangoutDetailScreens`; `router.show`
+  switches tabs; **no tab selection can be hidden** (iOS 27 rule); `./scripts/check.sh` green.
 
 ### F-10 — Live run store (survives the app closing)  `[M]`
 - **Depends on:** F-2, F-5
-- **Read:** ARCHITECTURE 2.3, 4a #2 and #10 · MOTION 4 (moment 4) · RISKS 3
-- **Build in `Core/Stores/LiveHangoutStore.swift`:** `@MainActor @Observable` store holding the current
-  `HangoutRun` + `RunTimes`; `startOrResume(hangoutID:)` (creates a run, or returns the live/minimised
-  one), `markVisited(spotID:)`, `addPhoto`, `end()` (→ `done`), `discard()`; writes to disk on every
-  change through `LibraryRepository`; elapsed time computed from `startedAt` (never a running timer);
-  restores on launch.
+- **Read:** ARCHITECTURE 2.3, 4a #2 and #10 · MOTION 4 (moment 4) · RISKS 3 · `docs/adr/005-state-and-persistence.md`
+- **Build in `Core/Stores/LiveHangoutStore.swift`:** `@MainActor @Observable` store holding the current `HangoutRun` +
+  `RunTimes`; `startOrResume(hangoutID:)` (creates a run, or returns the live/minimised one), `markVisited(spotID:)`,
+  `addPhoto`, `end()` (→ `done`), `discard()`; takes `now: @Sendable () -> Date`; memory updates immediately and the run is
+  **persisted write-behind** through `LibraryRepository` (one serial writer, ADR 005), flushed when the app goes to the
+  background; a write failure is logged and exposed as `persistenceError`; elapsed time is computed from `startedAt` (never a
+  running timer); restores on launch.
 - **Files:** `Core/Stores/LiveHangoutStore.swift` · `Tests/CoreTests/LiveHangoutStoreTests.swift`
-- **Done when:** tests: start twice returns the same run; mark visited twice is idempotent; restart
-  (new store, same file) restores; `end` yields `done`; time-of-visit lives only in `RunTimes`.
+- **Done when:** tests: start twice returns the same run; mark visited twice is idempotent; ten quick `markVisited` calls end in
+  one consistent saved file; restart (new store, same file) restores; a failing write sets `persistenceError`; `end` yields
+  `done`; time-of-visit lives only in `RunTimes`.
 
 ### F-11 — LocationService (real + simulated walk)  `[M]`
-- **Depends on:** F-1
+- **Depends on:** F-0, F-1
 - **Read:** ARCHITECTURE 4a #1, #8, #9, #10 · RISKS 3
-- **Build in `Core/Services/`:** `nonisolated protocol LocationService` (`authorization`, `updates() ->
+- **Build in `Core/Services/`:** `protocol LocationService: Sendable` (`authorization`, `updates() ->
   AsyncStream<LocationSample>`, `requestWhenInUse()`); `LiveLocationService` using
   `CLLocationUpdate.liveUpdates(.fitness)` and `CLServiceSession` (no delegate code; never request
   Always; holds a `CLBackgroundActivitySession` while a Hangout is live); `SimulatedLocationService`
@@ -189,7 +245,7 @@ parallel. Then F-5, F-6, F-7, F-8, F-9, F-10. After those, every other task in t
   the numbering stable. Take DS-6 instead.
 
 ### F-13 — PhotoProcessor (resize, strip location)  `[M]`
-- **Depends on:** F-1
+- **Depends on:** F-0, F-1
 - **Read:** ARCHITECTURE 4 (Photos row) · RISKS 3 (photo location data)
 - **Build in `Core/Services/PhotoProcessor.swift`:** takes picked image `Data`, returns two JPEGs
   (about 1600 px and 400 px on the long side) using `CGImageSourceCreateThumbnailAtIndex` and
@@ -207,7 +263,7 @@ parallel. Then F-5, F-6, F-7, F-8, F-9, F-10. After those, every other task in t
 - **Done when:** forced offline/online toggles `isOffline`; stopping the monitor on deinit is safe.
 
 ### F-15 — Voice notes: AudioRecorder and player  `[M]`
-- **Depends on:** F-1
+- **Depends on:** F-0, F-1
 - **Read:** ARCHITECTURE 4 (Voice notes) · PRODUCT 4 (Chat)
 - **Build in `Core/Services/`:** `AudioRecorder` (`AVAudioRecorder`, AAC mono 32 kbps `.m4a`, hard stop
   at 2 minutes, metering for a waveform, microphone permission handled), `AudioPlayer` (play/pause/
@@ -215,3 +271,16 @@ parallel. Then F-5, F-6, F-7, F-8, F-9, F-10. After those, every other task in t
 - **Files:** `Core/Services/AudioRecorder.swift, AudioPlayer.swift`
 - **Done when:** recording stops at 2:00 in a test with a short limit injected; file size is about
   240 KB per minute; permission-denied is a clear error state.
+
+### F-16 — Feature `Screens` scaffolds (all 13 features)  `[M]`
+- **Depends on:** F-4, F-5
+- **Read:** `docs/adr/002-feature-owned-screens.md`, `docs/adr/003-navigation.md` · ARCHITECTURE 3.2 · `docs/templates/new-screen/README.md`
+- **Build:** in each of the 13 `*Feature` folders create `<Name>Screens.swift`: a `public enum <Name>Screens` with
+  `@ViewBuilder public static func` entry points that cover **every route in that feature's route enum** (F-4; Discover has none), every
+  `Sheet` and `Cover` the feature owns, and `root(_:)` for the four tab roots (Discover, Community, Profile, Search). Each
+  returns a placeholder `Text("<screen ID>")` for now. Add one test per feature in `Tests/<Name>FeatureTests/` (with
+  `@testable import`) that builds every entry point with `AppDependencies.preview(.loaded)`, so a missing case fails the build.
+- **Files:** `VybeKit/Sources/<Name>Feature/<Name>Screens.swift` (13 files) · `Tests/<Name>FeatureTests/<Name>ScreensTests.swift` (13)
+- **Done when:** the package builds in Swift 6 mode; each feature test builds its placeholders; the only `public` declaration in
+  each feature is its `Screens` enum; `./scripts/check.sh` green. Afterwards a screen task only replaces its own placeholder
+  `case` and never touches the App target.

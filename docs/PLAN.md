@@ -33,9 +33,7 @@
 - GitHub issues: one per task (script X-6); claim a task by assigning yourself.
 
 ## 4. Order of work
-Waves are in `docs/TASKS.md`: **wave 0** F-0 (Lohitaksh), F-1, DS-1, DS-6, X-C1, X-1 → **wave 1** models,
-router, design views, services → **wave 2** repositories/stores, rules, LocalData, app shell → **wave 3**
-components, then any screen whose dependencies are merged. `X-` tasks any time. If the live Hangout slips,
+The order is set by **gates** (section 7) and `docs/DAY-ONE.md`, not by dates. `X-` tasks any time. If the live Hangout slips,
 cut the H3 photos first, then the route line. Never cut Mark visited.
 
 ## 5. Vacation tasks (7 to 15 Nov, no building)
@@ -47,33 +45,37 @@ cut the H3 photos first, then the route line. Never cut Mark visited.
 ## 6. If 18 Dec is at risk (cut order, decided later with measured speed)
 1. Voice notes. 2. Chat polls. 3. Threaded replies (flat first). 4. Remix credit on the map.
 
-## 7. PROPOSED: milestones, tiers and a cut line (needs the team's OK; written 4 Nov)
-Why: `docs/BEFORE-BUILD.md` 4 shows the frontend alone uses about 88% of all Mac time. Without
-milestones, a slip is only noticed on 10 Dec. Dates below are a starting point; re-set them after the
-first 10 merged tasks give a measured speed. Fix the time, vary the scope.
+## 7. Order of work: gates, tiers and a cut line (replan, 4 Nov; no dates)
+This plan fixes the **order**, not the time. Work moves forward when a gate is passed, never because a date arrived. Where
+`docs/BEFORE-BUILD.md` 4 discusses the size of the pool, that is still true; nothing here depends on it.
 
-| Milestone | Target | Done when | Owner |
-|---|---|---|---|
-| **M0 Foundation** | Fri 6 Nov | F-0 (package linked, **preview spike passed or fallback chosen**), F-1, DS-1, F-4 merged. Fix the Core isolation question (`docs/PLAN-REVIEW.md` item 2) **before** F-5 | Lohitaksh + 1 |
-| **M1 Walking skeleton** | ~20 Nov | One thin path works on stubs: O1-O4 → D1 → HD1 → H1 → H3, with Theme, LoadStateView and the router. Proves the pattern before 3 more people copy it | all |
-| **M2 Core loop complete** | ~27 Nov | Tier A + B below are merged | all |
-| **M3 Social on stubs** | ~4 Dec | Tier C merged against stub repositories; backend chosen (16-17 Nov) and its first slice (auth + hangouts read) running | split |
-| **M4 Integration + TestFlight** | ~10 Dec | `Remote` module swapped in behind the same protocols; contract tests pass for local and remote | Lohitaksh + 1 |
-| **M5 Polish + release** | 18 Dec | Q1 checklist, App Review notes, demo account | all |
+| Gate | Passed when | Unlocks |
+|---|---|---|
+| **G0 Decisions** | Lohitaksh has read `docs/adr/` 001 to 007 and said OK or changed them | everything below |
+| **G1 Settings final** | F-0 merged: package linked, concurrency and Swift 6 settings final, the proofs recorded in the ADRs | every task that writes code in `Core/` |
+| **G2 Runnable shell** | F-4, F-5, F-16, F-9 and DS-1/2/3 merged: the app runs with 4 tabs and a placeholder for every screen | screen tasks |
+| **G3 Golden screen** | SC-HD1 merged and `scripts/new_screen.py` (X-5) works | all other screens start from the generator |
+| **G4 Backend swap** | the repository contract checks pass for LocalData and for `VybeRemote` | backend tasks (BK) |
 
-**Tiers (cut from the bottom):**
-- **Tier A, the core loop:** onboarding, Discover map, pin preview, Hangout detail, Spot sheet, live Hangout
-  (Mark visited), summary, Saved.
-- **Tier B:** Search, Profile, Settings, Filters, offline state, accessibility and Q1 pass.
+Before G2, screen authors work on Models, Design, Components, content and tooling, which do not need the shell.
+
+**Tiers (priority when something has to give; cut from the bottom):**
+- **Tier A, the core loop:** onboarding, Discover map, pin preview, Hangout detail, Spot sheet, live Hangout (Mark visited),
+  summary, Saved.
+- **Tier B:** Search, Profile, Settings, Filters, offline state, accessibility pass.
 - **Tier C, social:** Community feed, post detail, Friends, Chat, Posting, Editor/Remix.
 - **Tier D:** Trending, Admin, voice notes, chat polls, threaded replies, Remix credit on the map.
-- **Not cuttable:** Report, Block and in-app contact details (App Store guideline 1.2) and in-app account
-  deletion (5.1.1(v)) once any user-generated content ships. If Tier C ships, these ship with it.
+- **Not cuttable:** Report, Block and in-app contact details (App Store guideline 1.2) and in-app account deletion
+  (5.1.1(v)) once any user-generated content ships. If Tier C ships, these ship with it.
 
-**Rules to keep the plan honest**
-1. At most **1 task in progress per person**; an unfinished task is reviewed or handed over after 2 days.
-2. **Measure every Friday:** tasks merged, days used, estimate vs real; update `docs/TASKS.md` totals.
-3. **Stub-heavy screens (chat, feed) are written against the protocol, not the stub's quirks**, and the
-   shared contract test must pass for stub and remote, so M4 is a swap, not a rewrite.
-4. A task with no GitHub issue and no named owner does not start.
-5. Every Monday: triage tester feedback and re-read `docs/OPEN-QUESTIONS.md` for blockers.
+**Working rules**
+1. One task in progress per person and per agent; an unfinished task is handed over rather than held.
+2. A task with no GitHub issue and no named owner does not start.
+3. A screen written against a stub must pass the same repository contract checks as the real implementation (ADR 004), so
+   the backend swap is a swap and not a rewrite.
+4. Review tiers are a proposal (ADR 006, Lohitaksh decides at G0): hotspot files go to Lohitaksh; everything else to one
+   teammate who did not write it plus a fresh-session AI review. Until decided, Lohitaksh reviews every PR (section 2).
+5. Do the one-day backend test (BK-1) before the social repository protocols (F-7) are merged, or re-check F-7 against both
+   backends' limits before any social screen starts (DATA-MODEL 6), so the stubs do not teach the screens something a
+   real backend cannot do.
+6. `main` is always buildable and shippable: an unfinished area sits behind `FeatureFlags` and shows its "Coming soon" state.

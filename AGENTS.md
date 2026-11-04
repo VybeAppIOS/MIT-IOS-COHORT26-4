@@ -8,11 +8,14 @@ Applies to every tool and every teammate.
 - Before building: `docs/START-HERE.md` (reading list), `docs/TASKS.md` (the task pool),
   `docs/BEFORE-BUILD.md` (setup, risks). Later decisions: `docs/LATER.md`.
 - Unanswered questions: `docs/OPEN-QUESTIONS.md`. If your task touches one, stop and ask a human.
+- Decisions that are expensive to change: `docs/adr/` (they win over older documents). First day: `docs/DAY-ONE.md`.
 
 ## 1. Start of every task
 Read `AGENTS.md`, `docs/START-HERE.md` and **your task in `docs/tasks/`** (the person gives you its
 ID). Then **plan only, no code yet**. Wait for the human to say OK before writing or changing files.
-Build exactly what the task says, in the folder it names, and nothing else.
+Build exactly what the task says, in the folder it names, and nothing else. List every file you will touch;
+it must match the task's **Files** line. Read the ADRs the task names. If you need a change in a shared place
+(`Models/`, `Core/Navigation/`, `Design/Theme/`, `Package.swift`, the project, the App target), stop and ask.
 
 ## 2. Who you are helping
 Four college students who are new to shipping code and rely heavily on AI.
@@ -58,8 +61,11 @@ Four college students who are new to shipping code and rely heavily on AI.
   - The ViewModel is `@MainActor @Observable final class`. It holds the screen's state
     (a `LoadState`), loads data through repositories, and has one method per user action
     (`startTapped()`). It does not import SwiftUI.
-  - The App creates each ViewModel with its dependencies and passes it into the View's
-    `init`. Load data in `.task`, never in `init`.
+  - Each feature builds its own View and ViewModel in its `<Name>Screens.swift`, from `AppDependencies`;
+    the App only calls `Screens`. Views and ViewModels are `internal`: the only `public` type in a feature is its
+    `Screens` (`docs/adr/002-feature-owned-screens.md`). A ViewModel's `init` takes only what it needs.
+    Load data in `.task`, never in `init`. A first load can fail; a failed refresh keeps the content; cancellation
+    is not an error (`docs/adr/005-state-and-persistence.md`).
   - Shared components (HangoutCard, SpotRow) have no ViewModel; they take plain values.
 - Tabs: Discover, Community, Profile, and Search as a separate search-role tab at the
   trailing end. Never put Search in the middle. Chat lives inside Community.
@@ -74,8 +80,15 @@ Four college students who are new to shipping code and rely heavily on AI.
   or ViewModels. Never put personal data or tokens in `UserDefaults`.
 - Import rules: Features never import each other, **`LocalData` or `Remote`**. Shared views go
   in `Components`. (Full list: `docs/ARCHITECTURE.md` 3.2.)
-- In Core, repository protocols, `Rules/` functions and anything `LocalData` or `Remote` calls
-  are written `nonisolated`. ViewModels never write `router.cover = …`; they call Router methods.
+- `Models`, `Core` and `LocalData` are not main-actor by default. Only `Router`, the stores and `NetworkMonitor` are
+  `@MainActor`, written explicitly. Never put `@MainActor` on a repository protocol, a rule or a service protocol, and
+  never hand-write `nonisolated` to make something compile (`docs/adr/001-concurrency.md`). The project builds in
+  Swift 6 language mode: fix data-race errors properly, never with `@unchecked Sendable`, `nonisolated(unsafe)` or
+  `assumeIsolated` unless a human says yes.
+- Routes are grouped per feature and `Codable` (`docs/adr/003-navigation.md`). ViewModels never write
+  `router.cover = …`; they call Router methods.
+- Time and new IDs are injected (`now:`, `makeID:`), never `Date()` or `UUID()` inside logic. All JSON goes through
+  `JSONCoding` (`docs/adr/004-data-contract.md`).
 - A ViewModel exposes view-ready values (title text, `[SpotRowData]`), not raw models.
   Only `App` sees everything.
 - All visual values (colour, font, spacing) come from `Theme` tokens.
@@ -118,6 +131,8 @@ Four college students who are new to shipping code and rely heavily on AI.
 - It has `#Preview`s for loaded, empty and error (plus one at a large text size), using
   real Kothrud names, never lorem ipsum.
 - It has a ViewModel test.
+- It is wired only by replacing its placeholder `case` in `<Name>Screens.swift`; the architecture checks
+  (SwiftLint rules and `scripts/check_architecture.sh`, once they exist) pass.
 - The PR has the pasted `check.sh` output and a simulator screenshot next to the Figma
   frame (see `docs/PROCESS.md`).
 - The author can explain every line.
@@ -138,7 +153,7 @@ Never paste passwords, keys or personal data into any AI.
 - **In scope now:** every screen with a task in `docs/TASKS.md`, including Community, Friends, Chat,
   Editor, Remix, Posting, Report and Settings. They run on the stub repositories and the sample
   data (F-5, F-7, F-8), never on a server.
-- **Not yet (no task, backend phase):** real network calls, the `Remote` module, any server SDK,
+- **Not yet (no task, backend phase):** real network calls, the backend package (`VybeRemote`), any server SDK,
   real sign-in and accounts, push notifications, deep links and URL schemes, universal links.
   Sign-in screens are built against stubs only.
 - **Not in version 1:** Dynamic Island, Live Activity, turn-by-turn navigation, dark mode, iPad,

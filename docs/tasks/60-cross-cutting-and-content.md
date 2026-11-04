@@ -14,6 +14,8 @@ files). They run in parallel with the screen work.
   both**) in `…/Hangouts/`; photos you took, each with a written OK and a `credit`, resized to ~1600 px long
   side plus a 400 px thumbnail, **location data stripped**, in `…/Photos/`. IDs `place-<slug>-<4 chars>`,
   never changed. Do **not** copy data from Apple Maps or Google Maps; hours and cost come from visiting.
+  Keep every bundled photo under about 300 KB (and the thumbnail much smaller) and at most 3 per Place: git never forgets
+  a big file, and the full verified dataset will live in the backend, not in this repository.
   Use the author `user-vybe-team` and `isPick: true` for team Hangouts (they must be real past visits).
 - **Done when:** the content test (F-8) passes; every photo has a credit.
 
@@ -41,14 +43,18 @@ files). They run in parallel with the screen work.
 
 ### X-1 — SwiftLint custom rules  `[S]`
 - **Depends on:** nothing
-- **Read:** ARCHITECTURE 6 · MOTION 3 (rule 8) · AGENTS 5 and 5a
-- **Build in `.swiftlint.yml`:** custom rules that fail on: `Color(red:`/hex colour literals outside
-  `Design/Theme`; `.system(size:`; raw animation curves (`.easeInOut`, `.spring(` …) outside `Design/Theme`;
-  bare `withAnimation {`; `ObservableObject`, `NavigationView`, `NavigationLink(destination:`; `print(`;
-  `@AppStorage` outside the app target; `canOpenURL`; banned words (Plan, Trace, Stop, Node, outing, Fork,
-  Organiser) **only inside string literals and type/case/file names**, with word boundaries.
-- **Done when:** a deliberate violation of each rule is caught (keep the examples in a test file excluded
-  from lint); `./scripts/check.sh` still green.
+- **Read:** `docs/adr/006-guardrails-and-agent-loop.md` · ARCHITECTURE 6 · MOTION 3 (rule 8) · AGENTS 5 and 5a
+- **Build in `.swiftlint.yml`** (custom rules, path-scoped with `included:`/`excluded:`) that fail on: `Color(red:`/hex colour
+  literals outside `Design/Theme`; `.system(size:`; raw animation curves (`.easeInOut`, `.spring(` …) outside `Design/Theme`;
+  bare `withAnimation {`; `ObservableObject`, `NavigationView`, `NavigationLink(destination:`; `print(`; `@AppStorage` outside the
+  app target; `canOpenURL`; banned words (Plan, Trace, Stop, Node, outing, Fork, Organiser) **only inside string literals and
+  type/case/file names**, with word boundaries; and the architecture rules of ADR 006 that a regex can see: `import SwiftUI` /
+  `UIKit` / `MapKit` in `*ViewModel.swift`, `Models/`, `Core/`, `LocalData/`; `public ` in `*Feature/` outside
+  `*Screens.swift`; `AppDependencies` outside `*Screens.swift`, `Core/` and `Vybe/`; `@MainActor` in `Core/` outside
+  `Router`, `Stores/`, `NetworkMonitor`; `@unchecked Sendable`, `nonisolated(unsafe)` and `assumeIsolated` without a
+  `// allowed: <reason>` comment on the same line.
+- **Done when:** a deliberate violation of each rule is caught (keep the examples in a test file excluded from lint);
+  `./scripts/check.sh` still green.
 
 ### X-2 — GitHub Actions: lint on every PR  `[S]`
 - **Depends on:** nothing
@@ -61,11 +67,11 @@ files). They run in parallel with the screen work.
 
 ### X-3 — String Catalogs per module  `[M]`
 - **Depends on:** F-0
-- **Read:** ARCHITECTURE 3.2 ("Package details to verify" #2) · AGENTS 5a
-- **Build:** decide and document how `String(localized:)` finds strings in a **package**: add a
-  `Localizable.xcstrings` to each target that shows text (resources + `bundle: .module`), put shared words in
-  `Design`, and prove it with one string in `DiscoverFeature` and one in `Design`. Update the screen template
-  with the exact call.
+- **Read:** ARCHITECTURE 3.2 ("Package details to verify" #2) · AGENTS 5a · F-0 proof (e)
+- **Build:** use F-0's result to decide and document how `String(localized:)` finds strings in a **package**. Proposal: one
+  `Localizable.xcstrings` **per target that shows text** (a single shared catalog is one big JSON file that Xcode rewrites, so
+  every PR would conflict), with shared words in `Design`. Prove it with one string in `DiscoverFeature` and one in `Design`.
+  Update the screen template with the exact call.
 - **Done when:** a string added to the catalog appears at runtime; the template and AGENTS 5a say how.
 
 ### X-4 — Accessibility review (repeat per feature)  `[M]`
@@ -76,10 +82,15 @@ files). They run in parallel with the screen work.
   44 pt targets, colour never the only signal; fix findings; record a short checklist in the PR.
 - **Done when:** the checklist is ticked for that feature.
 
-### X-5 — Golden example + template refresh  `[S]`
+### X-5 — Golden example, template refresh and screen generator  `[M]`
 - **Depends on:** SC-HD1 merged
-- **Build:** update `docs/templates/new-screen/README.md` and each feature folder's `README.md` to point to
-  the real files of the first finished screen; write a 30-minute walk-through script for the team.
+- **Read:** `docs/adr/006-guardrails-and-agent-loop.md`
+- **Build:** update `docs/templates/new-screen/README.md` and each feature folder's `README.md` to point to the real files of the
+  first finished screen; write `scripts/new_screen.py <Feature> <Screen>` (standard library only) that copies SC-HD1's View,
+  ViewModel, Preview and test into `VybeKit/Sources/<Feature>/<Screen>/`, renames the types, and prints the two lines the author
+  still has to edit (the route case from F-4 and the `case` in `<Feature>Screens.swift`); write a 30-minute walk-through script
+  for the team.
+- **Done when:** running the generator for a dummy screen produces files that build and whose test passes; the dummy is deleted.
 
 ### X-6 — Create GitHub issues from the task files  `[S]`
 - **Depends on:** nothing
@@ -93,6 +104,28 @@ files). They run in parallel with the screen work.
 - **Build:** a simple placeholder icon (1024 px, no text that might change with the name) in
   `Vybe/Assets.xcassets/AppIcon.appiconset`; the generated launch screen stays (required by the iOS 27 SDK). Final art
   waits for the app name.
+
+### X-13 — Architecture check script  `[S]`
+- **Depends on:** F-16
+- **Read:** `docs/adr/006-guardrails-and-agent-loop.md` · ARCHITECTURE 3.2
+- **Build:** `scripts/check_architecture.sh` (bash and grep only, so it also runs on the Linux lint runner) for the rules a lint
+  regex cannot express: every `*Feature` has `<Name>Screens.swift`; every `FooViewModel.swift` has a `FooViewModelTests.swift`
+  somewhere under `VybeKit/Tests/`; `RunTimes` appears only in Models, Core, LocalData, Remote, LiveFeature, PostingFeature and
+  ProfileFeature; no feature's `Package.swift` dependency list names another feature, `LocalData` or `Remote`. Prints the file
+  and line of each violation and exits non-zero. Call it from `scripts/check.sh` and from `.github/workflows/lint.yml` (X-2).
+- **Done when:** a deliberate violation of each rule makes it fail; the real tree passes.
+
+### X-14 — Agent loop: debug launch options and screenshot script  `[M]`
+- **Depends on:** F-9, F-4
+- **Read:** `docs/adr/006-guardrails-and-agent-loop.md`, `docs/adr/003-navigation.md`
+- **Build (App target, `#if DEBUG` only):** launch options read from `UserDefaults` arguments: `-stubMode loaded|empty|failing|loading`
+  (selects `AppDependencies.preview(_:)`-style stubs for the whole app), `-debugRoute <JSON of a Route, or a short form such as
+  hangout/<id>>`, `-skipOnboarding`, `-resetState`, `-simulateWalk`. Then `scripts/snap.sh <name> <route> <mode>`: boots an iPhone
+  simulator, installs and launches the app with those options, waits, saves `build/screenshots/<name>.png`. No personal data,
+  nothing compiled into release builds.
+- **Files:** `Vybe/App/LaunchOptions.swift`, `scripts/snap.sh`, a line in `.gitignore` for `build/`, a paragraph in `docs/PROCESS.md`
+- **Done when:** one command opens the Hangout detail placeholder in each of the four stub modes and saves four screenshots; the
+  options are absent from a Release build (check with `#if DEBUG`).
 
 ## Project settings and device checks (*Lohitaksh only*)
 
