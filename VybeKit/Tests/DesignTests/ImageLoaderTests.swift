@@ -100,3 +100,22 @@ private let sampleURL = URL(string: "https://example.invalid/kothrud-sample.png"
         try await loader.image(at: sampleURL, maxPixelSize: 100)
     }
 }
+
+@Test func nonFiniteOrZeroSizeIsAnErrorNotACrash() async {
+    let loader = ImageLoader(fetch: { _ in Data() })
+
+    for size in [CGFloat.nan, .infinity, 0, -5] {
+        await #expect(throws: ImageLoadError.invalidSize) {
+            try await loader.image(at: sampleURL, maxPixelSize: size)
+        }
+    }
+}
+
+@Test func schemeIsCaseInsensitive() async throws {
+    let png = makePNG(width: 80, height: 40)
+    let loader = ImageLoader(fetch: { _ in png })
+
+    let image = try await loader.image(at: URL(string: "HTTPS://example.invalid/a.png")!, maxPixelSize: 50)
+
+    #expect(max(image.width, image.height) <= 50)
+}

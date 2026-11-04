@@ -5,6 +5,7 @@ import ImageIO
 /// Why an image could not be loaded. Callers show a failure state; nothing here crashes.
 public enum ImageLoadError: Error, Equatable, Sendable {
     case unsupportedURL
+    case invalidSize
     case fileNotFound
     case badResponse
     case decodeFailed
@@ -46,15 +47,18 @@ public actor ImageLoader {
     /// Returns the picture at `url`, no larger than `maxPixelSize` on its long side.
     /// A second call for the same URL and size reuses the cache; two calls at once share one load.
     public func image(at url: URL, maxPixelSize: CGFloat) async throws -> CGImage {
-        guard url.isFileURL || url.scheme == "https" else { throw ImageLoadError.unsupportedURL }
-        let key = "\(url.absoluteString)@\(Int(maxPixelSize))"
+        guard url.isFileURL || url.scheme?.lowercased() == "https" else { throw ImageLoadError.unsupportedURL }
+        // A NaN or infinite size (for example from a zero-size layout) must be an error, never a crash.
+        guard maxPixelSize.isFinite, maxPixelSize > 0 else { throw ImageLoadError.invalidSize }
+        let pixelSize = maxPixelSize.rounded(.up)
+        let key = "\(url.absoluteString)@\(Int(pixelSize))"
 
         if let cached = cache.object(forKey: key as NSString) { return cached }
         if let running = inFlight[key] { return try await running.value }
 
         let task = Task { [fetch] in
             let data = try await fetch(url)
-            return try Self.downsample(data, maxPixelSize: maxPixelSize)
+            return try await Self.downsample(data, maxPixelSize: pixelSize)
         }
         inFlight[key] = task
         defer { inFlight[key] = nil }
@@ -64,7 +68,8 @@ public actor ImageLoader {
         return image
     }
 
-    private static func downsample(_ data: Data, maxPixelSize: CGFloat) throws -> CGImage {
+    /// `@concurrent` so decoding runs on the background pool, not on this actor (cache hits stay quick).
+    @concurrent private static func downsample(_ data: Data, maxPixelSize: CGFloat) async throws -> CGImage {
         let sourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
         guard let source = CGImageSourceCreateWithData(data as CFData, sourceOptions) else {
             throw ImageLoadError.decodeFailed
