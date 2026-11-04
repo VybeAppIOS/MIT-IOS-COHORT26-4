@@ -22,6 +22,8 @@ public struct TagRow: View {
                     .overlay(Capsule().stroke(Theme.Color.separator))
             }
         }
+        // FlowLayout is only as wide as its widest row; this keeps a few short tags at the leading edge.
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
