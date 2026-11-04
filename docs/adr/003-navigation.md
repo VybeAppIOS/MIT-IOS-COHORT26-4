@@ -65,6 +65,9 @@ round-trips through JSON.
 
 ## F-0 results (4 Nov 2026, Xcode 27.1, iPhone 18 Pro simulator)
 - [x] `TabView` with `Tab(value:role: .search)` last renders as the trailing Search tab (simulator screenshot).
-      `.searchable` inside the search stack compiled; typing into it was **not exercised** (needs a manual check).
+      `.searchable` inside the search stack compiled; typing into it was **not exercised** (proof f, partly).
+      **Written fallback:** verified in F-9 (tab shell). If the search field misbehaves there, change this ADR first.
 - [x] `NavigationStack(path:)` bound to a `[Route]` in an `@Observable` router compiles; unit test: `setPath` shrinks the path.
-- [ ] The real **back swipe** was **not driven** (no UI automation). Manual check pending; the fallback is unchanged.
+- [~] The real **back swipe** (proof g) was **not driven** (no UI automation). `setPath` is covered by a unit test.
+      **Written fallback:** F-4's `setPath` design stays as written; F-9 checks the swipe on the simulator. If the swipe does not
+      pop the router's path, F-4 must use a method instead of a `didSet` (this ADR already says so).
