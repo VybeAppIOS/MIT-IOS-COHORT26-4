@@ -1,3 +1,4 @@
+import Core
 import Testing
 @testable import Vybe
 
@@ -5,6 +6,6 @@ import Testing
 struct VybeTests {
     @MainActor
     @Test func rootViewCanBeCreated() {
-        _ = RootView()
+        _ = RootView(deps: .preview(.loaded))
     }
 }

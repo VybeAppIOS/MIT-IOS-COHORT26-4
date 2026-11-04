@@ -110,8 +110,9 @@ Four college students who are new to shipping code and rely heavily on AI.
   text: `@ScaledMetric`.
 - **Accessibility:** every icon-only button, map pin and photo has an
   `accessibilityLabel`; tap targets at least 44×44 pt; never colour alone for state.
-- **Text:** ViewModels give display text as `String(localized:)` or
-  `LocalizedStringResource`. Money, distance and time only with `.formatted(...)`
+- **Text:** ViewModels give display text as `String(localized: "feature.key", bundle: #bundle)` (never without
+  `bundle:`, see `docs/templates/new-screen/README.md`) or
+  `LocalizedStringResource`; one `Localizable.xcstrings` per target, shared words in `Design`. Money, distance and time only with `.formatted(...)`
   (₹, km). Plurals in `Localizable.xcstrings`. Never type "Rs" or "km" by hand.
 - **Icons:** SF Symbols. **Colours:** Asset Catalog colours through Theme, no hex.
 - **System components only** for tab bar, navigation bars and sheets; no custom backgrounds.
