@@ -1,52 +1,35 @@
 # Foundation tasks (do these first; they unblock everything)
 
-Size: **S** ≈ half a day · **M** ≈ one day · **L** ≈ one and a half to two days.
-"DoD" = the Definition of Done in `AGENTS.md` section 6. Before any task, read
-`docs/START-HERE.md` and the ADRs your task names (`docs/adr/`, short; they win over older documents).
-Code goes in `VybeKit/Sources/<Module>/` (folders already exist).
-Types in `Models` and `Core` that other modules use are `public` with an explicit `public init`.
-**Isolation (ADR 001):** `Models`, `Core` and `LocalData` are not main-actor by default. Write plain
-`public protocol X: Sendable`; never hand-write `nonisolated`, and never put `@MainActor` on a repository protocol,
-a rule or a service protocol. Only `Router`, the stores, `NetworkMonitor` and `AppDependencies.preview` are `@MainActor`.
-**Features (ADR 002):** a feature's only `public` type is its `<Name>Screens`; Views and ViewModels are `internal`.
+Size: **S** ≈ half a day · **M** ≈ one day · **L** ≈ one and a half to two days. "DoD" = `AGENTS.md` section 6. Before any task read
+`docs/START-HERE.md` and the ADRs your task names (`docs/adr/`; they win over older documents). Code goes in
+`VybeKit/Sources/<Module>/`. Types in `Models` and `Core` that other modules use are `public` with an explicit `public init`.
+**Isolation (ADR 001):** `Models`, `Core` and `LocalData` are not main-actor by default: write plain `public protocol X: Sendable`;
+never hand-write `nonisolated`; never put `@MainActor` on a repository protocol, a rule or a service protocol (only `Router`, the
+stores, `NetworkMonitor` and `AppDependencies.preview` are `@MainActor`). **Features (ADR 002):** a feature's only `public` type is
+its `<Name>Screens`; Views and ViewModels are `internal`.
 
-Gates (no dates, only proof): **G1** = F-0 merged (settings are final; Core tasks may start). **G2** = F-4, F-5,
-F-16, F-9, DS-1/2/3 merged (the app runs; screens may start). **G3** = SC-HD1 merged (the golden screen exists; copy it
-with `scripts/new_screen.py`).
-
-Order: **F-0** (Lohitaksh) and **F-1** first. Models (F-1, F-2, F-3), Design (DS-*), content (X-C*) and tooling (X-*)
-do not wait for G1. Everything that writes code in `Core/` waits for F-0. Then F-4, DS-1 in parallel; then F-5, F-16,
-F-6, F-7, F-8, F-9, F-10. After G2, every other task in the pool is open.
+Gates (proof, not dates): **G1** = F-0 merged (settings final; Core tasks may start). **G2** = F-4, F-5, F-16, F-9, DS-1/2/3 merged
+(the app runs; screens may start). **G3** = SC-HD1 merged (the golden screen exists; copy it with `scripts/new_screen.py`). Order:
+Models (F-1 to F-3), Design (DS-*), content (X-C*) and tooling (X-*) do not wait for G1; everything that writes code in `Core/`
+waits for F-0; then F-4 and DS-1 in parallel; then F-5, F-16, F-6, F-7, F-8, F-9, F-10. After G2 every other task is open.
 
 ### F-0 — Link VybeKit, set the concurrency and language modes, prove the architecture  `[M]`  *(Lohitaksh only: project settings)*
 - **Depends on:** nothing
+- **Status:** **done 4 Nov 2026** (PR 1); the results are at the bottom of ADRs 001 to 004. Still to verify later: previews in the
+  package canvas (proof a, at SC-HD1 or F-9), typing into `.searchable` (proof f, F-9) and the real back swipe (proof g, F-9).
 - **Unlocks (G1):** every task that writes code in `Core/` (F-4, F-5, F-6, F-7, F-10, F-11, F-13, F-14, F-15) and F-16.
-- **Read:** `docs/adr/001-concurrency.md`, `002`, `003`, `004` · ARCHITECTURE 3.1, 3.2 ("Package details to verify") · BEFORE-BUILD 3
-- **Build:**
-  1. *Link:* Xcode › File › Add Package Dependencies › Add Local › `VybeKit`. Add the libraries `Models, Core, Design,
-     Components, LocalData` and all 13 `*Feature` libraries to the `Vybe` app target.
-  2. *Settings (ADR 001):* in `VybeKit/Package.swift` take the `uiSettings` off **Core** (Models, Core and LocalData: no
-     default isolation, no `NonisolatedNonsendingByDefault`); keep it on Design, Components and every Feature; remove
-     `swiftLanguageModes: [.v5]`; set the app's `SWIFT_VERSION` to 6.0. If Swift 6 mode blocks the proofs, stay in
-     Swift 5 mode with complete strict-concurrency checking as warnings and write that in ADR 001.
-  3. *Prove (60 minutes per item; at the limit stop, record the fallback in the ADR and tell the team).* Use a throwaway
-     slice in `DiscoverFeature` and `Core`, deleted at the end:
-     a. a `#Preview` works in a Feature target that depends on Core, Design and Components;
-     b. a `@MainActor @Observable` store in Core is used from an `internal` ViewModel in a Feature, zero warnings;
-     c. a `Sendable` repository protocol in Core is implemented in LocalData by a struct that reads bundled JSON through
-        `Bundle.module`, and runs off the main thread (assert in a test);
-     d. a Feature with `internal` View and ViewModel and a `public` `Screens` type is called from the App, and a
-        `@testable import` test passes under `xcodebuild test`;
-     e. strings and colours: `String(localized:)` finds a catalog inside a package target (try `bundle: #bundle`, then
-        `.module`), and a colour from `Design/Resources/Colors.xcassets` resolves in a preview and in the app
-        (the result feeds X-3);
-     f. a `TabView` with `Tab(role: .search)` last and `.searchable` inside the search stack (BEFORE-BUILD spike 2);
-     g. a `NavigationStack(path:)` bound to a `[Route]` held by an `@Observable` router: the back swipe pops
-        (the result feeds F-4's `setPath`).
-  4. Write each result (date, Xcode, simulator) at the bottom of ADRs 001 to 004. If a proof fails, change the ADR first.
+- **Read:** `docs/adr/001-concurrency.md` to `004` · ARCHITECTURE 3.1, 3.2 · BEFORE-BUILD 3
+- **What it did:** linked `VybeKit` to the app target (the libraries Models, Core, Design, Components, LocalData and all 13 `*Feature`
+  libraries); took `uiSettings` off Core (Models, Core and LocalData: no default isolation, no `NonisolatedNonsendingByDefault`);
+  removed `swiftLanguageModes: [.v5]` and set `SWIFT_VERSION = 6.0`; exercised with a throwaway slice (deleted at the end): (a) a
+  `#Preview` in a Feature target, (b) a `@MainActor @Observable` store used from an `internal` ViewModel, (c) a `Sendable`
+  repository reading bundled JSON through `Bundle.module` off the main thread, (d) a Feature with `internal` View/ViewModel and a
+  `public` `Screens` called from the App with a `@testable import` test, (e) strings and colours in a package target, (f) a
+  `TabView` with `Tab(role: .search)` last and `.searchable` inside the search stack, (g) a `NavigationStack(path:)` bound to a
+  `[Route]` in an `@Observable` router. Each item had a 60-minute limit and a written fallback (ADR).
 - **Files:** `Vybe.xcodeproj` (via Xcode only), `VybeKit/Package.swift`, `docs/adr/*` (results)
-- **Done when:** the app builds with `import Models`; `./scripts/check.sh` is green; every proof is ticked or has a
-  written fallback; the throwaway code is deleted.
+- **Done when:** the app builds with `import Models`; `./scripts/check.sh` is green; every proof is ticked or has a written
+  fallback; the throwaway code is deleted.
 
 ### F-1 — IDs, shared value types and the JSON coder  `[S]`
 - **Depends on:** nothing
@@ -178,7 +161,7 @@ F-6, F-7, F-8, F-9, F-10. After G2, every other task in the pool is open.
 
 ### F-8 — LocalData: loader, sample content, persistence, content test  `[L]`
 - **Depends on:** F-2, F-5
-- **Read:** DATA-MODEL 1, 4 · ARCHITECTURE 3.2 (LocalData, "Package details to verify") · PRODUCT 8 · `docs/adr/004-data-contract.md`, `005-state-and-persistence.md`
+- **Read:** DATA-MODEL 1, 4 · ARCHITECTURE 3.2 (LocalData, Package details) · PRODUCT 8 · `docs/adr/004-data-contract.md`, `005-state-and-persistence.md`
 - **Build in `LocalData/`:** `ContentLoader` (public; reads every `Places/*.json` and `Hangouts/*.json` from `Bundle.module`
   `Content/`, checks `schemaVersion`: older is accepted, a newer major version is rejected with a clear error),
   `LocalHangoutRepository`, `LocalPlaceRepository`, `LocalSearchRepository` (on-device search: title > tag > area scoring

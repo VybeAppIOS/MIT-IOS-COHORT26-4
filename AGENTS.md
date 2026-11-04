@@ -9,6 +9,7 @@ Applies to every tool and every teammate.
   `docs/BEFORE-BUILD.md` (setup, risks). Later decisions: `docs/LATER.md`.
 - Unanswered questions: `docs/OPEN-QUESTIONS.md`. If your task touches one, stop and ask a human.
 - Decisions that are expensive to change: `docs/adr/` (they win over older documents). First day: `docs/DAY-ONE.md`.
+- Evidence links behind the decisions: `docs/SOURCES.md`.
 
 ## 1. Start of every task
 Read `AGENTS.md`, `docs/START-HERE.md` and **your task in `docs/tasks/`** (the person gives you its

@@ -1,20 +1,19 @@
 # Screen tasks: onboarding, sign-in, Discover, Hangout detail
 
-Every screen task follows `docs/templates/new-screen/README.md` and the DoD in `AGENTS.md` section 6:
-View + ViewModel + three previews (loaded / empty / error, plus one at `.accessibility3`) + a ViewModel
-test + `./scripts/check.sh` + a PR with screenshot and "In my own words". Data comes only from
-repositories/stores injected into the ViewModel (sample data via `LocalData` or the `Core/Fakes` stubs; the
-backend is not built yet). Navigation only through `router`. The screen IDs (`O1`, `D1`…) are defined in
-`docs/IA.md` section 4: read your row there first. Use `docs/START-HERE.md` section 1 for the general reading.
+Every screen task follows `docs/templates/new-screen/README.md` and the DoD in `AGENTS.md` section 6: View + ViewModel + three
+previews (loaded / empty / error, plus one at `.accessibility3`) + a ViewModel test + `./scripts/check.sh` + a PR with screenshot and
+"In my own words". Data comes only from repositories/stores injected into the ViewModel (sample data via `LocalData` or the
+`Core/Fakes` stubs); navigation only through `router`. Screen IDs (`O1`, `D1`…) are defined in `docs/IA.md` section 4: read your row
+there first; general reading is `docs/START-HERE.md` section 1.
 
-Common "Depends on" for every screen: **F-4** (router), **F-5** (repositories/stubs/stores), **F-9**
-(app shell with your route stub), **DS-1/DS-2/DS-3** (Theme, state views, buttons). Only extras are listed.
+Common "Depends on" for every screen: **F-4** (router), **F-5** (repositories/stubs/stores), **F-9** (app shell with your route stub),
+**DS-1/DS-2/DS-3** (Theme, state views, buttons). Only extras are listed.
 
 **Wiring (ADR 002 and 003):** your screen's route already exists (F-4) and its placeholder `case` is in
 `<Name>Feature/<Name>Screens.swift` (F-16). Replace that one `case` with your View built on your ViewModel; keep Views and
-ViewModels `internal` (the feature's only `public` type is its `Screens`); do not edit the App target, `Core/Navigation`, `Models`
-or `Package.swift`. Start from `scripts/new_screen.py` once X-5 exists, otherwise from the template. Stop and ask if you need a
-change in any of those shared places.
+ViewModels `internal` (the feature's only `public` type is its `Screens`); do not edit the App target, `Core/Navigation`, `Models` or
+`Package.swift`. Start from `scripts/new_screen.py` once X-5 exists, otherwise from the template. Stop and ask if you need a change in
+any of those shared places.
 
 ---
 

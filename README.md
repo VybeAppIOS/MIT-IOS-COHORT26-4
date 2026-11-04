@@ -14,6 +14,7 @@ with friends, do it live on a map, and post it. Built in SwiftUI by four student
 | `docs/PRODUCT.md`, `docs/IA.md` | what the app is, every screen |
 | `docs/adr/` | the short decision records that win over older documents (read 001 to 003 first) |
 | `docs/ARCHITECTURE.md`, `docs/DATA-MODEL.md`, `docs/MOTION.md` | how it is built |
+| `docs/SOURCES.md` | the evidence links behind the decisions (kept out of the other documents) |
 | `AGENTS.md` | rules every person and AI tool follows |
 | `Vybe/` | the app target (wiring only) |
 | `VybeKit/` | the local Swift package: almost all the code |

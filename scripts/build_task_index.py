@@ -85,28 +85,26 @@ areas = [('00-foundation', 'Foundation (do first)'), ('10-design', 'Design syste
 start_now = [t for t in (tasks[i] for i in order) if not t['deps'] and 'common' not in t.get('deps_raw', '')
              and not t['id'].startswith('BK') and t['id'] != 'F-12']
 out = ['# Vybe task pool (generated: do not edit; run `python3 scripts/build_task_index.py`)', '',
-       'Take any task whose **Depends on** tasks are merged. Details are in the linked file. Claim a task by',
-       'assigning yourself on its GitHub issue. Start with `docs/START-HERE.md` and `docs/DAY-ONE.md`.',
-       '**Size** (S, M, L) is only a hint for how big one pull request will be.', '',
-       '**Gates (proof, not dates):** **G1** = F-0 merged (settings final; tasks that write code in `Core/` may start) ·',
-       '**G2** = F-4, F-5, F-16, F-9 and DS-1/2/3 merged (the app runs; screens may start) · **G3** = SC-HD1 merged',
-       '(the golden screen exists; copy it with `scripts/new_screen.py`). **common** (in screen tasks) = F-4, F-5, F-9 (which',
-       'brings F-16), DS-1, DS-2, DS-3.', '',
-       '## Start now (no dependencies)', '',
-       ', '.join(f"**{t['id']}** {t['title']}" for t in start_now), '',
-       '**Suggested order:** day one = F-0 (Lohitaksh) · F-1 then F-2, F-3 (Models) · DS-1 then DS-6 · X-C1 · X-1, X-2, X-6 ·',
-       'after G1 = F-4, F-6, F-11, F-13, F-14, F-15, then F-5, F-16, F-7, F-8, F-10 · G2 = F-9 and DS-2/3/4/5, then components',
-       'CP-1…CP-11, X-13, X-14 · G3 = SC-HD1 first, then any screen whose dependencies are merged · other X tasks any time.', '']
+       'Take any task whose **Depends on** tasks are merged; details are in the file named under each heading. Claim a task by',
+       'assigning yourself on its GitHub issue. Start with `docs/START-HERE.md`. **Size** S, M, L is only a hint for the size of one PR.', '',
+       '**Gates (proof, not dates):** **G1** = F-0 merged (Core tasks may start) · **G2** = F-4, F-5, F-16, F-9 and DS-1/2/3 merged (the',
+       'app runs; screens may start) · **G3** = SC-HD1 merged (the golden screen exists; copy it with `scripts/new_screen.py`).',
+       '**common** (in screen tasks) = F-4, F-5, F-9 (which brings F-16), DS-1, DS-2, DS-3.', '',
+       '**Start now (no dependencies):** ' + ', '.join(f"**{t['id']}**" for t in start_now) + '.',
+       '**Suggested order:** F-0 (Lohitaksh) · F-1 then F-2, F-3 (Models) · DS-1 then DS-6 · X-C1 · X-1, X-2, X-6 · after G1: F-4, F-6,',
+       'F-11, F-13, F-14, F-15, then F-5, F-16, F-7, F-8, F-10 · G2: F-9 and DS-2/3/4/5, then components CP-1…CP-11, X-13, X-14 ·',
+       'G3: SC-HD1 first, then any screen whose dependencies are merged · other X tasks any time.', '']
 n = 0
 for key, label in areas:
     rows = [tasks[i] for i in order if os.path.basename(tasks[i]['file']).startswith(key)]
     if not rows: continue
-    out += [f'## {label}', '', '| ID | Task | Size | Depends on | Details |', '|---|---|---|---|---|']
+    files = sorted({tasks[i]['file'] for i in order if os.path.basename(tasks[i]['file']).startswith(key)})
+    out += [f'## {label}', '', 'Details: ' + ', '.join(f'`{f}`' for f in files), '', '| ID | Task | Size | Depends on |', '|---|---|---|---|']
     for t in rows:
         base = ', '.join(t['deps']) if t['deps'] else '—'
         deps = ('common' + (', ' + base if t['deps'] else '')) if 'common' in t.get('deps_raw', '') else base
         note = f" {t['note']}" if t['note'] else ''
-        out.append(f"| **{t['id']}** | {t['title']}{note} | {t['size']} | {deps} | `{t['file']}` |")
+        out.append(f"| **{t['id']}** | {t['title']}{note} | {t['size']} | {deps} |")
         n += 1
     out.append('')
 open('docs/TASKS.md', 'w', encoding='utf-8').write('\n'.join(out))

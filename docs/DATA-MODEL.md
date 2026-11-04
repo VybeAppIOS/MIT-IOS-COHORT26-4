@@ -1,9 +1,7 @@
-# Vybe: Data Model and Storage (PROPOSAL, for mentor review)
+# Vybe: Data Model and Storage
 
-Status: **proposal, not approved.** Written 3 Nov 2026 from the team's decisions
-(`docs/PRODUCT.md` section 4) and research into Apple's, Firebase's and Supabase's
-documentation. Sources at the end. Items marked **(decide)** need a team answer; they
-are also listed in `docs/OPEN-QUESTIONS.md`.
+Status: proposal (3 Nov 2026), from the team's decisions (`docs/PRODUCT.md` section 4) and research into Apple's, Firebase's and
+Supabase's documentation. Sources at the end. Items marked **(decide)** need a team answer and are also in `docs/OPEN-QUESTIONS.md`.
 
 ---
 
@@ -15,7 +13,7 @@ are also listed in `docs/OPEN-QUESTIONS.md`.
 | Saved Hangouts, Drafts, Hangout runs | one JSON file `Application Support/Vybe/library.json` | backend; the **live run** stays in `library.json` until it ends |
 | Photos from a run | JPEG files in `Application Support/Vybe/photos/<runID>/` | uploaded to backend storage; a small photo cache on the phone |
 | Name and photo from onboarding | `profile.json` + an image file | backend profile |
-| Small settings (onboarding done, chosen area, interests) | `UserDefaults` through `Core/Services/AppSettings` (not `@AppStorage`: that is SwiftUI-only) | same |
+| Small settings (onboarding done, chosen area, interests) | `UserDefaults` through `Core/Services/AppSettings` (not `@AppStorage`: SwiftUI-only) | same |
 | Login tokens | none | kept by the backend SDK in the Keychain (we never store tokens ourselves) |
 | Offline copy of what you last saw | not needed (everything is local) | Firebase: built-in cache. Supabase: our own JSON cache files |
 
@@ -24,20 +22,19 @@ are also listed in `docs/OPEN-QUESTIONS.md`.
 | Option | Verdict | Reason |
 |---|---|---|
 | **Plain JSON files** (Codable) | **Use** | Our models are already `Codable` structs. One file, written atomically, is simple and testable. |
-| UserDefaults (via `AppSettings`) | Only small settings | Apple: UserDefaults is stored unencrypted; personal data belongs elsewhere. |
+| UserDefaults (via `AppSettings`) | Only small settings | Apple: stored unencrypted; personal data belongs elsewhere. |
 | Keychain | Only secrets | Built for passwords and tokens, not app data. |
-| **SwiftData** | **Not now** | (1) `@Query` only works inside a SwiftUI View (Apple engineer, Developer Forums, checked), which breaks our MVVM rule that Views don't load data. (2) `@Model` objects are classes and not `Sendable`, so we'd need a second copy of every model. (3) iOS 18 brought memory and behaviour problems; several well-known developers went back to Core Data. (4) Our server will be the source of truth; a local database would be a second copy to keep in sync. |
-| Core Data | Not now | Powerful but wordy, and same "second copy" problem. |
+| **SwiftData** | **Not now** | (1) `@Query` only works inside a SwiftUI View (Apple engineer, Developer Forums, checked), which breaks our rule that Views don't load data. (2) `@Model` objects are classes and not `Sendable`, so every model would need a second copy. (3) iOS 18 brought memory and behaviour problems; several well-known developers went back to Core Data. (4) Our server will be the source of truth: a local database is a second copy to keep in sync. |
+| Core Data | Not now | Powerful but wordy, and the same "second copy" problem. |
 
-Confidence: high for Phase 1. Medium-high for Phase 2 if we pick Firebase, whose cache
-is on by default on iOS (100 MB) and tells us when data came from the cache (checked).
-If we pick Supabase (no cache), revisit only if offline search becomes a real need.
+Confidence: high for Phase 1; medium-high for Phase 2 if we pick Firebase, whose cache is on by default on iOS (100 MB) and tells us
+when data came from the cache (checked). With Supabase (no cache), revisit only if offline search becomes a real need.
 
 ## 2. Conventions every model follows
 
 | Topic | Rule |
 |---|---|
-| **IDs** | Always `String` in files and the database. In Swift, wrapped as `ID<Tag>` so a `PlaceID` can't be passed where a `HangoutID` is expected. |
+| **IDs** | Always `String` in files and the database. In Swift wrapped as `ID<Tag>` so a `PlaceID` can't be passed where a `HangoutID` is expected. |
 | Team content IDs | `place-<slug>-<4 random chars>`, `hangout-<slug>-<4 random chars>`, made by the K1 script. **Never changed**, even if the name changes. |
 | User content IDs | random lower-case UUID made on the phone (safe to retry; works in Firestore and Postgres). Never counting-up numbers (Firestore warns they cause slowdowns). |
 | `UserID` | the backend's login user ID (a string). |
@@ -48,12 +45,11 @@ If we pick Supabase (no cache), revisit only if offline search becomes a real ne
 | **Fixed states** (draft, live, done...) | real Swift `enum`s stored as strings. |
 | **Lists the team grows** (category, tags, report reasons) | string-backed types, so an unknown value from newer data can't crash an older app. |
 | **Versioning** | every JSON file has `schemaVersion: Int`. New fields are optional, so older app builds still load newer data. |
-| **Soft delete** | `deletedAt: Date?` on users, comments and messages, shown as "[deleted]". Photo files are really deleted (proposal; whether *all* of a person's photos go is still open in `OPEN-QUESTIONS.md`). |
-| **JSON decoding** | `JSONDecoder` with `.iso8601` dates; the `schemaVersion` key in files is read by the loader, not by the model structs. |
+| **Soft delete** | `deletedAt: Date?` on users, comments and messages, shown as "[deleted]". Photo files are really deleted (all of a person's photos: decided 3 Nov). |
+| **JSON coding** | everything goes through `JSONCoding` (ISO 8601 dates, ADR 004); the loader reads `schemaVersion`, not the model structs. |
 | Backend wrappers | Firebase-only property wrappers (`@DocumentID`, `@ServerTimestamp`) live in the backend package (`VybeRemote`) only; Models never import a backend SDK. |
 
 ## 3. Every entity
-
 `?` = optional. **Read** = who may see it (the server must enforce this, not just the app).
 
 ### Content
@@ -183,32 +179,13 @@ erDiagram
 Counts are left out of the files; in Phase 2 the server keeps them.
 
 ## 5. Swift sketch (Models module)
+`ID<Tag>`, `Coordinate`, `RupeeRange` and the shared state types are real code in `Models/Content/` and `Models/State/` (task F-1).
+`ID<Tag>` wraps a `String`: `Hashable`, `Sendable`, `ExpressibleByStringLiteral`, `Codable` as a plain JSON string, and
+`CodingKeyRepresentable` so an ID can be a JSON object key (`[SpotID: Date]` encodes as an object). Typealiases: `PlaceID`,
+`HangoutID`, `SpotID`, `RunID`, `PhotoID`, `UserID`, `CommentID`, `ConversationID`, `MessageID`, `ReportID`. The rest follows this
+pattern (public `init`s are required because Models is a separate module; left out here to save space):
 
 ```swift
-import Foundation
-
-/// Typed ID: ID<Place> and ID<Hangout> can't be mixed up. In JSON it's a plain string.
-public struct ID<Tag>: Hashable, Codable, Sendable, ExpressibleByStringLiteral {
-    public let rawValue: String
-    public init(_ rawValue: String) { self.rawValue = rawValue }
-    public init(stringLiteral value: String) { rawValue = value }
-    public init(from decoder: any Decoder) throws {
-        rawValue = try decoder.singleValueContainer().decode(String.self)
-    }
-    public func encode(to encoder: any Encoder) throws {
-        var container = encoder.singleValueContainer()
-        try container.encode(rawValue)
-    }
-}
-public typealias PlaceID = ID<Place>
-public typealias HangoutID = ID<Hangout>
-public typealias SpotID = ID<Spot>
-public typealias RunID = ID<HangoutRun>
-public typealias UserID = ID<UserProfile>
-
-public struct Coordinate: Codable, Hashable, Sendable { public var latitude, longitude: Double }
-public struct RupeeRange: Codable, Hashable, Sendable { public var lower, upper: Int }   // whole ₹ (not min/max: those shadow Swift's functions)
-
 public struct Spot: Codable, Hashable, Sendable, Identifiable {
     public let id: SpotID          // unique inside its Hangout
     public var placeID: PlaceID
@@ -248,8 +225,7 @@ public struct RunTimes: Codable, Hashable, Sendable {
     public var visitedAt: [SpotID: Date]
 }
 ```
-(`Place`, `Photo`, `HangoutRun` follow the same pattern. Public `init`s are required
-because Models is a separate module; left out here to save space.)
+`Place`, `Photo` and `HangoutRun` follow the same pattern.
 
 ## 6. Backend mapping (Phase 2)
 
@@ -263,112 +239,64 @@ because Models is a separate module; left out here to save space.)
 | `users/{uid}/saves/{hangoutID}` | the document name is the Hangout ID, so you can't save twice |
 | `runs/{id}` | the post, with visits and photos inside, plus copied card fields and counts |
 | `runs/{id}/comments/{cid}`, `runs/{id}/likes/{uid}` | one like per person |
-| `users/{uid}/friends/{friendUid}` | written on both sides by a server function |
-| `users/{uid}/blocks/{blockedUid}` | |
+| `users/{uid}/friends/{friendUid}`, `users/{uid}/blocks/{blockedUid}` | friends written on both sides by a server function |
 | `users/{uid}/feed/{runID}` | **copy each new post into every friend's feed** when posted (max 500 writes per post) |
 | `conversations/{id}` with `members/` and `messages/` inside | chat |
 | `reports/{id}` | create only; only the team reads |
 | `users/{uid}/activity/{id}` | written by server functions |
 
-Limits to design around (Firestore docs, checked):
-- one document is at most 1 MiB;
-- security rules can look up at most 10 other documents per request;
-- an `in` query takes at most 30 values (so "posts by all my friends" can't be one query: hence the copied feed);
-- **"rules are not filters"**: a query that could return even one forbidden document fails completely.
-
-Counts (likes, comments) are fields updated by the server, not counted live (`count()`
-does not work offline).
+Limits to design around (Firestore docs, checked): one document is at most 1 MiB; security rules can look up at most 10 other
+documents per request; an `in` query takes at most 30 values (so "posts by all my friends" can't be one query: hence the copied feed);
+**"rules are not filters"**: a query that could return even one forbidden document fails completely. Counts (likes, comments) are
+fields updated by the server, not counted live (`count()` does not work offline).
 
 ### If Supabase (Postgres)
-Tables: `profiles`, `account_private`, `places`, `place_suggestions`, `hangouts`,
-`spots` (position, 2 to 10 checked by the database), `saves`, `runs`, `visits`,
-`photos`, `comments` (parent link), `likes`, `friend_requests`, `friendships`,
-`blocks`, `conversations`, `conversation_members`, `messages` (kind + payload),
-`poll_votes`, `reports`, `activity`, `remix_credits`.
-
-Privacy is enforced with **row-level security** (a rule attached to every table, like an
-automatic "WHERE" on every query). Example for posts: *posted, not blocked either way,
-and (public, or mine, or we are friends)*.
+Tables: `profiles`, `account_private`, `places`, `place_suggestions`, `hangouts`, `spots` (position, 2 to 10 checked by the database),
+`saves`, `runs`, `visits`, `photos`, `comments` (parent link), `likes`, `friend_requests`, `friendships`, `blocks`, `conversations`,
+`conversation_members`, `messages` (kind + payload), `poll_votes`, `reports`, `activity`, `remix_credits`. Privacy is enforced with
+**row-level security** (a rule attached to every table, like an automatic "WHERE" on every query). Example for posts: *posted, not
+blocked either way, and (public, or mine, or we are friends)*.
 
 ### The hardest parts (whichever backend)
-1. **Friends-first feed:** a "friends" section (copied feed or SQL join) and a "public"
-   section, each paged separately.
-2. **Blocking everywhere:** feeds, comments, search, chat and friend requests. Postgres
-   can hide who blocked whom on the server; Firestore needs care.
+1. **Friends-first feed:** a "friends" section (copied feed or SQL join) and a "public" section, each paged separately.
+2. **Blocking everywhere:** feeds, comments, search, chat and friend requests. Postgres can hide who blocked whom on the server;
+   Firestore needs care.
 3. **Private profile switch:** rewrite `audience` on all that person's posts.
-4. **Counts:** server-kept fields.
-5. **Read receipts:** one `lastReadAt` per member, not one record per message.
+4. **Counts:** server-kept fields. 5. **Read receipts:** one `lastReadAt` per member, not one record per message.
 6. **Posts never change** when the author edits the Hangout: copy what the post needs.
 
-## 6a. Safety and sharing changes (ACCEPTED 3 Nov)
-See `docs/RISKS.md`. The model changes like this:
-- `Visit.visitedAt`, `HangoutRun.startedAt` / `endedAt` move into an **owner-only** record;
-  posts carry `visitOrder` and a rounded `durationMinutes` instead.
-- The GPS track is never uploaded; the mini-map draws lines between Place pins.
+## 6a. Safety and sharing changes (ACCEPTED 3 Nov; `docs/RISKS.md`)
+- `Visit.visitedAt`, `HangoutRun.startedAt` / `endedAt` move into an **owner-only** record; posts carry `visitOrder` and a rounded
+  `durationMinutes` instead. The GPS track is never uploaded; the mini-map draws lines between Place pins.
 - `HangoutRun.postedAt` is at least 30 minutes after `endedAt`.
-- Settings fields on `UserProfile`: who can comment, who can send requests, who can add
-  me to groups, show me in search.
+- Settings fields on `UserProfile`: who can comment, who can send requests, who can add me to groups, show me in search.
 - `Place.status` gains `closedByAuthorities`; `trekInfo` gains a safety note and season.
-- Reserved for later business models: external IDs on `Place`, a separate `Promotion`
-  entity (paid content never uses `isPick`), entitlements on the user.
-- **Invites for people without the app** (Android friends, **in version 1**): a shared
-  Hangout or post gets a public web page; "I'm in" from the web creates a lightweight
-  `GuestResponse` (hangoutID, display name typed by the guest, createdAt, optional
-  reminder email) without an account. Guests never appear in friend lists or chats.
-- **Group adds:** a `Membership` added by a non-friend of the added person starts as
-  `pending` until the person accepts.
-- **Friend requests:** requests with no mutual friends are marked `other` and shown in a
-  separate folder; caps of 30 sent per day and 100 pending.
+- Reserved for later business models: external IDs on `Place`, a separate `Promotion` entity (paid content never uses `isPick`),
+  entitlements on the user.
+- **Invites for people without the app** (Android friends, **in version 1**): a shared Hangout or post gets a public web page; "I'm in"
+  from the web creates a lightweight `GuestResponse` (hangoutID, display name typed by the guest, createdAt, optional reminder email)
+  without an account. Guests never appear in friend lists or chats.
+- **Group adds:** a `Membership` added by a non-friend of the added person starts as `pending` until the person accepts.
+- **Friend requests:** requests with no mutual friends are marked `other` and shown in a separate folder; caps of 30 sent per day and
+  100 pending.
 
 ## 7. Team decisions (3 Nov 2026)
-
 "Phase" means build order only. **Everything below ships in version 1 (18 Dec).**
-
-1. **Drafts:** part of version 1. Phase 1 builds Saved first; Drafts arrive
-   with the editor and Remix in Phase 2.
-2. **Live run without signal:** the live run always works offline (saved on the phone)
-   and uploads when it ends. This is the one exception to "no actions offline".
-3. **Photo limit:** 2 × the number of **visited** Spots.
-4. **Remix posting:** same rule as any Hangout, at least 2 visited Spots.
-5. **Remix credit:** only the direct parent gets credit.
-6. **Deleted or unpublished Hangout:** Saves show "No longer available"; posts stay.
-7. **"Done 40×"** counts posted runs only.
-8. **Account deletion:** comments and messages show "[deleted]"; groups they admin pass
-   to the oldest member; **the username is held for 30 days** after deletion (so nobody
-   can impersonate the deleted person to their friends), then it is free. (Changed 3 Nov
-   from "free immediately".) Registration data may need to be kept 180 days; a lawyer
-   decides (`docs/RISKS.md`).
-9. **Blocking inside a shared group:** both stay; the blocked person's messages are
-   hidden for the blocker.
-10. **Groups:** below 3 people becomes read-only; if the admin leaves, the oldest member
-    becomes admin.
-11. **Picks are posts.** A Pick is a Hangout the Vybe team has actually done and posted
-    from the official "Vybe" account (a `HangoutRun` with state posted, runner = the
-    Vybe account, and its Hangout marked `isPick`). It looks a little different (Picks
-    badge, verified look) but behaves exactly like any post: likes, comments, Save,
-    Remix, Share. So the feed has **one** card type, not two.
-12. **Same Place twice in one Hangout:** allowed, with a warning in the editor
-    ("You've added this place twice").
+1. **Drafts:** part of version 1. Phase 1 builds Saved first; Drafts arrive with the editor and Remix in Phase 2.
+2. **Live run without signal:** the live run always works offline (saved on the phone) and uploads when it ends: the one exception to
+   "no actions offline".
+3. **Photo limit:** 2 × the number of **visited** Spots. 4. **Remix posting:** same rule as any Hangout, at least 2 visited Spots.
+5. **Remix credit:** only the direct parent gets credit. 6. **Deleted or unpublished Hangout:** Saves show "No longer available";
+   posts stay. 7. **"Done 40×"** counts posted runs only.
+8. **Account deletion:** comments and messages show "[deleted]"; groups they admin pass to the oldest member; **the username is held
+   for 30 days** after deletion (so nobody can impersonate the deleted person to their friends), then it is free (changed 3 Nov from
+   "free immediately"). Registration data may need to be kept 180 days; a lawyer decides (`docs/RISKS.md`).
+9. **Blocking inside a shared group:** both stay; the blocked person's messages are hidden for the blocker.
+10. **Groups:** below 3 people becomes read-only; if the admin leaves, the oldest member becomes admin.
+11. **Picks are posts.** A Pick is a Hangout the Vybe team has actually done and posted from the official "Vybe" account (a
+    `HangoutRun` with state posted, runner = the Vybe account, its Hangout marked `isPick`). It looks a little different (Picks badge,
+    verified look) but behaves like any post: likes, comments, Save, Remix, Share. So the feed has **one** card type, not two.
+12. **Same Place twice in one Hangout:** allowed, with a warning in the editor ("You've added this place twice").
 
 ## Sources
-- Apple: [UserDefaults](https://developer.apple.com/documentation/foundation/userdefaults) ·
-  [File System Basics](https://developer.apple.com/library/archive/documentation/FileManagement/Conceptual/FileSystemProgrammingGuide/FileSystemOverview/FileSystemOverview.html) ·
-  [Keychain generic password](https://developer.apple.com/documentation/security/ksecclassgenericpassword) ·
-  [@Query only in Views (Apple DTS, forum 811232)](https://developer.apple.com/forums/thread/811232) ·
-  [What's new in SwiftData, WWDC24](https://developer.apple.com/videos/play/wwdc2024/10137/) ·
-  [SwiftData on iOS 18 memory (forum 761522)](https://developer.apple.com/forums/thread/761522) ·
-  [Returning to Core Data (Michael Tsai roundup)](https://mjtsai.com/blog/2024/10/16/returning-to-core-data/) ·
-  [Fatbobman: before using SwiftData](https://fatbobman.com/en/posts/key-considerations-before-using-swiftdata/) ·
-  [Hacking with Swift: SwiftData and concurrency](https://www.hackingwithswift.com/quick-start/swiftdata/how-swiftdata-works-with-swift-concurrency) ·
-  [NWPathMonitor](https://developer.apple.com/documentation/network/nwpathmonitor)
-- Firebase: [Offline data](https://firebase.google.com/docs/firestore/manage-data/enable-offline) ·
-  [Best practices (IDs)](https://firebase.google.com/docs/firestore/best-practices) ·
-  [Swift Codable mapping](https://firebase.google.com/docs/firestore/solutions/swift-codable-data-mapping) ·
-  [Quotas](https://firebase.google.com/docs/firestore/quotas) ·
-  [Queries](https://firebase.google.com/docs/firestore/query-data/queries) ·
-  [Rules are not filters](https://firebase.google.com/docs/firestore/security/rules-query) ·
-  [Counters](https://firebase.google.com/docs/firestore/solutions/counters) ·
-  [Aggregation queries](https://firebase.google.com/docs/firestore/query-data/aggregation-queries) ·
-  [Structure data](https://firebase.google.com/docs/firestore/manage-data/structure-data)
-- Supabase: [Row-level security](https://supabase.com/docs/guides/database/postgres/row-level-security) ·
-  [Realtime Postgres changes](https://supabase.com/docs/guides/realtime/postgres-changes)
+Evidence links: `docs/SOURCES.md` (section "Data model").

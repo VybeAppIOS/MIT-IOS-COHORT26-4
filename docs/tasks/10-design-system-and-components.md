@@ -1,12 +1,10 @@
 # Design system (`Design`) and shared components (`Components`)
 
-Read first: `docs/START-HERE.md`, `docs/MOTION.md` 2 and 3, `AGENTS.md` sections 5 and 5a.
-`Design` imports `Models` only. `Components` imports `Models` and `Design` only (so a component
-takes **plain values**, has **no ViewModel**, and loads nothing itself). Every task here needs:
-`#Preview`s for every variant and state (default, long text, large text `.accessibility3`,
-Reduce Motion where relevant), accessibility labels, 44 pt tap targets, Theme tokens only, real
-Kothrud wording in previews. No ViewModel test is needed, but add a snapshot-free logic test if
-the component has logic (for example a text-formatting function).
+Read first: `docs/START-HERE.md`, `docs/MOTION.md` 2 and 3, `AGENTS.md` sections 5 and 5a. `Design` imports `Models` only;
+`Components` imports `Models` and `Design` only, so a component takes **plain values**, has **no ViewModel** and loads nothing itself.
+Every task here needs `#Preview`s for every variant and state (default, long text, large text `.accessibility3`, Reduce Motion where
+relevant), accessibility labels, 44 pt tap targets, Theme tokens only and real Kothrud wording in previews. No ViewModel test is
+needed, but add a logic test if the component has logic (for example a text-formatting function).
 
 ### DS-1 — Theme: colours, type, spacing, radii, motion tokens  `[M]`
 - **Depends on:** nothing (the group must agree the values; propose them in the PR)
@@ -55,7 +53,7 @@ the component has logic (for example a text-formatting function).
 - **Build in `Design/Theme/`:** `.vybeAnimation(_:value:)` modifier and `withVybeAnimation(_:_:)` (both
   read Reduce Motion), `Theme.Motion.slideUp(reduceMotion:)` transition, and a `VybeHaptic` enum
   (`selection, start, stop, success, like`) with a `View.vybeHaptic(_:trigger:)` wrapper over
-  `.sensoryFeedback`. Add the SwiftLint custom rules from MOTION 5 as task X-1 (not here).
+  `.sensoryFeedback`. Add the SwiftLint custom rules from MOTION 3 (rule 8) as task X-1 (not here).
 - **Files:** `Design/Theme/MotionModifiers.swift, Haptics.swift`
 - **Done when:** a preview toggling a value animates normally and as a plain fade with
   `.environment(\.accessibilityReduceMotion, true)`.
