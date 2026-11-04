@@ -704,8 +704,8 @@ MIT-IOS-COHORT26-4/                          repo root
 **Package details to verify in the first-hour spike of F0** (cheap to fix now):
 1. SwiftUI previews work for a feature target that depends on Core, Design and Components.
 2. Asset catalogs and String Catalogs inside a package resolve: colours need `bundle: .module`,
-   and `String(localized:)` in a package needs `bundle: .module` too. Decide whether each
-   target owns its own `Localizable.xcstrings` (proposal: yes, plus shared words in `Design`).
+   and `String(localized:)` in a package needs `bundle: #bundle` (or `.module`) too. **Decided (F-0 proof e, X-3):** each
+   target that shows text owns its own `Localizable.xcstrings`; shared words live in `Design` and are exposed as `SharedStrings`.
 3. `Bundle.module` finds `Content/` (JSON and photos use a folder copy so subfolders survive).
 4. The synchronized-folder feature of the app target still picks up new files in `Vybe/`.
 
