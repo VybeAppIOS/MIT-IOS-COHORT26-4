@@ -50,7 +50,12 @@ public final class Router {
         paths[.sheet] = nil
     }
 
-    public func presentCover(_ cover: Cover) { self.cover = cover }
+    /// Opens a full-screen cover. A sheet that is up closes first: otherwise the cover's own sheet host would show
+    /// that old sheet again on top of the cover.
+    public func presentCover(_ cover: Cover) {
+        dismissSheet()
+        self.cover = cover
+    }
 
     /// Closes the cover (and clears its stack) and any sheet.
     public func dismissCover() {

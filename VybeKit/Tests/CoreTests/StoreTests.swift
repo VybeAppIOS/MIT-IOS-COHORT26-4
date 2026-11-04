@@ -98,3 +98,31 @@ private actor FailingSaveLibrary: LibraryRepository {
     func load() async throws -> Library { Library() }
     func save(_ library: Library) async throws { throw AppError.offline }
 }
+
+/// A change made before the library was read must never replace the file (review fix, 4 Nov).
+@MainActor
+struct LibraryStoreFirstLoadTests {
+    @Test func aChangeBeforeTheFirstLoadReadsTheFileFirst() async throws {
+        let repository = StubLibraryRepository(mode: .loaded)   // starts with SampleData.evening saved
+        let store = LibraryStore(repository: repository, now: { SampleData.day })
+        await store.toggleSave(SampleData.morning.id)
+        #expect(store.hasLoaded)
+        let saved = Set(try await repository.load().saves.map(\.hangoutID))
+        #expect(saved == [SampleData.evening.id, SampleData.morning.id])
+    }
+
+    @Test func aLibraryThatCannotBeReadIsNeverOverwritten() async {
+        let repository = UnreadableLibrary()
+        let store = LibraryStore(repository: repository, now: { SampleData.day })
+        await store.toggleSave(SampleData.evening.id)
+        await store.saveDraft(SampleData.morning)
+        #expect(!store.hasLoaded && store.lastError == .offline)
+        #expect(await repository.saveCount == 0)
+    }
+}
+
+private actor UnreadableLibrary: LibraryRepository {
+    private(set) var saveCount = 0
+    func load() async throws -> Library { throw AppError.offline }
+    func save(_ library: Library) async throws { saveCount += 1 }
+}

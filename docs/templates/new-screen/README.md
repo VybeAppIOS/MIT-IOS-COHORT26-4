@@ -14,6 +14,8 @@ Each target that shows text owns `Resources/Localizable.xcstrings` (it needs `re
 `bundle:` Swift reads the app's catalog and the string silently stays as the key. Keys are `<feature>.<name>`. A word used
 by several features goes in `Design/Resources/Localizable.xcstrings` and is exposed as a value in `Design/Strings/SharedStrings.swift`
 (a feature cannot read another target's catalog by key). Test it: `#expect(MyStrings.title == "...")`.
+Never write `#bundle` in a test file: there it points at the test bundle, not your target. Test through your
+target's own accessor, as above.
 
 ## `ExampleViewModel.swift`
 ```swift
@@ -135,7 +137,7 @@ import Testing
 - [ ] Cancellation does not change `state`; a failed refresh keeps the content
 - [ ] Loading, empty and error states (and stale/offline from Phase 2) via `LoadStateView`
 - [ ] Theme tokens only; accessibility labels and identifiers; 44 pt tap targets; Dynamic Type preview
-- [ ] Display text from `String(localized:)` (exact call: task X-3); numbers, ₹, km and time through `.formatted(...)`
+- [ ] Display text from `String(localized: "feature.key", bundle: #bundle)` (Views: `Text("feature.key", bundle: #bundle)`), added to your target's own catalog; numbers, ₹, km and time through `.formatted(...)`
 - [ ] Navigation only through `router` methods (never `router.cover = …`)
 - [ ] Nothing invented: places, prices, hours, coordinates and photos come from the repositories or the real samples
 - [ ] `./scripts/check.sh` output, and a screenshot per state (`scripts/snap.sh` once X-14 exists), pasted in the PR

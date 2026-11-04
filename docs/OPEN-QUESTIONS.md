@@ -126,6 +126,17 @@ turf, Swimming, Cycling) · **Chill/study** (Study café, Library).
   SafeSearch) in version 1? [ ] Install an iOS 26 simulator runtime (only iOS 27 is installed). [ ] Lawyer questions: `docs/RISKS.md`
   section 7.
 
+## 8d. Decisions of 4 Nov (review of every PR: `docs/REVIEW-4-NOV.md`)
+- [x] **Social stays in version 1** (Lohitaksh): Community, Friends and Chat ship in v1 and go to TestFlight; nothing moves to
+  a v1.1.
+- [ ] **Release builds crash at launch** until the backend exists: the social repositories are DEBUG-only stubs
+  (`fatalError` in `AppDependencies+Local.swift`). Before the first TestFlight: the backend (BK-2…BK-7), or an internal
+  "sample data" build flag. Decide at BK-14.
+- [ ] **GitHub Actions never ran** (no workflow runs on any PR, public repo): turn Actions on in Settings → Actions → General
+  (Lohitaksh), then check that `lint.yml` and `test.yml` run on the next PR.
+- [ ] **Bundled content is empty** until X-C1 (5 real Places, 2 real Hangouts): the app on the simulator shows empty states;
+  previews and tests use the EXAMPLE samples.
+
 ## 9. Design (Team, later)
 - [ ] Theme values (colours, fonts) and who decides. [ ] Figma frames for components and screens. [ ] App icon and launch screen.
   [ ] D3 filters list, S1 empty-state suggestions, PR1 stats, D1 pin style. [ ] Share in Phase 1: what does the shared text say?

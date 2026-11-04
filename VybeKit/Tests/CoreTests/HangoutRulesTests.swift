@@ -96,7 +96,7 @@ struct HangoutRulesTests {
     }
 
     @Test func nextDayAfterMidnightStillMeansTheFollowingDay() {
-        // 00:10 India on 2026-11-04 (18:40 UTC the day before): "tomorrow" is the 5th at 9:00.
+        // 00:20 India on 2026-11-04 (18:50 UTC the day before): "tomorrow" is the 5th at 9:00.
         let afterMidnight = Date(timeIntervalSince1970: 1_793_731_800)
         let time = HangoutRules.earliestPostTime(endedAt: afterMidnight, delay: .nextDay, calendar: india)
         let parts = india.dateComponents([.month, .day, .hour], from: time)

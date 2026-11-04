@@ -80,9 +80,10 @@ public enum SearchRepositoryContract {
         let found = try await repository.search(text: knownWord, scope: [.hangouts])
         try require(!found.hangouts.isEmpty, "no Hangout found for \"\(knownWord)\"")
         try require(found.places.isEmpty && found.people.isEmpty, "results outside the requested scope")
-        for hangout in found.hangouts {
-            try require(hangout.title.localizedStandardContains(knownWord), "\(hangout.id) does not match")
-        }
+        // A search may also match tags and areas (F-8 ranks title, then tag, then area), so only the best result
+        // has to match by title: a title match always ranks first.
+        let best = found.hangouts[0]
+        try require(best.title.localizedStandardContains(knownWord), "\(best.id) is first but its title does not match")
     }
 }
 #endif
