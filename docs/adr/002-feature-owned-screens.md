@@ -69,5 +69,6 @@ public enum HangoutDetailScreens {
 ## F-0 results (4 Nov 2026, Xcode 27.1, iPhone 18 Pro simulator)
 - [x] Feature with `internal` View and ViewModel plus a `public` `Screens` type; the App target called it; a
       `@testable import` test passed under `xcodebuild test`.
-- [ ] `#Preview` inside the feature: the preview code compiles in the Feature target (depends on Core, Design, Components),
-      but it was **not opened in the Xcode canvas** by the agent. Lohitaksh to confirm in Xcode, or F-9 will.
+- [~] `#Preview` inside the feature (proof a): the preview code compiles in a Feature target that depends on Core, Design and
+      Components, but the Xcode canvas was not opened. **Written fallback:** nothing changes in the architecture; the first real
+      `#Preview` (SC-HD1 or F-9) is the check. If it fails there, change this ADR first and tell the team.

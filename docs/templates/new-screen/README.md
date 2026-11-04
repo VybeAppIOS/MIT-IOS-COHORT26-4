@@ -8,6 +8,13 @@ Rules: `docs/ARCHITECTURE.md` 2.4, 2.5, 2.7 and the ADRs in `docs/adr/` (they wi
 Create, inside the right feature folder (for example `VybeKit/Sources/HangoutDetailFeature/Detail/`). **Everything is
 `internal`.** The feature's only `public` type is its `<Name>Screens` (ADR 002).
 
+## Strings (task X-3)
+Each target that shows text owns `Resources/Localizable.xcstrings` (it needs `resources: [.process("Resources")]` in its
+`Package.swift` target; ask Lohitaksh). Always write `String(localized: "feature.key", bundle: #bundle)`: without
+`bundle:` Swift reads the app's catalog and the string silently stays as the key. Keys are `<feature>.<name>`. A word used
+by several features goes in `Design/Resources/Localizable.xcstrings` and is exposed as a value in `Design/Strings/SharedStrings.swift`
+(a feature cannot read another target's catalog by key). Test it: `#expect(MyStrings.title == "...")`.
+
 ## `ExampleViewModel.swift`
 ```swift
 import Core
@@ -37,7 +44,7 @@ final class ExampleViewModel {
     private func fetch() async {
         do {
             // let result = try await hangouts.hangout(id: ...)
-            state = .loaded(ExampleContent(title: String(localized: "Example")))
+            state = .loaded(ExampleContent(title: String(localized: "example.title", bundle: #bundle)))
             hasLoaded = true
         } catch is CancellationError {
             return                                               // leaving the screen is not an error (ADR 005)
