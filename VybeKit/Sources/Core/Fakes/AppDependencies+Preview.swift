@@ -31,6 +31,7 @@ public extension AppDependencies {
             safety: StubSafetyRepository(mode: mode, store: social),
             auth: StubAuthRepository(mode: mode),
             admin: StubAdminRepository(mode: mode, store: social),
+            location: SimulatedLocationService.examplePreview,
             session: session,
             libraryStore: libraryStore,
             liveStore: LiveHangoutStore(libraryStore: libraryStore, hangouts: hangouts, session: session,

@@ -67,3 +67,6 @@ Local.xcconfig
 
 # SwiftPM
 .swiftpm/
+
+# Screenshots and build output made by scripts/snap.sh (task X-14)
+build/
