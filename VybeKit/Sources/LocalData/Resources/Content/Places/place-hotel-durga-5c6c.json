@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "place-hotel-durga-5c6c",
+  "name": "Hotel Durga",
+  "category": "cafe",
+  "city": "Pune",
+  "area": "Kothrud",
+  "address": "Malati Complex, near MSEB Office, Ideal Colony, Paud Road, Kothrud, Pune 411038",
+  "coordinate": "TODO",
+  "costPerPerson": {
+    "lower": 80,
+    "upper": 200
+  },
+  "hours": [
+    {
+      "weekday": 1,
+      "open": "07:00",
+      "close": "23:30"
+    },
+    {
+      "weekday": 2,
+      "open": "07:00",
+      "close": "23:30"
+    },
+    {
+      "weekday": 3,
+      "open": "07:00",
+      "close": "23:30"
+    },
+    {
+      "weekday": 4,
+      "open": "07:00",
+      "close": "23:30"
+    },
+    {
+      "weekday": 5,
+      "open": "07:00",
+      "close": "23:30"
+    },
+    {
+      "weekday": 6,
+      "open": "07:00",
+      "close": "23:30"
+    },
+    {
+      "weekday": 7,
+      "open": "07:00",
+      "close": "23:30"
+    }
+  ],
+  "hoursNote": null,
+  "photos": [],
+  "applePlaceID": null,
+  "status": "approved",
+  "verifiedAt": "TODO"
+}

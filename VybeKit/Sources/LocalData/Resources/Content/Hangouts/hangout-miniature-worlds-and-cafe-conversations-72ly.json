@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "hangout-miniature-worlds-and-cafe-conversations-72ly",
+  "title": "Miniature Worlds & Café Conversations",
+  "summary": "Explored miniature railway exhibits, spent time at a cozy café, and ended the Hangout with a relaxing garden stroll.",
+  "spots": [
+    {
+      "id": "s1",
+      "placeID": "place-joshis-museum-of-miniature-railways-b660",
+      "minutes": 60,
+      "note": "Explore the miniature railway models."
+    },
+    {
+      "id": "s2",
+      "placeID": "place-amarii-cafe-23fx",
+      "minutes": 30,
+      "note": "Coffee, snacks and conversations."
+    },
+    {
+      "id": "s3",
+      "placeID": "place-thorat-garden-02tk",
+      "minutes": 60,
+      "note": "Relax and walk around the garden."
+    }
+  ],
+  "budgetPerPerson": {
+    "lower": 300,
+    "upper": 300
+  },
+  "estimatedMinutes": 150,
+  "bestTimes": [
+    "afternoon",
+    "evening"
+  ],
+  "tags": [
+    "exploring",
+    "cafe",
+    "friends",
+    "relaxed"
+  ],
+  "vibeTags": [
+    "culture",
+    "food",
+    "nature"
+  ],
+  "authorID": "user-vybe-team",
+  "isPick": true,
+  "status": "published",
+  "remixedFromID": null,
+  "remixedFromPlaceIDs": null,
+  "createdAt": "2026-11-04T08:33:52Z",
+  "updatedAt": "2026-11-04T08:33:52Z"
+}

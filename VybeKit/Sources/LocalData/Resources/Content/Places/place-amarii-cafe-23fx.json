@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "place-amarii-cafe-23fx",
+  "name": "Amarii Cafe",
+  "category": "cafe",
+  "city": "Pune",
+  "area": "Kothrud",
+  "address": "Roopnagari Society, near Apple Unisex Salon, Mayur Colony, Kothrud, Pune 411038",
+  "coordinate": "TODO",
+  "costPerPerson": {
+    "lower": 250,
+    "upper": 500
+  },
+  "hours": [
+    {
+      "weekday": 1,
+      "open": "09:00",
+      "close": "23:00"
+    },
+    {
+      "weekday": 2,
+      "open": "09:00",
+      "close": "23:00"
+    },
+    {
+      "weekday": 3,
+      "open": "09:00",
+      "close": "23:00"
+    },
+    {
+      "weekday": 4,
+      "open": "09:00",
+      "close": "23:00"
+    },
+    {
+      "weekday": 5,
+      "open": "09:00",
+      "close": "23:00"
+    },
+    {
+      "weekday": 6,
+      "open": "09:00",
+      "close": "23:00"
+    },
+    {
+      "weekday": 7,
+      "open": "09:00",
+      "close": "23:00"
+    }
+  ],
+  "hoursNote": null,
+  "photos": [],
+  "applePlaceID": null,
+  "status": "approved",
+  "verifiedAt": "TODO"
+}

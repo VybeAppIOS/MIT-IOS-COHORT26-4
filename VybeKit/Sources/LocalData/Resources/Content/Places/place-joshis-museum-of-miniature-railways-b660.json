@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "place-joshis-museum-of-miniature-railways-b660",
+  "name": "Joshi's Museum of Miniature Railways",
+  "category": "museum",
+  "city": "Pune",
+  "area": "Kothrud",
+  "address": "17/1 B/2, corner of Bhau Joshi Road and G. A. Kulkarni Road, near Karishma Society, Kothrud, Pune 411038",
+  "coordinate": "TODO",
+  "costPerPerson": {
+    "lower": 120,
+    "upper": 120
+  },
+  "hours": [
+    {
+      "weekday": 2,
+      "open": "09:00",
+      "close": "17:00"
+    },
+    {
+      "weekday": 3,
+      "open": "09:00",
+      "close": "17:00"
+    },
+    {
+      "weekday": 4,
+      "open": "09:00",
+      "close": "17:00"
+    },
+    {
+      "weekday": 6,
+      "open": "09:00",
+      "close": "17:00"
+    },
+    {
+      "weekday": 5,
+      "open": "09:00",
+      "close": "13:00"
+    },
+    {
+      "weekday": 7,
+      "open": "09:00",
+      "close": "16:00"
+    },
+    {
+      "weekday": 7,
+      "open": "17:00",
+      "close": "20:00"
+    },
+    {
+      "weekday": 1,
+      "open": "17:00",
+      "close": "20:00"
+    }
+  ],
+  "hoursNote": null,
+  "photos": [],
+  "applePlaceID": null,
+  "status": "approved",
+  "verifiedAt": "TODO"
+}

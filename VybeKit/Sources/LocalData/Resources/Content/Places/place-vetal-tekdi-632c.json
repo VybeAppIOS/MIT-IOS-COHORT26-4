@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "place-vetal-tekdi-632c",
+  "name": "Vetal Tekdi (ARAI Hills)",
+  "category": "viewpoint-hill",
+  "city": "Pune",
+  "area": "Kothrud",
+  "address": "ARAI-side approach from Paud Phata, ARAI campus access road, Kothrud, Pune 411038",
+  "coordinate": "TODO",
+  "costPerPerson": {
+    "lower": 0,
+    "upper": 0
+  },
+  "hours": [],
+  "hoursNote": "Open-access hill; mornings around 6-9 AM in daylight are best.",
+  "photos": [],
+  "applePlaceID": null,
+  "status": "approved",
+  "verifiedAt": "TODO"
+}

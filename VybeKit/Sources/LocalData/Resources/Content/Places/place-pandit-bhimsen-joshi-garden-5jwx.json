@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "id": "place-pandit-bhimsen-joshi-garden-5jwx",
+  "name": "Pandit Bhimsen Joshi Garden",
+  "category": "park-garden",
+  "city": "Pune",
+  "area": "Kothrud",
+  "address": "Pandit Bhimsen Joshi Udyan, near Lane No. 4, Right Bhusari Colony, near Kothrud Bus Depot, Kothrud, Pune 411038",
+  "coordinate": "TODO",
+  "costPerPerson": {
+    "lower": 0,
+    "upper": 0
+  },
+  "hours": [
+    {
+      "weekday": 2,
+      "open": "06:00",
+      "close": "10:00"
+    },
+    {
+      "weekday": 3,
+      "open": "06:00",
+      "close": "10:00"
+    },
+    {
+      "weekday": 4,
+      "open": "06:00",
+      "close": "10:00"
+    },
+    {
+      "weekday": 5,
+      "open": "06:00",
+      "close": "10:00"
+    },
+    {
+      "weekday": 6,
+      "open": "06:00",
+      "close": "10:00"
+    },
+    {
+      "weekday": 7,
+      "open": "06:00",
+      "close": "10:00"
+    },
+    {
+      "weekday": 2,
+      "open": "16:00",
+      "close": "20:00"
+    },
+    {
+      "weekday": 3,
+      "open": "16:00",
+      "close": "20:00"
+    },
+    {
+      "weekday": 4,
+      "open": "16:00",
+      "close": "20:00"
+    },
+    {
+      "weekday": 5,
+      "open": "16:00",
+      "close": "20:00"
+    },
+    {
+      "weekday": 6,
+      "open": "16:00",
+      "close": "20:00"
+    },
+    {
+      "weekday": 7,
+      "open": "16:00",
+      "close": "20:00"
+    },
+    {
+      "weekday": 1,
+      "open": "06:00",
+      "close": "10:00"
+    },
+    {
+      "weekday": 1,
+      "open": "16:00",
+      "close": "20:30"
+    }
+  ],
+  "hoursNote": null,
+  "photos": [],
+  "applePlaceID": null,
+  "status": "approved",
+  "verifiedAt": "TODO"
+}

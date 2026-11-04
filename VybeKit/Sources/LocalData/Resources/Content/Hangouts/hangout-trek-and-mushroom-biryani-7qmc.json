@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "hangout-trek-and-mushroom-biryani-7qmc",
+  "title": "Trek & Mushroom Biryani",
+  "summary": "Started with a refreshing trek at Vetal Tekdi and headed to Good Food Kitchen for mushroom biryani.",
+  "spots": [
+    {
+      "id": "s1",
+      "placeID": "place-vetal-tekdi-632c",
+      "minutes": 120,
+      "note": "Morning trek at Vetal Tekdi, enjoy nature and city views."
+    },
+    {
+      "id": "s2",
+      "placeID": "place-good-food-kitchen-mkmi",
+      "minutes": 30,
+      "note": "Eat the mushroom biryani."
+    }
+  ],
+  "budgetPerPerson": {
+    "lower": 350,
+    "upper": 350
+  },
+  "estimatedMinutes": 150,
+  "bestTimes": [
+    "morning"
+  ],
+  "tags": [
+    "nature",
+    "trekking",
+    "friends",
+    "food",
+    "budget-friendly"
+  ],
+  "vibeTags": [
+    "nature",
+    "food"
+  ],
+  "authorID": "user-vybe-team",
+  "isPick": true,
+  "status": "published",
+  "remixedFromID": null,
+  "remixedFromPlaceIDs": null,
+  "createdAt": "2026-11-04T08:33:52Z",
+  "updatedAt": "2026-11-04T08:33:52Z"
+}

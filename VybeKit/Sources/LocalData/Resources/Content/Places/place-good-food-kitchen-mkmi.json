@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "place-good-food-kitchen-mkmi",
+  "name": "Good Food Kitchen",
+  "category": "restaurant",
+  "city": "Pune",
+  "area": "Model Colony",
+  "address": "Block 4, Shubhmangal Society, Shivajinagar Ghole Road, Model Colony, Pune",
+  "coordinate": "TODO",
+  "costPerPerson": {
+    "lower": 150,
+    "upper": 300
+  },
+  "hours": [
+    {
+      "weekday": 1,
+      "open": "10:00",
+      "close": "22:00"
+    },
+    {
+      "weekday": 2,
+      "open": "10:00",
+      "close": "22:00"
+    },
+    {
+      "weekday": 3,
+      "open": "10:00",
+      "close": "22:00"
+    },
+    {
+      "weekday": 4,
+      "open": "10:00",
+      "close": "22:00"
+    },
+    {
+      "weekday": 5,
+      "open": "10:00",
+      "close": "22:00"
+    },
+    {
+      "weekday": 6,
+      "open": "10:00",
+      "close": "22:00"
+    },
+    {
+      "weekday": 7,
+      "open": "10:00",
+      "close": "22:00"
+    }
+  ],
+  "hoursNote": null,
+  "photos": [],
+  "applePlaceID": null,
+  "status": "approved",
+  "verifiedAt": "TODO"
+}
