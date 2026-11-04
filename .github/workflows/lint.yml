@@ -1,0 +1,29 @@
+# Task X-2: SwiftLint on every pull request, on a cheap Linux runner.
+# Uses the same SwiftLint version as the team's Macs (0.65.1) so results match `./scripts/check.sh`.
+name: Lint
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+# A new push to the same PR cancels the lint run that is still going.
+concurrency:
+  group: lint-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  swiftlint:
+    name: SwiftLint (--strict)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    container:
+      image: ghcr.io/realm/swiftlint:0.65.1
+    steps:
+      - name: Check out the PR
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: SwiftLint
+        # github-actions-logging shows each violation on the PR's "Files changed" tab.
+        run: swiftlint lint --strict --reporter github-actions-logging
