@@ -32,7 +32,10 @@ private struct ReduceMotionOverrideKey: EnvironmentKey {
     static let defaultValue: Bool? = nil
 }
 
-extension EnvironmentValues {
+public extension EnvironmentValues {
+    /// For previews only: `.environment(\.vybeReduceMotionOverride, true)` shows a view
+    /// as it looks with Reduce Motion on.
+    /// Never set this in app code; the system setting decides there.
     var vybeReduceMotionOverride: Bool? {
         get { self[ReduceMotionOverrideKey.self] }
         set { self[ReduceMotionOverrideKey.self] = newValue }
