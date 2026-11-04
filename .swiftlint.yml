@@ -180,10 +180,12 @@ custom_rules:
       - '/VybeKit/Sources/Core/Stores/'
       - '/Router[^/]*\.swift$'
       - '/NetworkMonitor[^/]*\.swift$'
+      # AudioPlayer: a screen reads its progress while it plays (F-15, ADR 001 decision 2).
+      - '/AudioPlayer[^/]*\.swift$'
       # AppDependencies.preview lives here, with @MainActor on its own line (F-5; foundation task text).
       - '/VybeKit/Sources/Core/Fakes/AppDependencies\+Preview\.swift$'
     excluded_match_kinds: *not_code
-    message: "In Core, only Router, the stores, NetworkMonitor and AppDependencies.preview are @MainActor (ADR 001, ADR 006)."
+    message: "In Core, only Router, the stores, NetworkMonitor, AudioPlayer and AppDependencies.preview are @MainActor (ADR 001, ADR 006)."
     severity: error
 
   run_times_confined:
