@@ -1,11 +1,12 @@
 import SwiftUI
 
 /// A text field with an optional error message under it. The message has an icon and words,
-/// so it is never colour alone, and VoiceOver reads it as a hint on the field.
+/// so it is never colour alone, and VoiceOver reads it as its own line right after the field.
 /// (A SwiftUI `TextFieldStyle` cannot draw text below the field, so this is a small view instead.)
 public struct VybeTextField: View {
     private let title: VybeText
     @Binding private var text: String
+    @FocusState private var isFocused: Bool
     private let errorText: String?
 
     public init(_ title: LocalizedStringResource, text: Binding<String>, errorText: String? = nil) {
@@ -24,6 +25,7 @@ public struct VybeTextField: View {
         VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {
             TextField(text: $text) { title.text }
                 .font(Theme.Font.body)
+                .focused($isFocused)
                 .padding(.horizontal, Theme.Spacing.medium)
                 .frame(minHeight: Theme.Size.minTapTarget)
                 .background(Theme.Color.surfaceRaised, in: .rect(cornerRadius: Theme.Radius.medium))
@@ -32,7 +34,9 @@ public struct VybeTextField: View {
                         RoundedRectangle(cornerRadius: Theme.Radius.medium).stroke(Theme.Color.critical)
                     }
                 }
-                .accessibilityHint(Text(verbatim: errorText ?? ""))
+                // The text field itself is shorter than 44 pt; tapping anywhere in the pill focuses it.
+                .contentShape(.rect(cornerRadius: Theme.Radius.medium))
+                .onTapGesture { isFocused = true }
             if let errorText {
                 Label {
                     Text(verbatim: errorText)
@@ -41,7 +45,6 @@ public struct VybeTextField: View {
                 }
                 .font(Theme.Font.footnote)
                 .foregroundStyle(Theme.Color.critical)
-                .accessibilityHidden(true)
             }
         }
     }
