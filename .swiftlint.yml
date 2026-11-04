@@ -5,3 +5,200 @@ included:
 excluded:
   - VybeKit/.build
   - VybeKit/.swiftpm
+  # Deliberate rule violations, checked only by scripts/check_lint_rules.sh (task X-1).
+  - LintFixtures
+
+# ---------------------------------------------------------------------------
+# Custom rules (task X-1, docs/adr/006-guardrails-and-agent-loop.md).
+# Every rule is an error. Disabling or weakening one needs a human (AGENTS.md 6).
+# Paths are matched as regular expressions against the file's full path.
+# `excluded_match_kinds: *not_code` means "ignore matches inside comments and strings".
+# Each rule has a deliberate violation in LintFixtures/; run scripts/check_lint_rules.sh after any change.
+# ---------------------------------------------------------------------------
+custom_rules:
+
+  # ---- Style bans (AGENTS.md 5 and 5a, MOTION.md 3) ----
+
+  no_hardcoded_color:
+    name: "Hard-coded colour"
+    # Color(red:), Color(hex:), Color(hue:), Color(.sRGB, red:) (any colour space first), UIColor(...), #colorLiteral.
+    regex: '\b(?:Color|UIColor)\s*\(\s*(?:\.\w+\s*,\s*)?(?:red|hex|hue)\s*:|#colorLiteral\s*\('
+    excluded: '/VybeKit/Sources/Design/Theme/'
+    excluded_match_kinds: &not_code
+      - comment
+      - comment.mark
+      - comment.url
+      - doccomment
+      - doccomment.field
+      - string
+    message: "Use a Theme colour token. Colours are defined only in Design/Theme."
+    severity: error
+
+  no_hex_color_string:
+    name: "Hex colour string"
+    regex: '"#[0-9A-Fa-f]{6}(?:[0-9A-Fa-f]{2})?"'
+    excluded: '/VybeKit/Sources/Design/Theme/'
+    match_kinds:
+      - string
+    message: "Use a Theme colour token, not a hex string. Colours are defined only in Design/Theme."
+    severity: error
+
+  no_system_font_size:
+    name: "Fixed font size"
+    regex: '\.system\s*\(\s*size\s*:'
+    excluded_match_kinds: *not_code
+    message: "Use a Theme text style. Fixed sizes break Dynamic Type."
+    severity: error
+
+  no_raw_animation_curve:
+    name: "Raw animation curve"
+    regex: '\.(?:easeInOut|easeIn|easeOut|spring|interactiveSpring|interpolatingSpring|smooth|snappy|bouncy)\b|\bAnimation\.linear\b|\.linear\s*\(\s*duration\s*:'
+    excluded: '/VybeKit/Sources/Design/Theme/'
+    excluded_match_kinds: *not_code
+    message: "Use a Theme.Motion token. Raw animation curves live only in Design/Theme (MOTION.md 3, rule 8)."
+    severity: error
+
+  no_bare_with_animation:
+    name: "Bare withAnimation"
+    regex: '\bwithAnimation\s*(?:\(\s*\))?\s*\{'
+    excluded_match_kinds: *not_code
+    message: "Pass a Theme.Motion token: withAnimation(Theme.Motion.standard) { ... }."
+    severity: error
+
+  no_deprecated_api:
+    name: "Deprecated API"
+    # MKMapItem(placemark:) is deprecated from iOS 26. This ban depends on the iOS 26 minimum (AGENTS.md 5a);
+    # revisit it only if the deployment target ever changes.
+    regex: '\bObservableObject\b|\bNavigationView\b|\bNavigationLink\s*\(\s*destination\s*:|\.foregroundColor\s*\(|\bMKMapItem\s*\(\s*placemark\s*:'
+    excluded_match_kinds: *not_code
+    message: "Deprecated API. Use @Observable, NavigationStack, NavigationLink(value:), .foregroundStyle and MKMapItem(location:address:)."
+    severity: error
+
+  no_print:
+    name: "print"
+    regex: '\b(?:print|debugPrint)\s*\('
+    excluded_match_kinds: *not_code
+    message: "Use os.Logger, never print. No personal data in logs."
+    severity: error
+
+  no_app_storage_outside_app:
+    name: "@AppStorage outside the app target"
+    regex: '@AppStorage\b'
+    # The app target is the folder Vybe/ (not VybeKit/ or VybeTests/).
+    excluded: '/Vybe/(?!.*/VybeKit/)(?!.*/VybeTests/)'
+    excluded_match_kinds: *not_code
+    message: "@AppStorage is SwiftUI-only and belongs to the app target. Use Core's AppSettings."
+    severity: error
+
+  no_can_open_url:
+    name: "canOpenURL"
+    regex: '\bcanOpenURL\b'
+    excluded_match_kinds: *not_code
+    message: "Never call canOpenURL. Use openURL and handle failure."
+    severity: error
+
+  # ---- Vocabulary (AGENTS.md 3): only in strings and in type, case and file names ----
+
+  banned_word_in_string:
+    name: "Banned word in text"
+    regex: '(?i)\b(?:plans?|traces?|stops?|nodes?|outings?|forks?|organi[sz]ers?)\b'
+    match_kinds:
+      - string
+    message: "Use our words: Hangout (not Plan/Trace/outing), Spot (not Stop/Node), Remix (not Fork). No Organiser."
+    severity: error
+
+  banned_word_in_type_name:
+    name: "Banned word in a type name"
+    regex: '\b(?:struct|class|enum|protocol|actor|typealias)\s+(?:\w*[a-z0-9_])?(?:Plans?|Traces?|Stops?|Nodes?|Outings?|Forks?|Organi[sz]ers?)(?![a-z])'
+    excluded_match_kinds: *not_code
+    message: "Use our words in type names: Hangout, Spot, Remix. Never Plan, Trace, Stop, Node, Outing, Fork, Organiser."
+    severity: error
+
+  banned_word_in_case_name:
+    name: "Banned word in an enum case"
+    regex: '\bcase\s+(?:\w+(?:\([^)]*\))?\s*,\s*)*(?:(?:plans?|traces?|stops?|nodes?|outings?|forks?|organi[sz]ers?)|\w*[a-z0-9_](?:Plans?|Traces?|Stops?|Nodes?|Outings?|Forks?|Organi[sz]ers?))(?![a-z])'
+    # Theme mirrors Apple's haptics (DS-4: VybeHaptic has `start` and `stop`), so it is exempt.
+    excluded: '/VybeKit/Sources/Design/Theme/'
+    excluded_match_kinds: *not_code
+    message: "Use our words in enum cases: hangout, spot, remix. Never plan, trace, stop, node, outing, fork, organiser."
+    severity: error
+
+  banned_word_in_file_name:
+    name: "Banned word in a file name"
+    # Reports line 1 of any file whose NAME contains a banned word.
+    regex: '\A[\s\S]'
+    included: '/(?:[^/]*[a-z0-9_])?(?:Plans?|Traces?|Stops?|Nodes?|Outings?|Forks?|Organi[sz]ers?)(?![a-z])[^/]*\.swift$'
+    message: "Rename the file using our words: Hangout, Spot, Remix. Never Plan, Trace, Stop, Node, Outing, Fork, Organiser."
+    severity: error
+
+  # ---- Architecture (docs/adr/006-guardrails-and-agent-loop.md, decision 1) ----
+
+  no_ui_import_in_logic:
+    name: "UI import in logic code"
+    regex: '(?m)^[ \t]*(?:@\w+[ \t]+)*import[ \t]+(?:(?:struct|class|enum|protocol|typealias|func|var|let)[ \t]+)?(?:SwiftUI|UIKit|MapKit)\b'
+    included:
+      - 'ViewModel\.swift$'
+      - '/VybeKit/Sources/Models/'
+      - '/VybeKit/Sources/Core/'
+      - '/VybeKit/Sources/LocalData/'
+    excluded_match_kinds: *not_code
+    message: "ViewModels, Models, Core and LocalData never import SwiftUI, UIKit or MapKit (ADR 006)."
+    severity: error
+
+  public_only_in_screens:
+    name: "public outside Screens"
+    # The keyword only: not `.public` (an enum case such as Visibility.public) and not `public` in backticks.
+    regex: '(?<![.`\w])public(?![\w`])'
+    included: '/VybeKit/Sources/[A-Za-z]+Feature/'
+    excluded: 'Screens\.swift$'
+    excluded_match_kinds: *not_code
+    message: "In a feature, only <Name>Screens is public. Views and ViewModels stay internal (ADR 002, ADR 006)."
+    severity: error
+
+  app_dependencies_scope:
+    name: "AppDependencies outside Screens, Core and the app"
+    regex: '\bAppDependencies\b'
+    excluded:
+      - 'Screens\.swift$'
+      - '/VybeKit/Sources/Core/'
+      - '/Vybe/(?!.*/VybeKit/)(?!.*/VybeTests/)'
+      # Previews and tests use AppDependencies.preview (new-screen template, ADR 002 point 5, F-16).
+      # ADR 006's wording lists only Screens, Core and Vybe/: to be aligned by Lohitaksh.
+      - '\+Preview\.swift$'
+      - '/Tests/'
+      - '/VybeTests/'
+    excluded_match_kinds: *not_code
+    message: "AppDependencies is used only in <Name>Screens.swift, *+Preview.swift, tests, Core and the app target. Pass a ViewModel only what it needs (ADR 006)."
+    severity: error
+
+  main_actor_in_core:
+    name: "@MainActor in Core"
+    # Allowed on the same line as `static let/var/func preview` (AppDependencies.preview, ADR 006).
+    regex: '@MainActor\b(?![^\n]*\bstatic[ \t]+(?:let|var|func)[ \t]+preview\b)'
+    included: '/VybeKit/Sources/Core/'
+    excluded:
+      - '/VybeKit/Sources/Core/Stores/'
+      - '/Router[^/]*\.swift$'
+      - '/NetworkMonitor[^/]*\.swift$'
+      # AppDependencies.preview lives here, with @MainActor on its own line (F-5; foundation task text).
+      - '/VybeKit/Sources/Core/Fakes/AppDependencies\+Preview\.swift$'
+    excluded_match_kinds: *not_code
+    message: "In Core, only Router, the stores, NetworkMonitor and AppDependencies.preview are @MainActor (ADR 001, ADR 006)."
+    severity: error
+
+  run_times_confined:
+    name: "RunTimes outside its allowed modules"
+    regex: '\bRunTimes\b'
+    # App code only: test code (VybeKit/Tests/ and VybeTests/) may use RunTimes to test it.
+    included: '/VybeKit/Sources/'
+    excluded: '/VybeKit/Sources/(?:Models|Core|LocalData|Remote|LiveFeature|PostingFeature|ProfileFeature)/'
+    excluded_match_kinds: *not_code
+    message: "RunTimes (private visit times) stays in Models, Core, LocalData, Remote, Live, Posting and Profile (ADR 006, RISKS 3)."
+    severity: error
+
+  unsafe_concurrency_needs_reason:
+    name: "Unsafe concurrency without a reason"
+    regex: '(?:@unchecked[ \t]+Sendable|\bnonisolated[ \t]*\([ \t]*unsafe[ \t]*\)|\bassumeIsolated\b|@unsafe\b)(?![^\n]*//[ \t]*allowed:[ \t]*\S)'
+    excluded_match_kinds: *not_code
+    message: "Fix the data race properly. If a human said yes, add `// allowed: <reason>` on the same line (ADR 001, ADR 006)."
+    severity: error
