@@ -6,6 +6,27 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		8B0D8581309B0A2000279594 /* AuthFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D8580309B0A2000279594 /* AuthFeature */; };
+		8B0D8583309B0A2000279594 /* ChatFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D8582309B0A2000279594 /* ChatFeature */; };
+		8B0D8585309B0A2000279594 /* CommunityFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D8584309B0A2000279594 /* CommunityFeature */; };
+		8B0D8587309B0A2000279594 /* Components in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D8586309B0A2000279594 /* Components */; };
+		8B0D8589309B0A2000279594 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D8588309B0A2000279594 /* Core */; };
+		8B0D858B309B0A2000279594 /* Design in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D858A309B0A2000279594 /* Design */; };
+		8B0D858D309B0A2000279594 /* DiscoverFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D858C309B0A2000279594 /* DiscoverFeature */; };
+		8B0D858F309B0A2000279594 /* EditorFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D858E309B0A2000279594 /* EditorFeature */; };
+		8B0D8591309B0A2000279594 /* FriendsFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D8590309B0A2000279594 /* FriendsFeature */; };
+		8B0D8593309B0A2000279594 /* HangoutDetailFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D8592309B0A2000279594 /* HangoutDetailFeature */; };
+		8B0D8595309B0A2000279594 /* LiveFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D8594309B0A2000279594 /* LiveFeature */; };
+		8B0D8597309B0A2000279594 /* LocalData in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D8596309B0A2000279594 /* LocalData */; };
+		8B0D8599309B0A2000279594 /* Models in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D8598309B0A2000279594 /* Models */; };
+		8B0D859B309B0A2000279594 /* ModerationFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D859A309B0A2000279594 /* ModerationFeature */; };
+		8B0D859D309B0A2000279594 /* OnboardingFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D859C309B0A2000279594 /* OnboardingFeature */; };
+		8B0D859F309B0A2000279594 /* PostingFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D859E309B0A2000279594 /* PostingFeature */; };
+		8B0D85A1309B0A2000279594 /* ProfileFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D85A0309B0A2000279594 /* ProfileFeature */; };
+		8B0D85A3309B0A2000279594 /* SearchFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 8B0D85A2309B0A2000279594 /* SearchFeature */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		A10000000000000000000020 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -39,6 +60,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8B0D8599309B0A2000279594 /* Models in Frameworks */,
+				8B0D8591309B0A2000279594 /* FriendsFeature in Frameworks */,
+				8B0D858F309B0A2000279594 /* EditorFeature in Frameworks */,
+				8B0D85A1309B0A2000279594 /* ProfileFeature in Frameworks */,
+				8B0D8597309B0A2000279594 /* LocalData in Frameworks */,
+				8B0D8595309B0A2000279594 /* LiveFeature in Frameworks */,
+				8B0D858B309B0A2000279594 /* Design in Frameworks */,
+				8B0D858D309B0A2000279594 /* DiscoverFeature in Frameworks */,
+				8B0D8587309B0A2000279594 /* Components in Frameworks */,
+				8B0D8593309B0A2000279594 /* HangoutDetailFeature in Frameworks */,
+				8B0D8585309B0A2000279594 /* CommunityFeature in Frameworks */,
+				8B0D85A3309B0A2000279594 /* SearchFeature in Frameworks */,
+				8B0D8581309B0A2000279594 /* AuthFeature in Frameworks */,
+				8B0D859D309B0A2000279594 /* OnboardingFeature in Frameworks */,
+				8B0D859B309B0A2000279594 /* ModerationFeature in Frameworks */,
+				8B0D8589309B0A2000279594 /* Core in Frameworks */,
+				8B0D859F309B0A2000279594 /* PostingFeature in Frameworks */,
+				8B0D8583309B0A2000279594 /* ChatFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +129,24 @@
 			);
 			name = Vybe;
 			packageProductDependencies = (
+				8B0D8580309B0A2000279594 /* AuthFeature */,
+				8B0D8582309B0A2000279594 /* ChatFeature */,
+				8B0D8584309B0A2000279594 /* CommunityFeature */,
+				8B0D8586309B0A2000279594 /* Components */,
+				8B0D8588309B0A2000279594 /* Core */,
+				8B0D858A309B0A2000279594 /* Design */,
+				8B0D858C309B0A2000279594 /* DiscoverFeature */,
+				8B0D858E309B0A2000279594 /* EditorFeature */,
+				8B0D8590309B0A2000279594 /* FriendsFeature */,
+				8B0D8592309B0A2000279594 /* HangoutDetailFeature */,
+				8B0D8594309B0A2000279594 /* LiveFeature */,
+				8B0D8596309B0A2000279594 /* LocalData */,
+				8B0D8598309B0A2000279594 /* Models */,
+				8B0D859A309B0A2000279594 /* ModerationFeature */,
+				8B0D859C309B0A2000279594 /* OnboardingFeature */,
+				8B0D859E309B0A2000279594 /* PostingFeature */,
+				8B0D85A0309B0A2000279594 /* ProfileFeature */,
+				8B0D85A2309B0A2000279594 /* SearchFeature */,
 			);
 			productName = Vybe;
 			productReference = A10000000000000000000005 /* Vybe.app */;
@@ -146,6 +203,9 @@
 			);
 			mainGroup = A10000000000000000000002;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				8B0D857F309B0A2000279594 /* XCLocalSwiftPackageReference "VybeKit" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = A10000000000000000000003 /* Products */;
 			projectDirPath = "";
@@ -228,6 +288,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 			};
 			name = Debug;
 		};
@@ -248,9 +309,11 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				"MTL_ENABLE_DEBUG_INFO[arch=*]" = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_VERSION = 6.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -390,6 +453,88 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		8B0D857F309B0A2000279594 /* XCLocalSwiftPackageReference "VybeKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = VybeKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8B0D8580309B0A2000279594 /* AuthFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = AuthFeature;
+		};
+		8B0D8582309B0A2000279594 /* ChatFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ChatFeature;
+		};
+		8B0D8584309B0A2000279594 /* CommunityFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = CommunityFeature;
+		};
+		8B0D8586309B0A2000279594 /* Components */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Components;
+		};
+		8B0D8588309B0A2000279594 /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		8B0D858A309B0A2000279594 /* Design */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Design;
+		};
+		8B0D858C309B0A2000279594 /* DiscoverFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = DiscoverFeature;
+		};
+		8B0D858E309B0A2000279594 /* EditorFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = EditorFeature;
+		};
+		8B0D8590309B0A2000279594 /* FriendsFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FriendsFeature;
+		};
+		8B0D8592309B0A2000279594 /* HangoutDetailFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = HangoutDetailFeature;
+		};
+		8B0D8594309B0A2000279594 /* LiveFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LiveFeature;
+		};
+		8B0D8596309B0A2000279594 /* LocalData */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LocalData;
+		};
+		8B0D8598309B0A2000279594 /* Models */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Models;
+		};
+		8B0D859A309B0A2000279594 /* ModerationFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ModerationFeature;
+		};
+		8B0D859C309B0A2000279594 /* OnboardingFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = OnboardingFeature;
+		};
+		8B0D859E309B0A2000279594 /* PostingFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = PostingFeature;
+		};
+		8B0D85A0309B0A2000279594 /* ProfileFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ProfileFeature;
+		};
+		8B0D85A2309B0A2000279594 /* SearchFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SearchFeature;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A10000000000000000000001 /* Project object */;
 }

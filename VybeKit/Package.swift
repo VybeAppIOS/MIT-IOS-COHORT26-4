@@ -2,7 +2,8 @@
 // VybeKit: the local Swift package. Only Lohitaksh edits this file (see docs/ARCHITECTURE.md 3.1 and 3.2).
 import PackageDescription
 
-/// UI-side targets default to the main actor, like the app target. Models and LocalData do not.
+/// UI-side targets (Design, Components, Features) default to the main actor, like the app target.
+/// Models, Core and LocalData do not (ADR 001).
 let uiSettings: [SwiftSetting] = [
     .defaultIsolation(MainActor.self),
     .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
@@ -36,7 +37,8 @@ let package = Package(
     ],
     targets: [
         .target(name: "Models", exclude: readme),
-        .target(name: "Core", dependencies: ["Models"], exclude: readme, swiftSettings: uiSettings),
+        // Core has no default isolation (ADR 001): only Router and the stores are @MainActor, written explicitly.
+        .target(name: "Core", dependencies: ["Models"], exclude: readme),
         .target(name: "Design", dependencies: ["Models"], exclude: readme,
                 resources: [.process("Resources")], swiftSettings: uiSettings),
         .target(name: "Components", dependencies: ["Models", "Design"], exclude: readme, swiftSettings: uiSettings),
@@ -74,6 +76,5 @@ let package = Package(
         .testTarget(name: "ChatFeatureTests", dependencies: ["ChatFeature", "Core"]),
         .testTarget(name: "AuthFeatureTests", dependencies: ["AuthFeature", "Core"]),
         .testTarget(name: "ModerationFeatureTests", dependencies: ["ModerationFeature", "Core"])
-    ],
-    swiftLanguageModes: [.v5]   // match the app target (SWIFT_VERSION = 5.0)
+    ]
 )
