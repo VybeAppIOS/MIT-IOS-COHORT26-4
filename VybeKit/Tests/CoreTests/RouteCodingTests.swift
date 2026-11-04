@@ -12,11 +12,11 @@ struct RouteCodingTests {
         .live(.summary("r1")),
         .posting(.compose("r1")),
         .search(.seeAll(.hangouts)), .search(.seeAll(.places)), .search(.seeAll(.people)),
-        .profile(.person("u1")), .profile(.saved), .profile(.drafts), .profile(.mutualFriends("u1")),
+        .profile(.saved), .profile(.drafts),
         .profile(.readyToPost), .profile(.settings), .profile(.deleteAccount)
     ] + SettingsPage.allCases.map { Route.profile(.settingsPage($0)) } + [
         .community(.post("r1")), .community(.trending), .community(.activity),
-        .friends(.hub),
+        .friends(.hub), .friends(.profile("u1")), .friends(.mutualFriends("u1")),
         .chat(.list), .chat(.conversation("c1")), .chat(.groupInfo("c1")),
         .moderation(.report(.run("r1"))), .moderation(.report(.comment("c1"))), .moderation(.report(.user("u1"))),
         .moderation(.report(.message("m1"))), .moderation(.report(.place("p1")))
