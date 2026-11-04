@@ -70,7 +70,7 @@ public struct ReadableContent<Content: View>: View {
 
     public var body: some View {
         content
-            .frame(maxWidth: maxWidth ?? .infinity)
+            .frame(maxWidth: maxWidth ?? .infinity, alignment: .leading)
             .frame(maxWidth: .infinity)
     }
 }
@@ -125,6 +125,14 @@ private struct SampleChips: View {
 #Preview("ReadableContent, 300 pt limit") {
     ReadableContent(maxWidth: 300) {
         Text(verbatim: "Kothrud Hangouts: a calm evening with chai and a short walk. The preview sets the limit.")
+            .font(Theme.Font.body)
+    }
+    .padding(Theme.Spacing.large)
+}
+
+#Preview("ReadableContent, short text stays leading") {
+    ReadableContent(maxWidth: 300) {
+        Text(verbatim: "Kothrud")
             .font(Theme.Font.body)
     }
     .padding(Theme.Spacing.large)
