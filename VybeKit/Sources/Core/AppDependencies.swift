@@ -11,6 +11,7 @@ public struct AppDependencies: Sendable {
     public let photos: any PhotoStore
     public let session: SessionStore
     public let libraryStore: LibraryStore
+    public let liveStore: LiveHangoutStore
     public let router: Router
     public let flags: FeatureFlags
     public let now: @Sendable () -> Date
@@ -18,7 +19,8 @@ public struct AppDependencies: Sendable {
     public init(
         hangouts: any HangoutRepository, places: any PlaceRepository, library: any LibraryRepository,
         profiles: any ProfileRepository, search: any SearchRepository, photos: any PhotoStore,
-        session: SessionStore, libraryStore: LibraryStore, router: Router, flags: FeatureFlags,
+        session: SessionStore, libraryStore: LibraryStore, liveStore: LiveHangoutStore, router: Router,
+        flags: FeatureFlags,
         now: @escaping @Sendable () -> Date
     ) {
         self.hangouts = hangouts
@@ -29,6 +31,7 @@ public struct AppDependencies: Sendable {
         self.photos = photos
         self.session = session
         self.libraryStore = libraryStore
+        self.liveStore = liveStore
         self.router = router
         self.flags = flags
         self.now = now

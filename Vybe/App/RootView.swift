@@ -5,6 +5,7 @@ import SwiftUI
 /// The first view. Shows onboarding until it is done, then the tabs; hosts the full-screen covers.
 struct RootView: View {
     @State private var deps: AppDependencies
+    @Environment(\.scenePhase) private var scenePhase
 
     /// Pass dependencies for previews and tests; the app uses `AppDependencies.local()`.
     init(deps: AppDependencies? = nil) {
@@ -27,6 +28,12 @@ struct RootView: View {
             // The person's own data loads once at launch: who they are, then what they saved.
             if let profile = try? await deps.profiles.currentProfile() { deps.session.setCurrentUser(profile) }
             await deps.libraryStore.load()
+            // A Hangout that was live when the app closed comes back (minimised).
+            await deps.liveStore.restore()
+        }
+        .onChange(of: scenePhase) { _, phase in
+            // Finish writing the live run before the app is suspended.
+            if phase == .background { Task { await deps.liveStore.flush() } }
         }
         .onAppear { deps.router.setOnboarding(!deps.session.onboardingDone) }
         .onChange(of: deps.session.onboardingDone) { _, done in

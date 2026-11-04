@@ -12,15 +12,19 @@ extension AppDependencies {
         let content = ContentStore(loader: loader)
         let library = LocalLibraryRepository()
         let now: @Sendable () -> Date = { Date() }
+        let hangouts = LocalHangoutRepository(content: content)
+        let session = SessionStore(settings: AppSettings())
+        let libraryStore = LibraryStore(repository: library, now: now)
         return AppDependencies(
-            hangouts: LocalHangoutRepository(content: content),
+            hangouts: hangouts,
             places: LocalPlaceRepository(content: content),
             library: library,
             profiles: LocalProfileRepository(now: now),
             search: LocalSearchRepository(content: content),
             photos: LocalPhotoStore(loader: loader),
-            session: SessionStore(settings: AppSettings()),
-            libraryStore: LibraryStore(repository: library, now: now),
+            session: session,
+            libraryStore: libraryStore,
+            liveStore: LiveHangoutStore(libraryStore: libraryStore, hangouts: hangouts, session: session, now: now),
             router: Router(),
             flags: .current,
             now: now)
