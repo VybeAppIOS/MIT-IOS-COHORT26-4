@@ -34,11 +34,21 @@ public struct SafetyNote: View {
                 .stroke(style == .warning ? Theme.Color.warning : Theme.Color.separator)
         }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel(spokenPrefix + message)
+        .accessibilityLabel(spokenLabel)
     }
 
-    private var spokenPrefix: String {
-        style == .warning ? String(localized: "Warning. ") : String(localized: "Note. ")
+    /// What VoiceOver reads: "Warning." or "Note." first, so the kind is never only the colour and icon.
+    var spokenLabel: String {
+        let prefix = style == .warning ? SharedStrings.safetyNotePrefixWarning : SharedStrings.safetyNotePrefixNote
+        return prefix + message
+    }
+}
+
+public extension SafetyNote {
+    /// The June to September monsoon banner. Whether to show it today is the caller's decision.
+    /// The wording is a draft that the team still has to approve (docs/RISKS.md).
+    static func monsoon() -> SafetyNote {
+        SafetyNote(SharedStrings.safetyNoteMonsoon, style: .warning)
     }
 }
 
@@ -54,6 +64,7 @@ private struct SafetyNoteSample: View {
             SafetyNote(previewShort, style: .info)
             SafetyNote(previewShort, style: .warning)
             SafetyNote(previewLong, style: .warning)
+            SafetyNote.monsoon()
         }
         .padding(Theme.Spacing.large)
         .background(Theme.Color.surface)

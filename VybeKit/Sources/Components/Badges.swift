@@ -6,9 +6,7 @@ public struct PickBadge: View {
     public init() {}
 
     public var body: some View {
-        BadgeLabel(systemImage: "star.fill", tint: Theme.Color.accent) {
-            Text("Picks")
-        }
+        BadgeLabel(systemImage: "star.fill", tint: Theme.Color.accent, text: SharedStrings.badgePicks)
     }
 }
 
@@ -16,6 +14,28 @@ public struct PickBadge: View {
 public struct StatusBadge: View {
     public enum Status: Sendable, CaseIterable {
         case saved, draft, scheduled, live, done
+
+        /// The words shown (and read by VoiceOver) for this status.
+        var title: String {
+            switch self {
+            case .saved: SharedStrings.badgeSaved
+            case .draft: SharedStrings.badgeDraft
+            case .scheduled: SharedStrings.badgeScheduled
+            case .live: SharedStrings.badgeLive
+            case .done: SharedStrings.badgeDone
+            }
+        }
+
+        /// A different symbol per status, so the state is never colour alone.
+        var systemImage: String {
+            switch self {
+            case .saved: "bookmark.fill"
+            case .draft: "pencil"
+            case .scheduled: "calendar"
+            case .live: "location.fill"
+            case .done: "checkmark.circle.fill"
+            }
+        }
     }
 
     private let status: Status
@@ -25,27 +45,7 @@ public struct StatusBadge: View {
     }
 
     public var body: some View {
-        BadgeLabel(systemImage: systemImage, tint: tint) { label }
-    }
-
-    private var label: Text {
-        switch status {
-        case .saved: Text("Saved")
-        case .draft: Text("Draft")
-        case .scheduled: Text("Scheduled")
-        case .live: Text("Live")
-        case .done: Text("Done")
-        }
-    }
-
-    private var systemImage: String {
-        switch status {
-        case .saved: "bookmark.fill"
-        case .draft: "pencil"
-        case .scheduled: "calendar"
-        case .live: "location.fill"
-        case .done: "checkmark.circle.fill"
-        }
+        BadgeLabel(systemImage: status.systemImage, tint: tint, text: status.title)
     }
 
     private var tint: Color {
@@ -62,36 +62,33 @@ public struct ClosedBadge: View {
     public init() {}
 
     public var body: some View {
-        BadgeLabel(systemImage: "exclamationmark.triangle.fill", tint: Theme.Color.warning) {
-            Text("Closed by authorities")
-        }
+        BadgeLabel(
+            systemImage: "exclamationmark.triangle.fill",
+            tint: Theme.Color.warning,
+            text: SharedStrings.badgeClosed
+        )
     }
 }
 
 private struct BadgeLabel: View {
     let systemImage: String
     let tint: Color
-    let text: Text
-
-    init(systemImage: String, tint: Color, @ViewBuilder text: () -> Text) {
-        self.systemImage = systemImage
-        self.tint = tint
-        self.text = text()
-    }
+    let text: String
 
     var body: some View {
         HStack(spacing: Theme.Spacing.tiny) {
             Image(systemName: systemImage)
                 .foregroundStyle(tint)
                 .accessibilityHidden(true)
-            text
+            Text(verbatim: text)
                 .foregroundStyle(Theme.Color.textPrimary)
         }
         .font(Theme.Font.caption)
         .padding(.horizontal, Theme.Spacing.small)
         .padding(.vertical, Theme.Spacing.tiny)
-        .background(Theme.Color.surfaceRaised, in: .capsule)
-        .overlay(Capsule().stroke(Theme.Color.separator))
+        // A rounded rectangle, not a capsule: the label can wrap onto several lines at large text sizes.
+        .background(Theme.Color.surfaceRaised, in: .rect(cornerRadius: Theme.Radius.medium))
+        .overlay(RoundedRectangle(cornerRadius: Theme.Radius.medium).stroke(Theme.Color.separator))
         .accessibilityElement(children: .combine)
     }
 }
