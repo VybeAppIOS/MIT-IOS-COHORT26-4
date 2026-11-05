@@ -1,6 +1,116 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "onboarding.nameAndPhoto.addPhoto" : {
+      "comment" : "O2 photo circle label with no photo.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add photo"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.changePhoto" : {
+      "comment" : "O2 photo circle label with a photo.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change photo"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.continue" : {
+      "comment" : "O2 main button; opens Interests.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.nameError" : {
+      "comment" : "O2 inline error under the name field.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use 2 to 30 characters."
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.namePlaceholder" : {
+      "comment" : "O2 name field placeholder.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your name"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.photoError" : {
+      "comment" : "O2 error when a photo cannot be processed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't use that photo. Try another one, or continue without a photo."
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.photoOptional" : {
+      "comment" : "O2 note under the photo circle.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A photo is optional."
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.processing" : {
+      "comment" : "VoiceOver label while the photo is processed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting your photo ready"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.removePhoto" : {
+      "comment" : "O2 button that clears the photo.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove photo"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.title" : {
+      "comment" : "O2 heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What should we call you?"
+          }
+        }
+      }
+    },
     "onboarding.welcome.getStarted" : {
       "comment" : "Main button on Welcome; opens Name and photo.",
       "localizations" : {
