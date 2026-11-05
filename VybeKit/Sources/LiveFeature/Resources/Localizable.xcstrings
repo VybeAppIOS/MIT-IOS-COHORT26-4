@@ -166,6 +166,17 @@
         }
       }
     },
+    "live.miniBar.accessibility %@" : {
+      "comment" : "VoiceOver label for the live mini-bar. %@ is the current Spot's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live Hangout, %@, tap to return"
+          }
+        }
+      }
+    },
     "live.minimise" : {
       "comment" : "H1 toolbar button; the run goes on in the mini-bar.",
       "localizations" : {
