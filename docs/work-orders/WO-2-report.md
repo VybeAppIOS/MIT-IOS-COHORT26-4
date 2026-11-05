@@ -210,7 +210,7 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 7 Friends hub search | done (committed with the docs answer; checked at the end of Group 4) |
 | 8 Group data: memberships, mute, invitations | done (own commit) |
 | 9 Group info: ••• menu, Mute, Add members for all | done (own commit) |
-| 10 Chats list shows invitations (CH7) | done (own commit; Group 5 check below) |
+| 10 Chats list shows invitations (CH7) | done (own commit; checked at the end of Group 5) |
 | 11-25 | not started |
 
 ### Item 1: Who "you" are
@@ -306,4 +306,6 @@ Tests: `ListViewModelTests` (+4: invitations are separate rows above the chats, 
 Looked at (screenshots opened, Debug build with sample data): the Chats list with the "EXAMPLE Sunday Walkers" invitation above three chats; the invitation sheet ("Sample Vihaan added you to EXAMPLE Sunday Walkers", three avatars, Join and Leave and block).
 Not driven by hand: tapping the invitation row, Join, Leave and block, and the reload when the sheet closes (the `onChange` on `isRouterSheetOpen` is not covered by a test; the ViewModel parts are). Not looked at: the list or the sheet at the largest text size, VoiceOver.
 Needs from Lohitaksh: none.
+
+Group 5 full check: one `./scripts/check.sh` run after items 8 to 10 ended with `==> All checks passed` (exit 0). The log also has one line, "error: the following command failed with exit code 0 but produced no further output", from the app-target test step; the run still passed. A pre-existing compiler warning (`var people` never mutated in `InvitationViewModel`) is still there.
 
