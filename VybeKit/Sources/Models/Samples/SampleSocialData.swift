@@ -155,6 +155,13 @@ public enum SampleSocialData {
         friendChat.id: hours(-6.5), aaravChat.id: hours(-38), crew.id: hours(-11.5)
     ]
 
+    /// When the other people last read each chat, so "Seen" shows under my last message. Only people in that chat.
+    public static let othersLastRead: [ConversationID: [UserID: Date]] = [
+        friendChat.id: [friend.id: hours(-5.5)],
+        aaravChat.id: [aarav.id: hours(-38.5)],
+        crew.id: [friend.id: hours(-1.5), isha.id: hours(-10.5), aarav.id: hours(-9)]
+    ]
+
     public static let pollVotes = [
         PollVote(messageID: "message-sample-7", userID: currentUser.id, choice: .imIn, votedAt: hours(-10)),
         PollVote(messageID: "message-sample-7", userID: friend.id, choice: .notForMe, votedAt: hours(-9))

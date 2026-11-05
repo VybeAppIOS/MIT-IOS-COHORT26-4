@@ -34,6 +34,8 @@ public actor SocialStubStore {
     var mutedAt: [ConversationID: [UserID: Date]] = [:]
     var messages = SampleSocialData.messages
     var lastRead = SampleSocialData.lastRead
+    /// When each other person last read a chat (what "Seen" is worked out from).
+    var othersLastRead = SampleSocialData.othersLastRead
     var votes = SampleSocialData.pollVotes
     var reports = SampleSocialData.reports
     var suggestions = SampleSocialData.placeSuggestions

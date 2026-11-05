@@ -87,6 +87,8 @@ final class ConversationViewModel {
     var cards: [HangoutID: HangoutCardData] = [:]
     var playingID: MessageID?
     var hasMarkedRead = false
+    /// Everyone in this chat with their role, read time and mute (reloaded whenever the messages change).
+    var memberships: [Membership] = []
     var isMuted = false
 
     /// Cheap: no loading here (ADR 005). Takes only what the screen needs, never `AppDependencies`.
@@ -126,10 +128,11 @@ final class ConversationViewModel {
             }
             conversation = found
             await people.load(found.memberIDs, from: profiles)
-            await loadMuted(in: found)
+            await loadMemberships(in: found)
             for try await batch in chat.messages(in: conversationID) {
                 messages = batch
                 await loadVotesAndCards()
+                await loadMemberships(in: found)   // read times move whenever the messages do, so "Seen" stays right
                 publish()
                 await markReadOnce()
             }
@@ -147,15 +150,24 @@ final class ConversationViewModel {
     /// The Retry button.
     func retry() async { await run() }
 
-    /// Whether the admin has muted me in this group. A failed lookup leaves the composer on: the repository still
-    /// refuses a muted person's message and the notice says why.
-    private func loadMuted(in conversation: Conversation) async {
+    /// Who is in the chat and when they last read it. This tells me whether the admin has muted me in this group and
+    /// whether anyone has seen my last message. A failed lookup keeps what was known before (so nothing flips to
+    /// muted or seen by mistake); a muted person's message is still refused by the repository, with a notice.
+    private func loadMemberships(in conversation: Conversation) async {
+        memberships = (try? await chat.memberships(in: conversationID)) ?? memberships
         guard conversation.kind == .group, let myID = session.currentUser?.id else {
             isMuted = false
             return
         }
-        let members = (try? await chat.memberships(in: conversationID)) ?? []
-        isMuted = members.first { $0.userID == myID }?.mutedAt != nil
+        isMuted = memberships.first { $0.userID == myID }?.mutedAt != nil
+    }
+
+    /// The latest time any other active member (not someone I blocked) read this chat.
+    private func othersLastReadAt(myID: UserID?) -> Date? {
+        memberships
+            .filter { $0.userID != myID && $0.status == .active && !session.isBlocked($0.userID) }
+            .compactMap(\.lastReadAt)
+            .max()
     }
 
     private func loadVotesAndCards() async {
@@ -184,9 +196,10 @@ final class ConversationViewModel {
         guard let conversation else { return }
         let myID = session.currentUser?.id
         let visible = messages.filter { !session.isBlocked($0.senderID) }   // a blocked person's messages are hidden
+        let othersRead = othersLastReadAt(myID: myID)
         let rows = visible.enumerated().map { index, message in
             row(for: message, previous: index > 0 ? visible[index - 1] : nil, isLast: index == visible.count - 1,
-                myID: myID)
+                myID: myID, othersLastReadAt: othersRead)
         }
         let title = people.title(for: conversation, me: myID)
         let content = ConversationContent(
@@ -199,19 +212,21 @@ final class ConversationViewModel {
 
     // MARK: Building rows
 
-    private func row(for message: Message, previous: Message?, isLast: Bool, myID: UserID?) -> MessageRowData {
+    private func row(
+        for message: Message, previous: Message?, isLast: Bool, myID: UserID?, othersLastReadAt: Date?
+    ) -> MessageRowData {
         let isMine = message.senderID == myID
         let startsGroup = previous == nil || previous?.senderID != message.senderID
             || message.createdAt.timeIntervalSince(previous?.createdAt ?? .distantPast) > Self.groupGap
         return MessageRowData(
             id: message.id.rawValue, senderName: isMine ? ComponentStrings.you : people.name(message.senderID),
             isMine: isMine, content: content(for: message, myID: myID), isEdited: message.editedAt != nil,
-            receipt: isMine && isLast ? Self.receipt(for: message, othersLastReadAt: nil) : nil,
+            receipt: isMine && isLast ? Self.receipt(for: message, othersLastReadAt: othersLastReadAt) : nil,
             startsGroup: startsGroup)
     }
 
     /// "Seen" when someone else has read up to this message, otherwise "Delivered". Read receipts are always on.
-    /// The repository does not report when others last read yet, so callers pass nil until it does.
+    /// `othersLastReadAt` is the newest read time among the other members (nil when nobody has read the chat).
     static func receipt(for message: Message, othersLastReadAt: Date?) -> MessageRowData.Receipt {
         if let readAt = othersLastReadAt, readAt >= message.createdAt { return .seen }
         return .delivered

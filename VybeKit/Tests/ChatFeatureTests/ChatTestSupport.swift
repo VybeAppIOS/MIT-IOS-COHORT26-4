@@ -16,6 +16,10 @@ final class ControlledChat: ChatRepository {
     let fixedMessages: Mutex<[Message]?>
     /// When set, the fixed messages arrive once and then the stream ends with an error.
     let failStreamAfterFirstBatch = Mutex(false)
+    /// When set, `memberships(in:)` returns exactly these people.
+    let membershipsOverride = Mutex<[Membership]?>(nil)
+    /// How many times `memberships(in:)` was asked.
+    let membershipCalls = Mutex(0)
 
     init(base: any ChatRepository, messages: [Message]? = nil) {
         self.base = base
@@ -76,7 +80,11 @@ final class ControlledChat: ChatRepository {
     func respondToInvitation(to id: ConversationID, accept: Bool) async throws {
         try await base.respondToInvitation(to: id, accept: accept)
     }
-    func memberships(in id: ConversationID) async throws -> [Membership] { try await base.memberships(in: id) }
+    func memberships(in id: ConversationID) async throws -> [Membership] {
+        membershipCalls.withLock { $0 += 1 }
+        if let fixed = membershipsOverride.withLock({ $0 }) { return fixed }
+        return try await base.memberships(in: id)
+    }
     func setMuted(_ muted: Bool, member: UserID, in id: ConversationID) async throws {
         if failChanges.withLock({ $0 }) { throw AppError.offline }
         try await base.setMuted(muted, member: member, in: id)
