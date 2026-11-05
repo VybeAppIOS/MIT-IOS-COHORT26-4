@@ -224,7 +224,7 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 16 Full check and push | done (check passed at commit 74374d2, then pushed) |
 | 17-18 Preview build on the simulator | see the summary (local only, not pushed) |
 | 20 Recent searches are kept | done (own commit) |
-| 21 See all shows the matches | not started |
+| 21 See all shows the matches | done (own commit) |
 | 22 You are not in your own People results | not started |
 | 23 People on a normal launch | not started |
 | 24 SC-S1 "Done when" on a real run | not started |
@@ -373,6 +373,12 @@ What changed: `AppSettings.recentSearches` (a string list in `UserDefaults`, cle
 Files: `Core/Services/AppSettings.swift`, `Core/Stores/SessionStore.swift` (both approved for this group), `SearchFeature/Search/SearchViewModel.swift`, `SearchViewModelTests`, `CoreTests/StoreTests`, this report.
 Tests: `recentSearchesComeBackAfterTheAppRestarts` (a new SessionStore and a new view model on the same settings suite show the same recents; Clear empties the session, the settings and a third view model) and `recentSearchesAreKeptInSettingsAndForgottenOnReset` (Core). SearchFeatureTests: 21 passed.
 Not looked at: nothing visual changed in this item.
+
+### Item 21: See all shows the matches, not the whole group
+What changed: `SessionStore.lastSearchQuery` (in memory, like `onboardingDraft`; `Route.searchSeeAll(kind)` is unchanged). `SearchViewModel.seeAllTapped` stores the typed words (trimmed) before opening See all. `SeeAllViewModel` got a `search: SearchRepository` and, when `lastSearchQuery` is not empty, runs `search(text:scope:)` for that one group (scope is just the tapped group) and pages the result 20 at a time as before. With an empty query (for example a restored route) it lists the whole group exactly as before. Blocked people stay out in both cases. A "Matches only" preview was added.
+Files: `Core/Stores/SessionStore.swift`, `SearchFeature/SeeAll/SeeAllViewModel.swift`, `SeeAll+Preview.swift`, `SearchFeature/SearchScreens.swift`, `SearchFeature/Search/SearchViewModel.swift`, `SeeAllViewModelTests`, `SearchViewModelTests`, this report.
+Tests (SearchFeatureTests: 26 passed): only matches in that group and the repository is asked with only that group and the trimmed words; blank query never searches and lists the whole group; matches keep blocked people out; matches are paged; no matches is the empty state; the Search ViewModel stores the trimmed words when See all is tapped.
+Not looked at yet: the screen (item 24 looks at every state).
 
 ### Shared files touched in this job
 From `git diff --name-only 27fee49..HEAD` (the commits of the fixes, not the merge from `main`), restricted to the approved shared folders. The list for the whole PR (which also has Tanvi's Feed and PostCard commits and the first WO-2 round, for example `Components/PostCard.swift`) is `git diff --name-only origin/main...HEAD`.
