@@ -1,5 +1,204 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "auth.emailCode.changeEmail" : {
+      "comment" : "A2 link back to the email step.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change email"
+          }
+        }
+      }
+    },
+    "auth.emailCode.codeLabel" : {
+      "comment" : "VoiceOver label for the code entry.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "6-digit code"
+          }
+        }
+      }
+    },
+    "auth.emailCode.codeSentTo %@" : {
+      "comment" : "A2 line under the heading. %@ is the email address.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter the 6-digit code we sent to %@."
+          }
+        }
+      }
+    },
+    "auth.emailCode.codeTitle" : {
+      "comment" : "A2 second step heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We sent you a code"
+          }
+        }
+      }
+    },
+    "auth.emailCode.emailError" : {
+      "comment" : "A2 inline error under the email field.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a valid email address."
+          }
+        }
+      }
+    },
+    "auth.emailCode.emailPlaceholder" : {
+      "comment" : "A2 email field placeholder.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "you@example.com"
+          }
+        }
+      }
+    },
+    "auth.emailCode.emailTitle" : {
+      "comment" : "A2 first step heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What's your email?"
+          }
+        }
+      }
+    },
+    "auth.emailCode.resend" : {
+      "comment" : "A2 button when a new code can be sent.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resend code"
+          }
+        }
+      }
+    },
+    "auth.emailCode.resendIn %@" : {
+      "comment" : "A2 countdown. %@ is minutes and seconds, e.g. 0:30.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resend code in %@"
+          }
+        }
+      }
+    },
+    "auth.emailCode.sendCode" : {
+      "comment" : "A2 button that emails a 6-digit code.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send code"
+          }
+        }
+      }
+    },
+    "auth.signIn.appleFailed" : {
+      "comment" : "A1 error after Apple sign-in failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't sign in with Apple. Try again."
+          }
+        }
+      }
+    },
+    "auth.signIn.email" : {
+      "comment" : "A1 email button; opens Email sign-in.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue with email"
+          }
+        }
+      }
+    },
+    "auth.signIn.google" : {
+      "comment" : "A1 Google button (UI only in Phase 1).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue with Google"
+          }
+        }
+      }
+    },
+    "auth.signIn.googleFailed" : {
+      "comment" : "A1 error after Google sign-in failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't sign in with Google. Try again."
+          }
+        }
+      }
+    },
+    "auth.signIn.retry" : {
+      "comment" : "A1 button that retries the provider that failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
+    "auth.signIn.subtitle" : {
+      "comment" : "A1 line under the heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your people and hangouts are just a tap away."
+          }
+        }
+      }
+    },
+    "auth.signIn.terms" : {
+      "comment" : "A1 footer. Plain text until the pages exist.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "By continuing, you agree to our Terms and Privacy Policy."
+          }
+        }
+      }
+    },
+    "auth.signIn.title" : {
+      "comment" : "A1 heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Welcome"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }
