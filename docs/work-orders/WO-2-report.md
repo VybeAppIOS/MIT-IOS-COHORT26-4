@@ -257,3 +257,5 @@ What changed: `Activity` has an optional `runID: RunID?` (init parameter default
 Files (shared, approved): `Models/Safety/Activity.swift`, `Models/Samples/SampleSocialData.swift`. Feature: `CommunityFeature/Activity/ActivityViewModel.swift`. Tests: `ActivityViewModelTests` (reply and comment open the post, no `runID` falls back to the profile, sample rows carry a post), `CommunityModelsTests` (round trip with `runID`, old JSON decodes).
 Looked at (screenshot opened): Activity list with the new "replied to your comment" and "commented on your post" rows. Not driven by hand: tapping a row (covered by the ViewModel tests).
 Needs from Lohitaksh: the server must send `runID` on comment and reply rows (see item 2 above).
+
+Group 3 full check: one `./scripts/check.sh` run after items 4 and 5 ended with `==> All checks passed` (exit 0).
