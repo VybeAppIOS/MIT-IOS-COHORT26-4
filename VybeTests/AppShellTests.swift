@@ -26,7 +26,8 @@ struct AppShellTests {
     @Test(arguments: [
         (Route.signIn, "A1"), (.nameAndPhoto, "O2"), (.remixTree("h1"), "HD3"), (.liveSummary("r1"), "H3"),
         (.composePost("r1"), "PO1"), (.searchSeeAll(.places), "S2"), (.saved, "PR4"),
-        (.settingsPage(.privacy), "ST2"), (.post("r1"), "CM2"), (.friendsHub, "FR1"), (.profile("u1"), "PR3"),
+        (.settingsPage(.privacy), "ST2"), (.post("r1"), "view:PostDetailView"), (.friendsHub, "FR1"),
+        (.profile("u1"), "PR3"),
         (.conversation("c1"), "CH2"), (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
         (.suggestPlace, "E3")
     ])
