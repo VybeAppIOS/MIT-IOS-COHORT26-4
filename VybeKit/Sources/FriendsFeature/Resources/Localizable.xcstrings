@@ -1,5 +1,305 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "friends.hub.accept" : {
+      "comment" : "Button that accepts a friend request.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accept"
+          }
+        }
+      }
+    },
+    "friends.hub.add" : {
+      "comment" : "Button that sends a friend request.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add"
+          }
+        }
+      }
+    },
+    "friends.hub.block" : {
+      "comment" : "Menu item: block a friend.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Block"
+          }
+        }
+      }
+    },
+    "friends.hub.cancel" : {
+      "comment" : "Button that closes a question without doing anything.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "friends.hub.cancelRequest" : {
+      "comment" : "Button that cancels a request you sent.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "friends.hub.done" : {
+      "comment" : "Button that closes the Other requests sheet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "friends.hub.empty" : {
+      "comment" : "Shown when there are no friends, requests or suggestions.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No friends yet. Search for people you know."
+          }
+        }
+      }
+    },
+    "friends.hub.emptyAction" : {
+      "comment" : "Button under the empty Friends message; opens Search.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open Search"
+          }
+        }
+      }
+    },
+    "friends.hub.friends" : {
+      "comment" : "Header of your friends list.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My friends"
+          }
+        }
+      }
+    },
+    "friends.hub.ignore" : {
+      "comment" : "Button that hides a friend request. Nobody is told.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignore"
+          }
+        }
+      }
+    },
+    "friends.hub.limit.friends %lld" : {
+      "comment" : "Shown when you have the most friends allowed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've reached the limit of %lld friends. Remove a friend to add someone new."
+          }
+        }
+      }
+    },
+    "friends.hub.limit.pending %lld" : {
+      "comment" : "Shown when too many requests are waiting.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have %lld requests waiting. Cancel one to send another."
+          }
+        }
+      }
+    },
+    "friends.hub.limit.today %lld" : {
+      "comment" : "Shown when the daily request limit is reached.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've sent %lld requests today. You can send more tomorrow."
+          }
+        }
+      }
+    },
+    "friends.hub.message" : {
+      "comment" : "Menu item: send a message to a friend.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message"
+          }
+        }
+      }
+    },
+    "friends.hub.more" : {
+      "comment" : "VoiceOver label of the ••• menu on a friend.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
+          }
+        }
+      }
+    },
+    "friends.hub.mutual %lld" : {
+      "comment" : "Why someone is suggested.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld mutual friend"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld mutual friends"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "friends.hub.ok" : {
+      "comment" : "Button that closes a short message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "friends.hub.other %lld" : {
+      "comment" : "Row that opens requests from people with no mutual friends.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld other request"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld other requests"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "friends.hub.otherTitle" : {
+      "comment" : "Title of the Other requests sheet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Other requests"
+          }
+        }
+      }
+    },
+    "friends.hub.remove" : {
+      "comment" : "Menu item and button: remove a friend.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove friend"
+          }
+        }
+      }
+    },
+    "friends.hub.removeTitle %@" : {
+      "comment" : "Question when removing a friend. %@ is their name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove %@ from your friends?"
+          }
+        }
+      }
+    },
+    "friends.hub.requests" : {
+      "comment" : "Header of friend requests you can answer.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Requests"
+          }
+        }
+      }
+    },
+    "friends.hub.sent" : {
+      "comment" : "Header of requests you sent.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sent"
+          }
+        }
+      }
+    },
+    "friends.hub.suggestions" : {
+      "comment" : "Header of people you might know.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You might know"
+          }
+        }
+      }
+    },
+    "friends.hub.title" : {
+      "comment" : "Title of the Friends screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }

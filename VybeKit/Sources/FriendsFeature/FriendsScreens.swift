@@ -8,7 +8,10 @@ public enum FriendsScreens {
     @ViewBuilder
     public static func view(for route: FriendsRoute, _ deps: AppDependencies) -> some View {
         switch route {
-        case .hub: ScreenPlaceholder(id: "FR1", name: "Friends hub")
+        case .hub:
+            HubView(viewModel: HubViewModel(
+                friends: deps.friends, profiles: deps.profiles, session: deps.session, router: deps.router,
+                now: deps.now))
         case .profile: ScreenPlaceholder(id: "PR3", name: "Other person's profile")
         case .mutualFriends: ScreenPlaceholder(id: "PR7", name: "Mutual friends")
         }

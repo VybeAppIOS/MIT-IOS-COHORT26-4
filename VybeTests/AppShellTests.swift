@@ -29,7 +29,7 @@ struct AppShellTests {
         (.composePost("r1"), "PO1"), (.searchSeeAll(.places), "S2"), (.saved, "PR4"),
         (.settingsPage(.privacy), "ST2"), (.post("r1"), "view:PostDetailView"),
         (.trending, "view:TrendingView"), (.activity, "view:ActivityView"),
-        (.friendsHub, "FR1"),
+        (.friendsHub, "view:HubView"),
         (.profile("u1"), "PR3"),
         (.conversation("c1"), "CH2"), (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
         (.suggestPlace, "E3")
