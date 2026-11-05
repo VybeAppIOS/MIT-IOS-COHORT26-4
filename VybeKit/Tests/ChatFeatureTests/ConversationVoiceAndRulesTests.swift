@@ -123,6 +123,35 @@ struct ConversationVoiceAndRulesTests {
         smallTask.cancel()
     }
 
+    @Test func aMutedPersonCanReadButTheComposerIsOff() async {
+        let muted = ControlledChat(base: StubChatRepository(store: SocialStubStore(mutedIn: [crew])))
+        let viewModel = makeViewModel(chat: muted)
+        let task = await open(viewModel)
+        #expect(!rows(viewModel).isEmpty)   // reading still works
+        if case .loaded(let content, _) = viewModel.state { #expect(content.isMuted) }
+        viewModel.draft = "Hello"
+        #expect(!viewModel.canWrite && !viewModel.canSendDraft)
+        viewModel.pollTapped()
+        #expect(!viewModel.isShowingPoll)
+        await viewModel.sendTapped()
+        #expect(muted.sent.withLock { $0.isEmpty })
+        #expect(!viewModel.mutedNote.isEmpty)
+        task.cancel()
+    }
+
+    @Test func aMemberWhoIsNotMutedCanWriteAndADirectMessageIsNeverMuted() async {
+        let group = makeViewModel()
+        let groupTask = await open(group)
+        if case .loaded(let content, _) = group.state { #expect(!content.isMuted) }
+        #expect(group.canWrite)
+        groupTask.cancel()
+
+        let privateChat = makeViewModel(direct)
+        let privateTask = await open(privateChat)
+        #expect(!privateChat.isMuted && privateChat.canWrite)
+        privateTask.cancel()
+    }
+
     @Test func theHeaderOpensGroupInfoForAGroupAndTheProfileForADirectMessage() async {
         let deps = AppDependencies.preview(.loaded)
         let group = makeViewModel(crew, deps: deps)

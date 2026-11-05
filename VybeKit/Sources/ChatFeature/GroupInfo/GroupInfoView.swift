@@ -68,13 +68,11 @@ struct GroupInfoView: View {
             }
             Section {
                 ForEach(content.members) { member in memberRow(member) }
-                if content.isAdmin {
-                    Button { viewModel.addTapped() } label: {
-                        Label { Text(verbatim: viewModel.addLabel) } icon: { Image(systemName: "person.badge.plus") }
-                            .frame(minHeight: Theme.Size.minTapTarget)
-                    }
-                    .disabled(viewModel.isOffline)
+                Button { viewModel.addTapped() } label: {
+                    Label { Text(verbatim: viewModel.addLabel) } icon: { Image(systemName: "person.badge.plus") }
+                        .frame(minHeight: Theme.Size.minTapTarget)
                 }
+                .disabled(!viewModel.canAdd)
             } header: { Text(verbatim: viewModel.membersHeader).accessibilityAddTraits(.isHeader) }
             Section {
                 Button(role: .destructive) { viewModel.isConfirmingLeave = true } label: {
@@ -96,6 +94,10 @@ struct GroupInfoView: View {
                             .foregroundStyle(Theme.Color.textSecondary)
                     }
                     Spacer(minLength: 0)
+                    if member.showsMutedLabel {
+                        Text(verbatim: viewModel.mutedLabel).font(Theme.Font.footnote)
+                            .foregroundStyle(Theme.Color.textSecondary)
+                    }
                     if member.isAdmin {
                         Text(verbatim: viewModel.adminLabel).font(Theme.Font.footnote)
                             .foregroundStyle(Theme.Color.textSecondary)
@@ -105,14 +107,40 @@ struct GroupInfoView: View {
                 .contentShape(.rect)
             }
             .buttonStyle(.plain)
+            if member.hasMenu { actionsMenu(member) }
         }
         .swipeActions(edge: .trailing) {
-            if member.canRemove {
+            if member.canRemove, viewModel.canAdminister {
                 Button(role: .destructive) { viewModel.removeTapped(member.id) } label: {
                     Text(verbatim: viewModel.removeLabel)
                 }
             }
         }
+    }
+
+    /// The ••• menu on every other member, for the admin. Offline it is greyed out.
+    private func actionsMenu(_ member: MemberRowData) -> some View {
+        Menu {
+            if member.canMute {
+                Button { Task { await viewModel.muteTapped(member.id) } } label: {
+                    Label { Text(verbatim: member.muteLabel) } icon: {
+                        Image(systemName: member.isMuted ? "speaker.wave.2" : "speaker.slash")
+                    }
+                }
+            }
+            if member.canRemove {
+                Button(role: .destructive) { viewModel.removeTapped(member.id) } label: {
+                    Label { Text(verbatim: viewModel.removeLabel) } icon: { Image(systemName: "person.badge.minus") }
+                }
+            }
+        } label: {
+            Image(systemName: "ellipsis")
+                .foregroundStyle(Theme.Color.textSecondary)
+                .frame(minWidth: Theme.Size.minTapTarget, minHeight: Theme.Size.minTapTarget)
+                .contentShape(.rect)
+        }
+        .disabled(!viewModel.canAdminister)
+        .accessibilityLabel(Text(verbatim: member.menuLabel))
     }
 
     private var addSheet: some View {

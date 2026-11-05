@@ -209,7 +209,9 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 6 New chat search | done (committed; checked at the end of Group 4) |
 | 7 Friends hub search | done (committed with the docs answer; checked at the end of Group 4) |
 | 8 Group data: memberships, mute, invitations | done (own commit) |
-| 9-25 | not started |
+| 9 Group info: ••• menu, Mute, Add members for all | done (own commit) |
+| 10 Chats list shows invitations | not started |
+| 11-25 | not started |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -288,4 +290,12 @@ Files (shared, approved): `Models/Chat/Conversation.swift`, `Models/Samples/Samp
 Tests: `CoreTests/ChatMembersStubTests` (10: memberships and who added them, pending stays out until accepted, adder is a non-friend, Leave, blocked adder hides the invite, mute and unmute, admin cannot be muted and only the admin mutes, muted send throws, removal clears mute, empty and failing modes), `CommunityModelsTests` (Membership round trip and old JSON), `InvitationViewModelTests` rewritten for the new rules, sample-data test updated. Test support `ControlledChat` forwards the three new methods.
 Not driven by hand: nothing here has its own screen; the screens that use it are items 9 and 10.
 Needs from Lohitaksh: the backend needs `memberships`, `mute` and `pendingInvitations` endpoints with the same rules, and `addedByID` on a pending membership.
+
+### Item 9: Group info with a ••• menu and Mute
+What changed: every other member row has a visible ••• `Menu` (Mute or Unmute, and Remove) for the admin; swipe to remove stays. Remove still asks first (`confirmationDialog`). Mute keeps the person in the group: they can read but not send. "Muted" is a text label (not colour) and shows only to the admin and to the muted person; nobody else sees it. The admin cannot be muted (no Mute on their row). In a chat, a muted person's composer, + menu, mic and polls are off with a short note ("The admin muted you in this group. You can read, but not send."). Add members is now shown to every member (docs/PRODUCT.md: any member can add their own friends); rename, remove and mute stay admin-only. Offline: the ••• menus, swipe, Save name, Add members and the Remove confirmation are all disabled or ignored (`canAdminister`, `canAdd`).
+Files: `ChatFeature/GroupInfo/GroupInfoView.swift`, `GroupInfoViewModel.swift`, `ChatFeature/Conversation/ConversationViewModel.swift`, `ConversationViewModel+Words.swift`, `ConversationView.swift`, `Resources/Localizable.xcstrings` (5 new strings), tests below.
+Tests: `GroupInfoViewModelTests` (+9: menu on everyone but me, mute keeps the member and the admin sees the label, Unmute and the label word changes, the admin cannot mute themselves, a muted person sees the label only on themselves, a non-admin does not see who else is muted, every member can add but not offline, offline remove/mute/rename do nothing, a failed mute shows a message and keeps the list); `ConversationVoiceAndRulesTests` (+2: muted can read but cannot write, poll or send; an unmuted member and a direct message can write). Poll start now also needs `canWrite`.
+Looked at (screenshots opened, from the Debug build with sample data): Group info as admin (••• on Friend, Aarav, Isha; none on me; Admin label; Add members; Leave group). Group info and the chat as a muted member, with a temporary change that I reverted (muted in the sample group, and the group's admin set to Sample Friend): "Muted" on my row, "Admin" on Friend, no ••• anywhere, Add members still shown, and the chat shows the muted note with the composer field and + greyed out.
+Not driven by hand: opening the ••• menu, tapping Mute or Remove, and the confirmation dialog (no way to tap in this environment; the ViewModel tests cover the actions). Not looked at: an admin's view with someone muted (label on the muted row), the largest text size, and VoiceOver on the menu.
+Needs from Lohitaksh: nothing new. Check: a ••• Menu inside a list row next to a row Button; on a device the two taps must stay separate.
 

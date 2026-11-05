@@ -177,6 +177,17 @@
         }
       }
     },
+    "chat.conversation.muted" : {
+      "comment" : "Chat screens: chat.conversation.muted",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The admin muted you in this group. You can read, but not send."
+          }
+        }
+      }
+    },
     "chat.conversation.offline" : {
       "comment" : "Chat screens: chat.conversation.offline",
       "localizations" : {
@@ -342,6 +353,17 @@
         }
       }
     },
+    "chat.group.actions %@" : {
+      "comment" : "Chat screens: chat.group.actions",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Actions for %@"
+          }
+        }
+      }
+    },
     "chat.group.add" : {
       "comment" : "Chat screens: chat.group.add",
       "localizations" : {
@@ -430,6 +452,28 @@
         }
       }
     },
+    "chat.group.mute" : {
+      "comment" : "Chat screens: chat.group.mute",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mute"
+          }
+        }
+      }
+    },
+    "chat.group.muted" : {
+      "comment" : "Chat screens: chat.group.muted",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Muted"
+          }
+        }
+      }
+    },
     "chat.group.name" : {
       "comment" : "Chat screens: chat.group.name",
       "localizations" : {
@@ -514,6 +558,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Group info"
+          }
+        }
+      }
+    },
+    "chat.group.unmute" : {
+      "comment" : "Chat screens: chat.group.unmute",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unmute"
           }
         }
       }

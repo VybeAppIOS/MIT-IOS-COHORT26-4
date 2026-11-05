@@ -119,13 +119,15 @@ struct ConversationView: View {
 
     // MARK: Composer
 
-    /// Pinned above the keyboard, on the system bar material. Disabled offline or in a group of fewer than 3.
+    /// Pinned above the keyboard, on the system bar material. Disabled offline, muted, or in a group of fewer than 3.
     private var composer: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {
             if viewModel.isOffline {
                 note("wifi.slash", viewModel.offlineNote)
             } else if case .loaded(let content, _) = viewModel.state, content.isReadOnly {
                 note("lock", viewModel.readOnlyNote)
+            } else if case .loaded(let content, _) = viewModel.state, content.isMuted {
+                note("speaker.slash", viewModel.mutedNote)
             }
             if viewModel.editingID != nil {
                 HStack {

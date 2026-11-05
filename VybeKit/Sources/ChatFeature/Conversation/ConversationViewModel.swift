@@ -30,6 +30,8 @@ struct ConversationContent: Equatable {
     var rows: [MessageRowData]
     /// A group of fewer than 3 people is read-only.
     var isReadOnly: Bool
+    /// The admin muted me: I can read, but the composer is off.
+    var isMuted = false
 }
 
 /// A Hangout from Saved that can be sent into the chat.
@@ -79,6 +81,7 @@ final class ConversationViewModel {
     var cards: [HangoutID: HangoutCardData] = [:]
     var playingID: MessageID?
     var hasMarkedRead = false
+    var isMuted = false
 
     /// Cheap: no loading here (ADR 005). Takes only what the screen needs, never `AppDependencies`.
     init(
@@ -114,6 +117,7 @@ final class ConversationViewModel {
             }
             conversation = found
             await people.load(found.memberIDs, from: profiles)
+            await loadMuted(in: found)
             for try await batch in chat.messages(in: conversationID) {
                 messages = batch
                 await loadVotesAndCards()
@@ -133,6 +137,17 @@ final class ConversationViewModel {
 
     /// The Retry button.
     func retry() async { await run() }
+
+    /// Whether the admin has muted me in this group. A failed lookup leaves the composer on: the repository still
+    /// refuses a muted person's message and the notice says why.
+    private func loadMuted(in conversation: Conversation) async {
+        guard conversation.kind == .group, let myID = session.currentUser?.id else {
+            isMuted = false
+            return
+        }
+        let members = (try? await chat.memberships(in: conversationID)) ?? []
+        isMuted = members.first { $0.userID == myID }?.mutedAt != nil
+    }
 
     private func loadVotesAndCards() async {
         for message in messages {
@@ -167,7 +182,7 @@ final class ConversationViewModel {
         let title = people.title(for: conversation, me: myID)
         let content = ConversationContent(
             title: title, isGroup: conversation.kind == .group, rows: rows,
-            isReadOnly: conversation.kind == .group && conversation.memberIDs.count < 3)
+            isReadOnly: conversation.kind == .group && conversation.memberIDs.count < 3, isMuted: isMuted)
         var stale = false
         if case .loaded(_, let wasStale) = state { stale = wasStale }
         state = .loaded(content, isStale: stale)
@@ -265,7 +280,7 @@ final class ConversationViewModel {
         isShowingSaved = true
     }
 
-    func pollTapped() { if canStartPoll { isShowingPoll = true } }
+    func pollTapped() { if canStartPoll, canWrite { isShowingPoll = true } }
 
     func makePollViewModel() -> PollViewModel {
         makePoll(conversationID) { [weak self] in self?.isShowingPoll = false }

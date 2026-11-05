@@ -9,11 +9,17 @@ struct GroupInfoViewModelTests {
     private let crew = SampleSocialData.crew.id
 
     private func makeViewModel(
-        chat: (any ChatRepository)? = nil, deps: AppDependencies = .preview(.loaded), group: ConversationID? = nil
+        chat: (any ChatRepository)? = nil, deps: AppDependencies = .preview(.loaded), group: ConversationID? = nil,
+        offline: Bool = false
     ) -> GroupInfoViewModel {
         GroupInfoViewModel(
             conversationID: group ?? crew, chat: chat ?? deps.chat, friends: deps.friends, profiles: deps.profiles,
-            session: deps.session, network: deps.network, router: deps.router)
+            session: deps.session, network: offline ? NetworkMonitor(isOffline: true) : deps.network,
+            router: deps.router)
+    }
+
+    private func member(_ id: UserID, in viewModel: GroupInfoViewModel) -> MemberRowData? {
+        content(viewModel)?.members.first { $0.id == id }
     }
 
     private func content(_ viewModel: GroupInfoViewModel) -> GroupInfoContent? {
@@ -136,5 +142,120 @@ struct GroupInfoViewModelTests {
         let viewModel = GroupInfoViewModel.preview(.failing)
         await viewModel.load()
         #expect(viewModel.state == .failed(.offline))
+    }
+
+    // MARK: Mute, the ••• menu and Add members
+
+    @Test func theAdminHasAMenuOnEveryoneElseAndNotOnThemselves() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        for row in content(viewModel)?.members ?? [] {
+            #expect(row.hasMenu == !row.isMe)
+            #expect(row.canMute == !row.isMe)
+            #expect(row.canRemove == !row.isMe)
+        }
+    }
+
+    @Test func mutingKeepsThePersonInTheGroupAndTheAdminSeesTheLabel() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        let before = content(viewModel)?.members.count
+        let other = SampleSocialData.isha.id
+        #expect(member(other, in: viewModel)?.isMuted == false)
+        #expect(member(other, in: viewModel)?.showsMutedLabel == false)
+        await viewModel.muteTapped(other)
+        #expect(member(other, in: viewModel)?.isMuted == true)
+        #expect(member(other, in: viewModel)?.showsMutedLabel == true)
+        #expect(content(viewModel)?.members.count == before)
+        #expect(content(viewModel)?.members.filter(\.showsMutedLabel).count == 1)
+    }
+
+    @Test func theMenuOffersUnmuteForAMutedPersonAndUnmutingClearsIt() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        let other = SampleSocialData.isha.id
+        let muteWord = member(other, in: viewModel)?.muteLabel
+        await viewModel.muteTapped(other)
+        #expect(member(other, in: viewModel)?.muteLabel != muteWord)
+        await viewModel.muteTapped(other)
+        #expect(member(other, in: viewModel)?.isMuted == false)
+        #expect(member(other, in: viewModel)?.muteLabel == muteWord)
+    }
+
+    @Test func theAdminCannotMuteThemselves() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        let myID = SampleData.signedInUser.id
+        await viewModel.muteTapped(myID)
+        #expect(member(myID, in: viewModel)?.isMuted == false)
+        #expect(viewModel.notice == nil)
+    }
+
+    @Test func aMutedPersonSeesTheLabelOnThemselvesAndNobodyElseDoes() async {
+        // I am muted here, and somebody else is the admin.
+        let store = SocialStubStore(mutedIn: [crew])
+        let controlled = ControlledChat(base: StubChatRepository(store: store))
+        controlled.adminOverride.withLock { $0 = SampleSocialData.isha.id }
+        let viewModel = makeViewModel(chat: controlled)
+        await viewModel.load()
+        let myID = SampleData.signedInUser.id
+        #expect(member(myID, in: viewModel)?.isMuted == true)
+        #expect(member(myID, in: viewModel)?.showsMutedLabel == true)
+        #expect(content(viewModel)?.members.filter(\.showsMutedLabel).map(\.id) == [myID])
+        #expect(content(viewModel)?.members.allSatisfy { !$0.hasMenu } == true)
+    }
+
+    @Test func aMemberWhoIsNotTheAdminDoesNotSeeWhoElseIsMuted() async throws {
+        let store = SocialStubStore()
+        let base = StubChatRepository(store: store)
+        try await base.setMuted(true, member: SampleSocialData.isha.id, in: crew)   // done as the admin
+        let controlled = ControlledChat(base: base)
+        controlled.adminOverride.withLock { $0 = SampleSocialData.friend.id }       // now somebody else is the admin
+        let viewModel = makeViewModel(chat: controlled)
+        await viewModel.load()
+        #expect(member(SampleSocialData.isha.id, in: viewModel)?.isMuted == true)
+        #expect(content(viewModel)?.members.allSatisfy { !$0.showsMutedLabel } == true)
+    }
+
+    @Test func everyMemberCanAddMembersButNotOffline() async {
+        let controlled = ControlledChat(base: AppDependencies.preview(.loaded).chat)
+        controlled.adminOverride.withLock { $0 = SampleSocialData.isha.id }
+        let viewModel = makeViewModel(chat: controlled)
+        await viewModel.load()
+        #expect(content(viewModel)?.isAdmin == false)
+        #expect(viewModel.canAdd)
+        viewModel.addTapped()
+        #expect(viewModel.isAddingMembers)
+
+        let offline = makeViewModel(offline: true)
+        await offline.load()
+        #expect(!offline.canAdd)
+        offline.addTapped()
+        #expect(!offline.isAddingMembers)
+    }
+
+    @Test func offlineTheAdminCannotRemoveMuteOrRename() async {
+        let viewModel = makeViewModel(offline: true)
+        await viewModel.load()
+        let other = SampleSocialData.isha.id
+        #expect(!viewModel.canAdminister)
+        viewModel.removeTapped(other)
+        #expect(viewModel.removingID == nil)
+        await viewModel.muteTapped(other)
+        #expect(member(other, in: viewModel)?.isMuted == false)
+        viewModel.draftName = "Another name"
+        #expect(!viewModel.canSaveName)
+    }
+
+    @Test func aFailedMuteShowsAMessageAndKeepsTheList() async {
+        let deps = AppDependencies.preview(.loaded)
+        let controlled = ControlledChat(base: deps.chat)
+        let viewModel = makeViewModel(chat: controlled, deps: deps)
+        await viewModel.load()
+        controlled.failChanges.withLock { $0 = true }
+        let before = content(viewModel)?.members
+        await viewModel.muteTapped(SampleSocialData.isha.id)
+        #expect(viewModel.notice != nil)
+        #expect(content(viewModel)?.members == before)
     }
 }
