@@ -109,7 +109,7 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Notes: The two answers are exactly 'I'm in' and 'Not for me' (taken from the shared strings). The + menu offers Poll in group chats only. The question is limited to 140 characters.
 
 ## SC-CH2: done (photos not built)
-- Files: ChatFeature/Conversation/* (6 files), ConversationTestSupport, ConversationLoadingTests, ConversationWritingTests, ConversationVoiceAndRulesTests, ChatScreens, AppShellTests row, catalog
+- Files: ChatFeature/Conversation/* (6 files), ConversationTestSupport, ConversationViewModelTests, ConversationWritingTests, ConversationVoiceAndRulesTests, ChatScreens, AppShellTests row, catalog
 - Tests: 28
 - Screenshots: build/screenshots/ch2-group.png opened (bubbles, poll, voice note, photo placeholder, composer with + and mic); ch2-dm.png taken, not opened
 - Button heights: composer buttons are the shared 44 pt IconButton; the + and mic are 44 pt minimum

@@ -6,7 +6,7 @@ import Testing
 @testable import ChatFeature
 
 @MainActor
-struct ConversationLoadingTests {
+struct ConversationViewModelTests {
     private let kit = ConversationKit()
     private var crew: ConversationID { kit.crew }
     private var direct: ConversationID { kit.direct }
