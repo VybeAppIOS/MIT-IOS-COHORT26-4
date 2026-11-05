@@ -1,6 +1,183 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "discover.filters.apply %lld" : {
+      "comment" : "Filters sheet main button. %lld is how many Hangouts match.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Apply (%lld result)"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Apply (%lld results)"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "discover.filters.applyCounting" : {
+      "comment" : "Filters sheet main button while the result count is not known yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apply"
+          }
+        }
+      }
+    },
+    "discover.filters.budget" : {
+      "comment" : "Filters sheet heading above the budget sliders.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget per person"
+          }
+        }
+      }
+    },
+    "discover.filters.budgetMaximum" : {
+      "comment" : "VoiceOver label for the upper budget slider.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Highest budget"
+          }
+        }
+      }
+    },
+    "discover.filters.budgetMinimum" : {
+      "comment" : "VoiceOver label for the lower budget slider.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lowest budget"
+          }
+        }
+      }
+    },
+    "discover.filters.categories" : {
+      "comment" : "Filters sheet heading above the category chips.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categories"
+          }
+        }
+      }
+    },
+    "discover.filters.findYourVybe" : {
+      "comment" : "Opens the page with every interest. Vybe is the app name: move to a shared Design string (SharedStrings.appName) when Lohitaksh adds it.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find your Vybe"
+          }
+        }
+      }
+    },
+    "discover.filters.goodForGroups" : {
+      "comment" : "Filters sheet switch.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good for groups"
+          }
+        }
+      }
+    },
+    "discover.filters.reset" : {
+      "comment" : "Filters sheet button: clears every choice.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
+          }
+        }
+      }
+    },
+    "discover.filters.time" : {
+      "comment" : "Filters sheet heading above the time choices.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time"
+          }
+        }
+      }
+    },
+    "discover.filters.timeAny" : {
+      "comment" : "Time choice: no time filter.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Any length"
+          }
+        }
+      }
+    },
+    "discover.filters.timeAtLeast %@" : {
+      "comment" : "Time choice. %@ is a system-formatted length, e.g. 3 hr.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ or more"
+          }
+        }
+      }
+    },
+    "discover.filters.timeUpTo %@" : {
+      "comment" : "Time choice. %@ is a system-formatted length, e.g. 2 hr.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to %@"
+          }
+        }
+      }
+    },
+    "discover.filters.title" : {
+      "comment" : "Title of the Discover filters sheet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filters"
+          }
+        }
+      }
+    },
+    "discover.filters.vibes" : {
+      "comment" : "Filters sheet heading above the short vibe list.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vibes"
+          }
+        }
+      }
+    },
     "discover.map.chip.food" : {
       "comment" : "Discover filter chip: cafés, street food, chai, restaurants, desserts, juice.",
       "localizations" : {
@@ -129,6 +306,391 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Discover"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.arcade" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Arcade"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.bakery" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bakery"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.bistros" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bistros"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.boardgames" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Boardgames"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.books" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Books"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.bouldering" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bouldering"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.cafe" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cafe"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.chai" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chai"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.cinema" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cinema"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.desserts" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desserts"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.diner" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Diner"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.drives" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drives"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.gaming" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gaming"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.gigs" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gigs"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.lakeside" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lakeside"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.midnight" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Midnight"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.misal" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Misal"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.museums" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Museums"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.parks" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parks"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.pool" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pool"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.retro" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retro"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.rooftop" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rooftop"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.shopping" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shopping"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.streetfood" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Streetfood"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.study" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.sunsets" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunsets"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.thrifting" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thrifting"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.trek" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trek"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.turf" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Turf"
+          }
+        }
+      }
+    },
+    "discover.vybe.interest.workshops" : {
+      "comment" : "Find your Vybe interest chip (one word).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Workshops"
+          }
+        }
+      }
+    },
+    "discover.vybe.section.culture" : {
+      "comment" : "Find your Vybe section heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chill, Indie & Culture"
+          }
+        }
+      }
+    },
+    "discover.vybe.section.food" : {
+      "comment" : "Find your Vybe section heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Food, Drinks & Cravings"
+          }
+        }
+      }
+    },
+    "discover.vybe.section.games" : {
+      "comment" : "Find your Vybe section heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Games, Sports & Action"
+          }
+        }
+      }
+    },
+    "discover.vybe.section.outdoors" : {
+      "comment" : "Find your Vybe section heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outdoors, Views & Nature"
+          }
+        }
+      }
+    },
+    "discover.vybe.section.retail" : {
+      "comment" : "Find your Vybe section heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retail & Vibe Tags"
           }
         }
       }
