@@ -45,7 +45,7 @@ enum SearchContent: Equatable {
 }
 
 /// Search (SC-S1): results grouped Hangouts, Places and People. Which group comes first depends on the tab the
-/// person came from, read when a query runs. Typing is debounced; blocked people never appear.
+/// person came from, read when a query runs. Typing is debounced; blocked people and you never appear.
 /// Recent searches are kept in settings through the session.
 @MainActor @Observable
 final class SearchViewModel {
@@ -120,7 +120,7 @@ final class SearchViewModel {
             let found = try await search.search(text: text, scope: Set(SearchKind.allCases))
             shown = SearchResults(
                 hangouts: found.hangouts, places: found.places,
-                people: found.people.filter { !session.isBlocked($0.id) })
+                people: found.people.filter { !session.isBlocked($0.id) && $0.id != session.currentUser?.id })
             await libraryStore.ensureLoaded()
             let groups = makeGroups(from: shown, previousTab: router.lastNonSearchTab)
             state = groups.isEmpty ? .empty : .loaded(.results(groups))

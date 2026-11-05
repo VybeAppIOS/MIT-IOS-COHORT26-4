@@ -137,6 +137,23 @@ struct SearchViewModelTests {
         #expect(!groups(viewModel).isEmpty)
     }
 
+    @Test func youNeverAppearInYourOwnPeopleResults() async {
+        let deps = AppDependencies.preview(.loaded)
+        let mine = SampleSocialData.currentUser
+        let viewModel = makeViewModel(
+            FixedSearch(SearchResults(people: [mine, SampleSocialData.aarav])), deps: deps)
+        viewModel.query = "sample"
+        await viewModel.queryChanged()
+        let people = groups(viewModel).first { $0.kind == .people }
+        #expect(deps.session.currentUser?.id == mine.id)
+        #expect(people?.rows.map(\.id) == [SampleSocialData.aarav.id.rawValue])
+        // Only me found: the People group disappears altogether.
+        let alone = makeViewModel(FixedSearch(SearchResults(people: [mine])), deps: deps)
+        alone.query = "sample"
+        await alone.queryChanged()
+        #expect(alone.state == .empty)
+    }
+
     @Test func recentSearchesAreKeptNewestFirstAndLimited() async {
         let viewModel = makeViewModel(FixedSearch(everything))
         for word in ["one", "two", "three", "four", "five", "six"] {
