@@ -18,7 +18,7 @@ struct BadgeStoreTests {
         #expect(badges.communityBadge == 0)
         await badges.refresh()
         #expect(badges.unreadChatCount == 4)       // 2 in the friend chat, 2 in the crew chat
-        #expect(badges.unseenActivityCount == 3)   // the sample has 3 unread of 5
+        #expect(badges.unseenActivityCount == 3)   // the sample has 3 unread of 6
         #expect(badges.pendingRequestCount == 1)   // the "Other" folder does not count
         #expect(badges.communityBadge == 8)
     }

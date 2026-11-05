@@ -148,6 +148,34 @@ struct ActivityViewModelTests {
         #expect(router.path(for: router.currentStack).last == .profile(SampleSocialData.rohan.id))
     }
 
+    @Test func aCommentOrReplyRowOpensItsPostAndOnlyFallsBackToTheProfileWithoutOne() async {
+        let myID = SampleData.signedInUser.id
+        let items = [
+            Activity(id: "a-reply", recipientID: myID, kind: .reply, actorID: SampleSocialData.rohan.id,
+                     target: .comment("comment-sample-5"), createdAt: hoursAgo(1), runID: "run-sample-3"),
+            Activity(id: "a-comment", recipientID: myID, kind: .comment, actorID: SampleSocialData.isha.id,
+                     target: .comment("comment-sample-6"), createdAt: hoursAgo(2), runID: "run-sample-5"),
+            Activity(id: "a-old", recipientID: myID, kind: .comment, actorID: SampleSocialData.meera.id,
+                     target: .comment("comment-sample-1"), createdAt: hoursAgo(3))
+        ]
+        let setup = makeSetup(items: items)
+        await setup.viewModel.load()
+        let router = setup.deps.router
+        setup.viewModel.rowTapped("a-reply")
+        #expect(router.path(for: router.currentStack).last == .post("run-sample-3"))
+        setup.viewModel.rowTapped("a-comment")
+        #expect(router.path(for: router.currentStack).last == .post("run-sample-5"))
+        setup.viewModel.rowTapped("a-old")
+        #expect(router.path(for: router.currentStack).last == .profile(SampleSocialData.meera.id))
+    }
+
+    @Test func theSampleCommentAndReplyRowsCarryTheirPost() {
+        let rows = SampleSocialData.activity.filter { $0.kind == .comment || $0.kind == .reply }
+        #expect(rows.count >= 2)
+        #expect(rows.allSatisfy { $0.runID != nil })
+        #expect(Set(rows.map(\.kind)) == [.comment, .reply])
+    }
+
     @Test func noActivityIsTheEmptyState() async {
         let setup = makeSetup(items: [])
         await setup.viewModel.load()

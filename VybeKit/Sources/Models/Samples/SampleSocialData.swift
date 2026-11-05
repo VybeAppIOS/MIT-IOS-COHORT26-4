@@ -174,12 +174,14 @@ public enum SampleSocialData {
                  target: .user(sanya.id), createdAt: hours(-3)),
         Activity(id: "activity-sample-2", recipientID: currentUser.id, kind: .like, actorID: friend.id,
                  target: .run("run-sample-3"), createdAt: hours(-2)),
-        Activity(id: "activity-sample-3", recipientID: currentUser.id, kind: .comment, actorID: rohan.id,
-                 target: .comment("comment-sample-5"), createdAt: hours(-3.5)),
+        Activity(id: "activity-sample-3", recipientID: currentUser.id, kind: .reply, actorID: rohan.id,
+                 target: .comment("comment-sample-5"), createdAt: hours(-3.5), runID: "run-sample-3"),
         Activity(id: "activity-sample-4", recipientID: currentUser.id, kind: .friendAccepted, actorID: meera.id,
                  target: .user(meera.id), createdAt: hours(-26), readAt: hours(-25)),
         Activity(id: "activity-sample-5", recipientID: currentUser.id, kind: .remixCredit, actorID: isha.id,
-                 target: .hangout(SampleData.morning.id), createdAt: hours(-50), readAt: hours(-49))
+                 target: .hangout(SampleData.morning.id), createdAt: hours(-50), readAt: hours(-49)),
+        Activity(id: "activity-sample-6", recipientID: currentUser.id, kind: .comment, actorID: meera.id,
+                 target: .comment("comment-sample-6"), createdAt: hours(-28), readAt: hours(-27), runID: "run-sample-5")
     ]
 }
 #endif

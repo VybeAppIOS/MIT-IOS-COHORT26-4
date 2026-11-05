@@ -187,6 +187,14 @@ struct CommunityModelsTests {
                                     createdAt: day, readAt: day)
             #expect(try roundTrip(activity) == activity)
         }
+        let withPost = Activity(id: "a2", recipientID: "u1", kind: .comment, actorID: "u2", target: .comment("c1"),
+                                createdAt: day, runID: "r1")
+        #expect(try roundTrip(withPost) == withPost && withPost.runID == "r1")
+        let oldJSON = try JSONCoding.encoder.encode(withPost)
+        var object = try #require(try JSONSerialization.jsonObject(with: oldJSON) as? [String: Any])
+        object["runID"] = nil   // a row written before the field existed
+        let decoded = try JSONCoding.decoder.decode(Activity.self, from: JSONSerialization.data(withJSONObject: object))
+        #expect(decoded.runID == nil && decoded.target == .comment("c1"))
         #expect(try JSONCoding.decoder.decode(ActivityKind.self, from: Data("\"poke\"".utf8)) == .unknown)
         #expect(ActivityKind.friendRequest.rawValue == "friend-request")
     }
