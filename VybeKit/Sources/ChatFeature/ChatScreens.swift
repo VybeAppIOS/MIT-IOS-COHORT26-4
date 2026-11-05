@@ -1,5 +1,4 @@
 import Core
-import Design
 import Models
 import SwiftUI
 
@@ -49,27 +48,5 @@ public enum ChatScreens {
         InvitationView(viewModel: InvitationViewModel(
             conversationID: id, chat: deps.chat, profiles: deps.profiles, session: deps.session,
             network: deps.network, router: deps.router))
-    }
-}
-
-/// Stands in for a screen until its task replaces the `case` in this feature's `Screens` (task F-16).
-/// Developer-only text, so it is not localized.
-private struct ScreenPlaceholder: View {
-    let id: String
-    let name: String
-
-    var body: some View {
-        VStack(spacing: Theme.Spacing.small) {
-            Text(verbatim: id).font(Theme.Font.largeTitle)
-            Text(verbatim: name).font(Theme.Font.headline)
-            Text(verbatim: "Placeholder until this screen's task replaces it")
-                .font(Theme.Font.footnote)
-                .foregroundStyle(Theme.Color.textSecondary)
-        }
-        .multilineTextAlignment(.center)
-        .padding(Theme.Spacing.large)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Theme.Color.surface)
-        .navigationTitle(Text(verbatim: name))
     }
 }
