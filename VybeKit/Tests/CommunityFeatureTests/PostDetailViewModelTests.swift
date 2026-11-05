@@ -142,4 +142,17 @@ struct PostDetailViewModelTests {
         #expect(!post.factsText.contains(":"))
         #expect(!(post.dayText ?? "").contains(":"))
     }
+
+    @Test func blockIsOfferedOnAFriendsPostButNotOnAPick() async {
+        let deps = AppDependencies.preview(.loaded)
+        let friend = makeViewModel(friendPost, deps: deps)
+        await friend.load()
+        #expect(friend.canBlock)
+        friend.blockTapped()
+        #expect(deps.router.sheet == .blockConfirm(friendPost.runnerID))
+
+        let pick = makeViewModel(pickPost)
+        await pick.load()
+        #expect(!pick.canBlock)
+    }
 }

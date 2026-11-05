@@ -21,6 +21,7 @@ final class FeedViewModel {
     /// The post whose Comments sheet is open (nil when closed).
     var commentsRunID: RunID?
 
+    private let session: SessionStore
     private let makeComments: CommentsFactory
     private let maker: PostCardMaker
     private var exitAfterComments: CommentsExit?
@@ -39,9 +40,10 @@ final class FeedViewModel {
     /// Cheap: no loading here (ADR 005). Takes only what the screen needs, never `AppDependencies`.
     init(
         feed: any FeedRepository, hangouts: any HangoutRepository, places: any PlaceRepository,
-        photos: any PhotoStore, libraryStore: LibraryStore, badges: BadgeStore, router: Router,
+        photos: any PhotoStore, libraryStore: LibraryStore, badges: BadgeStore, session: SessionStore, router: Router,
         makeComments: @escaping CommentsFactory
     ) {
+        self.session = session
         self.makeComments = makeComments
         self.maker = PostCardMaker(hangouts: hangouts, places: places, photos: photos, libraryStore: libraryStore)
         self.feed = feed
@@ -61,6 +63,8 @@ final class FeedViewModel {
     var picksTitle: String { String(localized: "community.feed.picks", bundle: #bundle) }
     var trendingTitle: String { String(localized: "community.feed.trending", bundle: #bundle) }
     var friendsLabel: String { String(localized: "community.feed.friends", bundle: #bundle) }
+    var reportLabel: String { String(localized: "community.feed.report", bundle: #bundle) }
+    var blockLabel: String { String(localized: "community.feed.block", bundle: #bundle) }
     var okLabel: String { String(localized: "community.feed.ok", bundle: #bundle) }
 
     var activityLabel: String {
@@ -79,6 +83,8 @@ final class FeedViewModel {
 
     var hasUnseenActivity: Bool { badges.unseenActivityCount > 0 }
     var unreadChatCount: Int { badges.unreadChatCount }
+    /// "3" on the Chats button; nil when nothing is unread.
+    var chatBadgeText: String? { unreadChatCount > 0 ? DisplayFormat.compactCount(unreadChatCount) : nil }
 
     // MARK: Loading
 
@@ -129,6 +135,7 @@ final class FeedViewModel {
             let content = FeedContent(picks: picks, posts: posts, hasMore: page.nextCursor != nil)
             state = posts.isEmpty && picks.isEmpty ? .empty : .loaded(content)
             hasLoaded = true
+            await badges.refresh()   // the Chats and bell numbers belong to this tab
         } catch is CancellationError {
             return   // leaving the screen is not an error (ADR 005)
         } catch {
@@ -183,6 +190,17 @@ final class FeedViewModel {
     }
     func shareTapped(_ post: PostCardData) { router.present(.share(.post(post.id))) }
     func reportTapped(_ post: PostCardData) { router.present(.report(.run(post.id))) }
+
+    /// Block is offered on other people's posts only, and never on the official Vybe account.
+    func canBlock(_ post: PostCardData) -> Bool {
+        guard let run = runs[post.id] else { return false }
+        return run.runnerID != session.currentUser?.id && !post.isPick
+    }
+
+    func blockTapped(_ post: PostCardData) {
+        guard canBlock(post), let run = runs[post.id] else { return }
+        router.present(.blockConfirm(run.runnerID))
+    }
 
     func saveTapped(_ post: PostCardData) async {
         guard let run = runs[post.id] else { return }

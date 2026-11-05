@@ -94,6 +94,11 @@ struct PostDetailView: View {
                 Button(role: .destructive) { viewModel.reportTapped() } label: {
                     Label { Text(verbatim: viewModel.reportLabel) } icon: { Image(systemName: "flag") }
                 }
+                if viewModel.canBlock {
+                    Button(role: .destructive) { viewModel.blockTapped() } label: {
+                        Label { Text(verbatim: viewModel.blockLabel) } icon: { Image(systemName: "hand.raised") }
+                    }
+                }
             }
         } label: {
             Image(systemName: "ellipsis")

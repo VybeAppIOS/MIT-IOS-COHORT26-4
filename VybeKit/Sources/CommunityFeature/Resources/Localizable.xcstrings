@@ -398,6 +398,17 @@
         }
       }
     },
+    "community.feed.block" : {
+      "comment" : "Long-press menu item that blocks the person who made a post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Block"
+          }
+        }
+      }
+    },
     "community.feed.chats" : {
       "comment" : "VoiceOver label of the Chats button with nothing unread.",
       "localizations" : {
@@ -498,6 +509,17 @@
         }
       }
     },
+    "community.feed.report" : {
+      "comment" : "Long-press menu item that reports a post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        }
+      }
+    },
     "community.feed.title" : {
       "comment" : "Title of the Feed screen (the Community tab).",
       "localizations" : {
@@ -516,6 +538,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Trending this week near Kothrud"
+          }
+        }
+      }
+    },
+    "community.postDetail.block" : {
+      "comment" : "Menu item that blocks the person who made the post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Block"
           }
         }
       }

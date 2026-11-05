@@ -84,6 +84,7 @@ final class PostDetailViewModel {
             ? String(localized: "community.postDetail.unsave", bundle: #bundle)
             : String(localized: "community.postDetail.save", bundle: #bundle)
     }
+    var blockLabel: String { String(localized: "community.postDetail.block", bundle: #bundle) }
     var okLabel: String { String(localized: "community.postDetail.ok", bundle: #bundle) }
 
     // MARK: Loading
@@ -219,6 +220,17 @@ final class PostDetailViewModel {
 
     func shareTapped() { router.present(.share(.post(runID))) }
     func reportTapped() { router.present(.report(.run(runID))) }
+
+    /// Block is offered on other people's posts only, and never on the official Vybe account.
+    var canBlock: Bool {
+        guard case .loaded(let content, _) = state, let run else { return false }
+        return !content.isOwn && !content.post.isPick && run.runnerID != session.currentUser?.id
+    }
+
+    func blockTapped() {
+        guard canBlock, let run else { return }
+        router.present(.blockConfirm(run.runnerID))
+    }
     func editTapped() { router.present(.editPost(runID)) }
     func reportComment(_ id: String) { router.present(.report(.comment(CommentID(id)))) }
     /// Comments open as a local sheet (SC-CM3).

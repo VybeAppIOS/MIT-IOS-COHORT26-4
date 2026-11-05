@@ -49,6 +49,7 @@ struct FeedView: View {
                 if content.posts.isEmpty { emptyState }
                 ForEach(content.posts) { post in
                     PostCard(post, actions: actions(for: post))
+                        .contextMenu { postMenu(for: post) }
                         .task { await viewModel.loadMoreIfNeeded(after: post) }
                 }
                 if viewModel.isLoadingMore { ProgressView().frame(maxWidth: .infinity) }
@@ -78,6 +79,31 @@ struct FeedView: View {
             action: { viewModel.friendsTapped() })
     }
 
+    /// The long-press menu. The card's own ••• menu only has Report, so Block lives here too.
+    @ViewBuilder private func postMenu(for post: PostCardData) -> some View {
+        Button(role: .destructive) { viewModel.reportTapped(post) } label: {
+            Label { Text(verbatim: viewModel.reportLabel) } icon: { Image(systemName: "flag") }
+        }
+        if viewModel.canBlock(post) {
+            Button(role: .destructive) { viewModel.blockTapped(post) } label: {
+                Label { Text(verbatim: viewModel.blockLabel) } icon: { Image(systemName: "hand.raised") }
+            }
+        }
+    }
+
+    /// The number of unread chats on the Chats button.
+    @ViewBuilder private var chatBadge: some View {
+        if let count = viewModel.chatBadgeText {
+            Text(verbatim: count)
+                .font(Theme.Font.caption2.weight(.bold))
+                .foregroundStyle(Theme.Color.onAccent)
+                .padding(.horizontal, Theme.Spacing.tiny)
+                .background(Theme.Color.accent, in: .capsule)
+                .offset(x: Theme.Spacing.small, y: -Theme.Spacing.small)
+                .accessibilityHidden(true)
+        }
+    }
+
     private func actions(for post: PostCardData) -> PostCardActions {
         PostCardActions(
             open: { viewModel.openPost(post) },
@@ -101,6 +127,7 @@ struct FeedView: View {
             Button { viewModel.chatsTapped() } label: {
                 Image(systemName: viewModel.unreadChatCount > 0 ? "bubble.left.and.bubble.right.fill"
                       : "bubble.left.and.bubble.right")
+                    .overlay(alignment: .topTrailing) { chatBadge }
             }
             .accessibilityLabel(Text(verbatim: viewModel.chatsLabel))
         }

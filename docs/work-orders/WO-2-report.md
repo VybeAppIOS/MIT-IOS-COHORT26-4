@@ -28,3 +28,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): large title pass; grouped inset list pass; unread = dot + bold text + VoiceOver label (not colour alone) pass; large-text not looked at
 - Notes: Needs from Lohitaksh: FriendsRepository has no ignoreRequest, so Ignore only hides the row on this phone (nobody is told). An Activity whose target is a comment has no post ID, so the row opens the commenter's profile instead of the post. The dots stay until the next load while the badge clears at once.
 
+## Feed and Post detail gaps: done (Block in the Feed is a long-press menu)
+- Files: Feed/FeedViewModel, FeedView; PostDetail/PostDetailViewModel, PostDetailView; tests; catalog; CommunityScreens (session passed to the Feed)
+- Tests: 3 new (61 in CommunityFeatureTests)
+- Screenshots: build/screenshots/feedbadge2-crop.png opened (Chats badge 4, bell dot)
+- Button heights: not measured
+- Checklist (WO-3 prompt section 6): badge never colour alone (symbol changes + number) pass
+- Notes: Block uses router.present(.blockConfirm(userID)); offered on other people's posts only, never on Picks. In the Feed the card's own ••• menu is inside the shared PostCard (Components, not mine), so Block is in the long-press menu; needs a block action on PostCardActions from Lohitaksh. The Feed now refreshes BadgeStore when it loads, because nothing else refreshes it at launch (the tab bar badge needs a refresh at app launch from the App).
+

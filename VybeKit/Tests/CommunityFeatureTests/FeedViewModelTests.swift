@@ -37,7 +37,7 @@ struct FeedViewModelTests {
     private func makeViewModel(_ feed: FakeFeed, deps: AppDependencies = .preview(.loaded)) -> FeedViewModel {
         FeedViewModel(
             feed: feed, hangouts: deps.hangouts, places: deps.places, photos: deps.photos,
-            libraryStore: deps.libraryStore, badges: deps.badges, router: deps.router,
+            libraryStore: deps.libraryStore, badges: deps.badges, session: deps.session, router: deps.router,
             makeComments: CommentsViewModel.previewFactory(deps))
     }
 
@@ -147,5 +147,38 @@ struct FeedViewModelTests {
             #expect(!post.factsText.contains(":"))
             #expect(!(post.dayText ?? "").contains(":"))
         }
+    }
+
+    @Test func blockIsOfferedOnOthersPostsButNotOnYoursOrOnPicks() async {
+        let myself = SampleData.signedInUser
+        let mine = HangoutRun(
+            id: "run-mine", hangoutID: posts[2].hangoutID, runnerID: myself.id, state: .posted, visits: posts[2].visits,
+            card: posts[2].card)
+        let friendPost = posts.first { !$0.card.runnerUsername.hasPrefix("vybe") && $0.runnerID != myself.id }!
+        let pick = posts.first { $0.card.runnerUsername == "vybe" }!
+        let feed = FakeFeed(pages: [nil: Page(items: [friendPost, mine, pick], nextCursor: nil)])
+        let deps = AppDependencies.preview(.loaded)
+        let viewModel = makeViewModel(feed, deps: deps)
+        await viewModel.load()
+        let cards = content(viewModel)!.posts
+        #expect(viewModel.canBlock(cards[0]))
+        #expect(!viewModel.canBlock(cards[1]))
+        #expect(!viewModel.canBlock(cards[2]))
+
+        viewModel.blockTapped(cards[0])
+        #expect(deps.router.sheet == .blockConfirm(friendPost.runnerID))
+        deps.router.dismissSheet()
+        viewModel.blockTapped(cards[1])
+        #expect(deps.router.sheet == nil)
+    }
+
+    @Test func theChatsButtonShowsTheUnreadCountOnlyWhenThereIsOne() async {
+        let deps = AppDependencies.preview(.loaded)
+        let viewModel = makeViewModel(twoPages(), deps: deps)
+        #expect(viewModel.chatBadgeText == nil)
+        await viewModel.load()   // loading the Feed refreshes the badge numbers
+        let unread = deps.badges.unreadChatCount
+        #expect(unread > 0)
+        #expect(viewModel.chatBadgeText == "\(unread)")
     }
 }
