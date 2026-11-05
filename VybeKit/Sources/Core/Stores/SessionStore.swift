@@ -42,6 +42,10 @@ public final class SessionStore {
 
     public func setCurrentUser(_ user: UserProfile?) { currentUser = user }
 
+    /// Notification choices live in `AppSettings`; the Notifications page reads and writes them here.
+    public func notificationOn(_ name: String) -> Bool { settings.notificationOn(name) }
+    public func setNotification(_ name: String, on enabled: Bool) { settings.setNotification(name, on: enabled) }
+
     public func isBlocked(_ id: UserID) -> Bool { blockedIDs.contains(id) }
 
     #if DEBUG

@@ -11,6 +11,26 @@ struct NotificationChoices: Equatable, Sendable {
     var reminders = true
 }
 
+extension NotificationChoices {
+    /// Reads the five switches from where the app keeps them.
+    @MainActor
+    init(session: SessionStore) {
+        self.init(
+            friendRequests: session.notificationOn("friendRequests"), messages: session.notificationOn("messages"),
+            likes: session.notificationOn("likes"), comments: session.notificationOn("comments"),
+            reminders: session.notificationOn("reminders"))
+    }
+
+    @MainActor
+    func save(to session: SessionStore) {
+        session.setNotification("friendRequests", on: friendRequests)
+        session.setNotification("messages", on: messages)
+        session.setNotification("likes", on: likes)
+        session.setNotification("comments", on: comments)
+        session.setNotification("reminders", on: reminders)
+    }
+}
+
 /// One switch, ready to draw.
 struct NotificationSwitch: Identifiable, Equatable {
     enum Kind: String, CaseIterable {
