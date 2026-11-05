@@ -26,8 +26,11 @@ final class PostDetailViewModel {
     private(set) var state: LoadState<PostDetailContent> = .loading
     /// A short message to show once. The View clears it.
     var notice: String?
-    /// True while the comments sheet (SC-CM3, not built yet) should be open.
+    /// True while the Comments sheet (SC-CM3) is open.
     var isShowingComments = false
+
+    private let makeComments: CommentsFactory
+    private var reportAfterComments: CommentID?
 
     private let runID: RunID
     private let feed: any FeedRepository
@@ -47,8 +50,10 @@ final class PostDetailViewModel {
     init(
         runID: RunID, feed: any FeedRepository, hangouts: any HangoutRepository, places: any PlaceRepository,
         profiles: any ProfileRepository, friends: any FriendsRepository, photos: any PhotoStore,
-        libraryStore: LibraryStore, session: SessionStore, router: Router, now: @escaping @Sendable () -> Date
+        libraryStore: LibraryStore, session: SessionStore, router: Router, now: @escaping @Sendable () -> Date,
+        makeComments: @escaping CommentsFactory
     ) {
+        self.makeComments = makeComments
         self.runID = runID
         self.feed = feed
         self.hangouts = hangouts
@@ -216,8 +221,24 @@ final class PostDetailViewModel {
     func reportTapped() { router.present(.report(.run(runID))) }
     func editTapped() { router.present(.editPost(runID)) }
     func reportComment(_ id: String) { router.present(.report(.comment(CommentID(id)))) }
-    /// Comments open as a local sheet (SC-CM3). Until that screen exists the View shows a placeholder.
+    /// Comments open as a local sheet (SC-CM3).
     func commentsTapped() { isShowingComments = true }
+
+    func makeCommentsViewModel() -> CommentsViewModel {
+        makeComments(runID) { [weak self] commentID in
+            self?.reportAfterComments = commentID
+            self?.isShowingComments = false
+        }
+    }
+
+    /// The Comments sheet has closed: open Report if that is why it closed, and refresh the comment counts.
+    func commentsDismissed() async {
+        if let id = reportAfterComments {
+            reportAfterComments = nil
+            router.present(.report(.comment(id)))
+        }
+        await reload()
+    }
 
     func saveTapped() async {
         guard let run else { return }

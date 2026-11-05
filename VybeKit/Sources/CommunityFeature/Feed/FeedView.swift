@@ -23,6 +23,11 @@ struct FeedView: View {
         .background(Theme.Color.surface)
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
+        .sheet(
+            isPresented: Binding(
+                get: { viewModel.commentsRunID != nil }, set: { if !$0 { viewModel.commentsRunID = nil } }),
+            onDismiss: { Task { await viewModel.commentsDismissed() } },
+            content: { commentsSheet })
         .alert(
             Text(verbatim: viewModel.notice ?? ""),
             isPresented: Binding(get: { viewModel.notice != nil }, set: { if !$0 { viewModel.notice = nil } })
@@ -32,6 +37,10 @@ struct FeedView: View {
     }
 
     // MARK: Pieces
+
+    @ViewBuilder private var commentsSheet: some View {
+        if let id = viewModel.commentsRunID { CommentsView(viewModel: viewModel.makeCommentsViewModel(for: id)) }
+    }
 
     private func feed(_ content: FeedContent) -> some View {
         ScrollView {

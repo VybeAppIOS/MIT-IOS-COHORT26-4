@@ -10,7 +10,8 @@ extension PostDetailViewModel {
         return PostDetailViewModel(
             runID: run, feed: deps.feed, hangouts: deps.hangouts, places: deps.places, profiles: deps.profiles,
             friends: deps.friends, photos: deps.photos, libraryStore: deps.libraryStore, session: deps.session,
-            router: deps.router, now: deps.now)
+            router: deps.router, now: deps.now,
+            makeComments: CommentsViewModel.previewFactory(deps))
     }
 }
 

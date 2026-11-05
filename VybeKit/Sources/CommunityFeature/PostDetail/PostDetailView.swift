@@ -22,7 +22,10 @@ struct PostDetailView: View {
         .background(Theme.Color.surface)
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
-        .sheet(isPresented: $viewModel.isShowingComments) { CommentsPlaceholder() }
+        .sheet(
+            isPresented: $viewModel.isShowingComments,
+            onDismiss: { Task { await viewModel.commentsDismissed() } },
+            content: { CommentsView(viewModel: viewModel.makeCommentsViewModel()) })
         .alert(
             Text(verbatim: viewModel.notice ?? ""),
             isPresented: Binding(get: { viewModel.notice != nil }, set: { if !$0 { viewModel.notice = nil } })
@@ -212,16 +215,5 @@ private struct PostDetailSkeleton: View {
         }
         .padding(Theme.Spacing.large)
         .frame(maxHeight: .infinity, alignment: .top)
-    }
-}
-
-/// Stands in for the Comments sheet until SC-CM3 exists. Developer-only text, so it is not localized.
-private struct CommentsPlaceholder: View {
-    var body: some View {
-        Text(verbatim: "CM3 Comments: placeholder until that screen is built")
-            .font(Theme.Font.footnote)
-            .foregroundStyle(Theme.Color.textSecondary)
-            .padding(Theme.Spacing.large)
-            .presentationDetents([.medium])
     }
 }

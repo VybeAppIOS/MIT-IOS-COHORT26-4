@@ -10,7 +10,8 @@ extension FeedViewModel {
         let deps = AppDependencies.preview(mode)
         return FeedViewModel(
             feed: deps.feed, hangouts: deps.hangouts, places: deps.places, photos: deps.photos,
-            libraryStore: deps.libraryStore, badges: deps.badges, router: deps.router)
+            libraryStore: deps.libraryStore, badges: deps.badges, router: deps.router,
+            makeComments: CommentsViewModel.previewFactory(deps))
     }
 }
 

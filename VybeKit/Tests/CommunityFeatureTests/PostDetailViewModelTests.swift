@@ -44,7 +44,8 @@ struct PostDetailViewModelTests {
         PostDetailViewModel(
             runID: run.id, feed: feed ?? deps.feed, hangouts: deps.hangouts, places: deps.places,
             profiles: deps.profiles, friends: deps.friends, photos: deps.photos, libraryStore: deps.libraryStore,
-            session: deps.session, router: deps.router, now: deps.now)
+            session: deps.session, router: deps.router, now: deps.now,
+            makeComments: CommentsViewModel.previewFactory(deps))
     }
 
     private func content(_ viewModel: PostDetailViewModel) -> PostDetailContent? {
@@ -87,7 +88,8 @@ struct PostDetailViewModelTests {
         let viewModel = PostDetailViewModel(
             runID: "no-such-post", feed: deps.feed, hangouts: deps.hangouts, places: deps.places,
             profiles: deps.profiles, friends: deps.friends, photos: deps.photos, libraryStore: deps.libraryStore,
-            session: deps.session, router: deps.router, now: deps.now)
+            session: deps.session, router: deps.router, now: deps.now,
+            makeComments: CommentsViewModel.previewFactory(deps))
         await viewModel.load()
         #expect(viewModel.state == .empty)
     }

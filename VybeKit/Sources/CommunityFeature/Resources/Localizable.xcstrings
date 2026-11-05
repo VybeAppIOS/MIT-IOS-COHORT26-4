@@ -1,6 +1,216 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "community.comments.cancel" : {
+      "comment" : "Button that cancels deleting a comment.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "community.comments.cancelReply" : {
+      "comment" : "VoiceOver label of the button that stops replying.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel reply"
+          }
+        }
+      }
+    },
+    "community.comments.delete" : {
+      "comment" : "Confirm button when deleting a comment.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "community.comments.deleteTitle" : {
+      "comment" : "Question when deleting a comment.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this comment?"
+          }
+        }
+      }
+    },
+    "community.comments.done" : {
+      "comment" : "Button that closes the Comments sheet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "community.comments.empty" : {
+      "comment" : "Shown when a post has no comments yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Be the first to comment."
+          }
+        }
+      }
+    },
+    "community.comments.failed" : {
+      "comment" : "Under a comment that could not be sent.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't send"
+          }
+        }
+      }
+    },
+    "community.comments.likeFailed" : {
+      "comment" : "Shown when a like on a comment could not be saved.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't save your like. Try again."
+          }
+        }
+      }
+    },
+    "community.comments.offline" : {
+      "comment" : "Shown above the comment box when the phone is offline.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline. You can read comments but not write."
+          }
+        }
+      }
+    },
+    "community.comments.ok" : {
+      "comment" : "Button that closes a short message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "community.comments.placeholder" : {
+      "comment" : "Placeholder of the comment box.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a comment"
+          }
+        }
+      }
+    },
+    "community.comments.remaining %lld" : {
+      "comment" : "Characters left in the comment box (shown near the 500 limit).",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld character left"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld characters left"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "community.comments.remove" : {
+      "comment" : "Button that removes a comment that could not be sent.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
+          }
+        }
+      }
+    },
+    "community.comments.replyingTo %@" : {
+      "comment" : "Above the comment box while replying. %@ is the person's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Replying to %@"
+          }
+        }
+      }
+    },
+    "community.comments.retry" : {
+      "comment" : "Button that tries to send a failed comment again.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        }
+      }
+    },
+    "community.comments.send" : {
+      "comment" : "VoiceOver label of the send button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send comment"
+          }
+        }
+      }
+    },
+    "community.comments.sending" : {
+      "comment" : "Under a comment that is being sent.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sending"
+          }
+        }
+      }
+    },
+    "community.comments.title" : {
+      "comment" : "Title of the Comments sheet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comments"
+          }
+        }
+      }
+    },
     "community.feed.activity" : {
       "comment" : "VoiceOver label of the Activity (bell) button.",
       "localizations" : {

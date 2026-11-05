@@ -37,7 +37,8 @@ struct FeedViewModelTests {
     private func makeViewModel(_ feed: FakeFeed, deps: AppDependencies = .preview(.loaded)) -> FeedViewModel {
         FeedViewModel(
             feed: feed, hangouts: deps.hangouts, places: deps.places, photos: deps.photos,
-            libraryStore: deps.libraryStore, badges: deps.badges, router: deps.router)
+            libraryStore: deps.libraryStore, badges: deps.badges, router: deps.router,
+            makeComments: CommentsViewModel.previewFactory(deps))
     }
 
     private func twoPages() -> FakeFeed {

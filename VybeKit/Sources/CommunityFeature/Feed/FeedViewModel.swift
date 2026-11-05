@@ -18,7 +18,11 @@ final class FeedViewModel {
     private(set) var isLoadingMore = false
     /// A short message to show once (for example when a like could not be saved). The View clears it.
     var notice: String?
+    /// The post whose Comments sheet is open (nil when closed).
+    var commentsRunID: RunID?
 
+    private let makeComments: CommentsFactory
+    private var reportAfterComments: CommentID?
     private let feed: any FeedRepository
     private let hangouts: any HangoutRepository
     private let places: any PlaceRepository
@@ -34,8 +38,10 @@ final class FeedViewModel {
     /// Cheap: no loading here (ADR 005). Takes only what the screen needs, never `AppDependencies`.
     init(
         feed: any FeedRepository, hangouts: any HangoutRepository, places: any PlaceRepository,
-        photos: any PhotoStore, libraryStore: LibraryStore, badges: BadgeStore, router: Router
+        photos: any PhotoStore, libraryStore: LibraryStore, badges: BadgeStore, router: Router,
+        makeComments: @escaping CommentsFactory
     ) {
+        self.makeComments = makeComments
         self.feed = feed
         self.hangouts = hangouts
         self.places = places
@@ -168,8 +174,25 @@ final class FeedViewModel {
     func openAuthor(of post: PostCardData) {
         if let run = runs[post.id] { router.open(.profile(run.runnerID)) }
     }
-    /// Comments open as a local sheet (SC-CM3) once that screen exists; until then they open the post.
-    func commentTapped(_ post: PostCardData) { router.open(.post(post.id)) }
+    /// Comments open as a local sheet (SC-CM3).
+    func commentTapped(_ post: PostCardData) { commentsRunID = post.id }
+
+    func makeCommentsViewModel(for id: RunID) -> CommentsViewModel {
+        makeComments(id) { [weak self] commentID in
+            self?.reportAfterComments = commentID
+            self?.commentsRunID = nil
+        }
+    }
+
+    /// The Comments sheet has closed: open Report if that is why it closed, and refresh the comment counts.
+    func commentsDismissed() async {
+        if let id = reportAfterComments {
+            reportAfterComments = nil
+            router.present(.report(.comment(id)))
+        }
+        await reload()
+    }
+
     func remixTapped(_ post: PostCardData) {
         if let run = runs[post.id] { router.presentCover(.editor(.remix(run.hangoutID))) }
     }
