@@ -18,7 +18,13 @@ struct HelpView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             Section {
-                InfoRow(verbatim: viewModel.reportTitle, value: viewModel.reportSubtitle)
+                VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {
+                    Text(verbatim: viewModel.reportTitle).font(Theme.Font.body)
+                        .foregroundStyle(Theme.Color.textPrimary)
+                    Text(verbatim: viewModel.reportSubtitle).font(Theme.Font.subheadline)
+                        .foregroundStyle(Theme.Color.textSecondary)
+                }
+                .padding(.vertical, Theme.Spacing.tiny)
                 NavRow(verbatim: viewModel.blockedTitle, systemImage: "hand.raised") { viewModel.blockedTapped() }
             } header: {
                 Text(verbatim: viewModel.safetyHeader)

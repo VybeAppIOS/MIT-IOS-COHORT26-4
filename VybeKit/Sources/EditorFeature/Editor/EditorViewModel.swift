@@ -165,6 +165,9 @@ final class EditorViewModel {
             ? nil : String(localized: "editor.error.title", bundle: #bundle)
     }
 
+    /// The title error, shown only once the person has typed something (an empty new Hangout is not an error yet).
+    var visibleTitleError: String? { title.isEmpty ? nil : titleError }
+
     var summaryError: String? {
         summary.count > Self.summaryLimit ? String(localized: "editor.error.summary", bundle: #bundle) : nil
     }

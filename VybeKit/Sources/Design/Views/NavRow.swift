@@ -6,6 +6,8 @@ public struct NavRow: View {
     private let subtitle: String?
     private let systemImage: String?
     private let action: () -> Void
+    /// Icons differ in width, so each gets the same width and the titles line up.
+    @ScaledMetric private var iconWidth: CGFloat = 28
 
     public init(
         _ title: LocalizedStringResource, subtitle: String? = nil, systemImage: String? = nil,
@@ -33,6 +35,7 @@ public struct NavRow: View {
                 if let systemImage {
                     Image(systemName: systemImage)
                         .foregroundStyle(Theme.Color.accent)
+                        .frame(width: iconWidth)
                         .accessibilityHidden(true)
                 }
                 VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {

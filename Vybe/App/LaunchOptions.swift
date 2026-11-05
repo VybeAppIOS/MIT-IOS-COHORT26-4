@@ -10,6 +10,7 @@ import Models
 ///
 ///     -stubMode loaded|empty|failing|loading   run the whole app on the sample stubs in that state
 ///     -debugRoute <JSON Route | short form>    open one screen, for example  hangout/hangout-example-evening-c3d4
+///     -tab discover|community|profile|search   start on that tab (for example the Profile tab's own screen)
 ///     -skipOnboarding                          go straight to the tabs
 ///     -resetState                              forget saved settings, library and profile first
 ///     -simulateWalk                            use the simulated walk instead of the real GPS
@@ -17,6 +18,7 @@ import Models
 struct LaunchOptions: Equatable {
     var stubMode: StubMode?
     var destination: DebugDestination?
+    var tab: AppTab?
     var skipOnboarding = false
     var resetState = false
     var simulateWalk = false
@@ -32,6 +34,9 @@ struct LaunchOptions: Equatable {
             switch argument {
             case "-stubMode":
                 stubMode = value.flatMap(Self.mode(named:))
+                index += 1
+            case "-tab":
+                tab = value.flatMap { name in AppTab.allCases.first { String(describing: $0) == name } }
                 index += 1
             case "-debugRoute":
                 destination = value.flatMap(DebugDestination.init(parsing:))
@@ -69,6 +74,7 @@ struct LaunchOptions: Equatable {
 
     /// Opens the requested screen. Call it once the first screen is up.
     func apply(to deps: AppDependencies) {
+        if let tab { deps.router.selectedTab = tab }
         guard let destination else { return }
         switch destination {
         case .route(let route):

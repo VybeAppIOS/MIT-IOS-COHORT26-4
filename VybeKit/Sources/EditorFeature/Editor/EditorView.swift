@@ -77,7 +77,7 @@ private struct EditorDetailsSection: View {
     var body: some View {
         Section {
             VybeTextField(verbatim: String(localized: "editor.field.title", bundle: #bundle), text: $viewModel.title,
-                          errorText: viewModel.titleError)
+                          errorText: viewModel.visibleTitleError)
                 .onChange(of: viewModel.title) { _, _ in viewModel.edited() }
             VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {
                 TextField(String(localized: "editor.field.summary", bundle: #bundle), text: $viewModel.summary,

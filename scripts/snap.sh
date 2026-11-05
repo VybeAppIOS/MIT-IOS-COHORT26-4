@@ -5,7 +5,8 @@
 #
 #   <name>   the file name: build/screenshots/<name>.png  (with mode "all": <name>-<mode>.png for each mode)
 #   <route>  what to open: a short form such as  hangout/hangout-example-evening-c3d4  settings/privacy  saved
-#            sheet/spot/<id>  cover/live/<id>   or a JSON Route. Use "none" for the first screen. The list of short
+#            sheet/spot/<id>  cover/live/<id>   or a JSON Route. Use "none" for the first screen, or tab:profile
+#            to start on a tab (discover, community, profile, search). The list of short
 #            forms is in Vybe/App/LaunchOptions.swift.
 #   <mode>   loaded | empty | failing | loading | all   (the sample-data stubs; "all" takes four screenshots)
 #
@@ -62,7 +63,11 @@ for mode in "${MODES[@]}"; do
   [ "$MODE" = "all" ] && target="$OUT/$NAME-$mode.png"
   xcrun simctl terminate "$UDID" "$BUNDLE_ID" >/dev/null 2>&1 || true
   args=(-skipOnboarding -resetState -stubMode "$mode")
-  [ "$ROUTE" != "none" ] && args+=(-debugRoute "$ROUTE")
+  case "$ROUTE" in
+    none) ;;
+    tab:*) args+=(-tab "${ROUTE#tab:}") ;;
+    *) args+=(-debugRoute "$ROUTE") ;;
+  esac
   xcrun simctl launch "$UDID" "$BUNDLE_ID" "${args[@]}" >/dev/null
   sleep "$WAIT"
   xcrun simctl io "$UDID" screenshot "$target" >/dev/null 2>&1
