@@ -70,4 +70,10 @@ final class ControlledChat: ChatRepository {
     func respondToInvitation(to id: ConversationID, accept: Bool) async throws {
         try await base.respondToInvitation(to: id, accept: accept)
     }
+    func memberships(in id: ConversationID) async throws -> [Membership] { try await base.memberships(in: id) }
+    func setMuted(_ muted: Bool, member: UserID, in id: ConversationID) async throws {
+        if failChanges.withLock({ $0 }) { throw AppError.offline }
+        try await base.setMuted(muted, member: member, in: id)
+    }
+    func pendingInvitations() async throws -> [Conversation] { try await base.pendingInvitations() }
 }

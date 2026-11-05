@@ -540,6 +540,17 @@
         }
       }
     },
+    "chat.invite.headlineUnknown %@" : {
+      "comment" : "Chat screens: chat.invite.headlineUnknown",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You were added to %@"
+          }
+        }
+      }
+    },
     "chat.invite.hint" : {
       "comment" : "Chat screens: chat.invite.hint",
       "localizations" : {

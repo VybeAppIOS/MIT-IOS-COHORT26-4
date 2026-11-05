@@ -6,11 +6,12 @@ import SwiftUI
 extension InvitationViewModel {
     /// The real ViewModel on the stub repositories, in one state, for the sample group.
     static func preview(
-        _ mode: StubMode, group: ConversationID = SampleSocialData.crew.id
+        _ mode: StubMode, group: ConversationID = SampleSocialData.invitation.id
     ) -> InvitationViewModel {
         let deps = AppDependencies.preview(mode)
         return InvitationViewModel(
-            conversationID: group, chat: deps.chat, profiles: deps.profiles, network: deps.network, router: deps.router)
+            conversationID: group, chat: deps.chat, profiles: deps.profiles, session: deps.session,
+            network: deps.network, router: deps.router)
     }
 }
 

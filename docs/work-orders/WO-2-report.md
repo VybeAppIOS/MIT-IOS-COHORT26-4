@@ -208,7 +208,8 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 5 Activity opens the post | done (committed together with item 4; checked at the end of Group 3) |
 | 6 New chat search | done (committed; checked at the end of Group 4) |
 | 7 Friends hub search | done (committed with the docs answer; checked at the end of Group 4) |
-| 8-25 | not started |
+| 8 Group data: memberships, mute, invitations | done (own commit) |
+| 9-25 | not started |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -278,3 +279,13 @@ Looked at (screenshots opened): the hub with the empty search field, and with "Ã
 Needs from Lohitaksh: none. Decision for later: Add Spot and share pickers still have no filter.
 
 Group 4 full check: one `./scripts/check.sh` run after items 6 and 7 ended with `==> All checks passed` (exit 0).
+
+### Item 8: Shared data for group management
+What changed: `ChatRepository` has `memberships(in:)`, `setMuted(_:member:in:)` and `pendingInvitations()`. `Membership` has optional `mutedAt` and `addedByID` (init defaults nil; JSON saved before them still decodes, tested). Stub rules (`SocialStubStore`): only the admin can mute; the admin cannot be muted (`AppError.invalid`); a muted person's `send` throws `AppError.invalid`; a pending group is not in `conversations()`, `unreadCounts()`, `messages(in:)` or `send` until Join; Join clears the pending flag, Leave removes me; an invitation from a blocked person is hidden; removing a member clears their mute, and the new admin after a Leave is un-muted. `memberships(in:)` also works for a group I am only invited to, so the invitation can name who added me. The store keeps who-added-whom, join times and mutes beside `conversations` (memberships are worked out from `memberIDs`, so existing sample IDs and JSON do not change). New init parameter `SocialStubStore(mutedIn:)` starts the signed-in person muted in those groups (tests and screenshots only).
+Sample data: one invitation, `conversation-sample-invitation` ("EXAMPLE Sunday Walkers", added by `Sample Vihaan`, who is not a friend), plus `pendingInvitationIDs` and `addedBy` (the crew's members were added by me). No existing ID changed. Sample group count is now 2 and conversations 4 (the sample test says so).
+Invitation screen (needed so this commit stays working): `InvitationViewModel` finds the group in `pendingInvitations()` and names the person from my own membership's `addedByID` (not from the admin), takes `session:`; if no adder is known the headline reads "You were added to ...".
+Files (shared, approved): `Models/Chat/Conversation.swift`, `Models/Samples/SampleSocialData.swift`, `Core/Repositories/ChatRepository.swift`, `Core/Fakes/SocialStubStore.swift`, `SocialStubStore+Chat.swift`, `StubSocialRepositories.swift`, `Contracts/SocialContracts.swift` (contract now checks: pending is not a conversation, memberships match members, the admin cannot be muted, muting sets and clears `mutedAt`, unknown chats are not found). Feature: `ChatFeature/Invitation/InvitationViewModel.swift`, `Invitation+Preview.swift`, `ChatScreens.swift`, `Resources/Localizable.xcstrings`.
+Tests: `CoreTests/ChatMembersStubTests` (10: memberships and who added them, pending stays out until accepted, adder is a non-friend, Leave, blocked adder hides the invite, mute and unmute, admin cannot be muted and only the admin mutes, muted send throws, removal clears mute, empty and failing modes), `CommunityModelsTests` (Membership round trip and old JSON), `InvitationViewModelTests` rewritten for the new rules, sample-data test updated. Test support `ControlledChat` forwards the three new methods.
+Not driven by hand: nothing here has its own screen; the screens that use it are items 9 and 10.
+Needs from Lohitaksh: the backend needs `memberships`, `mute` and `pendingInvitations` endpoints with the same rules, and `addedByID` on a pending membership.
+

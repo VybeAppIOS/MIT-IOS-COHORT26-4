@@ -115,7 +115,18 @@ public enum SampleSocialData {
     public static let crew = Conversation(
         id: "conversation-sample-crew", kind: .group, name: "EXAMPLE Kothrud Crew", adminID: currentUser.id,
         memberIDs: [currentUser.id, friend.id, aarav.id, isha.id], createdAt: hours(-24))
-    public static let conversations = [friendChat, aaravChat, crew]
+    /// A group I was added to by someone who is not my friend. It waits for Join or Leave and block.
+    public static let invitation = Conversation(
+        id: "conversation-sample-invitation", kind: .group, name: "EXAMPLE Sunday Walkers", adminID: vihaan.id,
+        memberIDs: [vihaan.id, tara.id, currentUser.id], createdAt: hours(-5))
+    public static let conversations = [friendChat, aaravChat, crew, invitation]
+    /// Groups I have been invited to but not joined yet.
+    public static let pendingInvitationIDs: Set<ConversationID> = [invitation.id]
+    /// Who added whom: group, then member, then the person who added them.
+    public static let addedBy: [ConversationID: [UserID: UserID]] = [
+        crew.id: [friend.id: currentUser.id, aarav.id: currentUser.id, isha.id: currentUser.id],
+        invitation.id: [tara.id: vihaan.id, currentUser.id: vihaan.id]
+    ]
 
     private static func message(
         _ number: Int, in chat: Conversation, by sender: UserProfile, hoursAgo: Double, _ payload: MessagePayload

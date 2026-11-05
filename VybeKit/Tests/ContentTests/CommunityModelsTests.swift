@@ -84,6 +84,21 @@ struct CommunityModelsTests {
         #expect(try roundTrip(admin) == admin)
     }
 
+    @Test func membershipKeepsMutedAndWhoAddedThemAndOldJSONStillDecodes() throws {
+        let muted = Membership(conversationID: "c1", userID: "u2", joinedAt: day, mutedAt: day, addedByID: "u1")
+        #expect(try roundTrip(muted) == muted)
+        #expect(muted.mutedAt == day && muted.addedByID == "u1")
+        let plain = Membership(conversationID: "c1", userID: "u2", joinedAt: day)
+        #expect(plain.mutedAt == nil && plain.addedByID == nil)
+        // Saved before these two fields existed: no "mutedAt" and no "addedByID" in the JSON.
+        var object = try #require(
+            JSONSerialization.jsonObject(with: JSONCoding.encoder.encode(plain)) as? [String: Any])
+        object["mutedAt"] = nil
+        object["addedByID"] = nil
+        let old = try JSONSerialization.data(withJSONObject: object)
+        #expect(try JSONCoding.decoder.decode(Membership.self, from: old) == plain)
+    }
+
     private static let payloads: [MessagePayload] = [
         .text("EXAMPLE hello"),
         .photos([Photo(id: "ph1", path: "a.jpg", width: 10, height: 10),
