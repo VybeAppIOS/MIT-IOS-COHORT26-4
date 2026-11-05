@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Task X-9: the only Info.plist keys that cannot be written as INFOPLIST_KEY_ build settings. Xcode merges this file
+     with the generated Info.plist (GENERATE_INFOPLIST_FILE stays YES). It lives in Config/, outside the synchronized
+     Vybe/ folder, so it is never copied into the app as a resource.
+     UIBackgroundModes/location: approved 3 Nov (OPEN-QUESTIONS 8b, ARCHITECTURE 4a #10). Used only while a Hangout is
+     live, through CLBackgroundActivitySession in Core's LiveLocationService. Never "Always" permission. -->
+<plist version="1.0">
+<dict>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>location</string>
+    </array>
+</dict>
+</plist>

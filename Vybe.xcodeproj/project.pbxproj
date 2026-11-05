@@ -38,6 +38,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A10000000000000000000050 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
+		A10000000000000000000051 /* Vybe-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Vybe-Info.plist"; sourceTree = "<group>"; };
+		A10000000000000000000052 /* Kothrud-Walk.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Kothrud-Walk.gpx"; sourceTree = "<group>"; };
 		A10000000000000000000005 /* Vybe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vybe.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000006 /* VybeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VybeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -96,8 +99,19 @@
 			children = (
 				A10000000000000000000007 /* Vybe */,
 				A10000000000000000000008 /* VybeTests */,
+				A10000000000000000000053 /* Config */,
 				A10000000000000000000003 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		A10000000000000000000053 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				A10000000000000000000050 /* Base.xcconfig */,
+				A10000000000000000000051 /* Vybe-Info.plist */,
+				A10000000000000000000052 /* Kothrud-Walk.gpx */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		A10000000000000000000003 /* Products */ = {
@@ -320,6 +334,7 @@
 		};
 		A10000000000000000000043 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A10000000000000000000050 /* Base.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -327,6 +342,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/Vybe-Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Vybe uses your location while a Hangout is live, to mark each Spot as you reach it, and to show Places near you. Your location is never posted or shared with friends.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Vybe uses the microphone only while you record a voice note in a chat.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -353,6 +371,7 @@
 		};
 		A10000000000000000000044 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A10000000000000000000050 /* Base.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -360,6 +379,9 @@
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Config/Vybe-Info.plist";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Vybe uses your location while a Hangout is live, to mark each Spot as you reach it, and to show Places near you. Your location is never posted or shared with friends.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Vybe uses the microphone only while you record a voice note in a chat.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

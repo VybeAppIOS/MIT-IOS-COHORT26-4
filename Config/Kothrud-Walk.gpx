@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Task X-9: the simulated walk for the iOS Simulator (selected in the Vybe scheme).
+     EXAMPLE route: a straight walk between the two EXAMPLE sample places in SampleData (EXAMPLE Café -> EXAMPLE Park),
+     the same route as SimulatedLocationService.examplePreview, at walking speed (one point every 10 s).
+     Replace it with a real Kothrud route once real Places are in the content: record it by walking it with the lab
+     iPhone, or draw it from OpenStreetMap (ODbL, credit OSM). Never copy a route out of Apple Maps or Google Maps. -->
+<gpx version="1.1" creator="Vybe" xmlns="http://www.topografix.com/GPX/1/1">
+    <wpt lat="18.500000" lon="73.800000"><time>2026-11-03T10:00:00Z</time></wpt>
+    <wpt lat="18.500059" lon="73.800118"><time>2026-11-03T10:00:10Z</time></wpt>
+    <wpt lat="18.500118" lon="73.800235"><time>2026-11-03T10:00:20Z</time></wpt>
+    <wpt lat="18.500176" lon="73.800353"><time>2026-11-03T10:00:30Z</time></wpt>
+    <wpt lat="18.500235" lon="73.800471"><time>2026-11-03T10:00:40Z</time></wpt>
+    <wpt lat="18.500294" lon="73.800588"><time>2026-11-03T10:00:50Z</time></wpt>
+    <wpt lat="18.500353" lon="73.800706"><time>2026-11-03T10:01:00Z</time></wpt>
+    <wpt lat="18.500412" lon="73.800824"><time>2026-11-03T10:01:10Z</time></wpt>
+    <wpt lat="18.500471" lon="73.800941"><time>2026-11-03T10:01:20Z</time></wpt>
+    <wpt lat="18.500529" lon="73.801059"><time>2026-11-03T10:01:30Z</time></wpt>
+    <wpt lat="18.500588" lon="73.801176"><time>2026-11-03T10:01:40Z</time></wpt>
+    <wpt lat="18.500647" lon="73.801294"><time>2026-11-03T10:01:50Z</time></wpt>
+    <wpt lat="18.500706" lon="73.801412"><time>2026-11-03T10:02:00Z</time></wpt>
+    <wpt lat="18.500765" lon="73.801529"><time>2026-11-03T10:02:10Z</time></wpt>
+    <wpt lat="18.500824" lon="73.801647"><time>2026-11-03T10:02:20Z</time></wpt>
+    <wpt lat="18.500882" lon="73.801765"><time>2026-11-03T10:02:30Z</time></wpt>
+    <wpt lat="18.500941" lon="73.801882"><time>2026-11-03T10:02:40Z</time></wpt>
+    <wpt lat="18.501000" lon="73.802000"><time>2026-11-03T10:02:50Z</time></wpt>
+</gpx>

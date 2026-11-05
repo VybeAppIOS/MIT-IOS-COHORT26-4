@@ -113,7 +113,13 @@ turf, Swimming, Cycling) · **Chill/study** (Study café, Library).
 - [x] Location permission text (`NSLocationWhenInUseUsageDescription`). [x] Kothrud `.gpx` simulated walk in the Xcode scheme.
   [x] Background Modes → Location updates + `CLBackgroundActivitySession` for the live Hangout (Apple: only the `UIBackgroundModes`
   Info.plist key, no entitlement; whether a free account allows the capability toggle in Xcode is UNVERIFIED: test on Fri 6 Nov).
-- [ ] Later: camera and microphone permission texts; a UI test target for the accessibility audit.
+- [x] **Done in X-9 (5 Nov), not yet built on a Mac:** location and microphone purpose texts (`INFOPLIST_KEY_…` in the app
+  target), `UIBackgroundModes: location` in `Config/Vybe-Info.plist`, `Config/Kothrud-Walk.gpx` (EXAMPLE route, same as the
+  simulated walk) in the scheme, `Config/Base.xcconfig` including the git-ignored `Local.xcconfig`. Privacy manifest was done earlier.
+- [ ] **Device test, Fri 6 Nov (lab iPhone):** does a free account allow background location? Live Hangout keeps updating with the
+  screen locked? Apple Place ID resolves on a real device? Write the answers here.
+- [ ] Later: camera permission text (only if a camera screen is added; `PhotosPicker` needs none); a UI test target for the
+  accessibility audit (X-10).
 
 ## 8c. Decisions from the 3 Nov research (details in `docs/RISKS.md`)
 - [x] **Safety defaults ACCEPTED 3 Nov** (RISKS section 3): friends-only posts by default, exact visit times never shown, 30-minute

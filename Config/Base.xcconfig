@@ -1,0 +1,5 @@
+// Task X-9: the app target's base settings file. Committed, and safe on every machine.
+// It pulls in YOUR Config/Local.xcconfig (git-ignored: signing team, optional lab bundle ID) when that file exists.
+// "#include?" (with the question mark) means: skip it quietly when it is missing, so a fresh clone still builds
+// on the simulator with no signing at all. Never put a team ID or any secret in this file.
+#include? "Local.xcconfig"
