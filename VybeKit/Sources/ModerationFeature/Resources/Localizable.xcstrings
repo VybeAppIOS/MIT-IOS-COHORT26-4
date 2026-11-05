@@ -298,6 +298,39 @@
         }
       }
     },
+    "admin.status.actioned" : {
+      "comment" : "Report status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "acted on"
+          }
+        }
+      }
+    },
+    "admin.status.dismissed" : {
+      "comment" : "Report status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dismissed"
+          }
+        }
+      }
+    },
+    "admin.status.open" : {
+      "comment" : "Report status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "open"
+          }
+        }
+      }
+    },
     "admin.suggestions.detail" : {
       "comment" : "AD2 row: category, how long ago it was sent",
       "localizations" : {
@@ -415,6 +448,138 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "This page is for the Vybe team only."
+          }
+        }
+      }
+    },
+    "admin.users.ban" : {
+      "comment" : "AD3 destructive action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ban"
+          }
+        }
+      }
+    },
+    "admin.users.ban.confirm" : {
+      "comment" : "AD3 ban confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ban this person? They won't be able to use Vybe."
+          }
+        }
+      }
+    },
+    "admin.users.banned" : {
+      "comment" : "AD3 result",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Banned."
+          }
+        }
+      }
+    },
+    "admin.users.empty" : {
+      "comment" : "AD3 start state",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for a username to see their reports and ban or unban them."
+          }
+        }
+      }
+    },
+    "admin.users.noReports" : {
+      "comment" : "AD3 summary",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No reports against them."
+          }
+        }
+      }
+    },
+    "admin.users.openReports" : {
+      "comment" : "AD3 summary: open, total",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld open of %lld reports"
+          }
+        }
+      }
+    },
+    "admin.users.reportLine" : {
+      "comment" : "AD3 one report: reason, status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "admin.users.search" : {
+      "comment" : "AD3 search prompt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        }
+      }
+    },
+    "admin.users.title" : {
+      "comment" : "AD3 title (team only)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Users"
+          }
+        }
+      }
+    },
+    "admin.users.unban" : {
+      "comment" : "AD3 action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unban"
+          }
+        }
+      }
+    },
+    "admin.users.unban.confirm" : {
+      "comment" : "AD3 unban confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unban this person?"
+          }
+        }
+      }
+    },
+    "admin.users.unbanned" : {
+      "comment" : "AD3 result",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbanned."
           }
         }
       }
