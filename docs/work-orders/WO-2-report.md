@@ -236,7 +236,7 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 20 Recent searches are kept | done (own commit) |
 | 21 See all shows the matches | done (own commit) |
 | 22 You are not in your own People results | done (own commit) |
-| 23 People on a normal launch | not started |
+| 23 People on a normal launch | done (own commit) |
 | 24 SC-S1 "Done when" on a real run | not started |
 | 25 Report and check | not started |
 
@@ -395,6 +395,13 @@ What changed: both ViewModels drop `session.currentUser?.id` from People (next t
 Files: `SearchFeature/Search/SearchViewModel.swift`, `SearchFeature/SeeAll/SeeAllViewModel.swift`, `SearchViewModelTests`, `SeeAllViewModelTests`, this report.
 Tests (SearchFeatureTests: 28 passed): Search drops me and keeps others, and shows the empty state when only I match; See all drops me from the matches and from a friends list that wrongly includes me.
 Not looked at: the screen (item 24).
+
+### Item 23: People on a normal launch (DEBUG only, `Vybe/App`)
+Reproduced first: normal launch (no `-stubMode`, `-skipOnboarding`), Search tab, typed "sample": only "Nothing yet. Know a good spot?" (`build/screenshots/s1-before-people.png`, opened). Cause: `LocalSearchRepository` has no people at all, while friends run on the sample social data.
+What changed: new `SampleSocialSearchRepository` wraps `LocalSearchRepository`: Hangouts and Places stay local (the local repository is never asked for people); People come from `SampleSocialData.people`, matched on name or @username like the stub. `AppDependencies+Local.swift` picks it in DEBUG through a small `searchRepository(content:)` helper, next to the profile wrapper from item 1. No change to Models or to the Search feature code. Release builds use the plain local repository (and stop at the social `fatalError` anyway). Phase 2: the server searches people and this file goes away.
+Files: `Vybe/App/SampleSocialSearchRepository.swift` (new), `Vybe/App/AppDependencies+Local.swift`, `VybeTests/SampleSocialSearchRepositoryTests.swift` (new), this report.
+Tests (app target, 4 passed): Hangouts and Places stay local and local is never asked for people; people found by name and by username and only from the sample people; no people unless asked; blank text and no match give none.
+Looked at (screenshot opened): same launch after the fix, typed "sample": a People group with Sample Friend, Sample Aarav, Sample Isha and See all; "Sample Me" (you) is not listed (`build/screenshots/s1-after-people.png`).
 
 ### Shared files touched in this job
 From `git diff --name-only 27fee49..HEAD` (the commits of the fixes, not the merge from `main`), restricted to the approved shared folders. The list for the whole PR (which also has Tanvi's Feed and PostCard commits and the first WO-2 round, for example `Components/PostCard.swift`) is `git diff --name-only origin/main...HEAD`.
