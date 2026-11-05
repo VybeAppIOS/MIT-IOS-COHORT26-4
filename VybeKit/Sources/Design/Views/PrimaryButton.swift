@@ -6,6 +6,7 @@ public struct PrimaryButton: View {
     private let title: VybeText
     private let isLoading: Bool
     private let action: () -> Void
+    @Environment(\.isEnabled) private var isEnabled
 
     public init(_ title: LocalizedStringResource, isLoading: Bool = false, action: @escaping () -> Void) {
         self.title = .fixed(title)
@@ -30,12 +31,14 @@ public struct PrimaryButton: View {
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
             }
-            .foregroundStyle(Theme.Color.onAccent)
-            .frame(maxWidth: .infinity, minHeight: Theme.Size.minTapTarget)
+            .foregroundStyle(isEnabled ? Theme.Color.onAccent : Theme.Color.textSecondary)
+            .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
         .buttonBorderShape(.roundedRectangle(radius: Theme.Radius.medium))
         .controlSize(.large)
+        // The style adds its own padding, so the 44 pt floor goes on the button, not inside the label.
+        .frame(minHeight: Theme.Size.minTapTarget)
         .tint(Theme.Color.accent)
         .disabled(isLoading)
         .accessibilityValue(isLoading ? Text("Loading", bundle: .module) : Text(verbatim: ""))

@@ -18,7 +18,7 @@ struct ValueTypesTests {
     }
 
     @Test(arguments: [
-        ReportTarget.run("r1"), .comment("c1"), .user("u1"), .message("m1"), .place("p1")
+        ReportTarget.run("r1"), .comment("c1"), .user("u1"), .message("m1"), .place("p1"), .hangout("h1")
     ])
     func reportTargetRoundTrips(target: ReportTarget) throws {
         let data = try JSONCoding.encoder.encode(target)
