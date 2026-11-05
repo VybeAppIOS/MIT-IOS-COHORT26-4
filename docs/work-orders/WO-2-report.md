@@ -201,7 +201,7 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 
 | Item | State |
 |---|---|
-| 1 Who "you" are | done (committed; the full check runs at the end of Group 1) |
+| 1 Who "you" are | done (committed; full check passed at the end of Group 1) |
 | 2-25 | not started |
 
 ### Item 1: Who "you" are
@@ -218,3 +218,5 @@ Tests: 5 app-target tests (saved name and photo kept with the sample ID, fresh i
 Looked at (screenshots opened): normal launch with a saved `profile.json` ("Saved Name", ID `user-local`) written into the simulator container: Group info shows the saved name with the Admin label, the three sample members' names, Add members and Leave group; the group chat shows the poll I voted on on the right with my choice checked, and other people's names above their messages.
 Not driven by hand: sending a message and deleting my own comment (no way to tap in this environment). They use the same ID checks (`senderID == session.currentUser?.id`, comment author, admin) that the screenshots above show now match, but I did not exercise those two actions.
 Needs from Lohitaksh: none. Phase 2 note: the wrapper goes away once there is one ID per person.
+
+Group 1 full check: first run failed 6 package tests (MarkVisitedViewModelTests, LiveViewModelTests, ListViewModelTests, all in code not touched by Item 1; the log did not show the failure message). The Live and Chat test targets passed when run alone, and the second full `./scripts/check.sh` ended with `==> All checks passed`.
