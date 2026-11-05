@@ -1,6 +1,171 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "auth.accountBasics.available %@" : {
+      "comment" : "A3. %@ is the username.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "@%@ is available"
+          }
+        }
+      }
+    },
+    "auth.accountBasics.birthDate" : {
+      "comment" : "A3 date picker label. Keep it neutral: never mention an age here.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date of birth"
+          }
+        }
+      }
+    },
+    "auth.accountBasics.blockedMessage" : {
+      "comment" : "A3 line under the blocking title. Calm and kind.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thanks for your interest. We'll be here when you're 18."
+          }
+        }
+      }
+    },
+    "auth.accountBasics.blockedTitle" : {
+      "comment" : "A3 calm blocking screen for under-18s (task SC-A3).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybe is for people 18 and over"
+          }
+        }
+      }
+    },
+    "auth.accountBasics.checkFailed" : {
+      "comment" : "A3 when the availability lookup failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't check right now."
+          }
+        }
+      }
+    },
+    "auth.accountBasics.checking" : {
+      "comment" : "A3 while the username availability is looked up.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checking…"
+          }
+        }
+      }
+    },
+    "auth.accountBasics.continue" : {
+      "comment" : "A3 main button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
+    "auth.accountBasics.retry" : {
+      "comment" : "A3 button that checks the username again.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        }
+      }
+    },
+    "auth.accountBasics.ruleCharacters" : {
+      "comment" : "A3 username rule.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only lower-case letters, numbers, _ and ."
+          }
+        }
+      }
+    },
+    "auth.accountBasics.ruleLength" : {
+      "comment" : "A3 username rule.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use 3 to 20 characters."
+          }
+        }
+      }
+    },
+    "auth.accountBasics.ruleReserved" : {
+      "comment" : "A3: a reserved word was typed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That username isn't available."
+          }
+        }
+      }
+    },
+    "auth.accountBasics.taken %@" : {
+      "comment" : "A3. %@ is the username.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "@%@ is taken"
+          }
+        }
+      }
+    },
+    "auth.accountBasics.title" : {
+      "comment" : "A3 heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create your account"
+          }
+        }
+      }
+    },
+    "auth.accountBasics.usernameLabel" : {
+      "comment" : "A3 label above the username field.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        }
+      }
+    },
+    "auth.accountBasics.usernamePlaceholder" : {
+      "comment" : "A3 username field placeholder.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "yourname"
+          }
+        }
+      }
+    },
     "auth.emailCode.changeEmail" : {
       "comment" : "A2 link back to the email step.",
       "localizations" : {
