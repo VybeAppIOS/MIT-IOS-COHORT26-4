@@ -49,7 +49,7 @@ struct AppShellTests {
 
     @Test func coversReachTheirScreen() {
         #expect(describe(factory.cover(for: .live("h1"))).contains("\"H1\""))
-        #expect(describe(factory.cover(for: .editor(.new))).contains("\"E1\""))
+        #expect(reaches(factory.cover(for: .editor(.new)), "view:EditorView"))
     }
 
     /// iOS 27 rule: the selected tab must always be a visible tab, and Search is last.

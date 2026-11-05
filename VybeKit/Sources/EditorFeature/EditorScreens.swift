@@ -7,7 +7,10 @@ import SwiftUI
 public enum EditorScreens {
     @ViewBuilder
     public static func editorCover(_ start: EditorStart, _ deps: AppDependencies) -> some View {
-        ScreenPlaceholder(id: "E1", name: "Hangout editor")
+        EditorView(viewModel: EditorViewModel(
+            start: start, hangouts: deps.hangouts, places: deps.places, profiles: deps.profiles, photos: deps.photos,
+            libraryStore: deps.libraryStore, session: deps.session, router: deps.router, now: deps.now,
+            makeID: { UUID().uuidString.lowercased() }))
     }
 
     @ViewBuilder
