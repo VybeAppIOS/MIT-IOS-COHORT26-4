@@ -82,7 +82,10 @@ struct AudioRecorderTests {
         let recording = FakeRecording()
         let recorder = makeRecorder(limit: .milliseconds(150), recording: recording, elapsedAtStop: 0.15)
         try await recorder.start()
-        try await Task.sleep(for: .milliseconds(500))
+        // Wait for the automatic stop instead of a fixed time: a slow CI machine needs longer than a laptop.
+        for _ in 0..<100 where await recorder.isRecording {
+            try await Task.sleep(for: .milliseconds(100))
+        }
         #expect(await !recorder.isRecording)
         #expect(recording.stopCount == 1)
         let note = try await recorder.stop()   // still available after the automatic stop
@@ -251,7 +254,7 @@ struct AudioPlayerTests {
         try player.load(url: url)
         player.play()
         playback.advance(to: 2.5)
-        try await Task.sleep(for: .milliseconds(60))
+        for _ in 0..<100 where player.currentTime != 2.5 { try await Task.sleep(for: .milliseconds(50)) }
         #expect(player.currentTime == 2.5 && player.progress == 0.25)
     }
 
@@ -275,7 +278,7 @@ struct AudioPlayerTests {
         try player.load(url: url)
         player.play()
         playback.advance(to: 4)
-        try await Task.sleep(for: .milliseconds(60))
+        for _ in 0..<100 where player.isPlaying { try await Task.sleep(for: .milliseconds(50)) }
         #expect(!player.isPlaying && player.currentTime == 4 && player.progress == 1)
         player.play()
         #expect(player.isPlaying && playback.currentTime == 0)

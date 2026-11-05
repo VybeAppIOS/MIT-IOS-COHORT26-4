@@ -196,7 +196,7 @@ public actor SocialStubStore {
         case .comment(let id): comments.first { $0.id == id }?.authorID
         case .message(let id): messages.first { $0.id == id }?.senderID
         case .user(let id): id
-        case .place: nil
+        case .place, .hangout: nil
         }
         let filed = Report(id: ReportID(makeID()), reporterID: currentUserID, target: target, targetOwnerID: owner,
                            reason: reason, detail: detail, createdAt: now())

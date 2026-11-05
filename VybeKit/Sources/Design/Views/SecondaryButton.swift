@@ -21,11 +21,13 @@ public struct SecondaryButton: View {
                 .font(Theme.Font.headline)
                 .multilineTextAlignment(.center)
                 .fixedSize(horizontal: false, vertical: true)
-                .frame(maxWidth: .infinity, minHeight: Theme.Size.minTapTarget)
+                .frame(maxWidth: .infinity)
         }
         .buttonStyle(.bordered)
         .buttonBorderShape(.roundedRectangle(radius: Theme.Radius.medium))
         .controlSize(.large)
+        // The style adds its own padding, so the 44 pt floor goes on the button, not inside the label.
+        .frame(minHeight: Theme.Size.minTapTarget)
         .tint(Theme.Color.accent)
     }
 }

@@ -44,6 +44,12 @@ public final class SessionStore {
 
     public func isBlocked(_ id: UserID) -> Bool { blockedIDs.contains(id) }
 
+    /// Called after `SafetyRepository.block` succeeds, so every screen that filters on `blockedIDs` hides them at once.
+    public func block(_ id: UserID) { blockedIDs.insert(id) }
+
+    /// Called after `SafetyRepository.unblock` succeeds (the Blocked list in Settings).
+    public func unblock(_ id: UserID) { blockedIDs.remove(id) }
+
     /// Saves the onboarding draft (interests and area to settings; name and photo onto the current user).
     public func completeOnboarding() {
         let draft = onboardingDraft

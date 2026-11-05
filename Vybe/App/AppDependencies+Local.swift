@@ -40,6 +40,7 @@ extension AppDependencies {
             auth: social.auth,
             admin: social.admin,
             location: location,
+            network: NetworkMonitor(),
             session: session,
             libraryStore: libraryStore,
             liveStore: LiveHangoutStore(libraryStore: libraryStore, hangouts: hangouts, session: session, now: now),

@@ -37,7 +37,7 @@ struct IACoverageTests {
         ("S1", .root), ("S2", .route(.searchSeeAll(.hangouts))),
         ("AD1", .route(.admin(.reports))), ("AD2", .route(.admin(.placeSuggestions))),
         ("AD3", .route(.admin(.users))),
-        ("R1", .sheet(.report(.place("p1")))), ("R2", .local), ("X1", .overlay)
+        ("R1", .sheet(.report(.place("p1")))), ("R2", .sheet(.blockConfirm("u1"))), ("X1", .overlay)
     ]
 
     @Test func everyPushedScreenInTheIAHasARouteThatIsListedForCoding() {

@@ -7,11 +7,13 @@ public enum ReportTarget: Hashable, Sendable {
     case user(UserID)
     case message(MessageID)
     case place(PlaceID)
+    /// A whole Hangout (reported from the ••• menu on its detail screen).
+    case hangout(HangoutID)
 }
 
 extension ReportTarget: Codable {
     private enum CodingKeys: String, CodingKey { case kind, id }
-    private enum Kind: String, Codable { case run, comment, user, message, place }
+    private enum Kind: String, Codable { case run, comment, user, message, place, hangout }
 
     public init(from decoder: any Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -23,6 +25,7 @@ extension ReportTarget: Codable {
         case .user: self = .user(UserID(id))
         case .message: self = .message(MessageID(id))
         case .place: self = .place(PlaceID(id))
+        case .hangout: self = .hangout(HangoutID(id))
         }
     }
 
@@ -34,6 +37,7 @@ extension ReportTarget: Codable {
         case .user(let id): try encode(.user, id.rawValue, into: &container)
         case .message(let id): try encode(.message, id.rawValue, into: &container)
         case .place(let id): try encode(.place, id.rawValue, into: &container)
+        case .hangout(let id): try encode(.hangout, id.rawValue, into: &container)
         }
     }
 
