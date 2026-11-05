@@ -40,7 +40,10 @@ public enum ProfileScreens {
             AccountSettingsView(viewModel: AccountSettingsViewModel(
                 auth: deps.auth, session: deps.session, network: deps.network, router: deps.router))
         case .privacy: ScreenPlaceholder(id: "ST2", name: "Privacy")
-        case .blocked: ScreenPlaceholder(id: "ST3", name: "Blocked")
+        case .blocked:
+            BlockedView(viewModel: BlockedViewModel(safety: deps.safety, session: deps.session, photos: deps.photos,
+                                                    network: deps.network))
+        // ST4 is built (SettingsPages/Notifications*) but waits for a place to keep the choices (WO-3 report).
         case .notifications: ScreenPlaceholder(id: "ST4", name: "Notifications")
         case .help: HelpView(viewModel: HelpViewModel(router: deps.router))
         case .placeSuggestions:

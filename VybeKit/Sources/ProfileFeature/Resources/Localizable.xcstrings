@@ -210,6 +210,72 @@
         }
       }
     },
+    "profile.blocked.empty" : {
+      "comment" : "ST3 empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You haven't blocked anyone."
+          }
+        }
+      }
+    },
+    "profile.blocked.error" : {
+      "comment" : "ST3 unblock failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't unblock. Try again."
+          }
+        }
+      }
+    },
+    "profile.blocked.footer" : {
+      "comment" : "ST3 footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They can't see your posts or message you, and you don't see theirs. They aren't told when you block or unblock them."
+          }
+        }
+      }
+    },
+    "profile.blocked.offline" : {
+      "comment" : "ST3 offline note",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline. You can unblock people when you're back online."
+          }
+        }
+      }
+    },
+    "profile.blocked.title" : {
+      "comment" : "ST3 title (the generator's key, reused)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked"
+          }
+        }
+      }
+    },
+    "profile.blocked.unblock" : {
+      "comment" : "ST3 button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unblock"
+          }
+        }
+      }
+    },
     "profile.delete.confirm" : {
       "comment" : "Destructive button.",
       "localizations" : {
@@ -932,6 +998,94 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Treks"
+          }
+        }
+      }
+    },
+    "profile.notifications.comments" : {
+      "comment" : "ST4 switch",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comments"
+          }
+        }
+      }
+    },
+    "profile.notifications.error" : {
+      "comment" : "ST4 save failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't save that. Try again."
+          }
+        }
+      }
+    },
+    "profile.notifications.footer" : {
+      "comment" : "ST4 footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybe asks for permission the first time you get a friend request or a message, not before."
+          }
+        }
+      }
+    },
+    "profile.notifications.friendRequests" : {
+      "comment" : "ST4 switch",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friend requests"
+          }
+        }
+      }
+    },
+    "profile.notifications.likes" : {
+      "comment" : "ST4 switch",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Likes"
+          }
+        }
+      }
+    },
+    "profile.notifications.messages" : {
+      "comment" : "ST4 switch",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages"
+          }
+        }
+      }
+    },
+    "profile.notifications.reminders" : {
+      "comment" : "ST4 switch (for example a scheduled post going up)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminders"
+          }
+        }
+      }
+    },
+    "profile.notifications.title" : {
+      "comment" : "ST4 title (the generator's key, reused)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
           }
         }
       }
