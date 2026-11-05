@@ -16,8 +16,20 @@ struct ChatRowData: Identifiable, Equatable {
     let memberNames: [String]
 }
 
+/// One pending invitation at the top of the Chats list, ready to draw.
+struct InvitationRowData: Identifiable, Equatable {
+    let id: ConversationID
+    let title: String
+    /// "Invitation. Tap to answer."
+    let subtitle: String
+    /// The names behind the avatar (up to three, never yours).
+    let memberNames: [String]
+}
+
 /// The view-ready values of the Chats list (never a raw model).
 struct ChatListContent: Equatable {
+    /// Groups I was added to by a non-friend and have not answered. Shown above the chats.
+    let invitations: [InvitationRowData]
     let rows: [ChatRowData]
 }
 
@@ -65,7 +77,13 @@ final class ListViewModel {
     var emptyMessage: String { String(localized: "chat.list.empty", bundle: #bundle) }
     var emptyAction: String { String(localized: "chat.list.emptyAction", bundle: #bundle) }
     var newChatLabel: String { String(localized: "chat.list.new", bundle: #bundle) }
+    var invitationsHeader: String { String(localized: "chat.list.invitations", bundle: #bundle) }
+    var chatsHeader: String { String(localized: "chat.list.chats", bundle: #bundle) }
     var isOffline: Bool { network.isOffline }
+
+    /// True while a sheet from the router (an invitation, the Block question) is up. The View reloads the list when
+    /// it closes, because the answer changes what the list shows.
+    var isRouterSheetOpen: Bool { router.sheet != nil }
 
     func unreadText(_ count: Int) -> String {
         String(localized: "chat.list.unread \(count)", bundle: #bundle)
@@ -86,13 +104,16 @@ final class ListViewModel {
         do {
             async let list = chat.conversations()
             async let counts = chat.unreadCounts()
-            let (conversations, unread) = try await (list, counts)
-            await people.load(conversations.flatMap(\.memberIDs), from: profiles)
+            async let pending = chat.pendingInvitations()
+            let (conversations, unread, invited) = try await (list, counts, pending)
+            await people.load((conversations + invited).flatMap(\.memberIDs), from: profiles)
             let myID = session.currentUser?.id
             let rows = conversations.filter { !$0.memberIDs.contains(where: session.isBlocked) || $0.kind == .group }
                 .sorted { ($0.lastMessage?.sentAt ?? $0.createdAt) > ($1.lastMessage?.sentAt ?? $1.createdAt) }
                 .map { row(for: $0, unread: unread[$0.id] ?? 0, myID: myID) }
-            state = rows.isEmpty ? .empty : .loaded(ChatListContent(rows: rows))
+            let invitations = invited.map { invitationRow(for: $0, myID: myID) }
+            state = rows.isEmpty && invitations.isEmpty
+                ? .empty : .loaded(ChatListContent(invitations: invitations, rows: rows))
             hasLoaded = true
             await badges.refresh()
         } catch is CancellationError {
@@ -104,6 +125,13 @@ final class ListViewModel {
                 state = .failed(AppError(error))   // only a first load can fail
             }
         }
+    }
+
+    private func invitationRow(for conversation: Conversation, myID: UserID?) -> InvitationRowData {
+        InvitationRowData(
+            id: conversation.id, title: conversation.name ?? "",
+            subtitle: String(localized: "chat.list.invitationHint", bundle: #bundle),
+            memberNames: Array(conversation.memberIDs.filter { $0 != myID }.map(people.name).prefix(3)))
     }
 
     private func row(for conversation: Conversation, unread: Int, myID: UserID?) -> ChatRowData {
@@ -130,6 +158,8 @@ final class ListViewModel {
     // MARK: Taps
 
     func rowTapped(_ id: ConversationID) { router.open(.conversation(id)) }
+    /// An invitation opens its own sheet, where the person answers Join or Leave and block.
+    func invitationTapped(_ id: ConversationID) { router.present(.groupInvitation(id)) }
     func newChatTapped() { isShowingNewChat = true }
 
     func makeNewChatViewModel() -> NewChatViewModel {

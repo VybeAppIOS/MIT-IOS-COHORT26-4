@@ -210,7 +210,7 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 7 Friends hub search | done (committed with the docs answer; checked at the end of Group 4) |
 | 8 Group data: memberships, mute, invitations | done (own commit) |
 | 9 Group info: ••• menu, Mute, Add members for all | done (own commit) |
-| 10 Chats list shows invitations | not started |
+| 10 Chats list shows invitations (CH7) | done (own commit; Group 5 check below) |
 | 11-25 | not started |
 
 ### Item 1: Who "you" are
@@ -298,4 +298,12 @@ Tests: `GroupInfoViewModelTests` (+9: menu on everyone but me, mute keeps the me
 Looked at (screenshots opened, from the Debug build with sample data): Group info as admin (••• on Friend, Aarav, Isha; none on me; Admin label; Add members; Leave group). Group info and the chat as a muted member, with a temporary change that I reverted (muted in the sample group, and the group's admin set to Sample Friend): "Muted" on my row, "Admin" on Friend, no ••• anywhere, Add members still shown, and the chat shows the muted note with the composer field and + greyed out.
 Not driven by hand: opening the ••• menu, tapping Mute or Remove, and the confirmation dialog (no way to tap in this environment; the ViewModel tests cover the actions). Not looked at: an admin's view with someone muted (label on the muted row), the largest text size, and VoiceOver on the menu.
 Needs from Lohitaksh: nothing new. Check: a ••• Menu inside a list row next to a row Button; on a device the two taps must stay separate.
+
+### Item 10: Group invitation (CH7) from the Chats list
+What changed: the Chats list shows pending invitations in an "Invitations" section at the top (group name, member avatars, "Invitation to join", an envelope icon with a text subtitle); the chats follow under a "Chats" header. Tapping one calls `router.present(.groupInvitation(id))`. The invitation sheet names the real person from my membership's `addedByID` (item 8), Join adds me and opens the group, Leave and block leaves and opens the shared Block question for that person. The list reloads when a router sheet closes (`isRouterSheetOpen`), so an answered invitation moves into the chats or disappears. The list is only empty when there are no chats and no invitations. Invitations from a blocked person are not listed (the repository hides them).
+Files: `ChatFeature/List/ListViewModel.swift`, `ListView.swift`, `Resources/Localizable.xcstrings` (3 new strings), `ListViewModelTests.swift`. The invitation screen itself changed in item 8.
+Tests: `ListViewModelTests` (+4: invitations are separate rows above the chats, tapping opens `.groupInvitation`, answering Join moves it into the chats on reload, Leave removes it without making a chat); `InvitationViewModelTests` (item 8) cover Join, Leave and block, a failed answer, offline and an answered invitation.
+Looked at (screenshots opened, Debug build with sample data): the Chats list with the "EXAMPLE Sunday Walkers" invitation above three chats; the invitation sheet ("Sample Vihaan added you to EXAMPLE Sunday Walkers", three avatars, Join and Leave and block).
+Not driven by hand: tapping the invitation row, Join, Leave and block, and the reload when the sheet closes (the `onChange` on `isRouterSheetOpen` is not covered by a test; the ViewModel parts are). Not looked at: the list or the sheet at the largest text size, VoiceOver.
+Needs from Lohitaksh: none.
 

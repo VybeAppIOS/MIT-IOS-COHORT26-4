@@ -661,6 +661,17 @@
         }
       }
     },
+    "chat.list.chats" : {
+      "comment" : "Chat screens: chat.list.chats",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chats"
+          }
+        }
+      }
+    },
     "chat.list.empty" : {
       "comment" : "Chat screens: chat.list.empty",
       "localizations" : {
@@ -679,6 +690,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "New chat"
+          }
+        }
+      }
+    },
+    "chat.list.invitationHint" : {
+      "comment" : "Chat screens: chat.list.invitationHint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invitation to join"
+          }
+        }
+      }
+    },
+    "chat.list.invitations" : {
+      "comment" : "Chat screens: chat.list.invitations",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invitations"
           }
         }
       }
