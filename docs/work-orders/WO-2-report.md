@@ -1,4 +1,4 @@
-# WO-2 report: Community, Friends and Chat
+# WO-2 report: Community, Friends, Chat and Search
 
 Branch: `a/wo2-screens`. Written by Claude Code (Sonnet 5.5) for Atharva Tawde. This file is updated with every screen.
 It contains Tanvi's Feed (SC-CM1), Post detail (SC-CM2) and the PostCard redesign (CP-6) until her PRs merge.
@@ -116,8 +116,21 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): inline title, info button, composer in safeAreaInset(.bar), scrollDismissesKeyboard, long-press menu (Copy, Edit, Delete, Report), confirmation before delete pass; large text not looked at
 - Notes: NOT built: sending photos (PhotosPicker, max 2). There is no call to store a processed photo and the photo permission text is X-9, so photos are listed under Needs from Lohitaksh. Voice: tap the mic to record and tap again to send (not hold-to-record and slide-to-cancel); recording needs the microphone text (X-9); playback of old notes fails with a message because their files do not exist. Read receipts: only 'Delivered' is shown, because the repository does not report when others last read (the Seen logic is in and tested). Unread counts on the Community tab are refreshed. Report pushes the shared Report screen on the tab. The stream stops when the screen goes away. Hold-to-record, link opening uses UIApplication.shared.open.
 
-## Search (SC-S1, SC-S2)
-Not part of this branch. Tanvi is taking the last two screens, so the Search tab was taken out of `a/wo2-screens` (two revert commits) and lives on the separate branch `a/wo2-search-alt` (the earlier Search work and its report sections are there).
+## SC-S1: done (recent searches are not saved between launches)
+- Files: SearchFeature/Search/* (3 files), SearchViewModelTests, SearchScreens (root), catalog
+- Tests: 12
+- Screenshots: build/screenshots/s1-query.png opened (large title, search field, grouped Hangouts/Places/People); s1-idle.png taken, not opened. The Search root has no route, so both were taken with a temporary route that was reverted.
+- Button heights: rows 44 pt+ (system List)
+- Checklist (WO-3 prompt section 6): .searchable inside SearchView on the tab's own stack, grouped inset list, section headers, VoiceOver headers pass; large text and the keyboard not looked at
+- Notes: Group order is read when a query runs (Discover: Hangouts first; Community: People first; Profile: your Saved Hangouts first). Typing is debounced 0.25 s. Blocked people are hidden. Needs from Lohitaksh: AppSettings has no recent-searches setting, so recent searches live in memory for the session only; add AppSettings.recentSearches (and give Screens access to it) to keep them.
+
+## SC-S2: done (lists everything in the group, not the typed query)
+- Files: SearchFeature/SeeAll/* (3 files), SeeAllViewModelTests, SearchScreens, AppShellTests row, catalog
+- Tests: 6
+- Screenshots: build/screenshots/s2.png taken, not opened
+- Button heights: rows 44 pt+ (system List)
+- Checklist (WO-3 prompt section 6): inline title, grouped inset list, paged on scroll pass; large text not looked at
+- Notes: Needs from Lohitaksh: Route.searchSeeAll(kind) carries only the group, not the typed words, so this screen shows everything in the group (all Hangouts, Places in Kothrud, your friends) instead of the matches. Fix: add the query to the route, or a Core store that remembers the last query. Paging is done on the phone, 20 at a time.
 
 ## Needs from Lohitaksh
 1. **Ignore a friend request**: `FriendsRepository` has no `ignoreRequest`, so Ignore (Activity, Friends hub) only hides the row on this phone.
@@ -147,10 +160,10 @@ Not part of this branch. Tanvi is taking the last two screens, so the Search tab
 - Flaky tests that are not from this work: audio timing tests, and in the Chat run the Auth tests (`EmailCodeViewModelTests`, `SignInViewModelTests`) failed once under load and passed alone. Xcode open makes builds lock or crawl: close it before running `check.sh`.
 - For most screens I did not look at the largest text size or VoiceOver in the simulator; the previews and labels exist but were not exercised.
 - Screenshots are in `build/` on my Mac and are not committed (the folder is 400 MB and not ignored). Never `git add .`.
-- The Feed, Chats list and the Comments/New chat/Poll sheets have no debug route, so they were photographed with temporary changes that were reverted.
+- The Feed, Chats list, Search and the Comments/New chat/Poll sheets have no debug route, so they were photographed with temporary changes that were reverted.
 
 ## Checks
-Final `./scripts/check.sh` (the run before the Search tab was moved to its own branch):
+Final `./scripts/check.sh` (Search group, last run of the branch):
 ```
 ==> SwiftLint
 Done linting! Found 0 violations, 0 serious in 396 files.
