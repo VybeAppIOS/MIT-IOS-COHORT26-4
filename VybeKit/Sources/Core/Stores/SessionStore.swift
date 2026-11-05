@@ -46,7 +46,7 @@ public final class SessionStore {
 
     #if DEBUG
     /// Debug launch option `-teamAccount`: opens the admin pages for a screenshot (in release the server decides).
-    public func debugSetTeamAccount(_ on: Bool) { isTeamAccount = on }
+    public func debugSetTeamAccount(_ enabled: Bool) { isTeamAccount = enabled }
     #endif
 
     /// Called after `SafetyRepository.block` succeeds, so every screen that filters on `blockedIDs` hides them at once.
