@@ -13,7 +13,9 @@ public enum OnboardingScreens {
     @ViewBuilder
     public static func view(for route: OnboardingRoute, _ deps: AppDependencies) -> some View {
         switch route {
-        case .nameAndPhoto: ScreenPlaceholder(id: "O2", name: "Name and photo")
+        case .nameAndPhoto:
+            NameAndPhotoView(viewModel: NameAndPhotoViewModel(
+                session: deps.session, router: deps.router, processor: PhotoProcessor()))
         case .interests: ScreenPlaceholder(id: "O3", name: "Interests")
         case .location: ScreenPlaceholder(id: "O4", name: "Location")
         case .findFriends: ScreenPlaceholder(id: "O5", name: "Find friends")
