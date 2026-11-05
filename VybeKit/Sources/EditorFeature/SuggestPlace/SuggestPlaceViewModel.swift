@@ -1,5 +1,6 @@
 import Components
 import Core
+import Design
 import Foundation
 import Models
 
@@ -147,6 +148,11 @@ final class SuggestPlaceViewModel {
         } catch {
             phase = .failed
         }
+    }
+
+    /// The map stopped moving: the point under the centre pin is the Place.
+    func mapMoved(latitude: Double, longitude: Double) {
+        centre = Coordinate(latitude: latitude, longitude: longitude)
     }
 
     func closeTapped() {

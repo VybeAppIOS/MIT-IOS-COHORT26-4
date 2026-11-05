@@ -9,7 +9,10 @@ public enum PostingScreens {
     @ViewBuilder
     public static func view(for route: PostingRoute, _ deps: AppDependencies) -> some View {
         switch route {
-        case .compose: ScreenPlaceholder(id: "PO1", name: "Post composer")
+        case .compose(let id):
+            ComposerView(viewModel: ComposerViewModel(
+                runID: id, libraryStore: deps.libraryStore, session: deps.session, photos: deps.photos,
+                router: deps.router, now: deps.now))
         }
     }
 

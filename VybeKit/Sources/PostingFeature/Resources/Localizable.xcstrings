@@ -1,5 +1,347 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "posting.audience.confirm" : {
+      "comment" : "PO1 public confirmation title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post for everyone?"
+          }
+        }
+      }
+    },
+    "posting.audience.confirm.yes" : {
+      "comment" : "PO1 public confirmation button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post for everyone"
+          }
+        }
+      }
+    },
+    "posting.audience.friends" : {
+      "comment" : "Audience choice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    },
+    "posting.audience.private" : {
+      "comment" : "PO1 note for a private profile",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your profile is private, so only friends will see this."
+          }
+        }
+      }
+    },
+    "posting.audience.public" : {
+      "comment" : "Audience choice (public)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everyone"
+          }
+        }
+      }
+    },
+    "posting.audience.warning" : {
+      "comment" : "PO1 public warning",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anyone on Vybe will see this post and the Spots you went to."
+          }
+        }
+      }
+    },
+    "posting.blocked.spots" : {
+      "comment" : "Why Post is off",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visit at least %lld Spots to post."
+          }
+        }
+      }
+    },
+    "posting.caption.count" : {
+      "comment" : "PO1 caption character count",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld of %lld"
+          }
+        }
+      }
+    },
+    "posting.composer.post" : {
+      "comment" : "PO1 primary button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post"
+          }
+        }
+      }
+    },
+    "posting.composer.title" : {
+      "comment" : "PO1 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post your Hangout"
+          }
+        }
+      }
+    },
+    "posting.error.caption" : {
+      "comment" : "PO1 caption error",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep the caption under 280 characters."
+          }
+        }
+      }
+    },
+    "posting.error.title" : {
+      "comment" : "PO1 title error",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a title of up to 60 characters."
+          }
+        }
+      }
+    },
+    "posting.field.caption" : {
+      "comment" : "PO1 field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caption (optional)"
+          }
+        }
+      }
+    },
+    "posting.field.title" : {
+      "comment" : "PO1 field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Title"
+          }
+        }
+      }
+    },
+    "posting.photo.cover" : {
+      "comment" : "Shown on the cover photo",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cover"
+          }
+        }
+      }
+    },
+    "posting.photo.label" : {
+      "comment" : "Accessibility name of a photo row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo %lld"
+          }
+        }
+      }
+    },
+    "posting.photo.remove" : {
+      "comment" : "Swipe action that sets a photo aside",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Take out"
+          }
+        }
+      }
+    },
+    "posting.photos.count" : {
+      "comment" : "PO1 photo section header: included, limit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos (%lld of %lld)"
+          }
+        }
+      }
+    },
+    "posting.photos.footer" : {
+      "comment" : "PO1 photo section footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Up to 2 photos for each Spot you visited. Tap a photo to make it the cover. Drag to reorder, swipe to take one out."
+          }
+        }
+      }
+    },
+    "posting.section.audience" : {
+      "comment" : "PO1 section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Who can see it"
+          }
+        }
+      }
+    },
+    "posting.section.preview" : {
+      "comment" : "PO1 preview section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How it will look"
+          }
+        }
+      }
+    },
+    "posting.section.tags" : {
+      "comment" : "PO1 section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        }
+      }
+    },
+    "posting.section.when" : {
+      "comment" : "PO1 section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "When it appears"
+          }
+        }
+      }
+    },
+    "posting.tag.budget-friendly" : {
+      "comment" : "Tag chip",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget friendly"
+          }
+        }
+      }
+    },
+    "posting.tag.date-idea" : {
+      "comment" : "Tag chip",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date idea"
+          }
+        }
+      }
+    },
+    "posting.tag.good-for-groups" : {
+      "comment" : "Tag chip",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good for groups"
+          }
+        }
+      }
+    },
+    "posting.tag.rainy-day" : {
+      "comment" : "Tag chip",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rainy day"
+          }
+        }
+      }
+    },
+    "posting.tag.solo-friendly" : {
+      "comment" : "Tag chip",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fine alone"
+          }
+        }
+      }
+    },
+    "posting.when.thirty" : {
+      "comment" : "When choice (default)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 30 minutes"
+          }
+        }
+      }
+    },
+    "posting.when.tomorrow" : {
+      "comment" : "When choice (9 am the next day)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tomorrow morning"
+          }
+        }
+      }
+    },
+    "posting.when.twoHours" : {
+      "comment" : "When choice",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "In 2 hours"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }

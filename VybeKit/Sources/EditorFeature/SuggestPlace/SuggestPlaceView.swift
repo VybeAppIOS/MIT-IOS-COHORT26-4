@@ -84,8 +84,8 @@ struct SuggestPlaceView: View {
                         .accessibilityHidden(true)
                 }
                 .onMapCameraChange(frequency: .onEnd) { context in
-                    viewModel.centre = Coordinate(latitude: context.region.center.latitude,
-                                                  longitude: context.region.center.longitude)
+                    viewModel.mapMoved(latitude: context.region.center.latitude,
+                                       longitude: context.region.center.longitude)
                 }
                 .accessibilityLabel(Text(verbatim: viewModel.mapHint))
             Text(verbatim: viewModel.mapHint).font(Theme.Font.footnote).foregroundStyle(Theme.Color.textSecondary)
