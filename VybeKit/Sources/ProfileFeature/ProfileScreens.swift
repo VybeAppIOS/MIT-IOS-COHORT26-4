@@ -16,7 +16,7 @@ public enum ProfileScreens {
         case .saved: ScreenPlaceholder(id: "PR4", name: "Saved")
         case .drafts: ScreenPlaceholder(id: "PR5", name: "Drafts")
         case .readyToPost: ScreenPlaceholder(id: "PR8", name: "Ready to post")
-        case .settings: ScreenPlaceholder(id: "PR2", name: "Settings")
+        case .settings: SettingsView(viewModel: SettingsViewModel(session: deps.session, router: deps.router))
         case .settingsPage(let page): settingsPage(page)
         case .deleteAccount: ScreenPlaceholder(id: "ST8", name: "Delete account")
         }

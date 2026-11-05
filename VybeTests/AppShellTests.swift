@@ -28,7 +28,7 @@ struct AppShellTests {
         (.composePost("r1"), "PO1"), (.searchSeeAll(.places), "S2"), (.saved, "PR4"),
         (.settingsPage(.privacy), "ST2"), (.post("r1"), "CM2"), (.friendsHub, "FR1"), (.profile("u1"), "PR3"),
         (.conversation("c1"), "CH2"), (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
-        (.suggestPlace, "E3")
+        (.suggestPlace, "E3"), (.settings, "view:SettingsView")
     ])
     func routesReachTheirScreen(route: Route, screenID: String) {
         #expect(reaches(factory.screen(for: route), screenID))

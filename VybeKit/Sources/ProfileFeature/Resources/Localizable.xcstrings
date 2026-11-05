@@ -1,5 +1,182 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "profile.settings.reset" : {
+      "comment" : "Destructive row: go back to the Welcome screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset onboarding"
+          }
+        }
+      }
+    },
+    "profile.settings.reset.confirm.button" : {
+      "comment" : "Destructive confirmation button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
+          }
+        }
+      }
+    },
+    "profile.settings.reset.confirm.message" : {
+      "comment" : "Confirmation message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You'll go back to the Welcome screen. Your saved Hangouts and Drafts stay."
+          }
+        }
+      }
+    },
+    "profile.settings.reset.confirm.title" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset onboarding?"
+          }
+        }
+      }
+    },
+    "profile.settings.reset.subtitle" : {
+      "comment" : "Footer under Reset onboarding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the Welcome screens again. Your saved Hangouts and Drafts stay."
+          }
+        }
+      }
+    },
+    "profile.settings.row.about" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About and credits"
+          }
+        }
+      }
+    },
+    "profile.settings.row.account" : {
+      "comment" : "Settings row: email, sign-in method, sign out, delete account.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account"
+          }
+        }
+      }
+    },
+    "profile.settings.row.blocked" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked people"
+          }
+        }
+      }
+    },
+    "profile.settings.row.help" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help and contact"
+          }
+        }
+      }
+    },
+    "profile.settings.row.notifications" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "profile.settings.row.privacy" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy"
+          }
+        }
+      }
+    },
+    "profile.settings.row.suggestions" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Place suggestions"
+          }
+        }
+      }
+    },
+    "profile.settings.section.account" : {
+      "comment" : "Settings section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your account"
+          }
+        }
+      }
+    },
+    "profile.settings.section.app" : {
+      "comment" : "Settings section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help and info"
+          }
+        }
+      }
+    },
+    "profile.settings.section.startAgain" : {
+      "comment" : "Settings section header above Reset onboarding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start again"
+          }
+        }
+      }
+    },
+    "profile.settings.title" : {
+      "comment" : "Title of the Settings screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }
