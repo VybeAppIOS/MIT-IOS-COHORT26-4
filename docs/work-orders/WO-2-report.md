@@ -108,3 +108,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): medium sheet with drag indicator, keyboard focus, scrollDismissesKeyboard pass; not looked at
 - Notes: The two answers are exactly 'I'm in' and 'Not for me' (taken from the shared strings). The + menu offers Poll in group chats only. The question is limited to 140 characters.
 
+## SC-CH2: done (photos not built)
+- Files: ChatFeature/Conversation/* (6 files), ConversationTestSupport, ConversationLoadingTests, ConversationWritingTests, ConversationVoiceAndRulesTests, ChatScreens, AppShellTests row, catalog
+- Tests: 28
+- Screenshots: build/screenshots/ch2-group.png opened (bubbles, poll, voice note, photo placeholder, composer with + and mic); ch2-dm.png taken, not opened
+- Button heights: composer buttons are the shared 44 pt IconButton; the + and mic are 44 pt minimum
+- Checklist (WO-3 prompt section 6): inline title, info button, composer in safeAreaInset(.bar), scrollDismissesKeyboard, long-press menu (Copy, Edit, Delete, Report), confirmation before delete pass; large text not looked at
+- Notes: NOT built: sending photos (PhotosPicker, max 2). There is no call to store a processed photo and the photo permission text is X-9, so photos are listed under Needs from Lohitaksh. Voice: tap the mic to record and tap again to send (not hold-to-record and slide-to-cancel); recording needs the microphone text (X-9); playback of old notes fails with a message because their files do not exist. Read receipts: only 'Delivered' is shown, because the repository does not report when others last read (the Seen logic is in and tested). Unread counts on the Community tab are refreshed. Report pushes the shared Report screen on the tab. The stream stops when the screen goes away. Hold-to-record, link opening uses UIApplication.shared.open.
+

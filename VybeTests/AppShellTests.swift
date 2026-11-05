@@ -32,7 +32,7 @@ struct AppShellTests {
         (.friendsHub, "view:HubView"),
         (.profile("u1"), "view:OtherProfileView"),
         (.mutualFriends("u1"), "view:MutualFriendsView"),
-        (.conversation("c1"), "CH2"),
+        (.conversation("c1"), "view:ConversationView"),
         (.groupInfo("c1"), "view:GroupInfoView"),
         (.chatList, "view:ListView"),
         (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),

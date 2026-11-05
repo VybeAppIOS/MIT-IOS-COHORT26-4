@@ -1,6 +1,347 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "chat.conversation.cancel" : {
+      "comment" : "Chat screens: chat.conversation.cancel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "chat.conversation.cancelEdit" : {
+      "comment" : "Chat screens: chat.conversation.cancelEdit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel edit"
+          }
+        }
+      }
+    },
+    "chat.conversation.cancelRecording" : {
+      "comment" : "Chat screens: chat.conversation.cancelRecording",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discard voice note"
+          }
+        }
+      }
+    },
+    "chat.conversation.copy" : {
+      "comment" : "Chat screens: chat.conversation.copy",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copy"
+          }
+        }
+      }
+    },
+    "chat.conversation.delete" : {
+      "comment" : "Chat screens: chat.conversation.delete",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete for everyone"
+          }
+        }
+      }
+    },
+    "chat.conversation.deleteTitle" : {
+      "comment" : "Chat screens: chat.conversation.deleteTitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this message for everyone?"
+          }
+        }
+      }
+    },
+    "chat.conversation.edit" : {
+      "comment" : "Chat screens: chat.conversation.edit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit"
+          }
+        }
+      }
+    },
+    "chat.conversation.editing" : {
+      "comment" : "Chat screens: chat.conversation.editing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Editing message"
+          }
+        }
+      }
+    },
+    "chat.conversation.empty" : {
+      "comment" : "Chat screens: chat.conversation.empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This chat is not available."
+          }
+        }
+      }
+    },
+    "chat.conversation.finishRecording" : {
+      "comment" : "Chat screens: chat.conversation.finishRecording",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send voice note"
+          }
+        }
+      }
+    },
+    "chat.conversation.hangout" : {
+      "comment" : "Chat screens: chat.conversation.hangout",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangout from Saved"
+          }
+        }
+      }
+    },
+    "chat.conversation.hangoutMissing" : {
+      "comment" : "Chat screens: chat.conversation.hangoutMissing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This Hangout is not available."
+          }
+        }
+      }
+    },
+    "chat.conversation.info" : {
+      "comment" : "Chat screens: chat.conversation.info",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chat info"
+          }
+        }
+      }
+    },
+    "chat.conversation.linkNote" : {
+      "comment" : "Chat screens: chat.conversation.linkNote",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Be careful with links"
+          }
+        }
+      }
+    },
+    "chat.conversation.mic" : {
+      "comment" : "Chat screens: chat.conversation.mic",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Record a voice note"
+          }
+        }
+      }
+    },
+    "chat.conversation.micFailed" : {
+      "comment" : "Chat screens: chat.conversation.micFailed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't start recording. Check that Vybe may use the microphone."
+          }
+        }
+      }
+    },
+    "chat.conversation.offline" : {
+      "comment" : "Chat screens: chat.conversation.offline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline. You can read messages but not send."
+          }
+        }
+      }
+    },
+    "chat.conversation.ok" : {
+      "comment" : "Chat screens: chat.conversation.ok",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "chat.conversation.placeholder" : {
+      "comment" : "Chat screens: chat.conversation.placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message"
+          }
+        }
+      }
+    },
+    "chat.conversation.playFailed" : {
+      "comment" : "Chat screens: chat.conversation.playFailed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't play this voice note."
+          }
+        }
+      }
+    },
+    "chat.conversation.plus" : {
+      "comment" : "Chat screens: chat.conversation.plus",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add to message"
+          }
+        }
+      }
+    },
+    "chat.conversation.poll" : {
+      "comment" : "Chat screens: chat.conversation.poll",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Poll"
+          }
+        }
+      }
+    },
+    "chat.conversation.readOnly" : {
+      "comment" : "Chat screens: chat.conversation.readOnly",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This group has fewer than 3 people, so it is read-only."
+          }
+        }
+      }
+    },
+    "chat.conversation.recording" : {
+      "comment" : "Chat screens: chat.conversation.recording",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recording…"
+          }
+        }
+      }
+    },
+    "chat.conversation.report" : {
+      "comment" : "Chat screens: chat.conversation.report",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        }
+      }
+    },
+    "chat.conversation.saveEdit" : {
+      "comment" : "Chat screens: chat.conversation.saveEdit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save edit"
+          }
+        }
+      }
+    },
+    "chat.conversation.savedEmpty" : {
+      "comment" : "Chat screens: chat.conversation.savedEmpty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have no saved Hangouts yet."
+          }
+        }
+      }
+    },
+    "chat.conversation.savedTitle" : {
+      "comment" : "Chat screens: chat.conversation.savedTitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send a saved Hangout"
+          }
+        }
+      }
+    },
+    "chat.conversation.send" : {
+      "comment" : "Chat screens: chat.conversation.send",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send message"
+          }
+        }
+      }
+    },
+    "chat.conversation.unsupported" : {
+      "comment" : "Chat screens: chat.conversation.unsupported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This message can't be shown in this version of Vybe."
+          }
+        }
+      }
+    },
+    "chat.conversation.voiceLimit" : {
+      "comment" : "Chat screens: chat.conversation.voiceLimit",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Voice notes can be up to 2 minutes long."
+          }
+        }
+      }
+    },
     "chat.group.add" : {
       "comment" : "Chat screens: chat.group.add",
       "localizations" : {

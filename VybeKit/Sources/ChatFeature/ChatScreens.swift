@@ -21,7 +21,15 @@ public enum ChatScreens {
             ListView(viewModel: ListViewModel(
                 chat: deps.chat, profiles: deps.profiles, session: deps.session, badges: deps.badges,
                 network: deps.network, router: deps.router, now: deps.now, makeNewChat: newChatFactory(deps)))
-        case .conversation: ScreenPlaceholder(id: "CH2", name: "Conversation")
+        case .conversation(let id):
+            ConversationView(viewModel: ConversationViewModel(
+                conversationID: id, chat: deps.chat, profiles: deps.profiles, hangouts: deps.hangouts,
+                libraryStore: deps.libraryStore, session: deps.session, badges: deps.badges, network: deps.network,
+                router: deps.router, now: deps.now, recorder: SystemVoiceRecorder(), player: AudioPlayer(),
+                makePoll: { conversationID, onClose in
+                    PollViewModel(
+                        conversationID: conversationID, chat: deps.chat, network: deps.network, onClose: onClose)
+                }))
         case .groupInfo(let id):
             GroupInfoView(viewModel: GroupInfoViewModel(
                 conversationID: id, chat: deps.chat, friends: deps.friends, profiles: deps.profiles,
