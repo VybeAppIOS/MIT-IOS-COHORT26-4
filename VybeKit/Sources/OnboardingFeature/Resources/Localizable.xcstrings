@@ -1,6 +1,480 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "onboarding.findFriends.done" : {
+      "comment" : "O5 button after adding someone; finishes onboarding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "onboarding.findFriends.empty" : {
+      "comment" : "O5 when there are no suggestions (task SC-O5).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No suggestions yet. Invite friends from a Hangout."
+          }
+        }
+      }
+    },
+    "onboarding.findFriends.mutual %lld" : {
+      "comment" : "O5 reason under a suggested person. %lld is the number of mutual friends.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld mutual friend"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld mutual friends"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "onboarding.findFriends.skip" : {
+      "comment" : "O5 button before anyone was added; finishes onboarding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip"
+          }
+        }
+      }
+    },
+    "onboarding.findFriends.subtitle" : {
+      "comment" : "O5 line under the heading (mutual friends only).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends of your friends on Vybe."
+          }
+        }
+      }
+    },
+    "onboarding.findFriends.title" : {
+      "comment" : "O5 heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "People you may know"
+          }
+        }
+      }
+    },
+    "onboarding.interests.artAndCulture" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Art and culture"
+          }
+        }
+      }
+    },
+    "onboarding.interests.boardGames" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Board games"
+          }
+        }
+      }
+    },
+    "onboarding.interests.budgetEats" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget eats"
+          }
+        }
+      }
+    },
+    "onboarding.interests.cafes" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cafés"
+          }
+        }
+      }
+    },
+    "onboarding.interests.continue" : {
+      "comment" : "O3 main button; opens Location.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
+    "onboarding.interests.gaming" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gaming"
+          }
+        }
+      }
+    },
+    "onboarding.interests.liveMusic" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live music"
+          }
+        }
+      }
+    },
+    "onboarding.interests.movies" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Movies"
+          }
+        }
+      }
+    },
+    "onboarding.interests.photography" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photography"
+          }
+        }
+      }
+    },
+    "onboarding.interests.progress %lld %lld" : {
+      "comment" : "O3 counter until the minimum is reached. First: chosen, second: the minimum.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld of %2$lld picked"
+          }
+        }
+      }
+    },
+    "onboarding.interests.sports" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sports"
+          }
+        }
+      }
+    },
+    "onboarding.interests.streetFood" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street food"
+          }
+        }
+      }
+    },
+    "onboarding.interests.studySpots" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study spots"
+          }
+        }
+      }
+    },
+    "onboarding.interests.subtitle" : {
+      "comment" : "O3 line under the heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick at least 3. You can change these later."
+          }
+        }
+      }
+    },
+    "onboarding.interests.sunsets" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sunsets"
+          }
+        }
+      }
+    },
+    "onboarding.interests.thrift" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thrift"
+          }
+        }
+      }
+    },
+    "onboarding.interests.title" : {
+      "comment" : "O3 heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What are your interests?"
+          }
+        }
+      }
+    },
+    "onboarding.interests.treks" : {
+      "comment" : "O3 interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treks"
+          }
+        }
+      }
+    },
+    "onboarding.location.allow" : {
+      "comment" : "O4 main button; asks for While Using the App, never Always.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow location"
+          }
+        }
+      }
+    },
+    "onboarding.location.couldNotAsk" : {
+      "comment" : "O4 area picker line when no system prompt appeared.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't ask for your location right now. Pick your area instead."
+          }
+        }
+      }
+    },
+    "onboarding.location.done" : {
+      "comment" : "O4 area picker button; finishes onboarding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "onboarding.location.notNow" : {
+      "comment" : "O4 secondary button; goes to the area picker.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not now"
+          }
+        }
+      }
+    },
+    "onboarding.location.pickTitle" : {
+      "comment" : "O4 area picker heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick your area"
+          }
+        }
+      }
+    },
+    "onboarding.location.pickWhy" : {
+      "comment" : "O4 area picker line.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll show Hangouts around here. You can change it later."
+          }
+        }
+      }
+    },
+    "onboarding.location.title" : {
+      "comment" : "O4 heading, before the system prompt.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find Hangouts near you"
+          }
+        }
+      }
+    },
+    "onboarding.location.why" : {
+      "comment" : "O4: why we ask for location (task SC-O4).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To show Hangouts near you and guide you while you walk."
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.addPhoto" : {
+      "comment" : "O2 photo circle label with no photo.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add photo"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.changePhoto" : {
+      "comment" : "O2 photo circle label with a photo.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Change photo"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.continue" : {
+      "comment" : "O2 main button; opens Interests.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.nameError" : {
+      "comment" : "O2 inline error under the name field.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use 2 to 30 characters."
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.namePlaceholder" : {
+      "comment" : "O2 name field placeholder.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your name"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.photoError" : {
+      "comment" : "O2 error when a photo cannot be processed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't use that photo. Try another one, or continue without a photo."
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.photoOptional" : {
+      "comment" : "O2 note under the photo circle.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A photo is optional."
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.processing" : {
+      "comment" : "VoiceOver label while the photo is processed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Getting your photo ready"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.removePhoto" : {
+      "comment" : "O2 button that clears the photo.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove photo"
+          }
+        }
+      }
+    },
+    "onboarding.nameAndPhoto.title" : {
+      "comment" : "O2 heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What should we call you?"
+          }
+        }
+      }
+    },
     "onboarding.welcome.getStarted" : {
       "comment" : "Main button on Welcome; opens Name and photo.",
       "localizations" : {

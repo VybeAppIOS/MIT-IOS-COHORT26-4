@@ -8,8 +8,11 @@ public enum AuthScreens {
     @ViewBuilder
     public static func view(for route: AuthRoute, _ deps: AppDependencies) -> some View {
         switch route {
-        case .signIn: ScreenPlaceholder(id: "A1", name: "Sign in")
-        case .emailSignIn: ScreenPlaceholder(id: "A2", name: "Email sign-in")
+        case .signIn:
+            SignInView(viewModel: SignInViewModel(auth: deps.auth, session: deps.session, router: deps.router))
+        case .emailSignIn:
+            EmailCodeView(viewModel: EmailCodeViewModel(
+                auth: deps.auth, session: deps.session, router: deps.router, now: deps.now))
         case .accountBasics: ScreenPlaceholder(id: "A3", name: "Account basics")
         }
     }
