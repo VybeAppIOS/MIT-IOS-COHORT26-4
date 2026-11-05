@@ -121,23 +121,26 @@ Not part of this branch. Tanvi is taking the last two screens, so the Search tab
 
 ## Needs from Lohitaksh
 1. **Ignore a friend request**: `FriendsRepository` has no `ignoreRequest`, so Ignore (Activity, Friends hub) only hides the row on this phone.
-2. **Activity rows about a comment** now carry an optional `runID` (item 5) and open that post. The real server must fill `runID` for comment and reply rows; without it the row falls back to the commenter's profile.
-3. **ProfileHeader** always shows the Hangouts and Spots numbers, so a private profile shows "0" and "0". It needs a way to hide them.
-4. **PostCard** (Components): the ••• menu only has Report. A `block` action on `PostCardActions` would let the Feed offer Block there; today it is in the long-press menu.
-5. **Posts by one person**: there is no call for it, so a profile reads up to 3 feed pages and keeps that person's posts.
-8. **Read receipts**: the repository does not say when others last read a chat, so only "Delivered" is shown (the "Seen" logic is in and tested).
-9. **Group invitations**: no pending-member state is exposed, so Add members adds at once (the task says a non-friend must accept first) and the invitation screen assumes the group's admin added you.
-10. **Photos in chat**: no call to store a processed photo, and the photo and microphone permission texts (X-9) are not in the project. Sending photos is not built; recording a voice note asks for the microphone and needs that text. Voice notes: how a `path` maps to a playable file is not defined (recordings go to `voice/<file>` in the temporary folder).
-11. **App launch**: nothing calls `BadgeStore.refresh()` at launch, so the Community tab badge stays empty until the Feed or Chats list opens (they now refresh it).
-12. **Sample data** still has EXAMPLE places and titles on screen; the sample-natural-hangouts branch (separate PR) addresses that.
-13. `LaunchOptions.swift` was not changed: no new short form was needed.
+2. **ProfileHeader** always shows the Hangouts and Spots numbers, so a private profile shows "0" and "0". It needs a way to hide them.
+3. **PostCard** (Components): the ••• menu only has Report. A `block` action on `PostCardActions` would let the Feed offer Block there; today it is in the long-press menu.
+4. **Posts by one person**: there is no call for it, so a profile reads up to 3 feed pages and keeps that person's posts.
+5. **App launch**: nothing calls `BadgeStore.refresh()` at launch, so the Community tab badge stays empty until the Feed or Chats list opens (they now refresh it).
+6. **Sample data** still has EXAMPLE places and titles on screen; the sample-natural-hangouts branch (separate PR) addresses that.
+7. **`NSMicrophoneUsageDescription` is missing** (checked: no usage-description key anywhere in `Vybe.xcodeproj` or `Config/`). It is a project setting, so I did not add it. Without it the first real voice recording crashes when iOS asks for the microphone. Suggested text: "Vybe uses the microphone to record voice notes you send in chats."
+8. **Photo permission text (X-9)** is still not in the project. The chat photo picker is the system `PhotosPicker`, which runs outside the app, so chat photos do not need it; X-9 still has to decide what the camera and other photo screens need.
+9. **Tab bar change (issue #60, faculty)** is not built: it is a separate decision and stays out of this PR.
+10. **Backend (Phase 2)** for the approved fixes: endpoints for `memberships`, mute and `pendingInvitations` (with `addedByID` on a pending membership); `lastReadAt` on each member and updated by `markRead` (the app has no push for read times, so "Seen" moves when the next batch of messages arrives); `runID` on comment and reply Activity rows; a photo upload that replaces `LocalPhotoStore.save` and also strips location; and a list of group photos (the messages endpoint is enough, the phone filters). Details are in `docs/DATA-MODEL.md` 3 and 6a.
+11. **Voice notes**: how a voice `path` maps to a playable file is still not defined (recordings go to `voice/<file>` in the temporary folder), so old sample notes show a message when played.
+12. **Not driven by hand** (needs a person on a device): the hold, slide and release of the microphone, the system photo picker, the ••• menus and confirmation dialogs, tapping an invitation, and VoiceOver on all of them. See each item below.
+13. `LaunchOptions.swift` got one short form (`group-photos/<id>`, item 12); nothing else needed one.
 
 ## Decisions I need
 - **Report from the Comments sheet** closes the sheet and opens the shared Report sheet (a local sheet cannot push another feature's screen), instead of pushing inside the sheet as the task says. OK?
-- **Block in the Feed** is in the long-press menu for now. OK until item 4 above is done?
-- **Voice notes** are tap to record, tap to send (not hold-to-record with slide-to-cancel).
+- **Block in the Feed** is in the long-press menu for now. OK until item 3 above is done?
 - **Friend request limits**: the 30-a-day count is worked out from the sent requests' dates, since no counter exists.
-- **Photos in chat** left out (item 10): build a placeholder now, or wait for photo storage?
+- **Other large buttons** (`EmptyStateView`, `ErrorView`, `BlockConfirmView`, Report) are still about 51 pt while Primary and Secondary are 48 pt (item 3 of the fixes): switch them to `PrimaryButton` too?
+- **Add Spot (E2) and share (CH5) pickers** have no on-device filter; `docs/IA.md` 8 question 3 leaves them open.
+- **Group Photos row and Photos in chat** use the sample photos that have no image files, so the placeholder shows until real pictures exist.
 
 ## Risks I saw
 - Tanvi's Feed, Post detail and PostCard commits are on this branch too. When her PRs merge, `CommunityScreens.swift`, the Community catalog and `AppShellTests.swift` will conflict: merge `main` into this branch and keep both sides.
@@ -215,7 +218,8 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 12 Group photos (CH8) | done (own commit) |
 | 13 Read receipts | done (own commit) |
 | 14 Voice notes: hold to record | done (own commit; microphone purpose string still missing, see below) |
-| 15-25 | not started |
+| 15 Docs for the approved fixes | done (docs only; no check run, as agreed) |
+| 16-25 | not started (later stages) |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -349,3 +353,21 @@ Looked at for items 13 and 14 (screenshots opened, Debug build with sample data,
 
 Group 6b full check: one `./scripts/check.sh` run after items 13 and 14 ended with `==> All checks passed` (exit 0).
 
+### Item 15: Docs for the approved fixes
+What changed (docs only, approved by Atharva and Lohitaksh): `docs/PRODUCT.md` (Chat: mute, group photos, hold-to-record voice notes with the 2 minute cap, read receipts from each member's `lastReadAt`; Search: the on-device filter in New chat and the Friends hub is not the Search tab, which stays the place to find new things), `docs/IA.md` (CH1 invitations section, CH2 and CH4 rows, CH8 route; the picker answer was already in section 8), `docs/DATA-MODEL.md` (`Membership.mutedAt` and `addedByID`, `Activity.runID`, `PhotoStore.save` and where chat photos live, read receipts through `memberships(in:)`, the three new `ChatRepository` calls and their rules), `docs/tasks/40-screens-community-friends-chat.md` (SC-CH2, SC-CH4, SC-CH7 text, new SC-CH8 section). "Needs from Lohitaksh" and "Decisions I need" above were rewritten: finished items removed (Activity post ID, read receipts, photos, group invitations, voice hold-to-record; Ignore stays) and new ones added (microphone text, photo text, tab bar issue #60, backend list).
+Not touched: anything about the Search tab (SC-S1, SC-S2): it is not part of this branch.
+Not run: `check.sh` (docs only). I read the edited files back by diff; I did not build.
+Needs from Lohitaksh: please read the new "approved by Lohitaksh" lines in the four documents and say if any is wrong.
+
+### Shared files touched in this job
+From `git diff --name-only 27fee49..HEAD` (the commits of the fixes, not the merge from `main`), restricted to the approved shared folders. The list for the whole PR (which also has Tanvi's Feed and PostCard commits and the first WO-2 round, for example `Components/PostCard.swift`) is `git diff --name-only origin/main...HEAD`.
+- Models: `Models/Chat/Conversation.swift`, `Models/Safety/Activity.swift`, `Models/Samples/SampleSocialData.swift`
+- Core: `Core/Repositories/ChatRepository.swift`, `Core/Repositories/PhotoStore.swift`, `Core/Services/PhotoProcessor.swift`, `Core/Fakes/StubRepositories.swift`, `Core/Fakes/StubSocialRepositories.swift`, `Core/Fakes/SocialStubStore.swift`, `Core/Fakes/SocialStubStore+Chat.swift`, `Core/Fakes/Contracts/SocialContracts.swift`, `Core/Navigation/Routes/ChatRoute.swift`
+- LocalData: `LocalData/LocalPhotoStore.swift`
+- Design/Views: `Design/Views/PillButton.swift` (new), `Design/Views/PrimaryButton.swift`, `Design/Views/SecondaryButton.swift`
+- Components: `Components/CommentRow.swift`
+- App: `Vybe/App/AppDependencies+Local.swift`, `Vybe/App/LaunchOptions.swift`, `Vybe/App/SampleIdentityProfileRepository.swift` (new)
+- App tests: `VybeTests/AppShellTests.swift`, `VybeTests/LaunchOptionsTests.swift`, `VybeTests/SampleIdentityProfileRepositoryTests.swift` (new)
+- Docs: `docs/IA.md`, `docs/PRODUCT.md`, `docs/DATA-MODEL.md`, `docs/tasks/40-screens-community-friends-chat.md`, `docs/prompts/WO-3-agent-prompt.md`, this report
+- Package tests beside these: `CoreTests/ChatMembersStubTests`, `RouteCodingTests`, `IACoverageTests`, `PhotoProcessorTests`, `BadgeStoreAndSampleTests`, `LocalDataTests/LocalPhotoStoreTests`, `ContentTests/CommunityModelsTests`, `ComponentsTests/ComponentDataTests`
+- Never touched: `Package.swift`, signing, project settings, `Vybe.xcodeproj`, `Local.xcconfig`, and nothing under the Search feature or the search settings in `AppSettings` and `SessionStore`.
