@@ -276,3 +276,5 @@ Files: `FriendsFeature/Hub/HubView.swift`, `HubViewModel.swift`, `FriendsFeature
 Tests: all friends without search; case and accents; username; requests and suggestions are not searched; content unchanged and no repository call while searching; clearing (including only spaces) restores everything.
 Looked at (screenshots opened): the hub with the empty search field, and with "ÁARAV" typed (only Sample Aarav under My friends, all other sections hidden). The search text was a temporary change that I reverted. Not driven by hand: typing and clearing. Not looked at: the "No Results" state on the hub (same code as New chat) and the hub at the largest text size with the search field.
 Needs from Lohitaksh: none. Decision for later: Add Spot and share pickers still have no filter.
+
+Group 4 full check: one `./scripts/check.sh` run after items 6 and 7 ended with `==> All checks passed` (exit 0).
