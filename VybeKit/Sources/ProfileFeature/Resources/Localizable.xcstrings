@@ -1,6 +1,259 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "profile.account.delete" : {
+      "comment" : "Row that opens Delete account.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete account"
+          }
+        }
+      }
+    },
+    "profile.account.delete.subtitle" : {
+      "comment" : "Row subtitle.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removes your account and your photos"
+          }
+        }
+      }
+    },
+    "profile.account.name" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        }
+      }
+    },
+    "profile.account.offline" : {
+      "comment" : "Footer while offline.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline. Connect to sign out."
+          }
+        }
+      }
+    },
+    "profile.account.signIn" : {
+      "comment" : "Row label: the sign-in method.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signed in with"
+          }
+        }
+      }
+    },
+    "profile.account.signIn.sample" : {
+      "comment" : "Until real sign-in exists.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sample account (sign-in comes with the backend)"
+          }
+        }
+      }
+    },
+    "profile.account.signOut" : {
+      "comment" : "Destructive button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign out"
+          }
+        }
+      }
+    },
+    "profile.account.signOut.confirm" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign out of Vybe?"
+          }
+        }
+      }
+    },
+    "profile.account.signOut.error" : {
+      "comment" : "Shown when sign out failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't sign you out. Check your connection and try again."
+          }
+        }
+      }
+    },
+    "profile.account.signOut.message" : {
+      "comment" : "Confirmation message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your saved Hangouts and Drafts stay on this phone."
+          }
+        }
+      }
+    },
+    "profile.account.title" : {
+      "comment" : "Title of the Account settings page.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account"
+          }
+        }
+      }
+    },
+    "profile.account.username" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        }
+      }
+    },
+    "profile.delete.confirm" : {
+      "comment" : "Destructive button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete my account"
+          }
+        }
+      }
+    },
+    "profile.delete.error" : {
+      "comment" : "Shown when deleting failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't delete your account. Nothing was removed. Try again."
+          }
+        }
+      }
+    },
+    "profile.delete.field" : {
+      "comment" : "Label of the confirmation field; %@ is the username.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type %@ to confirm"
+          }
+        }
+      }
+    },
+    "profile.delete.headline" : {
+      "comment" : "Headline on Delete account.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This can't be undone"
+          }
+        }
+      }
+    },
+    "profile.delete.mismatch" : {
+      "comment" : "Inline error under the field.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That isn't your username."
+          }
+        }
+      }
+    },
+    "profile.delete.offline" : {
+      "comment" : "Shown while offline.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline. Connect to delete your account."
+          }
+        }
+      }
+    },
+    "profile.delete.point.phone" : {
+      "comment" : "What deleting does.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Saved Hangouts, Drafts and any live Hangout are removed from this phone."
+          }
+        }
+      }
+    },
+    "profile.delete.point.photos" : {
+      "comment" : "What deleting does.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All your photos are deleted."
+          }
+        }
+      }
+    },
+    "profile.delete.point.posts" : {
+      "comment" : "What deleting does.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your posts stay as [deleted], so other people's comments still make sense."
+          }
+        }
+      }
+    },
+    "profile.delete.point.username" : {
+      "comment" : "What deleting does.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your username is held for 30 days, then anyone can take it."
+          }
+        }
+      }
+    },
+    "profile.delete.title" : {
+      "comment" : "Title of the Delete account page.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete account"
+          }
+        }
+      }
+    },
     "profile.settings.reset" : {
       "comment" : "Destructive row: go back to the Welcome screen.",
       "localizations" : {

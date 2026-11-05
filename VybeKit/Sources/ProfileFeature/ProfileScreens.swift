@@ -17,15 +17,20 @@ public enum ProfileScreens {
         case .drafts: ScreenPlaceholder(id: "PR5", name: "Drafts")
         case .readyToPost: ScreenPlaceholder(id: "PR8", name: "Ready to post")
         case .settings: SettingsView(viewModel: SettingsViewModel(session: deps.session, router: deps.router))
-        case .settingsPage(let page): settingsPage(page)
-        case .deleteAccount: ScreenPlaceholder(id: "ST8", name: "Delete account")
+        case .settingsPage(let page): settingsPage(page, deps)
+        case .deleteAccount:
+            DeleteAccountView(viewModel: DeleteAccountViewModel(
+                auth: deps.auth, session: deps.session, libraryStore: deps.libraryStore, liveStore: deps.liveStore,
+                network: deps.network, router: deps.router))
         }
     }
 
     @ViewBuilder
-    private static func settingsPage(_ page: SettingsPage) -> some View {
+    private static func settingsPage(_ page: SettingsPage, _ deps: AppDependencies) -> some View {
         switch page {
-        case .account: ScreenPlaceholder(id: "ST1", name: "Account")
+        case .account:
+            AccountSettingsView(viewModel: AccountSettingsViewModel(
+                auth: deps.auth, session: deps.session, network: deps.network, router: deps.router))
         case .privacy: ScreenPlaceholder(id: "ST2", name: "Privacy")
         case .blocked: ScreenPlaceholder(id: "ST3", name: "Blocked")
         case .notifications: ScreenPlaceholder(id: "ST4", name: "Notifications")
