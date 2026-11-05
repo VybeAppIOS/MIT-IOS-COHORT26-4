@@ -53,7 +53,7 @@ struct AppShellTests {
     }
 
     @Test func coversReachTheirScreen() {
-        #expect(describe(factory.cover(for: .live("h1"))).contains("\"H1\""))
+        #expect(reaches(factory.cover(for: .live("h1")), "view:LiveView"))
         #expect(describe(factory.cover(for: .editor(.new))).contains("\"E1\""))
     }
 
