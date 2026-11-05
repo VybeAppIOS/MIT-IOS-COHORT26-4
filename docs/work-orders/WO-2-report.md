@@ -210,3 +210,11 @@ e000f71 Merge origin/main into t/sc-cm2-post-detail
 1d6ac12 SC-CM1: Community Feed screen
 ff8d793 CP-6: One action bar and a clearer text stack on PostCard
 ```
+
+## WO-2 fixes
+Approved by Atharva and Lohitaksh (second round of work on PR #53). Updated after every item so the work can resume.
+Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
+
+| Item | State |
+|---|---|
+| 1-25 | not started |
