@@ -19,7 +19,9 @@ public enum HangoutDetailScreens {
 
     @ViewBuilder
     public static func spotSheet(_ id: PlaceID, _ deps: AppDependencies) -> some View {
-        ScreenPlaceholder(id: "HD2", name: "Spot sheet")
+        SpotSheetView(viewModel: SpotSheetViewModel(
+            id: id, places: deps.places, hangouts: deps.hangouts, photos: deps.photos, library: deps.libraryStore,
+            router: deps.router, now: deps.now))
     }
 }
 

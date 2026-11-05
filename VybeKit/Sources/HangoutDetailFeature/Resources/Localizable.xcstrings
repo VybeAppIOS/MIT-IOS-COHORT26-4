@@ -133,6 +133,127 @@
         }
       }
     },
+    "hangoutDetail.spot.appleDetails" : {
+      "comment" : "Spot sheet button: shows Apple's place details.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Maps details"
+          }
+        }
+      }
+    },
+    "hangoutDetail.spot.appleDetailsFailed" : {
+      "comment" : "Under the Apple Maps button when the lookup fails.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apple Maps details aren't available right now."
+          }
+        }
+      }
+    },
+    "hangoutDetail.spot.closedToday" : {
+      "comment" : "Spot sheet hours pill: no opening left today.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Closed today"
+          }
+        }
+      }
+    },
+    "hangoutDetail.spot.hangoutsHeader" : {
+      "comment" : "Spot sheet heading above up to 3 Hangout cards.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangouts with this Spot"
+          }
+        }
+      }
+    },
+    "hangoutDetail.spot.hoursNotListed" : {
+      "comment" : "Spot sheet hours pill: the Place lists no hours and no hours note.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hours not listed"
+          }
+        }
+      }
+    },
+    "hangoutDetail.spot.more" : {
+      "comment" : "Spot sheet toolbar menu with Report place.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
+          }
+        }
+      }
+    },
+    "hangoutDetail.spot.notFound" : {
+      "comment" : "Spot sheet: the Place was removed or never existed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This Spot is no longer available."
+          }
+        }
+      }
+    },
+    "hangoutDetail.spot.openUntil %@" : {
+      "comment" : "Spot sheet hours pill. %@ is a time in Pune time, e.g. 10:00 PM.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open until %@"
+          }
+        }
+      }
+    },
+    "hangoutDetail.spot.opensAt %@" : {
+      "comment" : "Spot sheet hours pill. %@ is a time later today in Pune time.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens at %@"
+          }
+        }
+      }
+    },
+    "hangoutDetail.spot.reportPlace" : {
+      "comment" : "Spot sheet menu item: report this Place.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report place"
+          }
+        }
+      }
+    },
+    "hangoutDetail.spot.trekSafety" : {
+      "comment" : "Spot sheet safety note for a trek with no trek info of its own (RISKS 7).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This is a trek. Go in a group, carry water, and head back before dark."
+          }
+        }
+      }
+    },
     "hangoutDetail.spotsHeader" : {
       "comment" : "Heading above the ordered Spots.",
       "localizations" : {
