@@ -1,6 +1,589 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "admin.action.ban" : {
+      "comment" : "AD1 action, opens Users",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ban the owner…"
+          }
+        }
+      }
+    },
+    "admin.action.dismiss" : {
+      "comment" : "AD1 action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dismiss report"
+          }
+        }
+      }
+    },
+    "admin.action.hide" : {
+      "comment" : "AD1 destructive action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide content"
+          }
+        }
+      }
+    },
+    "admin.action.hide.confirm" : {
+      "comment" : "AD1 hide confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide this for everyone?"
+          }
+        }
+      }
+    },
+    "admin.actionFailed" : {
+      "comment" : "Admin action failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That didn't work. Try again."
+          }
+        }
+      }
+    },
+    "admin.detail.anonymous" : {
+      "comment" : "AD1 detail note",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The reported person never sees who reported this."
+          }
+        }
+      }
+    },
+    "admin.detail.autoHidden" : {
+      "comment" : "AD1 detail note for nudity, self-harm, threats",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already hidden for the person who reported it."
+          }
+        }
+      }
+    },
+    "admin.detail.reason" : {
+      "comment" : "AD1 detail row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reason"
+          }
+        }
+      }
+    },
+    "admin.detail.target" : {
+      "comment" : "AD1 detail row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reported"
+          }
+        }
+      }
+    },
+    "admin.detail.time" : {
+      "comment" : "AD1 detail row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time to act"
+          }
+        }
+      }
+    },
+    "admin.reports.empty" : {
+      "comment" : "AD1 empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No open reports."
+          }
+        }
+      }
+    },
+    "admin.reports.left" : {
+      "comment" : "AD1 time left, e.g. 1 hr, 20 min left",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ left"
+          }
+        }
+      }
+    },
+    "admin.reports.overdue" : {
+      "comment" : "AD1 time past the deadline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overdue by %@"
+          }
+        }
+      }
+    },
+    "admin.reports.title" : {
+      "comment" : "AD1 title (team only)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reports"
+          }
+        }
+      }
+    },
+    "admin.review.address" : {
+      "comment" : "AD2 field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address"
+          }
+        }
+      }
+    },
+    "admin.review.approve" : {
+      "comment" : "AD2 approve button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Approve and add the Place"
+          }
+        }
+      }
+    },
+    "admin.review.area" : {
+      "comment" : "AD2 field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Area (for example Kothrud)"
+          }
+        }
+      }
+    },
+    "admin.review.category" : {
+      "comment" : "AD2 field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kind of Place"
+          }
+        }
+      }
+    },
+    "admin.review.costLower" : {
+      "comment" : "AD2 number field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lowest cost per person, in rupees"
+          }
+        }
+      }
+    },
+    "admin.review.costUpper" : {
+      "comment" : "AD2 number field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Highest cost per person, in rupees"
+          }
+        }
+      }
+    },
+    "admin.review.name" : {
+      "comment" : "AD2 field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        }
+      }
+    },
+    "admin.review.note" : {
+      "comment" : "AD2 reject note field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Why (sent to the person)"
+          }
+        }
+      }
+    },
+    "admin.review.place" : {
+      "comment" : "AD2 approve section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Place"
+          }
+        }
+      }
+    },
+    "admin.review.reject" : {
+      "comment" : "AD2 reject button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reject with this note"
+          }
+        }
+      }
+    },
+    "admin.review.reject.section" : {
+      "comment" : "AD2 reject section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reject"
+          }
+        }
+      }
+    },
+    "admin.review.residential" : {
+      "comment" : "AD2 one-tap reject",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reject: residential address"
+          }
+        }
+      }
+    },
+    "admin.review.title" : {
+      "comment" : "AD2 review sheet title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review suggestion"
+          }
+        }
+      }
+    },
+    "admin.status.actioned" : {
+      "comment" : "Report status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "acted on"
+          }
+        }
+      }
+    },
+    "admin.status.dismissed" : {
+      "comment" : "Report status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dismissed"
+          }
+        }
+      }
+    },
+    "admin.status.open" : {
+      "comment" : "Report status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "open"
+          }
+        }
+      }
+    },
+    "admin.suggestions.detail" : {
+      "comment" : "AD2 row: category, how long ago it was sent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$@ ago"
+          }
+        }
+      }
+    },
+    "admin.suggestions.empty" : {
+      "comment" : "AD2 empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No suggestions waiting."
+          }
+        }
+      }
+    },
+    "admin.suggestions.residential.note" : {
+      "comment" : "Reject note sent for the one-tap residential reject",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Residential address (home or hostel). We don't add these."
+          }
+        }
+      }
+    },
+    "admin.suggestions.title" : {
+      "comment" : "AD2 title (team only)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place suggestions"
+          }
+        }
+      }
+    },
+    "admin.target.comment" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment"
+          }
+        }
+      }
+    },
+    "admin.target.hangout" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangout"
+          }
+        }
+      }
+    },
+    "admin.target.message" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message"
+          }
+        }
+      }
+    },
+    "admin.target.place" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place"
+          }
+        }
+      }
+    },
+    "admin.target.run" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post"
+          }
+        }
+      }
+    },
+    "admin.target.user" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Person"
+          }
+        }
+      }
+    },
+    "admin.teamOnly" : {
+      "comment" : "Admin pages for a non-team account",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This page is for the Vybe team only."
+          }
+        }
+      }
+    },
+    "admin.users.ban" : {
+      "comment" : "AD3 destructive action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ban"
+          }
+        }
+      }
+    },
+    "admin.users.ban.confirm" : {
+      "comment" : "AD3 ban confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ban this person? They won't be able to use Vybe."
+          }
+        }
+      }
+    },
+    "admin.users.banned" : {
+      "comment" : "AD3 result",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Banned."
+          }
+        }
+      }
+    },
+    "admin.users.empty" : {
+      "comment" : "AD3 start state",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search for a username to see their reports and ban or unban them."
+          }
+        }
+      }
+    },
+    "admin.users.noReports" : {
+      "comment" : "AD3 summary",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No reports against them."
+          }
+        }
+      }
+    },
+    "admin.users.openReports" : {
+      "comment" : "AD3 summary: open, total",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld open of %lld reports"
+          }
+        }
+      }
+    },
+    "admin.users.reportLine" : {
+      "comment" : "AD3 one report: reason, status",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$@"
+          }
+        }
+      }
+    },
+    "admin.users.search" : {
+      "comment" : "AD3 search prompt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        }
+      }
+    },
+    "admin.users.title" : {
+      "comment" : "AD3 title (team only)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Users"
+          }
+        }
+      }
+    },
+    "admin.users.unban" : {
+      "comment" : "AD3 action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unban"
+          }
+        }
+      }
+    },
+    "admin.users.unban.confirm" : {
+      "comment" : "AD3 unban confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unban this person?"
+          }
+        }
+      }
+    },
+    "admin.users.unbanned" : {
+      "comment" : "AD3 result",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unbanned."
+          }
+        }
+      }
+    },
     "moderation.block.body" : {
       "comment" : "What blocking does.",
       "localizations" : {
