@@ -96,36 +96,26 @@ struct HubView: View {
     func answerRow(_ person: PersonRowData) -> some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.small) {
             PersonRow(person: person, open: { viewModel.personTapped(person.id) }, trailing: { EmptyView() })
-            HStack(spacing: Theme.Spacing.small) {
-                Button { Task { await viewModel.acceptTapped(person.id) } } label: {
-                    Text(verbatim: viewModel.acceptLabel).frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.borderedProminent)
-                Button { viewModel.ignoreTapped(person.id) } label: {
-                    Text(verbatim: viewModel.ignoreLabel).frame(maxWidth: .infinity)
-                }
-                .buttonStyle(.bordered)
-            }
-            .controlSize(.large)
-            .frame(minHeight: Theme.Size.minTapTarget)
+            AnswerButtons(
+                acceptLabel: viewModel.acceptLabel, ignoreLabel: viewModel.ignoreLabel,
+                accept: { Task { await viewModel.acceptTapped(person.id) } },
+                ignore: { viewModel.ignoreTapped(person.id) })
         }
     }
 
     private func sentRow(_ person: PersonRowData) -> some View {
         PersonRow(person: person, open: { viewModel.personTapped(person.id) }, trailing: {
-            Button { Task { await viewModel.cancelRequestTapped(person.id) } } label: {
-                Text(verbatim: viewModel.cancelRequestLabel).frame(minHeight: Theme.Size.minTapTarget)
+            PillButton(verbatim: viewModel.cancelRequestLabel) {
+                Task { await viewModel.cancelRequestTapped(person.id) }
             }
-            .buttonStyle(.bordered)
         })
     }
 
     private func suggestionRow(_ person: PersonRowData, canAdd: Bool) -> some View {
         PersonRow(person: person, open: { viewModel.personTapped(person.id) }, trailing: {
-            Button { Task { await viewModel.addTapped(person.id) } } label: {
-                Text(verbatim: viewModel.addLabel).frame(minHeight: Theme.Size.minTapTarget)
+            PillButton(verbatim: viewModel.addLabel, style: .prominent) {
+                Task { await viewModel.addTapped(person.id) }
             }
-            .buttonStyle(.borderedProminent)
             .disabled(!canAdd)
         })
     }
@@ -157,6 +147,21 @@ struct HubView: View {
     }
 }
 
+/// Accept and Ignore under a request, side by side.
+private struct AnswerButtons: View {
+    let acceptLabel: String
+    let ignoreLabel: String
+    let accept: () -> Void
+    let ignore: () -> Void
+
+    var body: some View {
+        HStack(spacing: Theme.Spacing.small) {
+            PillButton(verbatim: acceptLabel, style: .prominent, fillsWidth: true, action: accept)
+            PillButton(verbatim: ignoreLabel, fillsWidth: true, action: ignore)
+        }
+    }
+}
+
 /// The "Other requests" list: requests from people with no mutual friends. A local sheet.
 private struct OtherRequestsSheet: View {
     let viewModel: HubViewModel
@@ -171,18 +176,10 @@ private struct OtherRequestsSheet: View {
                             PersonRow(
                                 person: person, open: { viewModel.personTapped(person.id) },
                                 trailing: { EmptyView() })
-                            HStack(spacing: Theme.Spacing.small) {
-                                Button { Task { await viewModel.acceptTapped(person.id) } } label: {
-                                    Text(verbatim: viewModel.acceptLabel).frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(.borderedProminent)
-                                Button { viewModel.ignoreTapped(person.id) } label: {
-                                    Text(verbatim: viewModel.ignoreLabel).frame(maxWidth: .infinity)
-                                }
-                                .buttonStyle(.bordered)
-                            }
-                            .controlSize(.large)
-                            .frame(minHeight: Theme.Size.minTapTarget)
+                            AnswerButtons(
+                acceptLabel: viewModel.acceptLabel, ignoreLabel: viewModel.ignoreLabel,
+                accept: { Task { await viewModel.acceptTapped(person.id) } },
+                ignore: { viewModel.ignoreTapped(person.id) })
                         }
                     }
                 }

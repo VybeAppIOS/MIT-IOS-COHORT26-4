@@ -202,7 +202,9 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | Item | State |
 |---|---|
 | 1 Who "you" are | done (committed; full check passed at the end of Group 1) |
-| 2-25 | not started |
+| 2 Pill buttons | done (committed; checked at the end of Group 2) |
+| 3 Primary and Secondary a little smaller | not started |
+| 4-25 | not started |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -220,3 +222,13 @@ Not driven by hand: sending a message and deleting my own comment (no way to tap
 Needs from Lohitaksh: none. Phase 2 note: the wrapper goes away once there is one ID per person.
 
 Group 1 full check: first run failed 6 package tests (MarkVisitedViewModelTests, LiveViewModelTests, ListViewModelTests, all in code not touched by Item 1; the log did not show the failure message). The Live and Chat test targets passed when run alone, and the second full `./scripts/check.sh` ended with `==> All checks passed`.
+
+### Item 2: PillButton
+Problem: Accept, Ignore, Add, Cancel, Save and Retry used system buttons with `.controlSize(.large)` and a 44 pt frame inside the label, so they drew as tall ovals or circles.
+
+What changed: new shared `PillButton` in `Design/Views` (capsule, `.controlSize(.regular)`, prominent or bordered, optional destructive role, optional full width). A `@ScaledMetric` vertical padding sits on the label; the 44 pt floor is on the button, never in the label. It wraps at large text. Used for Accept and Ignore (Activity, Friends hub, Other requests sheet), Add and Cancel request (Friends hub), Save name (Group info) and Retry and Remove on a failed comment (Comments). Toolbar buttons (Cancel, Create, Send, Done) and list rows such as Add members are system controls and were left alone.
+Files: `Design/Views/PillButton.swift` (+ previews: states and large text), `CommunityFeature/Activity/ActivityView.swift`, `CommunityFeature/Comments/CommentsView.swift`, `FriendsFeature/Hub/HubView.swift`, `ChatFeature/GroupInfo/GroupInfoView.swift`, this report.
+Tests: no new ViewModel logic, so no new tests; the existing ones still apply. `swiftlint --strict`: 0 violations.
+Measured (screenshot pixels / 3, iPhone 18 Pro): first try with 8 pt extra padding gave 48 pt; with the final padding Accept, Ignore, Add and Cancel measure 44 pt.
+Looked at (screenshots opened): Activity, Friends hub (also at accessibility-extra-large text), Group info (Save disabled) and Invitation. The pills are capsules, not circles or tall ovals, and they grow with large text. Not photographed: New chat (its Cancel and Create are system toolbar buttons) and the Comments retry row (no debug route to a failed comment). Not driven by hand: tapping any of the buttons.
+Needs from Lohitaksh: none.

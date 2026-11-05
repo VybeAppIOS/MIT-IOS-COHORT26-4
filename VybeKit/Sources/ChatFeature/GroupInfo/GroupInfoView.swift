@@ -55,8 +55,8 @@ struct GroupInfoView: View {
                     HStack {
                         TextField(text: $viewModel.draftName) { Text(verbatim: viewModel.nameHeader) }
                             .frame(minHeight: Theme.Size.minTapTarget)
-                        Button { Task { await viewModel.saveNameTapped() } } label: {
-                            Text(verbatim: viewModel.saveLabel).frame(minHeight: Theme.Size.minTapTarget)
+                        PillButton(verbatim: viewModel.saveLabel, style: .prominent) {
+                            Task { await viewModel.saveNameTapped() }
                         }
                         .disabled(!viewModel.canSaveName)
                     }
