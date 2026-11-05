@@ -8,6 +8,7 @@ public struct AppSettings: Sendable {
         static let selectedAreaID = "selectedAreaID"
         static let interests = "interests"
         static let notificationPrefix = "notify."
+        static let recentSearches = "recentSearches"
     }
 
     /// Nil means the app's standard settings. Only the name is stored: `UserDefaults` itself is not `Sendable`,
@@ -48,8 +49,15 @@ public struct AppSettings: Sendable {
         defaults.set(enabled, forKey: Key.notificationPrefix + name)
     }
 
+    /// What the person typed in Search, newest first. Small text only; the screen keeps the list short.
+    public var recentSearches: [String] {
+        get { defaults.stringArray(forKey: Key.recentSearches) ?? [] }
+        nonmutating set { defaults.set(newValue, forKey: Key.recentSearches) }
+    }
+
     /// Forget everything (sign out, delete account, reset onboarding).
     public func clear() {
-        [Key.onboardingDone, Key.selectedAreaID, Key.interests].forEach(defaults.removeObject(forKey:))
+        [Key.onboardingDone, Key.selectedAreaID, Key.interests, Key.recentSearches]
+            .forEach(defaults.removeObject(forKey:))
     }
 }

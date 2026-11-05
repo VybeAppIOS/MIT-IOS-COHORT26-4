@@ -46,6 +46,7 @@ enum SearchContent: Equatable {
 
 /// Search (SC-S1): results grouped Hangouts, Places and People. Which group comes first depends on the tab the
 /// person came from, read when a query runs. Typing is debounced; blocked people never appear.
+/// Recent searches are kept in settings through the session.
 @MainActor @Observable
 final class SearchViewModel {
     static let rowsPerGroup = 3
@@ -62,7 +63,6 @@ final class SearchViewModel {
     private let debounce: Duration
     private var picks: [Hangout] = []
     private var shown: SearchResults = SearchResults()
-    private var recents: [String] = []
 
     /// Cheap: no loading here (ADR 005). Takes only what the screen needs, never `AppDependencies`.
     init(
@@ -103,7 +103,7 @@ final class SearchViewModel {
 
     private func showIdle() {
         let suggestions = picks.prefix(Self.rowsPerGroup).map { row(for: $0) }
-        state = .loaded(.idle(suggestions: suggestions, recents: recents))
+        state = .loaded(.idle(suggestions: suggestions, recents: session.recentSearches))
     }
 
     // MARK: Searching
@@ -139,9 +139,10 @@ final class SearchViewModel {
     }
 
     private func remember(_ text: String) {
+        var recents = session.recentSearches
         recents.removeAll { $0.caseInsensitiveCompare(text) == .orderedSame }
         recents.insert(text, at: 0)
-        recents = Array(recents.prefix(Self.recentLimit))
+        session.recentSearches = Array(recents.prefix(Self.recentLimit))
     }
 
     // MARK: Grouping
@@ -211,7 +212,7 @@ final class SearchViewModel {
     func suggestionTapped(_ row: SearchRowData) { router.open(.hangout(HangoutID(row.id))) }
     func recentTapped(_ text: String) { query = text }
     func clearRecents() {
-        recents = []
+        session.recentSearches = []
         showIdle()
     }
 

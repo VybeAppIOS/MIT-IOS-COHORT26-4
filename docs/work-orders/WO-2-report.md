@@ -1,6 +1,6 @@
 # WO-2 report: Community, Friends and Chat
 
-Branch: `a/wo2-screens`. Written by Claude Code (Sonnet 5.5) for Atharva Tawde. This file is updated with every screen.
+Branch: `a/wo2-screens`. **This copy of the report is on `a/wo2-search-alt`**, the Search alternative: it is `a/wo2-screens` plus the SC-S1 and SC-S2 Search screens (reapplied) and the Search fixes (items 20 to 25). It must merge after PR #53, and Tanvi may build on it or replace it. Written by Claude Code (Sonnet 5.5) for Atharva Tawde. This file is updated with every screen.
 It contains Tanvi's Feed (SC-CM1), Post detail (SC-CM2) and the PostCard redesign (CP-6) until her PRs merge.
 Nothing here says a check passed unless the output was read; see "Checks" at the end.
 
@@ -223,7 +223,12 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 15 Docs for the approved fixes | done (docs only; no check run, as agreed) |
 | 16 Full check and push | done (check passed at commit 74374d2, then pushed) |
 | 17-18 Preview build on the simulator | see the summary (local only, not pushed) |
-| 20-25 Search | not on this branch: see `a/wo2-search-alt` and PR #66 |
+| 20 Recent searches are kept | done (own commit) |
+| 21 See all shows the matches | not started |
+| 22 You are not in your own People results | not started |
+| 23 People on a normal launch | not started |
+| 24 SC-S1 "Done when" on a real run | not started |
+| 25 Report and check | not started |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -362,6 +367,12 @@ What changed (docs only, approved by Atharva and Lohitaksh): `docs/PRODUCT.md` (
 Not touched: anything about the Search tab (SC-S1, SC-S2): it is not part of this branch.
 Not run: `check.sh` (docs only). I read the edited files back by diff; I did not build.
 Needs from Lohitaksh: please read the new "approved by Lohitaksh" lines in the four documents and say if any is wrong.
+
+### Item 20: Recent searches survive closing the app (Search alternative branch)
+What changed: `AppSettings.recentSearches` (a string list in `UserDefaults`, cleared by `clear()`), `SessionStore.recentSearches` (reads and writes it), and `SearchViewModel` now reads and writes it through the session instead of an in-memory list. The limit (5, newest first, no duplicates) is unchanged; Clear writes an empty list, so it really clears.
+Files: `Core/Services/AppSettings.swift`, `Core/Stores/SessionStore.swift` (both approved for this group), `SearchFeature/Search/SearchViewModel.swift`, `SearchViewModelTests`, `CoreTests/StoreTests`, this report.
+Tests: `recentSearchesComeBackAfterTheAppRestarts` (a new SessionStore and a new view model on the same settings suite show the same recents; Clear empties the session, the settings and a third view model) and `recentSearchesAreKeptInSettingsAndForgottenOnReset` (Core). SearchFeatureTests: 21 passed.
+Not looked at: nothing visual changed in this item.
 
 ### Shared files touched in this job
 From `git diff --name-only 27fee49..HEAD` (the commits of the fixes, not the merge from `main`), restricted to the approved shared folders. The list for the whole PR (which also has Tanvi's Feed and PostCard commits and the first WO-2 round, for example `Components/PostCard.swift`) is `git diff --name-only origin/main...HEAD`.
