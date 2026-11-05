@@ -27,6 +27,8 @@ final class LiveViewModel {
     private(set) var position: Coordinate?
     /// Opens H2 (a small local sheet).
     var isShowingMarkVisited = false
+    /// The Mark visited sheet's ViewModel, made when the sheet opens.
+    private(set) var markVisited: MarkVisitedViewModel?
     /// "End Hangout?" while Spots remain.
     var isConfirmingEnd = false
     /// Goes up when the run ends; the View plays the `.stop` haptic.
@@ -39,12 +41,14 @@ final class LiveViewModel {
     private let liveStore: LiveHangoutStore
     private let location: any LocationService
     private let router: Router
+    private let processor: PhotoProcessor
     private var hasLoaded = false
 
     /// Cheap: no loading here (ADR 005).
     init(
         id: HangoutID, hangouts: any HangoutRepository, places: any PlaceRepository, photos: any PhotoStore,
-        liveStore: LiveHangoutStore, location: any LocationService, router: Router
+        liveStore: LiveHangoutStore, location: any LocationService, router: Router,
+        processor: PhotoProcessor = PhotoProcessor()
     ) {
         self.id = id
         self.hangouts = hangouts
@@ -53,6 +57,7 @@ final class LiveViewModel {
         self.liveStore = liveStore
         self.location = location
         self.router = router
+        self.processor = processor
     }
 
     // MARK: Loading and location
@@ -135,7 +140,10 @@ final class LiveViewModel {
     // MARK: Actions
 
     func markVisitedTapped() {
-        guard currentSpot != nil else { return }
+        guard let current = currentSpot else { return }
+        markVisited = MarkVisitedViewModel(
+            spotID: current.id, spotName: current.place.name, isLastSpot: remainingCount == 1,
+            liveStore: liveStore, processor: processor) { [weak self] in self?.isShowingMarkVisited = false }
         isShowingMarkVisited = true
     }
 
@@ -194,7 +202,6 @@ enum LiveText {
     static var endConfirmMessage: String { String(localized: "live.endConfirmMessage", bundle: #bundle) }
     static var keepGoing: String { String(localized: "live.keepGoing", bundle: #bundle) }
     static var spotsHeader: String { String(localized: "live.spotsHeader", bundle: #bundle) }
-    static var markDone: String { String(localized: "live.markDone", bundle: #bundle) }
 
     /// "250 m · 4 min walk"
     static func distance(_ distance: String, walk: String) -> String {
@@ -206,8 +213,4 @@ enum LiveText {
         String(localized: "live.progress \(visited) \(total)", bundle: #bundle)
     }
 
-    /// "Mark EXAMPLE Café as visited?" (until SC-H2 replaces the sheet).
-    static func markQuestion(_ name: String) -> String {
-        String(localized: "live.markQuestion \(name)", bundle: #bundle)
-    }
 }

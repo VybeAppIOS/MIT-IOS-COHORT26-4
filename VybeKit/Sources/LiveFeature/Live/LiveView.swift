@@ -41,7 +41,7 @@ struct LiveView: View {
             Text(verbatim: LiveText.endConfirmMessage)
         }
         .sheet(isPresented: $viewModel.isShowingMarkVisited) {
-            MarkVisitedPlaceholder(name: viewModel.currentSpot?.place.name ?? "") { viewModel.markCurrentVisited() }
+            if let markVisited = viewModel.markVisited { MarkVisitedView(viewModel: markVisited) }
         }
         .vybeHaptic(.start, trigger: hasAppeared)          // MOTION moment 4
         .vybeHaptic(.stop, trigger: viewModel.endCount)
@@ -179,24 +179,5 @@ private struct LiveMap: View {
 
     private static func clLocation(_ coordinate: Coordinate) -> CLLocation {
         CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-    }
-}
-
-/// A plain confirm until SC-H2 builds the real Mark visited sheet (photo nudge, checkmark moment).
-private struct MarkVisitedPlaceholder: View {
-    let name: String
-    let onDone: () -> Void
-
-    var body: some View {
-        VStack(spacing: Theme.Spacing.large) {
-            Text(verbatim: LiveText.markQuestion(name))
-                .font(Theme.Font.title3)
-                .fontWeight(.semibold)
-                .multilineTextAlignment(.center)
-            PrimaryButton(verbatim: LiveText.markDone, action: onDone)
-        }
-        .padding(Theme.Spacing.large)
-        .presentationDetents([.height(220), .medium])
-        .presentationDragIndicator(.visible)
     }
 }
