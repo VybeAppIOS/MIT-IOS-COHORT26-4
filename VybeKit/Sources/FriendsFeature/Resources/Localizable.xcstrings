@@ -299,6 +299,161 @@
           }
         }
       }
+    },
+    "friends.profile.block" : {
+      "comment" : "Menu item that blocks a person.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Block"
+          }
+        }
+      }
+    },
+    "friends.profile.cancel" : {
+      "comment" : "Button that closes a question.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "friends.profile.message" : {
+      "comment" : "VoiceOver label of the Message button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message"
+          }
+        }
+      }
+    },
+    "friends.profile.more" : {
+      "comment" : "VoiceOver label of the ••• menu.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
+          }
+        }
+      }
+    },
+    "friends.profile.mutual %lld" : {
+      "comment" : "Row that opens the mutual friends.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld mutual friend"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld mutual friends"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "friends.profile.noPosts" : {
+      "comment" : "Shown when a person has no posts you can see.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Hangouts to show yet."
+          }
+        }
+      }
+    },
+    "friends.profile.ok" : {
+      "comment" : "Button that closes a short message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "friends.profile.posts" : {
+      "comment" : "Header of a person's posts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangouts"
+          }
+        }
+      }
+    },
+    "friends.profile.remove" : {
+      "comment" : "Button that removes a friend.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove friend"
+          }
+        }
+      }
+    },
+    "friends.profile.removeTitle %@" : {
+      "comment" : "Question when removing a friend. %@ is their name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove %@ from your friends?"
+          }
+        }
+      }
+    },
+    "friends.profile.report" : {
+      "comment" : "Menu item that reports a person.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        }
+      }
+    },
+    "friends.profile.title" : {
+      "comment" : "Title of a profile before the name loads.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile"
+          }
+        }
+      }
+    },
+    "friends.profile.unavailable" : {
+      "comment" : "Shown for a person who is blocked or does not exist.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not available"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

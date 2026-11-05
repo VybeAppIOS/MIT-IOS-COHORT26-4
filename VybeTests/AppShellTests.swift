@@ -30,7 +30,7 @@ struct AppShellTests {
         (.settingsPage(.privacy), "ST2"), (.post("r1"), "view:PostDetailView"),
         (.trending, "view:TrendingView"), (.activity, "view:ActivityView"),
         (.friendsHub, "view:HubView"),
-        (.profile("u1"), "PR3"),
+        (.profile("u1"), "view:OtherProfileView"),
         (.conversation("c1"), "CH2"), (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
         (.suggestPlace, "E3")
     ])
