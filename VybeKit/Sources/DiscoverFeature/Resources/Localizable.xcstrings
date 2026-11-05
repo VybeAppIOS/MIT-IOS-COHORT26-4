@@ -1,9 +1,137 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "discover.map.chip.food" : {
+      "comment" : "Discover filter chip: cafés, street food, chai, restaurants, desserts, juice.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cafés & food"
+          }
+        }
+      }
+    },
+    "discover.map.chip.games" : {
+      "comment" : "Discover filter chip: arcades, bowling, go-karting, trampoline, escape rooms, board-game cafés.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Games"
+          }
+        }
+      }
+    },
+    "discover.map.chip.outdoors" : {
+      "comment" : "Discover filter chip: parks, viewpoints, lakes, forts, treks, waterfalls.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Outdoors"
+          }
+        }
+      }
+    },
+    "discover.map.empty" : {
+      "comment" : "Discover map when no Hangout matches.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Hangouts here. Try zooming out."
+          }
+        }
+      }
+    },
+    "discover.map.monsoon" : {
+      "comment" : "Discover safety note shown June to September (RISKS 7).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Monsoon season: some treks, forts and waterfalls close in the rains. Check before you go."
+          }
+        }
+      }
+    },
+    "discover.map.moreFilters" : {
+      "comment" : "Discover button that opens the filters sheet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More filters"
+          }
+        }
+      }
+    },
+    "discover.map.picksHeader" : {
+      "comment" : "Discover heading above the strip of Picks (official Vybe Hangouts).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picks"
+          }
+        }
+      }
+    },
+    "discover.pinPreview.closeHint" : {
+      "comment" : "VoiceOver hint on the pin preview card.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe down to close."
+          }
+        }
+      }
+    },
+    "discover.pinPreview.save" : {
+      "comment" : "Pin preview card button: save this Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "discover.pinPreview.saved" : {
+      "comment" : "Pin preview card button when saved; tap to unsave.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
+    "discover.pinPreview.seeHangout" : {
+      "comment" : "Pin preview card main button: opens Hangout detail.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See Hangout"
+          }
+        }
+      }
+    },
     "discover.title" : {
       "comment" : "Title of the Discover tab.",
-      "localizations" : { "en" : { "stringUnit" : { "state" : "translated", "value" : "Discover" } } }
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discover"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"
