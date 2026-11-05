@@ -1,6 +1,6 @@
-# WO-2 report: Community, Friends, Chat and Search
+# WO-2 report: Community, Friends and Chat
 
-Branch: `a/wo2-screens`. **This copy of the report is on `a/wo2-search-alt`**, the Search alternative: it is `a/wo2-screens` plus the SC-S1 and SC-S2 Search screens (reapplied) and the Search fixes (items 20 to 25). It must merge after PR #53, and Tanvi may build on it or replace it. Written by Claude Code (Sonnet 5.5) for Atharva Tawde. This file is updated with every screen.
+Branch: `a/wo2-screens`. Written by Claude Code (Sonnet 5.5) for Atharva Tawde. This file is updated with every screen.
 It contains Tanvi's Feed (SC-CM1), Post detail (SC-CM2) and the PostCard redesign (CP-6) until her PRs merge.
 Nothing here says a check passed unless the output was read; see "Checks" at the end.
 
@@ -116,29 +116,8 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): inline title, info button, composer in safeAreaInset(.bar), scrollDismissesKeyboard, long-press menu (Copy, Edit, Delete, Report), confirmation before delete pass; large text not looked at
 - Notes: NOT built: sending photos (PhotosPicker, max 2). There is no call to store a processed photo and the photo permission text is X-9, so photos are listed under Needs from Lohitaksh. Voice: tap the mic to record and tap again to send (not hold-to-record and slide-to-cancel); recording needs the microphone text (X-9); playback of old notes fails with a message because their files do not exist. Read receipts: only 'Delivered' is shown, because the repository does not report when others last read (the Seen logic is in and tested). Unread counts on the Community tab are refreshed. Report pushes the shared Report screen on the tab. The stream stops when the screen goes away. Hold-to-record, link opening uses UIApplication.shared.open.
 
-## SC-S1: done (recent searches are kept between launches)
-- Files: SearchFeature/Search/* (3 files), SearchViewModelTests, SearchScreens (root), catalog; fixes: Core/Services/AppSettings, Core/Stores/SessionStore, Vybe/App (items 20, 22, 23)
-- Tests: 17 (SearchFeatureTests has 28 with See all)
-- Screenshots (opened, item 24): idle with recent search and with Picks, results from Discover, Community and Profile, no results with Suggest a place, error, keyboard open, largest text, largest text with the keyboard. Not opened: loading.
-- Button heights: rows 44 pt+ (system List)
-- Checklist (WO-3 prompt section 6): .searchable inside SearchView on the tab's own stack, no back button on the tab root, grouped inset list, section headers, VoiceOver headers pass; largest text and keyboard looked at; VoiceOver not run
-- Notes: Group order is read when a query runs (Discover: Hangouts first; Community: People first; Profile: your Saved Hangouts first). Typing is debounced 0.25 s. Blocked people and you are hidden from People. Recent searches (5, newest first) are kept in `AppSettings.recentSearches` through `SessionStore`. On a normal launch People come from the sample people (DEBUG wrapper in `Vybe/App`); Hangouts and Places stay empty until the real content is bundled. Not driven by hand: tapping rows and Suggest a place (ViewModel tests cover the Router calls).
-
-## SC-S2: done (lists the matches for what was typed)
-- Files: SearchFeature/SeeAll/* (3 files), SeeAllViewModelTests, SearchScreens, AppShellTests row, catalog; fixes: Core/Stores/SessionStore (item 21)
-- Tests: 11
-- Screenshots (opened, item 24): matches for a Place and for People, empty, largest text. Not opened: the whole-group list, the error and loading states.
-- Button heights: rows 44 pt+ (system List)
-- Checklist (WO-3 prompt section 6): inline title, back button, grouped inset list, paged on scroll pass; largest text looked at
-- Notes: `Route.searchSeeAll(kind)` is unchanged and carries only the group. The typed words travel in `SessionStore.lastSearchQuery` (in memory); with them, See all runs `SearchRepository.search` for that one group; with none (for example a restored route) it lists the whole group. Blocked people and you are left out. Paging is done on the phone, 20 at a time.
-
-### Search fixes (reusable in the PR description)
-- Recent searches are kept in settings (`AppSettings.recentSearches`, through `SessionStore`) and come back after closing the app; Clear really clears them.
-- See all shows the matches for what was typed, in that group only, still paged; with no typed words it shows the whole group. The route is unchanged (`SessionStore.lastSearchQuery`).
-- You never appear in your own People results, in Search or See all (blocked people were already hidden).
-- On a normal debug launch People are found: Hangouts and Places stay local, People come from the sample people (`Vybe/App`, DEBUG only).
-- Looked at on the simulator: every state of Search and See all, three starting tabs, keyboard open, largest text. Nothing else needed fixing.
-- Merge order: this branch (`a/wo2-search-alt`) is on top of `a/wo2-screens` and must merge after PR #53. Tanvi may build on it or replace it.
+## Search (SC-S1, SC-S2)
+Not part of this branch. Tanvi is taking the last two screens, so the Search tab was taken out of `a/wo2-screens` (two revert commits) and lives on the separate branch `a/wo2-search-alt` (the earlier Search work and its report sections are there).
 
 ## Needs from Lohitaksh
 1. **Ignore a friend request**: `FriendsRepository` has no `ignoreRequest`, so Ignore (Activity, Friends hub) only hides the row on this phone.
@@ -168,10 +147,12 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Flaky tests that are not from this work: audio timing tests, and in the Chat run the Auth tests (`EmailCodeViewModelTests`, `SignInViewModelTests`) failed once under load and passed alone. Xcode open makes builds lock or crawl: close it before running `check.sh`.
 - For most screens I did not look at the largest text size or VoiceOver in the simulator; the previews and labels exist but were not exercised.
 - Screenshots are in `build/` on my Mac and are not committed (the folder is 400 MB and not ignored). Never `git add .`.
-- The Feed, Chats list, Search and the Comments/New chat/Poll sheets have no debug route, so they were photographed with temporary changes that were reverted.
+- The Feed, Chats list and the Comments/New chat/Poll sheets have no debug route, so they were photographed with temporary changes that were reverted.
+- Found by the final review and not fixed (left for a human to decide): Activity still lists people you have blocked (the stub does not filter them; it was like this before this job). The stub's `mutedIn:` initialiser can mute the admin, which the real rules forbid (test setup only). "Muted" is hidden only in the UI: `memberships(in:)` returns every member's `mutedAt` to any member, so a real backend must redact it. Photos picked for a message are saved one by one, so a failed send leaves the saved files on the phone with no message. Leaving the Conversation while the very first microphone permission prompt is showing does not discard that recording. Picking and reading photos (`PhotoPicker`) is loaded in the View, not in the ViewModel.
+- Fixed after the review: the 2 minute voice cap no longer cancels its own sending task, and the microphone is now really disabled (VoiceOver says so) while you cannot write.
 
 ## Checks
-Final `./scripts/check.sh` (Search group, last run of the branch):
+Final `./scripts/check.sh` (the run before the Search tab was moved to its own branch):
 ```
 ==> SwiftLint
 Done linting! Found 0 violations, 0 serious in 396 files.
@@ -184,9 +165,6 @@ Done linting! Found 0 violations, 0 serious in 396 files.
 (app target: 123 test cases passed, 0 failed; package tests ran with -quiet)
 ==> All checks passed
 ```
-
-### Search branch (`a/wo2-search-alt`), group check after items 20 to 25
-`./scripts/check.sh` with `SIMULATOR="iPhone 18 Pro"`, log `~/Desktop/vybe-cp-notes/logs/group7-search-check.log`, read by me: SwiftLint `Found 0 violations, 0 serious in 424 files`, `Architecture rules passed`, `Architecture check self-test passed`, app tests and VybeKit package tests ran, then `==> All checks passed` and `exit=0`. The temporary launch changes used for the photographs were already reverted (`git status` was clean before the run).
 
 ## git log (commits on this branch beyond main, before this report commit)
 ```
@@ -243,13 +221,9 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 13 Read receipts | done (own commit) |
 | 14 Voice notes: hold to record | done (own commit; microphone purpose string still missing, see below) |
 | 15 Docs for the approved fixes | done (docs only; no check run, as agreed) |
-| 16-19 | later stages, on `a/wo2-screens` |
-| 20 Recent searches are kept | done (own commit) |
-| 21 See all shows the matches | done (own commit) |
-| 22 You are not in your own People results | done (own commit) |
-| 23 People on a normal launch | done (own commit) |
-| 24 SC-S1 "Done when" on a real run | done (report only: nothing needed fixing in the code) |
-| 25 Report and check | done (check.sh passed, see "Checks") |
+| 16 Full check and push | done (check passed at commit 74374d2, then pushed) |
+| 17-18 Preview build on the simulator | see the summary (local only, not pushed) |
+| 20-25 Search | not on this branch: see `a/wo2-search-alt` and PR #66 |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -389,43 +363,6 @@ Not touched: anything about the Search tab (SC-S1, SC-S2): it is not part of thi
 Not run: `check.sh` (docs only). I read the edited files back by diff; I did not build.
 Needs from Lohitaksh: please read the new "approved by Lohitaksh" lines in the four documents and say if any is wrong.
 
-### Item 20: Recent searches survive closing the app (Search alternative branch)
-What changed: `AppSettings.recentSearches` (a string list in `UserDefaults`, cleared by `clear()`), `SessionStore.recentSearches` (reads and writes it), and `SearchViewModel` now reads and writes it through the session instead of an in-memory list. The limit (5, newest first, no duplicates) is unchanged; Clear writes an empty list, so it really clears.
-Files: `Core/Services/AppSettings.swift`, `Core/Stores/SessionStore.swift` (both approved for this group), `SearchFeature/Search/SearchViewModel.swift`, `SearchViewModelTests`, `CoreTests/StoreTests`, this report.
-Tests: `recentSearchesComeBackAfterTheAppRestarts` (a new SessionStore and a new view model on the same settings suite show the same recents; Clear empties the session, the settings and a third view model) and `recentSearchesAreKeptInSettingsAndForgottenOnReset` (Core). SearchFeatureTests: 21 passed.
-Not looked at: nothing visual changed in this item.
-
-### Item 21: See all shows the matches, not the whole group
-What changed: `SessionStore.lastSearchQuery` (in memory, like `onboardingDraft`; `Route.searchSeeAll(kind)` is unchanged). `SearchViewModel.seeAllTapped` stores the typed words (trimmed) before opening See all. `SeeAllViewModel` got a `search: SearchRepository` and, when `lastSearchQuery` is not empty, runs `search(text:scope:)` for that one group (scope is just the tapped group) and pages the result 20 at a time as before. With an empty query (for example a restored route) it lists the whole group exactly as before. Blocked people stay out in both cases. A "Matches only" preview was added.
-Files: `Core/Stores/SessionStore.swift`, `SearchFeature/SeeAll/SeeAllViewModel.swift`, `SeeAll+Preview.swift`, `SearchFeature/SearchScreens.swift`, `SearchFeature/Search/SearchViewModel.swift`, `SeeAllViewModelTests`, `SearchViewModelTests`, this report.
-Tests (SearchFeatureTests: 26 passed): only matches in that group and the repository is asked with only that group and the trimmed words; blank query never searches and lists the whole group; matches keep blocked people out; matches are paged; no matches is the empty state; the Search ViewModel stores the trimmed words when See all is tapped.
-Not looked at yet: the screen (item 24 looks at every state).
-
-### Item 22: You never appear in your own People results
-What changed: both ViewModels drop `session.currentUser?.id` from People (next to the existing blocked filter): `SearchViewModel` for the Search groups and `SeeAllViewModel` for the matches and for the whole friends list. If you are the only match, the People group disappears (and the empty state shows when nothing else matches).
-Files: `SearchFeature/Search/SearchViewModel.swift`, `SearchFeature/SeeAll/SeeAllViewModel.swift`, `SearchViewModelTests`, `SeeAllViewModelTests`, this report.
-Tests (SearchFeatureTests: 28 passed): Search drops me and keeps others, and shows the empty state when only I match; See all drops me from the matches and from a friends list that wrongly includes me.
-Not looked at: the screen (item 24).
-
-### Item 23: People on a normal launch (DEBUG only, `Vybe/App`)
-Reproduced first: normal launch (no `-stubMode`, `-skipOnboarding`), Search tab, typed "sample": only "Nothing yet. Know a good spot?" (`build/screenshots/s1-before-people.png`, opened). Cause: `LocalSearchRepository` has no people at all, while friends run on the sample social data.
-What changed: new `SampleSocialSearchRepository` wraps `LocalSearchRepository`: Hangouts and Places stay local (the local repository is never asked for people); People come from `SampleSocialData.people`, matched on name or @username like the stub. `AppDependencies+Local.swift` picks it in DEBUG through a small `searchRepository(content:)` helper, next to the profile wrapper from item 1. No change to Models or to the Search feature code. Release builds use the plain local repository (and stop at the social `fatalError` anyway). Phase 2: the server searches people and this file goes away.
-Files: `Vybe/App/SampleSocialSearchRepository.swift` (new), `Vybe/App/AppDependencies+Local.swift`, `VybeTests/SampleSocialSearchRepositoryTests.swift` (new), this report.
-Tests (app target, 4 passed): Hangouts and Places stay local and local is never asked for people; people found by name and by username and only from the sample people; no people unless asked; blank text and no match give none.
-Looked at (screenshot opened): same launch after the fix, typed "sample": a People group with Sample Friend, Sample Aarav, Sample Isha and See all; "Sample Me" (you) is not listed (`build/screenshots/s1-after-people.png`).
-
-### Item 24: SC-S1 "Done when" on a real run (report only, no code change)
-How: a normal launch (`-skipOnboarding`, no `-stubMode`) for the real data, and `-stubMode loaded|empty|failing|loading` where the bundled content is empty. Temporary launch changes (open the Search tab from a chosen tab, preset the query, focus the field, preset the See all words) were used for the photographs only and were reverted; `git status` was clean afterwards. The simulator text size was set with `simctl ui content_size accessibility-extra-extra-extra-large`, then put back to large.
-Opened and looked at (screenshots in `build/screenshots/`, not committed):
-- Search, normal launch: no results for "sample" before the fix and People after it (`s1-before-people`, `s1-after-people`); "Sample Me" (you) is not in the list; recent search "sample" is shown on the next launch (`s1-idle`) so item 20 works across launches; "Nothing yet. Know a good spot?" with the Suggest a place button (`s1-kothrud`).
-- Search, sample data: idle with Picks (`s1-stub-idle`); results from Discover (Hangouts, Places, People), from Community (People first) and from Profile (Saved first, then Hangouts, Places, People) (`s1-stub-discover`, `-community`, `-profile`); error with Retry (`s1-stub-failing`); keyboard open with results (`s1-stub-keyboard`); largest text (`s1-stub-xxxl`) and largest text with the keyboard (`s1-stub-xxxl-keyboard`): rows wrap, nothing is cut off, the field and the cancel button stay usable.
-- See all: only the matches for the typed words (`s2-stub-matches`: "Park" gives one Place; `s2-stub-people-matches`: "sample" gives only people you can see), empty (`s2-stub-empty`), largest text (`s2-stub-xxxl`), back button present on the pushed screen.
-- The Search tab root has no back button (its own `NavigationStack`, the field sits on the screen, not on the `TabView`).
-Taken but not opened: loading for Search and the error state for See all (`s1-stub-loading`, `s2-stub-failing`), the whole-group See all (`s2-stub-all`).
-Not driven by hand (no way to tap in this environment): tapping a row (Hangout pushes, Place opens the Spot sheet, Person pushes), Suggest a place opening its sheet, typing and the debounce, Clear on recent searches, the See all button. These are covered by ViewModel tests that check the Router call or sheet; VoiceOver was not run.
-Found while looking: the Search tab showed raw keys (`search.title`) because the built `VybeKit_SearchFeature.bundle` was a stale, empty resource bundle left from before the Search commits were reapplied; deleting that bundle in `build/` and rebuilding fixed it. It is a local build-cache problem, not a code problem; if Search shows raw keys on another machine, clean the build folder.
-Not fixable here: the bundled content (`LocalData/Resources/Content`) has no Hangouts or Places yet, so on a normal launch only People can be found and there are no Picks to suggest; that waits for the real content (and the sample-natural-hangouts PR #57).
-
 ### Shared files touched in this job
 From `git diff --name-only 27fee49..HEAD` (the commits of the fixes, not the merge from `main`), restricted to the approved shared folders. The list for the whole PR (which also has Tanvi's Feed and PostCard commits and the first WO-2 round, for example `Components/PostCard.swift`) is `git diff --name-only origin/main...HEAD`.
 - Models: `Models/Chat/Conversation.swift`, `Models/Safety/Activity.swift`, `Models/Samples/SampleSocialData.swift`
@@ -437,5 +374,4 @@ From `git diff --name-only 27fee49..HEAD` (the commits of the fixes, not the mer
 - App tests: `VybeTests/AppShellTests.swift`, `VybeTests/LaunchOptionsTests.swift`, `VybeTests/SampleIdentityProfileRepositoryTests.swift` (new)
 - Docs: `docs/IA.md`, `docs/PRODUCT.md`, `docs/DATA-MODEL.md`, `docs/tasks/40-screens-community-friends-chat.md`, `docs/prompts/WO-3-agent-prompt.md`, this report
 - Package tests beside these: `CoreTests/ChatMembersStubTests`, `RouteCodingTests`, `IACoverageTests`, `PhotoProcessorTests`, `BadgeStoreAndSampleTests`, `LocalDataTests/LocalPhotoStoreTests`, `ContentTests/CommunityModelsTests`, `ComponentsTests/ComponentDataTests`
-- Search branch only (items 20 to 23, `a/wo2-search-alt`): `Core/Services/AppSettings.swift` (recentSearches), `Core/Stores/SessionStore.swift` (recentSearches, lastSearchQuery), `Vybe/App/SampleSocialSearchRepository.swift` (new), `Vybe/App/AppDependencies+Local.swift`, `VybeTests/SampleSocialSearchRepositoryTests.swift` (new), `CoreTests/StoreTests`.
-- Never touched: `Package.swift`, signing, project settings, `Vybe.xcodeproj`, `Local.xcconfig`.
+- Never touched: `Package.swift`, signing, project settings, `Vybe.xcodeproj`, `Local.xcconfig`, and nothing under the Search feature or the search settings in `AppSettings` and `SessionStore`.

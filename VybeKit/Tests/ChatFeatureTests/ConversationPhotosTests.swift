@@ -105,9 +105,9 @@ struct ConversationPhotosTests {
     }
 
     @Test func offlineMutedAndRecordingTurnPhotosOff() async throws {
-        let offline = makeViewModel(offline: true)
-        #expect(!offline.canAddPhotos)
         let controlled = ControlledChat(base: AppDependencies.preview(.loaded).chat)
+        let offline = makeViewModel(chat: controlled, offline: true)
+        #expect(!offline.canAddPhotos)
         await offline.photosPicked([try TestPhotos.jpegWithLocation()])
         #expect(sentPhotos(controlled).isEmpty && offline.notice == nil)
 
