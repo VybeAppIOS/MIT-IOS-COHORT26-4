@@ -1,12 +1,14 @@
 import SwiftUI
 
-/// The one main action on a screen: large, full width, with loading and disabled states.
+/// The one main action on a screen: about 48 pt tall, full width, with loading and disabled states.
 /// It wraps onto more lines at large text sizes instead of cutting the words off.
 public struct PrimaryButton: View {
     private let title: VybeText
     private let isLoading: Bool
     private let action: () -> Void
     @Environment(\.isEnabled) private var isEnabled
+    // On top of the system padding of a regular button: about 48 pt at the normal text size, grows with text.
+    @ScaledMetric(relativeTo: .headline) private var verticalPadding = Theme.Spacing.small
 
     public init(_ title: LocalizedStringResource, isLoading: Bool = false, action: @escaping () -> Void) {
         self.title = .fixed(title)
@@ -32,11 +34,12 @@ public struct PrimaryButton: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             .foregroundStyle(isEnabled ? Theme.Color.onAccent : Theme.Color.textSecondary)
+            .padding(.vertical, verticalPadding)
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
         .buttonBorderShape(.roundedRectangle(radius: Theme.Radius.medium))
-        .controlSize(.large)
+        .controlSize(.regular)
         // The style adds its own padding, so the 44 pt floor goes on the button, not inside the label.
         .frame(minHeight: Theme.Size.minTapTarget)
         .tint(Theme.Color.accent)

@@ -203,7 +203,7 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 |---|---|
 | 1 Who "you" are | done (committed; full check passed at the end of Group 1) |
 | 2 Pill buttons | done (committed; checked at the end of Group 2) |
-| 3 Primary and Secondary a little smaller | not started |
+| 3 Primary and Secondary a little smaller | done (own commit, easy to revert; checked at the end of Group 2) |
 | 4-25 | not started |
 
 ### Item 1: Who "you" are
@@ -232,3 +232,11 @@ Tests: no new ViewModel logic, so no new tests; the existing ones still apply. `
 Measured (screenshot pixels / 3, iPhone 18 Pro): first try with 8 pt extra padding gave 48 pt; with the final padding Accept, Ignore, Add and Cancel measure 44 pt.
 Looked at (screenshots opened): Activity, Friends hub (also at accessibility-extra-large text), Group info (Save disabled) and Invitation. The pills are capsules, not circles or tall ovals, and they grow with large text. Not photographed: New chat (its Cancel and Create are system toolbar buttons) and the Comments retry row (no debug route to a failed comment). Not driven by hand: tapping any of the buttons.
 Needs from Lohitaksh: none.
+
+### Item 3: PrimaryButton and SecondaryButton a little smaller (separate commit)
+What changed: both use `.controlSize(.regular)` plus a `@ScaledMetric` vertical padding on the label instead of `.controlSize(.large)`. They keep the rounded rectangle, the 44 pt floor on the button and the wrapping at large text. `SecondaryButton` got an optional `role:` so the Invitation screen's "Leave and block" (a hand-made large bordered button) now uses it and matches Join. `docs/prompts/WO-3-agent-prompt.md` section 5 now says 48 pt instead of 51 pt. To revert this item, revert its one commit.
+Files: `Design/Views/PrimaryButton.swift`, `Design/Views/SecondaryButton.swift`, `ChatFeature/Invitation/InvitationView.swift`, `docs/prompts/WO-3-agent-prompt.md`, this report.
+Measured on the Invitation sheet (iPhone 18 Pro, 3x, screenshot pixels / 3): before, large size about 51 pt (153 px). First try with a 7 pt padding gave 46 pt for both. Final, with the 8 pt padding token: Join (PrimaryButton) 145 px = 48 pt, Leave and block (SecondaryButton) 145 px = 48 pt.
+Not changed: `EmptyStateView`, `ErrorView`, `BlockConfirmView` and the Report screen still use `.controlSize(.large)` buttons of their own (about 51 pt); they were not on the list.
+Not looked at: these two buttons at the largest text size on a screen (only the previews exist); not tapped by hand.
+Needs from Lohitaksh: if you want the other large buttons above to match, say so and I will switch them to `PrimaryButton`.
