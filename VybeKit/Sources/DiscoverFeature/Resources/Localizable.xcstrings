@@ -78,6 +78,50 @@
         }
       }
     },
+    "discover.pinPreview.closeHint" : {
+      "comment" : "VoiceOver hint on the pin preview card.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Swipe down to close."
+          }
+        }
+      }
+    },
+    "discover.pinPreview.save" : {
+      "comment" : "Pin preview card button: save this Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "discover.pinPreview.saved" : {
+      "comment" : "Pin preview card button when saved; tap to unsave.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
+    "discover.pinPreview.seeHangout" : {
+      "comment" : "Pin preview card main button: opens Hangout detail.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See Hangout"
+          }
+        }
+      }
+    },
     "discover.title" : {
       "comment" : "Title of the Discover tab.",
       "localizations" : {

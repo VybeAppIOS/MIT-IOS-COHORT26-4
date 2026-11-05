@@ -102,16 +102,20 @@ struct DiscoverMapView: View {
         .padding(.vertical, Theme.Spacing.small)
     }
 
-    @ViewBuilder
+    /// The selected pin's preview card (SC-D2), or the Picks strip when nothing is selected.
     private var bottomBar: some View {
-        if let card = viewModel.selectedCard {
-            // SC-D1's plain card for the selected pin; SC-D2 replaces it with the full preview card.
-            HangoutCard(card, style: .compact) { viewModel.cardTapped(card.id) }
-                .vybeZoomSource(id: card.id)
-                .padding(Theme.Spacing.large)
-        } else if case .loaded(let content, _) = viewModel.state, !content.picks.isEmpty {
-            picksStrip(content.picks)
+        VStack(spacing: 0) {
+            if let card = viewModel.selectedCard {
+                PinPreviewCard(
+                    card: card, onOpen: { viewModel.cardTapped(card.id) },
+                    onSave: { Task { await viewModel.saveTapped() } }, onDismiss: { viewModel.dismissPreview() })
+                    .pinPreviewTransition()
+            } else if case .loaded(let content, _) = viewModel.state, !content.picks.isEmpty {
+                picksStrip(content.picks)
+            }
         }
+        .vybeAnimation(Theme.Motion.standard, value: viewModel.selectedHangoutID)   // slides up (MOTION 1)
+        .vybeHaptic(.selection, trigger: viewModel.selectedHangoutID)
     }
 
     private func picksStrip(_ picks: [HangoutCardData]) -> some View {

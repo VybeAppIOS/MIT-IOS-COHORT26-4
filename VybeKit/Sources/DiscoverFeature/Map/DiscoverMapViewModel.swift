@@ -94,10 +94,13 @@ final class DiscoverMapViewModel {
         self.now = now
     }
 
-    /// The selected Hangout's card; nil when nothing is selected.
+    /// The selected Hangout's card (SC-D2); nil when nothing is selected. Its saved state is read live from the
+    /// library, so the bookmark changes the moment Save is tapped.
     var selectedCard: HangoutCardData? {
-        guard let selectedHangoutID, case .loaded(let content, _) = state else { return nil }
-        return content.pins.first { $0.id == selectedHangoutID }?.card
+        guard let selectedHangoutID, case .loaded(let content, _) = state,
+              var card = content.pins.first(where: { $0.id == selectedHangoutID })?.card else { return nil }
+        card.isSaved = library.isSaved(selectedHangoutID)
+        return card
     }
 
     /// The monsoon safety note shows June to September in Pune (PRODUCT, RISKS 7).
@@ -152,6 +155,7 @@ final class DiscoverMapViewModel {
     private func fetch() async {
         do {
             let found = try await hangouts.hangouts(near: nil, filters: filters)
+            await library.ensureLoaded()        // so cards show the right saved state
             let pins = await pins(for: found)
             let picks = await pickCards()
             state = pins.isEmpty && picks.isEmpty ? .empty : .loaded(DiscoverMapContent(pins: pins, picks: picks))
@@ -204,6 +208,15 @@ final class DiscoverMapViewModel {
     }
 
     func cardTapped(_ id: HangoutID) { router.open(.hangout(id)) }
+
+    /// Save on the preview card (SC-D2): saves or unsaves the selected Hangout.
+    func saveTapped() async {
+        guard let selectedHangoutID else { return }
+        await library.toggleSave(selectedHangoutID)
+    }
+
+    /// A swipe down or the VoiceOver escape gesture on the preview card (SC-D2).
+    func dismissPreview() { selectedHangoutID = nil }
 
     // MARK: Building the content
 
