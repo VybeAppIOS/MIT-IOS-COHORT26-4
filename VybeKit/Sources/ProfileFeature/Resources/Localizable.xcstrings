@@ -1,6 +1,83 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "profile.about.credits" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo credits"
+          }
+        }
+      }
+    },
+    "profile.about.credits.empty" : {
+      "comment" : "When the content has no credited photos.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No photos yet."
+          }
+        }
+      }
+    },
+    "profile.about.licences" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licences"
+          }
+        }
+      }
+    },
+    "profile.about.licences.body" : {
+      "comment" : "Licences text.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybe uses only Apple's own frameworks; no third-party code. Maps and Place details © Apple. Place photos belong to the people credited above."
+          }
+        }
+      }
+    },
+    "profile.about.tagline" : {
+      "comment" : "Short line at the top of About.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Real Hangouts around Pune, Spot by Spot, made by people who went."
+          }
+        }
+      }
+    },
+    "profile.about.title" : {
+      "comment" : "Title of ST7.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About and credits"
+          }
+        }
+      }
+    },
+    "profile.about.version" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version"
+          }
+        }
+      }
+    },
     "profile.account.delete" : {
       "comment" : "Row that opens Delete account.",
       "localizations" : {
@@ -254,6 +331,160 @@
         }
       }
     },
+    "profile.help.blocked" : {
+      "comment" : "Row that opens the Blocked list.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked people"
+          }
+        }
+      }
+    },
+    "profile.help.contact.header" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact"
+          }
+        }
+      }
+    },
+    "profile.help.documents.header" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms and privacy"
+          }
+        }
+      }
+    },
+    "profile.help.grievance" : {
+      "comment" : "Row label (India's IT Rules).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grievance officer"
+          }
+        }
+      }
+    },
+    "profile.help.grievance.footer" : {
+      "comment" : "Footer.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The grievance officer answers complaints under India's IT Rules. Their name and contact are added before the app launches."
+          }
+        }
+      }
+    },
+    "profile.help.intro" : {
+      "comment" : "First paragraph of Help.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something wrong with a post, a comment, a person or a Place? Tap ••• on it and choose Report. We look at every report, and the person never learns who sent it."
+          }
+        }
+      }
+    },
+    "profile.help.pending" : {
+      "comment" : "Shown until the contact or document exists (BK-13).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added before launch"
+          }
+        }
+      }
+    },
+    "profile.help.privacyPolicy" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy policy"
+          }
+        }
+      }
+    },
+    "profile.help.report" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report something"
+          }
+        }
+      }
+    },
+    "profile.help.report.subtitle" : {
+      "comment" : "Row value: where reporting lives.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "••• › Report on any post, comment, person or Place"
+          }
+        }
+      }
+    },
+    "profile.help.safety.header" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Safety"
+          }
+        }
+      }
+    },
+    "profile.help.support" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support email"
+          }
+        }
+      }
+    },
+    "profile.help.terms" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of use"
+          }
+        }
+      }
+    },
+    "profile.help.title" : {
+      "comment" : "Title of the Help page.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help and contact"
+          }
+        }
+      }
+    },
     "profile.settings.reset" : {
       "comment" : "Destructive row: go back to the Welcome screen.",
       "localizations" : {
@@ -426,6 +657,61 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Settings"
+          }
+        }
+      }
+    },
+    "profile.suggestions.approved" : {
+      "comment" : "Status of a suggestion.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added to Vybe"
+          }
+        }
+      }
+    },
+    "profile.suggestions.empty" : {
+      "comment" : "Empty state of ST6.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You haven't suggested a Place yet. Suggest one from the Hangout editor or an empty search."
+          }
+        }
+      }
+    },
+    "profile.suggestions.pending" : {
+      "comment" : "Status of a suggestion.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waiting for the team"
+          }
+        }
+      }
+    },
+    "profile.suggestions.rejected" : {
+      "comment" : "Status of a suggestion.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not added"
+          }
+        }
+      }
+    },
+    "profile.suggestions.title" : {
+      "comment" : "Title of ST6.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Place suggestions"
           }
         }
       }

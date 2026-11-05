@@ -29,7 +29,9 @@ struct AppShellTests {
         (.settingsPage(.privacy), "ST2"), (.post("r1"), "CM2"), (.friendsHub, "FR1"), (.profile("u1"), "PR3"),
         (.conversation("c1"), "CH2"), (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
         (.suggestPlace, "E3"), (.settings, "view:SettingsView"),
-        (.settingsPage(.account), "view:AccountSettingsView"), (.deleteAccount, "view:DeleteAccountView")
+        (.settingsPage(.account), "view:AccountSettingsView"), (.deleteAccount, "view:DeleteAccountView"),
+        (.settingsPage(.help), "view:HelpView"), (.settingsPage(.placeSuggestions), "view:MySuggestionsView"),
+        (.settingsPage(.about), "view:AboutView")
     ])
     func routesReachTheirScreen(route: Route, screenID: String) {
         #expect(reaches(factory.screen(for: route), screenID))

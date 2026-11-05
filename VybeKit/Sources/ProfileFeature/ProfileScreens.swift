@@ -34,9 +34,10 @@ public enum ProfileScreens {
         case .privacy: ScreenPlaceholder(id: "ST2", name: "Privacy")
         case .blocked: ScreenPlaceholder(id: "ST3", name: "Blocked")
         case .notifications: ScreenPlaceholder(id: "ST4", name: "Notifications")
-        case .help: ScreenPlaceholder(id: "ST5", name: "Help and contact")
-        case .placeSuggestions: ScreenPlaceholder(id: "ST6", name: "My Place suggestions")
-        case .about: ScreenPlaceholder(id: "ST7", name: "About and credits")
+        case .help: HelpView(viewModel: HelpViewModel(router: deps.router))
+        case .placeSuggestions:
+            MySuggestionsView(viewModel: MySuggestionsViewModel(admin: deps.admin, session: deps.session))
+        case .about: AboutView(viewModel: AboutViewModel(hangouts: deps.hangouts, places: deps.places))
         }
     }
 }
