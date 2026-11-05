@@ -199,6 +199,94 @@
         }
       }
     },
+    "onboarding.location.allow" : {
+      "comment" : "O4 main button; asks for While Using the App, never Always.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Allow location"
+          }
+        }
+      }
+    },
+    "onboarding.location.couldNotAsk" : {
+      "comment" : "O4 area picker line when no system prompt appeared.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't ask for your location right now. Pick your area instead."
+          }
+        }
+      }
+    },
+    "onboarding.location.done" : {
+      "comment" : "O4 area picker button; finishes onboarding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "onboarding.location.notNow" : {
+      "comment" : "O4 secondary button; goes to the area picker.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not now"
+          }
+        }
+      }
+    },
+    "onboarding.location.pickTitle" : {
+      "comment" : "O4 area picker heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick your area"
+          }
+        }
+      }
+    },
+    "onboarding.location.pickWhy" : {
+      "comment" : "O4 area picker line.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll show Hangouts around here. You can change it later."
+          }
+        }
+      }
+    },
+    "onboarding.location.title" : {
+      "comment" : "O4 heading, before the system prompt.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find Hangouts near you"
+          }
+        }
+      }
+    },
+    "onboarding.location.why" : {
+      "comment" : "O4: why we ask for location (task SC-O4).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To show Hangouts near you and guide you while you walk."
+          }
+        }
+      }
+    },
     "onboarding.nameAndPhoto.addPhoto" : {
       "comment" : "O2 photo circle label with no photo.",
       "localizations" : {
