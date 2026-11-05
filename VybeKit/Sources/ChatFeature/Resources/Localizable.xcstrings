@@ -1,5 +1,105 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "chat.new.cancel" : {
+      "comment" : "Chat screens: chat.new.cancel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "chat.new.createChat" : {
+      "comment" : "Chat screens: chat.new.createChat",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chat"
+          }
+        }
+      }
+    },
+    "chat.new.createGroup" : {
+      "comment" : "Chat screens: chat.new.createGroup",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create group"
+          }
+        }
+      }
+    },
+    "chat.new.empty" : {
+      "comment" : "Chat screens: chat.new.empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add friends first, then you can chat with them."
+          }
+        }
+      }
+    },
+    "chat.new.hintName" : {
+      "comment" : "Chat screens: chat.new.hintName",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Give the group a name. A group needs at least 3 people, counting you."
+          }
+        }
+      }
+    },
+    "chat.new.hintPick" : {
+      "comment" : "Chat screens: chat.new.hintPick",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick a friend to chat with, or two or more for a group."
+          }
+        }
+      }
+    },
+    "chat.new.namePlaceholder" : {
+      "comment" : "Chat screens: chat.new.namePlaceholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group name"
+          }
+        }
+      }
+    },
+    "chat.new.ok" : {
+      "comment" : "Chat screens: chat.new.ok",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "chat.new.title" : {
+      "comment" : "Chat screens: chat.new.title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New chat"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }

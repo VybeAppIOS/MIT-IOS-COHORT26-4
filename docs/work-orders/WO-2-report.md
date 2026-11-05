@@ -60,3 +60,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): grouped inset list pass; empty/error/loading previews exist; not looked at in the simulator
 - Notes: Blocked people are filtered out of the list.
 
+## SC-CH3: done (local sheet, no route)
+- Files: ChatFeature/NewChat/* (3 files), NewChatViewModelTests, ChatTestSupport (ControlledChat), catalog
+- Tests: 9
+- Screenshots: none: a local sheet has no route; it opens from the Chats list's New chat button (not looked at in the simulator)
+- Button heights: rows are 44 pt+ single-tap; Create is a system toolbar button
+- Checklist (WO-3 prompt section 6): large sheet with drag indicator, grouped list, multi-select with checkmark + isSelected trait pass; not looked at
+- Notes: One friend opens a direct message (an existing one is reused); two or more make a group that needs a name (at least 3 people counting you).
+
