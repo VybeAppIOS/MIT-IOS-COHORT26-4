@@ -519,6 +519,72 @@
           }
         }
       }
+    },
+    "community.trending.empty" : {
+      "comment" : "Shown when nothing is trending yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing is trending yet. Check back soon."
+          }
+        }
+      }
+    },
+    "community.trending.likeFailed" : {
+      "comment" : "Shown when a like could not be saved and was undone.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't save your like. Try again."
+          }
+        }
+      }
+    },
+    "community.trending.ok" : {
+      "comment" : "Button that closes a short message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "community.trending.report" : {
+      "comment" : "Menu item that reports a post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        }
+      }
+    },
+    "community.trending.subtitle" : {
+      "comment" : "Line under the Trending title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This week near Kothrud"
+          }
+        }
+      }
+    },
+    "community.trending.title" : {
+      "comment" : "Title of the Trending screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trending"
+          }
+        }
+      }
     }
   },
   "version" : "1.0"

@@ -22,6 +22,7 @@ final class FeedViewModel {
     var commentsRunID: RunID?
 
     private let makeComments: CommentsFactory
+    private let maker: PostCardMaker
     private var exitAfterComments: CommentsExit?
     private let feed: any FeedRepository
     private let hangouts: any HangoutRepository
@@ -42,6 +43,7 @@ final class FeedViewModel {
         makeComments: @escaping CommentsFactory
     ) {
         self.makeComments = makeComments
+        self.maker = PostCardMaker(hangouts: hangouts, places: places, photos: photos, libraryStore: libraryStore)
         self.feed = feed
         self.hangouts = hangouts
         self.places = places
@@ -138,30 +140,10 @@ final class FeedViewModel {
         }
     }
 
-    /// Posts become cards from their public fields only: never `RunTimes`, never a clock time.
     private func cards(for items: [HangoutRun]) async -> [PostCardData] {
-        var result: [PostCardData] = []
-        for run in items {
-            runs[run.id] = run
-            let cover = run.photos.first { $0.id == run.coverPhotoID } ?? run.photos.first
-            let coverURL = cover.flatMap { photos.url(for: $0) }
-            var points: [Coordinate] = []
-            if coverURL == nil {
-                for visit in run.visits.sorted(by: { $0.order < $1.order }) {
-                    if let place = try? await places.place(id: visit.placeID) { points.append(place.coordinate) }
-                }
-            }
-            let remixes = (try? await hangouts.stats(for: run.hangoutID))?.remixCount ?? 0
-            result.append(PostCardData(
-                run, coverURL: coverURL, avatarURL: run.card.runnerPhoto.flatMap { photos.url(for: $0) },
-                routePoints: points, remixCount: remixes, isPick: run.card.runnerUsername == Self.vybeUsername,
-                isLiked: likedRuns.contains(run.id), isSaved: libraryStore.isSaved(run.hangoutID)))
-        }
-        return result
+        for run in items { runs[run.id] = run }
+        return await maker.cards(for: items, liked: likedRuns)
     }
-
-    /// The official Vybe account; its posts are Picks.
-    static let vybeUsername = "vybe"
 
     // MARK: Taps
 

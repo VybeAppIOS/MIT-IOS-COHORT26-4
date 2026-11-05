@@ -31,7 +31,10 @@ public enum CommunityScreens {
                 runID: id, feed: deps.feed, hangouts: deps.hangouts, places: deps.places, profiles: deps.profiles,
                 friends: deps.friends, photos: deps.photos, libraryStore: deps.libraryStore, session: deps.session,
                 router: deps.router, now: deps.now, makeComments: commentsFactory(deps)))
-        case .trending: ScreenPlaceholder(id: "CM4", name: "Trending")
+        case .trending:
+            TrendingView(viewModel: TrendingViewModel(
+                feed: deps.feed, hangouts: deps.hangouts, places: deps.places, photos: deps.photos,
+                libraryStore: deps.libraryStore, router: deps.router, makeComments: commentsFactory(deps)))
         case .activity: ScreenPlaceholder(id: "CM5", name: "Activity")
         }
     }
