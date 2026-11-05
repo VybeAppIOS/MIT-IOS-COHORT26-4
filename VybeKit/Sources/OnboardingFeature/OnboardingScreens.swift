@@ -7,7 +7,7 @@ import SwiftUI
 public enum OnboardingScreens {
     @ViewBuilder
     public static func root(_ deps: AppDependencies) -> some View {
-        ScreenPlaceholder(id: "O1", name: "Welcome")
+        WelcomeView(viewModel: WelcomeViewModel(router: deps.router))
     }
 
     @ViewBuilder

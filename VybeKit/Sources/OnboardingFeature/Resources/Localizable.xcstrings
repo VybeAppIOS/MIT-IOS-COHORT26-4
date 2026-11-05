@@ -1,5 +1,61 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "onboarding.welcome.getStarted" : {
+      "comment" : "Main button on Welcome; opens Name and photo.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get started"
+          }
+        }
+      }
+    },
+    "onboarding.welcome.haveAccount" : {
+      "comment" : "Grey question before the Sign in link on Welcome.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already have an account?"
+          }
+        }
+      }
+    },
+    "onboarding.welcome.pitch %@" : {
+      "comment" : "One-line pitch on Welcome, in our tone. %@ is the app's name, drawn in the accent colour.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find your %@."
+          }
+        }
+      }
+    },
+    "onboarding.welcome.signIn" : {
+      "comment" : "Bold accent link after the question on Welcome; opens Sign in.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in"
+          }
+        }
+      }
+    },
+    "onboarding.welcome.wordmark" : {
+      "comment" : "The app's name, shown in the pitch on Welcome. Working name; not final.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybe"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }
