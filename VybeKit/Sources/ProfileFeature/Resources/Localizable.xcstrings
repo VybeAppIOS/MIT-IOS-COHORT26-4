@@ -1,5 +1,1678 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "profile.about.credits" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo credits"
+          }
+        }
+      }
+    },
+    "profile.about.credits.empty" : {
+      "comment" : "When the content has no credited photos.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No photos yet."
+          }
+        }
+      }
+    },
+    "profile.about.licences" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Licences"
+          }
+        }
+      }
+    },
+    "profile.about.licences.body" : {
+      "comment" : "Licences text.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybe uses only Apple's own frameworks; no third-party code. Maps and Place details © Apple. Place photos belong to the people credited above."
+          }
+        }
+      }
+    },
+    "profile.about.tagline" : {
+      "comment" : "Short line at the top of About.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Real Hangouts around Pune, Spot by Spot, made by people who went."
+          }
+        }
+      }
+    },
+    "profile.about.title" : {
+      "comment" : "Title of ST7.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About and credits"
+          }
+        }
+      }
+    },
+    "profile.about.version" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Version"
+          }
+        }
+      }
+    },
+    "profile.account.delete" : {
+      "comment" : "Row that opens Delete account.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete account"
+          }
+        }
+      }
+    },
+    "profile.account.delete.subtitle" : {
+      "comment" : "Row subtitle.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removes your account and your photos"
+          }
+        }
+      }
+    },
+    "profile.account.name" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        }
+      }
+    },
+    "profile.account.offline" : {
+      "comment" : "Footer while offline.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline. Connect to sign out."
+          }
+        }
+      }
+    },
+    "profile.account.signIn" : {
+      "comment" : "Row label: the sign-in method.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Signed in with"
+          }
+        }
+      }
+    },
+    "profile.account.signIn.sample" : {
+      "comment" : "Until real sign-in exists.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sample account (sign-in comes with the backend)"
+          }
+        }
+      }
+    },
+    "profile.account.signOut" : {
+      "comment" : "Destructive button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign out"
+          }
+        }
+      }
+    },
+    "profile.account.signOut.confirm" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign out of Vybe?"
+          }
+        }
+      }
+    },
+    "profile.account.signOut.error" : {
+      "comment" : "Shown when sign out failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't sign you out. Check your connection and try again."
+          }
+        }
+      }
+    },
+    "profile.account.signOut.message" : {
+      "comment" : "Confirmation message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your saved Hangouts and Drafts stay on this phone."
+          }
+        }
+      }
+    },
+    "profile.account.title" : {
+      "comment" : "Title of the Account settings page.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account"
+          }
+        }
+      }
+    },
+    "profile.account.username" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        }
+      }
+    },
+    "profile.blocked.empty" : {
+      "comment" : "ST3 empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You haven't blocked anyone."
+          }
+        }
+      }
+    },
+    "profile.blocked.error" : {
+      "comment" : "ST3 unblock failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't unblock. Try again."
+          }
+        }
+      }
+    },
+    "profile.blocked.footer" : {
+      "comment" : "ST3 footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They can't see your posts or message you, and you don't see theirs. They aren't told when you block or unblock them."
+          }
+        }
+      }
+    },
+    "profile.blocked.offline" : {
+      "comment" : "ST3 offline note",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline. You can unblock people when you're back online."
+          }
+        }
+      }
+    },
+    "profile.blocked.title" : {
+      "comment" : "ST3 title (the generator's key, reused)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked"
+          }
+        }
+      }
+    },
+    "profile.blocked.unblock" : {
+      "comment" : "ST3 button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unblock"
+          }
+        }
+      }
+    },
+    "profile.delete.confirm" : {
+      "comment" : "Destructive button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete my account"
+          }
+        }
+      }
+    },
+    "profile.delete.error" : {
+      "comment" : "Shown when deleting failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't delete your account. Nothing was removed. Try again."
+          }
+        }
+      }
+    },
+    "profile.delete.field" : {
+      "comment" : "Label of the confirmation field; %@ is the username.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Type %@ to confirm"
+          }
+        }
+      }
+    },
+    "profile.delete.headline" : {
+      "comment" : "Headline on Delete account.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This can't be undone"
+          }
+        }
+      }
+    },
+    "profile.delete.mismatch" : {
+      "comment" : "Inline error under the field.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That isn't your username."
+          }
+        }
+      }
+    },
+    "profile.delete.offline" : {
+      "comment" : "Shown while offline.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline. Connect to delete your account."
+          }
+        }
+      }
+    },
+    "profile.delete.point.phone" : {
+      "comment" : "What deleting does.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your Saved Hangouts, Drafts and any live Hangout are removed from this phone."
+          }
+        }
+      }
+    },
+    "profile.delete.point.photos" : {
+      "comment" : "What deleting does.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All your photos are deleted."
+          }
+        }
+      }
+    },
+    "profile.delete.point.posts" : {
+      "comment" : "What deleting does.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your posts stay as [deleted], so other people's comments still make sense."
+          }
+        }
+      }
+    },
+    "profile.delete.point.username" : {
+      "comment" : "What deleting does.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your username is held for 30 days, then anyone can take it."
+          }
+        }
+      }
+    },
+    "profile.delete.title" : {
+      "comment" : "Title of the Delete account page.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete account"
+          }
+        }
+      }
+    },
+    "profile.drafts.delete" : {
+      "comment" : "Swipe action and confirm button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "profile.drafts.delete.confirm" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this Draft?"
+          }
+        }
+      }
+    },
+    "profile.drafts.delete.message" : {
+      "comment" : "Confirmation message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It can't be brought back."
+          }
+        }
+      }
+    },
+    "profile.drafts.empty" : {
+      "comment" : "Empty state.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Drafts yet. Start a Hangout from scratch or Remix one you like."
+          }
+        }
+      }
+    },
+    "profile.drafts.new" : {
+      "comment" : "Button: start a Hangout from scratch in the editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Hangout"
+          }
+        }
+      }
+    },
+    "profile.drafts.title" : {
+      "comment" : "Title of Drafts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drafts"
+          }
+        }
+      }
+    },
+    "profile.edit.banner" : {
+      "comment" : "Picker row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Banner"
+          }
+        }
+      }
+    },
+    "profile.edit.bio" : {
+      "comment" : "Field label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bio"
+          }
+        }
+      }
+    },
+    "profile.edit.bio.long" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep your bio to 150 characters."
+          }
+        }
+      }
+    },
+    "profile.edit.discard" : {
+      "comment" : "Destructive button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discard changes"
+          }
+        }
+      }
+    },
+    "profile.edit.discard.confirm" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discard your changes?"
+          }
+        }
+      }
+    },
+    "profile.edit.error" : {
+      "comment" : "Shown when saving failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't save your profile. Your changes are still here. Try again."
+          }
+        }
+      }
+    },
+    "profile.edit.interests" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interests"
+          }
+        }
+      }
+    },
+    "profile.edit.interests.count" : {
+      "comment" : "Counter under the chips.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld chosen, pick at least %2$lld"
+          }
+        }
+      }
+    },
+    "profile.edit.interests.few" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick at least 3 interests."
+          }
+        }
+      }
+    },
+    "profile.edit.keep" : {
+      "comment" : "Cancel button of the discard confirmation.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep editing"
+          }
+        }
+      }
+    },
+    "profile.edit.name" : {
+      "comment" : "Field label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        }
+      }
+    },
+    "profile.edit.name.empty" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your name."
+          }
+        }
+      }
+    },
+    "profile.edit.name.long" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep your name under 40 characters."
+          }
+        }
+      }
+    },
+    "profile.edit.photo" : {
+      "comment" : "Picker row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile photo"
+          }
+        }
+      }
+    },
+    "profile.edit.photo.error" : {
+      "comment" : "Shown when a picked photo could not be read.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't use that photo. Try another one."
+          }
+        }
+      }
+    },
+    "profile.edit.photo.ready" : {
+      "comment" : "A new photo was picked and prepared.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready"
+          }
+        }
+      }
+    },
+    "profile.edit.save" : {
+      "comment" : "Primary button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "profile.edit.title" : {
+      "comment" : "Sheet title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit profile"
+          }
+        }
+      }
+    },
+    "profile.edit.username" : {
+      "comment" : "Field label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        }
+      }
+    },
+    "profile.edit.username.characters" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use lower-case letters, numbers, dots and underscores. No dot at the start or end, and never two in a row."
+          }
+        }
+      }
+    },
+    "profile.edit.username.hold" : {
+      "comment" : "Shown when changing the username.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your old username is kept for you for 30 days, then anyone can take it."
+          }
+        }
+      }
+    },
+    "profile.edit.username.length" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use 3 to 30 characters."
+          }
+        }
+      }
+    },
+    "profile.edit.username.taken" : {
+      "comment" : "Inline error after the save check.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That username is taken. Try another."
+          }
+        }
+      }
+    },
+    "profile.help.blocked" : {
+      "comment" : "Row that opens the Blocked list.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked people"
+          }
+        }
+      }
+    },
+    "profile.help.contact.header" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact"
+          }
+        }
+      }
+    },
+    "profile.help.documents.header" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms and privacy"
+          }
+        }
+      }
+    },
+    "profile.help.grievance" : {
+      "comment" : "Row label (India's IT Rules).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grievance officer"
+          }
+        }
+      }
+    },
+    "profile.help.grievance.footer" : {
+      "comment" : "Footer.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The grievance officer answers complaints under India's IT Rules. Their name and contact are added before the app launches."
+          }
+        }
+      }
+    },
+    "profile.help.intro" : {
+      "comment" : "First paragraph of Help.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something wrong with a post, a comment, a person or a Place? Tap ••• on it and choose Report. We look at every report, and the person never learns who sent it."
+          }
+        }
+      }
+    },
+    "profile.help.pending" : {
+      "comment" : "Shown until the contact or document exists (BK-13).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added before launch"
+          }
+        }
+      }
+    },
+    "profile.help.privacyPolicy" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy policy"
+          }
+        }
+      }
+    },
+    "profile.help.report" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report something"
+          }
+        }
+      }
+    },
+    "profile.help.report.subtitle" : {
+      "comment" : "Row value: where reporting lives.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "••• › Report on any post, comment, person or Place"
+          }
+        }
+      }
+    },
+    "profile.help.safety.header" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Safety"
+          }
+        }
+      }
+    },
+    "profile.help.support" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Support email"
+          }
+        }
+      }
+    },
+    "profile.help.terms" : {
+      "comment" : "Row label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Terms of use"
+          }
+        }
+      }
+    },
+    "profile.help.title" : {
+      "comment" : "Title of the Help page.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help and contact"
+          }
+        }
+      }
+    },
+    "profile.interest.art" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Art"
+          }
+        }
+      }
+    },
+    "profile.interest.cafes" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cafés"
+          }
+        }
+      }
+    },
+    "profile.interest.forts" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forts"
+          }
+        }
+      }
+    },
+    "profile.interest.gaming" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gaming"
+          }
+        }
+      }
+    },
+    "profile.interest.live-music" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live music"
+          }
+        }
+      }
+    },
+    "profile.interest.markets" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markets"
+          }
+        }
+      }
+    },
+    "profile.interest.museums" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Museums"
+          }
+        }
+      }
+    },
+    "profile.interest.parks" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parks"
+          }
+        }
+      }
+    },
+    "profile.interest.sports" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sports"
+          }
+        }
+      }
+    },
+    "profile.interest.street-food" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street food"
+          }
+        }
+      }
+    },
+    "profile.interest.study-spots" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study spots"
+          }
+        }
+      }
+    },
+    "profile.interest.treks" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treks"
+          }
+        }
+      }
+    },
+    "profile.notifications.comments" : {
+      "comment" : "ST4 switch",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comments"
+          }
+        }
+      }
+    },
+    "profile.notifications.error" : {
+      "comment" : "ST4 save failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't save that. Try again."
+          }
+        }
+      }
+    },
+    "profile.notifications.footer" : {
+      "comment" : "ST4 footer",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vybe asks for permission the first time you get a friend request or a message, not before."
+          }
+        }
+      }
+    },
+    "profile.notifications.friendRequests" : {
+      "comment" : "ST4 switch",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friend requests"
+          }
+        }
+      }
+    },
+    "profile.notifications.likes" : {
+      "comment" : "ST4 switch",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Likes"
+          }
+        }
+      }
+    },
+    "profile.notifications.messages" : {
+      "comment" : "ST4 switch",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Messages"
+          }
+        }
+      }
+    },
+    "profile.notifications.reminders" : {
+      "comment" : "ST4 switch (for example a scheduled post going up)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reminders"
+          }
+        }
+      }
+    },
+    "profile.notifications.title" : {
+      "comment" : "ST4 title (the generator's key, reused)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "profile.profile.drafts" : {
+      "comment" : "Row: my Drafts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drafts"
+          }
+        }
+      }
+    },
+    "profile.profile.drafts.hint" : {
+      "comment" : "Row hint on My profile.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Started, not finished"
+          }
+        }
+      }
+    },
+    "profile.profile.posts" : {
+      "comment" : "Header above my posted Hangouts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Hangouts"
+          }
+        }
+      }
+    },
+    "profile.profile.posts.empty" : {
+      "comment" : "When I have not posted yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your first Hangout will show up here."
+          }
+        }
+      }
+    },
+    "profile.profile.ready" : {
+      "comment" : "Row: finished Hangouts not posted yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready to post"
+          }
+        }
+      }
+    },
+    "profile.profile.ready.hint" : {
+      "comment" : "Row hint on My profile.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finished, not shared yet"
+          }
+        }
+      }
+    },
+    "profile.profile.saved" : {
+      "comment" : "Row: saved Hangouts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
+    "profile.profile.saved.hint" : {
+      "comment" : "Row hint on My profile.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmarked Hangouts"
+          }
+        }
+      }
+    },
+    "profile.profile.settings" : {
+      "comment" : "Label of the gear button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "profile.profile.title" : {
+      "comment" : "Title of My profile.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile"
+          }
+        }
+      }
+    },
+    "profile.ready.cancel" : {
+      "comment" : "Button: un-schedule a post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel post"
+          }
+        }
+      }
+    },
+    "profile.ready.delete" : {
+      "comment" : "Destructive button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "profile.ready.delete.confirm" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this Hangout?"
+          }
+        }
+      }
+    },
+    "profile.ready.delete.message" : {
+      "comment" : "Confirmation message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Its photos and progress are removed from this phone."
+          }
+        }
+      }
+    },
+    "profile.ready.empty" : {
+      "comment" : "Empty state.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing waiting. When you end a Hangout it shows up here, ready to post."
+          }
+        }
+      }
+    },
+    "profile.ready.finished" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finished, not posted"
+          }
+        }
+      }
+    },
+    "profile.ready.finished.none" : {
+      "comment" : "Empty finished section.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No finished Hangouts waiting."
+          }
+        }
+      }
+    },
+    "profile.ready.needSpots" : {
+      "comment" : "Why Post is off.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visit at least %lld Spots to post."
+          }
+        }
+      }
+    },
+    "profile.ready.photos" : {
+      "comment" : "Number of photos taken.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld photos"
+          }
+        }
+      }
+    },
+    "profile.ready.post" : {
+      "comment" : "Button: open the post composer.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post"
+          }
+        }
+      }
+    },
+    "profile.ready.scheduled" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled"
+          }
+        }
+      }
+    },
+    "profile.ready.scheduled.none" : {
+      "comment" : "Empty scheduled section.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing scheduled."
+          }
+        }
+      }
+    },
+    "profile.ready.scheduledFor" : {
+      "comment" : "When a scheduled post appears; %@ is the day and time.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled for %@"
+          }
+        }
+      }
+    },
+    "profile.ready.spots" : {
+      "comment" : "How many Spots were visited.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld of %2$lld Spots"
+          }
+        }
+      }
+    },
+    "profile.ready.title" : {
+      "comment" : "Title of PR8.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready to post"
+          }
+        }
+      }
+    },
+    "profile.saved.empty" : {
+      "comment" : "Empty state.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing saved yet. Save a Hangout from Discover and it waits for you here."
+          }
+        }
+      }
+    },
+    "profile.saved.remove" : {
+      "comment" : "Swipe action: unsave.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
+          }
+        }
+      }
+    },
+    "profile.saved.removed" : {
+      "comment" : "Shown in the Undo bar.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removed from Saved"
+          }
+        }
+      }
+    },
+    "profile.saved.title" : {
+      "comment" : "Title of Saved.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
+    "profile.saved.unavailable" : {
+      "comment" : "A saved Hangout that was removed or made private.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No longer available"
+          }
+        }
+      }
+    },
+    "profile.saved.unavailable.body" : {
+      "comment" : "Under the unavailable title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It was removed or made private. Swipe to remove it from Saved."
+          }
+        }
+      }
+    },
+    "profile.saved.undo" : {
+      "comment" : "Button: save it again.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
+          }
+        }
+      }
+    },
+    "profile.settings.reset" : {
+      "comment" : "Destructive row: go back to the Welcome screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset onboarding"
+          }
+        }
+      }
+    },
+    "profile.settings.reset.confirm.button" : {
+      "comment" : "Destructive confirmation button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset"
+          }
+        }
+      }
+    },
+    "profile.settings.reset.confirm.message" : {
+      "comment" : "Confirmation message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You'll go back to the Welcome screen. Your saved Hangouts and Drafts stay."
+          }
+        }
+      }
+    },
+    "profile.settings.reset.confirm.title" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reset onboarding?"
+          }
+        }
+      }
+    },
+    "profile.settings.reset.subtitle" : {
+      "comment" : "Footer under Reset onboarding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shows the Welcome screens again. Your saved Hangouts and Drafts stay."
+          }
+        }
+      }
+    },
+    "profile.settings.row.about" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "About and credits"
+          }
+        }
+      }
+    },
+    "profile.settings.row.account" : {
+      "comment" : "Settings row: email, sign-in method, sign out, delete account.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Account"
+          }
+        }
+      }
+    },
+    "profile.settings.row.blocked" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocked people"
+          }
+        }
+      }
+    },
+    "profile.settings.row.help" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help and contact"
+          }
+        }
+      }
+    },
+    "profile.settings.row.notifications" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notifications"
+          }
+        }
+      }
+    },
+    "profile.settings.row.privacy" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy"
+          }
+        }
+      }
+    },
+    "profile.settings.row.suggestions" : {
+      "comment" : "Settings row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Place suggestions"
+          }
+        }
+      }
+    },
+    "profile.settings.section.account" : {
+      "comment" : "Settings section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your account"
+          }
+        }
+      }
+    },
+    "profile.settings.section.app" : {
+      "comment" : "Settings section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Help and info"
+          }
+        }
+      }
+    },
+    "profile.settings.section.startAgain" : {
+      "comment" : "Settings section header above Reset onboarding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start again"
+          }
+        }
+      }
+    },
+    "profile.settings.title" : {
+      "comment" : "Title of the Settings screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "profile.suggestions.approved" : {
+      "comment" : "Status of a suggestion.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Added to Vybe"
+          }
+        }
+      }
+    },
+    "profile.suggestions.empty" : {
+      "comment" : "Empty state of ST6.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You haven't suggested a Place yet. Suggest one from the Hangout editor or an empty search."
+          }
+        }
+      }
+    },
+    "profile.suggestions.pending" : {
+      "comment" : "Status of a suggestion.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Waiting for the team"
+          }
+        }
+      }
+    },
+    "profile.suggestions.rejected" : {
+      "comment" : "Status of a suggestion.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not added"
+          }
+        }
+      }
+    },
+    "profile.suggestions.title" : {
+      "comment" : "Title of ST6.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Place suggestions"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }

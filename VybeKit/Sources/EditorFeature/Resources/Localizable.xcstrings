@@ -1,5 +1,666 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "editor.addSpot" : {
+      "comment" : "Button: opens Add Spot.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a Spot"
+          }
+        }
+      }
+    },
+    "editor.addSpot.all" : {
+      "comment" : "The chip that shows every category.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        }
+      }
+    },
+    "editor.addSpot.empty" : {
+      "comment" : "Empty state.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Places here yet. Suggest one and we'll check it."
+          }
+        }
+      }
+    },
+    "editor.addSpot.filteredEmpty" : {
+      "comment" : "When a category chip has no Places.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Places of this kind here yet."
+          }
+        }
+      }
+    },
+    "editor.addSpot.suggest" : {
+      "comment" : "Secondary button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't find it? Suggest a Place"
+          }
+        }
+      }
+    },
+    "editor.addSpot.title" : {
+      "comment" : "Title of the Add Spot sheet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a Spot"
+          }
+        }
+      }
+    },
+    "editor.budget.from" : {
+      "comment" : "Placeholder: lowest budget per person.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "From ₹"
+          }
+        }
+      }
+    },
+    "editor.budget.to" : {
+      "comment" : "Placeholder: highest budget per person.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "To ₹"
+          }
+        }
+      }
+    },
+    "editor.close" : {
+      "comment" : "Toolbar button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close"
+          }
+        }
+      }
+    },
+    "editor.close.discard" : {
+      "comment" : "Destructive: throw away what was entered.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discard changes"
+          }
+        }
+      }
+    },
+    "editor.close.keep" : {
+      "comment" : "Close and keep the Draft.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep as Draft"
+          }
+        }
+      }
+    },
+    "editor.close.title" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close the editor?"
+          }
+        }
+      }
+    },
+    "editor.done" : {
+      "comment" : "Toolbar button: save and show Drafts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "editor.error.budget" : {
+      "comment" : "Footer error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The first amount can't be more than the second."
+          }
+        }
+      }
+    },
+    "editor.error.fewSpots" : {
+      "comment" : "Footer error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add at least 2 Spots."
+          }
+        }
+      }
+    },
+    "editor.error.manySpots" : {
+      "comment" : "Footer error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A Hangout has at most 10 Spots."
+          }
+        }
+      }
+    },
+    "editor.error.summary" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep it to 200 characters."
+          }
+        }
+      }
+    },
+    "editor.error.title" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use 3 to 60 characters for the title."
+          }
+        }
+      }
+    },
+    "editor.field.summary" : {
+      "comment" : "Placeholder of the summary.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What makes it good? (optional, up to 200 characters)"
+          }
+        }
+      }
+    },
+    "editor.field.title" : {
+      "comment" : "Field label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Title"
+          }
+        }
+      }
+    },
+    "editor.remix.banner" : {
+      "comment" : "Remix banner with credit.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remixed from %1$@ · keeps %2$lld of %3$lld Places, so they get the credit"
+          }
+        }
+      }
+    },
+    "editor.remix.banner.noCredit" : {
+      "comment" : "Remix banner below 70%.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remixed from %1$@ · keeps %2$lld of %3$lld Places. Keep at least 70%% to give them credit."
+          }
+        }
+      }
+    },
+    "editor.remix.someone" : {
+      "comment" : "When the original author's name could not be loaded.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "someone"
+          }
+        }
+      }
+    },
+    "editor.section.bestTimes" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Best time"
+          }
+        }
+      }
+    },
+    "editor.section.budget" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget and time"
+          }
+        }
+      }
+    },
+    "editor.section.details" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Details"
+          }
+        }
+      }
+    },
+    "editor.section.spots" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spots"
+          }
+        }
+      }
+    },
+    "editor.section.tags" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tags"
+          }
+        }
+      }
+    },
+    "editor.spot.minutes" : {
+      "comment" : "Stepper label: minutes at this Spot.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min here"
+          }
+        }
+      }
+    },
+    "editor.spot.note" : {
+      "comment" : "Placeholder of a Spot's note.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A tip for this Spot (optional)"
+          }
+        }
+      }
+    },
+    "editor.suggest.category" : {
+      "comment" : "E3 category picker label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kind of Place"
+          }
+        }
+      }
+    },
+    "editor.suggest.done" : {
+      "comment" : "E3 success button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "editor.suggest.error" : {
+      "comment" : "E3 send failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It didn't send. Check your connection and try again."
+          }
+        }
+      }
+    },
+    "editor.suggest.error.name" : {
+      "comment" : "E3 name error",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use 2 to 60 characters."
+          }
+        }
+      }
+    },
+    "editor.suggest.error.note" : {
+      "comment" : "E3 note too long",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep it under 300 characters."
+          }
+        }
+      }
+    },
+    "editor.suggest.error.photo" : {
+      "comment" : "E3 photo missing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A photo is needed so we can check the Place."
+          }
+        }
+      }
+    },
+    "editor.suggest.map" : {
+      "comment" : "E3 hint under the map",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move the map so the pin sits on the Place"
+          }
+        }
+      }
+    },
+    "editor.suggest.name" : {
+      "comment" : "E3 name field label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name of the Place"
+          }
+        }
+      }
+    },
+    "editor.suggest.note" : {
+      "comment" : "E3 note field label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anything we should know (optional)"
+          }
+        }
+      }
+    },
+    "editor.suggest.photo" : {
+      "comment" : "E3 photo button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a photo you took there"
+          }
+        }
+      }
+    },
+    "editor.suggest.photo.error" : {
+      "comment" : "E3 photo could not be read",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't use that photo. Try another one."
+          }
+        }
+      }
+    },
+    "editor.suggest.photo.ready" : {
+      "comment" : "E3 shown when a photo is ready",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo added"
+          }
+        }
+      }
+    },
+    "editor.suggest.promise" : {
+      "comment" : "E3 info line above the form",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll check it before it appears. We don't accept homes or hostels."
+          }
+        }
+      }
+    },
+    "editor.suggest.send" : {
+      "comment" : "E3 primary button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send suggestion"
+          }
+        }
+      }
+    },
+    "editor.suggest.sent.body" : {
+      "comment" : "E3 success body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll check it soon. You'll see it in My suggestions."
+          }
+        }
+      }
+    },
+    "editor.suggest.sent.title" : {
+      "comment" : "E3 success title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thanks, we got it"
+          }
+        }
+      }
+    },
+    "editor.suggest.title" : {
+      "comment" : "E3 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggest a Place"
+          }
+        }
+      }
+    },
+    "editor.tag.budget-friendly" : {
+      "comment" : "Tag chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Budget friendly"
+          }
+        }
+      }
+    },
+    "editor.tag.date-idea" : {
+      "comment" : "Tag chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date idea"
+          }
+        }
+      }
+    },
+    "editor.tag.good-for-groups" : {
+      "comment" : "Tag chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Good for groups"
+          }
+        }
+      }
+    },
+    "editor.tag.rainy-day" : {
+      "comment" : "Tag chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rainy day"
+          }
+        }
+      }
+    },
+    "editor.tag.solo-friendly" : {
+      "comment" : "Tag chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fine alone"
+          }
+        }
+      }
+    },
+    "editor.time.afternoon" : {
+      "comment" : "Best-time chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afternoon"
+          }
+        }
+      }
+    },
+    "editor.time.evening" : {
+      "comment" : "Best-time chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evening"
+          }
+        }
+      }
+    },
+    "editor.time.morning" : {
+      "comment" : "Best-time chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Morning"
+          }
+        }
+      }
+    },
+    "editor.time.night" : {
+      "comment" : "Best-time chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Night"
+          }
+        }
+      }
+    },
+    "editor.title.draft" : {
+      "comment" : "Editor title for an existing Draft.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit Draft"
+          }
+        }
+      }
+    },
+    "editor.title.new" : {
+      "comment" : "Editor title for a new Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Hangout"
+          }
+        }
+      }
+    },
+    "editor.title.remix" : {
+      "comment" : "Editor title for a Remix.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remix"
+          }
+        }
+      }
+    },
+    "editor.warning.duplicate" : {
+      "comment" : "Warning; it is allowed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You've added this place twice"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }

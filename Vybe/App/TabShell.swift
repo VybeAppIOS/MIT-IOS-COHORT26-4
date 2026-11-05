@@ -24,8 +24,14 @@ struct TabShell: View {
             Tab("Profile", systemImage: "person.crop.circle", value: AppTab.profile) {
                 RoutedStack(stack: .tab(.profile), deps: deps) { ProfileScreens.root(deps) }
             }
-            Tab(value: AppTab.search, role: .search) {
-                RoutedStack(stack: .tab(.search), deps: deps) { SearchScreens.root(deps) }
+            if #available(iOS 27, *) {
+                Tab("Search", systemImage: "magnifyingglass", value: AppTab.search, role: .prominent) {
+                    RoutedStack(stack: .tab(.search), deps: deps) { SearchScreens.root(deps) }
+                }
+            } else {
+                Tab("Search", systemImage: "magnifyingglass", value: AppTab.search, role: .search) {
+                    RoutedStack(stack: .tab(.search), deps: deps) { SearchScreens.root(deps) }
+                }
             }
         }
         .modifier(RouterSheetHost(deps: deps, coverIsUp: false))

@@ -19,34 +19,28 @@ public struct FilterChip: View {
     }
 
     public var body: some View {
-        styledButton
-            .buttonBorderShape(.capsule)
-            .tint(Theme.Color.accent)
-            .accessibilityAddTraits(isSelected ? .isSelected : [])
-            .vybeAnimation(Theme.Motion.quick, value: isSelected)
-            .vybeHaptic(.selection, trigger: isSelected)
-    }
-
-    private var button: some View {
         Button(action: action) {
             HStack(spacing: Theme.Spacing.tiny) {
                 if isSelected {
-                    Image(systemName: "checkmark").accessibilityHidden(true)
+                    Image(systemName: "checkmark").font(Theme.Font.caption.weight(.bold)).accessibilityHidden(true)
                 }
                 title.text
                     .font(Theme.Font.subheadline)
                     .multilineTextAlignment(.center)
             }
+            .foregroundStyle(isSelected ? Theme.Color.onAccent : Theme.Color.textPrimary)
+            .padding(.horizontal, Theme.Spacing.medium)
+            .padding(.vertical, Theme.Spacing.small)
+            .background(isSelected ? Theme.Color.accent : Theme.Color.surfaceRaised, in: Capsule())
+            .overlay { Capsule().strokeBorder(isSelected ? Color.clear : Theme.Color.separator) }
+            // The pill looks small; the tappable area is still 44 pt tall (HIG), and it grows with the text.
             .frame(minHeight: Theme.Size.minTapTarget)
+            .contentShape(.rect)
         }
-    }
-
-    @ViewBuilder private var styledButton: some View {
-        if isSelected {
-            button.buttonStyle(.borderedProminent)
-        } else {
-            button.buttonStyle(.bordered)
-        }
+        .buttonStyle(.plain)
+        .accessibilityAddTraits(isSelected ? .isSelected : [])
+        .vybeAnimation(Theme.Motion.quick, value: isSelected)
+        .vybeHaptic(.selection, trigger: isSelected)
     }
 }
 
