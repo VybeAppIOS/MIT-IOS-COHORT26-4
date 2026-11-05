@@ -111,6 +111,83 @@
         }
       }
     },
+    "posting.edit.delete" : {
+      "comment" : "PO2 destructive button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete post"
+          }
+        }
+      }
+    },
+    "posting.edit.delete.confirm" : {
+      "comment" : "PO2 delete confirmation title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this post?"
+          }
+        }
+      }
+    },
+    "posting.edit.delete.message" : {
+      "comment" : "PO2 delete confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Its likes and comments will be deleted too. This can't be undone."
+          }
+        }
+      }
+    },
+    "posting.edit.save" : {
+      "comment" : "PO2 save button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "posting.edit.spot" : {
+      "comment" : "PO2 Spot row: order, Place name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld. %@"
+          }
+        }
+      }
+    },
+    "posting.edit.spotsLocked" : {
+      "comment" : "PO2 footer under the Spots",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spots can't be changed after posting."
+          }
+        }
+      }
+    },
+    "posting.edit.title" : {
+      "comment" : "PO2 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit post"
+          }
+        }
+      }
+    },
     "posting.error.caption" : {
       "comment" : "PO1 caption error",
       "localizations" : {
@@ -221,6 +298,17 @@
         }
       }
     },
+    "posting.section.photos" : {
+      "comment" : "PO2 section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        }
+      }
+    },
     "posting.section.preview" : {
       "comment" : "PO1 preview section",
       "localizations" : {
@@ -228,6 +316,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "How it will look"
+          }
+        }
+      }
+    },
+    "posting.section.spots" : {
+      "comment" : "PO2 section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spots"
           }
         }
       }
