@@ -20,7 +20,7 @@ struct AppShellTests {
     }
 
     @Test func aHangoutRouteResolvesThroughHangoutDetailScreens() {
-        #expect(describe(factory.screen(for: .hangout("h1"))).contains("\"HD1\""))
+        #expect(reaches(factory.screen(for: .hangout("h1")), "view:HangoutDetailView"))
     }
 
     @Test(arguments: [
