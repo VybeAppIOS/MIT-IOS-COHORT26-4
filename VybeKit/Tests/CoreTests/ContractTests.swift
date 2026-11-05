@@ -25,7 +25,7 @@ struct ContractTests {
     }
 
     @Test func searchStubKeepsTheContract() async throws {
-        try await SearchRepositoryContract.verify(StubSearchRepository(), knownWord: "Evening")
+        try await SearchRepositoryContract.verify(StubSearchRepository(), knownWord: "Garden")
     }
 
     /// A contract really fails when an implementation breaks a promise.
