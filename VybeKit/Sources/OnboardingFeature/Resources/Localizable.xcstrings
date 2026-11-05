@@ -1,6 +1,84 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "onboarding.findFriends.done" : {
+      "comment" : "O5 button after adding someone; finishes onboarding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "onboarding.findFriends.empty" : {
+      "comment" : "O5 when there are no suggestions (task SC-O5).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No suggestions yet. Invite friends from a Hangout."
+          }
+        }
+      }
+    },
+    "onboarding.findFriends.mutual %lld" : {
+      "comment" : "O5 reason under a suggested person. %lld is the number of mutual friends.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld mutual friend"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld mutual friends"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "onboarding.findFriends.skip" : {
+      "comment" : "O5 button before anyone was added; finishes onboarding.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Skip"
+          }
+        }
+      }
+    },
+    "onboarding.findFriends.subtitle" : {
+      "comment" : "O5 line under the heading (mutual friends only).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends of your friends on Vybe."
+          }
+        }
+      }
+    },
+    "onboarding.findFriends.title" : {
+      "comment" : "O5 heading.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "People you may know"
+          }
+        }
+      }
+    },
     "onboarding.interests.artAndCulture" : {
       "comment" : "O3 interest chip.",
       "localizations" : {
