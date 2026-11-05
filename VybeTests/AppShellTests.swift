@@ -25,19 +25,22 @@ struct AppShellTests {
 
     @Test(arguments: [
         (Route.signIn, "view:SignInView"), (.nameAndPhoto, "view:NameAndPhotoView"),
-        (.remixTree("h1"), "view:RemixTreeView"),
-        (.liveSummary("r1"), "H3"),
-        (.composePost("r1"), "PO1"), (.searchSeeAll(.places), "S2"), (.saved, "PR4"),
-        (.settingsPage(.privacy), "ST2"), (.post("r1"), "view:PostDetailView"),
-        (.trending, "view:TrendingView"), (.activity, "view:ActivityView"),
-        (.friendsHub, "view:HubView"),
-        (.profile("u1"), "view:OtherProfileView"),
-        (.mutualFriends("u1"), "view:MutualFriendsView"),
-        (.conversation("c1"), "view:ConversationView"),
-        (.groupInfo("c1"), "view:GroupInfoView"),
-        (.chatList, "view:ListView"),
-        (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
-        (.suggestPlace, "E3")
+        (.remixTree("h1"), "view:RemixTreeView"), (.liveSummary("r1"), "view:SummaryView"),
+        (.composePost("r1"), "view:ComposerView"), (.searchSeeAll(.places), "view:SeeAllView"),
+        (.saved, "view:SavedView"), (.settingsPage(.privacy), "view:PrivacyView"),
+        (.settingsPage(.notifications), "view:NotificationsView"), (.post("r1"), "view:PostDetailView"),
+        (.trending, "view:TrendingView"), (.activity, "view:ActivityView"), (.friendsHub, "view:HubView"),
+        (.profile("u1"), "view:OtherProfileView"), (.mutualFriends("u1"), "view:MutualFriendsView"),
+        (.conversation("c1"), "view:ConversationView"), (.groupInfo("c1"), "view:GroupInfoView"),
+        (.chatList, "view:ListView"), (.report(.user("u1")), "view:ReportView"),
+        (.admin(.users), "view:AdminUsersView"),
+        (.suggestPlace, "view:SuggestPlaceView"), (.settings, "view:SettingsView"),
+        (.settingsPage(.account), "view:AccountSettingsView"), (.deleteAccount, "view:DeleteAccountView"),
+        (.settingsPage(.help), "view:HelpView"), (.settingsPage(.placeSuggestions), "view:MySuggestionsView"),
+        (.settingsPage(.about), "view:AboutView"), (.drafts, "view:DraftsView"),
+        (.settingsPage(.blocked), "view:BlockedView"), (.admin(.reports), "view:AdminReportsView"),
+        (.admin(.placeSuggestions), "view:AdminSuggestionsView"),
+        (.readyToPost, "view:ReadyToPostView")
     ])
     func routesReachTheirScreen(route: Route, screenID: String) {
         #expect(reaches(factory.screen(for: route), screenID))
@@ -46,7 +49,8 @@ struct AppShellTests {
     @Test(arguments: [
         (Sheet.spot("p1"), "view:SpotSheetView"), (.report(.place("p1")), "view:ReportView"),
         (.blockConfirm("u1"), "view:BlockConfirmView"), (.share(.post("r1")), "view:ShareSheetView"),
-        (.suggestPlace, "E3"), (.editPost("r1"), "PO2"), (.groupInvitation("c1"), "view:InvitationView")
+        (.suggestPlace, "view:SuggestPlaceView"), (.editPost("r1"), "view:EditPostView"),
+        (.groupInvitation("c1"), "view:InvitationView")
     ])
     func sheetsReachTheirScreen(sheet: Sheet, screenID: String) {
         #expect(reaches(factory.sheet(for: sheet), screenID))
@@ -54,7 +58,7 @@ struct AppShellTests {
 
     @Test func coversReachTheirScreen() {
         #expect(reaches(factory.cover(for: .live("h1")), "view:LiveView"))
-        #expect(describe(factory.cover(for: .editor(.new))).contains("\"E1\""))
+        #expect(reaches(factory.cover(for: .editor(.new)), "view:EditorView"))
     }
 
     /// iOS 27 rule: the selected tab must always be a visible tab, and Search is last.

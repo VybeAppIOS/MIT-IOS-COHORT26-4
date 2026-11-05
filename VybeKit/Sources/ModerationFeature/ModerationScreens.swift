@@ -1,5 +1,4 @@
 import Core
-import Design
 import Models
 import SwiftUI
 
@@ -13,9 +12,14 @@ public enum ModerationScreens {
             ReportView(viewModel: ReportViewModel(
                 target: target, presentation: .pushed, safety: deps.safety, session: deps.session,
                 router: deps.router))
-        case .admin(.reports): ScreenPlaceholder(id: "AD1", name: "Reports queue")
-        case .admin(.placeSuggestions): ScreenPlaceholder(id: "AD2", name: "Place suggestions")
-        case .admin(.users): ScreenPlaceholder(id: "AD3", name: "Users")
+        case .admin(.reports):
+            AdminReportsView(viewModel: AdminReportsViewModel(
+                admin: deps.admin, session: deps.session, router: deps.router, now: deps.now))
+        case .admin(.placeSuggestions):
+            AdminSuggestionsView(viewModel: AdminSuggestionsViewModel(
+                admin: deps.admin, session: deps.session, now: deps.now))
+        case .admin(.users):
+            AdminUsersView(viewModel: AdminUsersViewModel(admin: deps.admin, session: deps.session))
         }
     }
 
@@ -29,27 +33,5 @@ public enum ModerationScreens {
     public static func blockConfirmSheet(_ user: UserID, _ deps: AppDependencies) -> some View {
         BlockConfirmView(viewModel: BlockConfirmViewModel(
             userID: user, profiles: deps.profiles, safety: deps.safety, session: deps.session, router: deps.router))
-    }
-}
-
-/// Stands in for a screen until its task replaces the `case` in this feature's `Screens` (task F-16).
-/// Developer-only text, so it is not localized.
-private struct ScreenPlaceholder: View {
-    let id: String
-    let name: String
-
-    var body: some View {
-        VStack(spacing: Theme.Spacing.small) {
-            Text(verbatim: id).font(Theme.Font.largeTitle)
-            Text(verbatim: name).font(Theme.Font.headline)
-            Text(verbatim: "Placeholder until this screen's task replaces it")
-                .font(Theme.Font.footnote)
-                .foregroundStyle(Theme.Color.textSecondary)
-        }
-        .multilineTextAlignment(.center)
-        .padding(Theme.Spacing.large)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Theme.Color.surface)
-        .navigationTitle(Text(verbatim: name))
     }
 }
