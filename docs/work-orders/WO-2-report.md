@@ -213,7 +213,8 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 10 Chats list shows invitations (CH7) | done (own commit; checked at the end of Group 5) |
 | 11 Photos in chat | done (own commit) |
 | 12 Group photos (CH8) | done (own commit) |
-| 13-25 | not started |
+| 13 Read receipts | done (own commit) |
+| 14-25 | not started |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -328,3 +329,11 @@ Needs from Lohitaksh: none. The backend list of group photos can reuse the messa
 
 
 Group 6a full check: one `./scripts/check.sh` run after items 11 and 12 ended with `==> All checks passed` (exit 0).
+
+### Item 13: Read receipts ("Seen")
+What changed: the Conversation now loads `memberships(in:)` once before the stream starts and again after every batch of messages, so the read times move whenever the messages do. "Seen" under my last message uses the newest `lastReadAt` among the other members who are active and not blocked (my own read time never counts), fed into the existing `ConversationViewModel.receipt(for:othersLastReadAt:)`. A failed membership lookup keeps what was known before. The same lookup still decides whether I am muted. Sample data: `SampleSocialData.othersLastRead` (who read which chat and when, only people who are in that chat; no existing ID changed); the stub shows it as `lastReadAt` on their `Membership` and clears it when they are removed. The contract checks now also require `markRead` to set my own `lastReadAt`.
+Files (shared, approved): `Models/Samples/SampleSocialData.swift`, `Core/Fakes/SocialStubStore.swift`, `SocialStubStore+Chat.swift`, `Contracts/SocialContracts.swift`. Feature: `ChatFeature/Conversation/ConversationViewModel.swift`. Tests: `ChatFeatureTests/ConversationReceiptsTests.swift` (new), `ChatTestSupport.swift` (`ControlledChat` can return fixed memberships and counts the calls).
+Tests (8): the sample DM shows Seen; no read time is Delivered; reading before my message is Delivered and after is Seen; my own read time never counts; in a group the newest read of anyone counts; a blocked reader and a pending member do not count; the read times are reloaded when the messages change (a new message is Delivered, then Seen after the other person's read time moves); the stub reports other people's read times on their membership. They assert receipts and counts, not sample text.
+Looked at: see the screenshot note at the end of Group 6b. Not driven by hand: nothing here needs a tap.
+Needs from Lohitaksh: the backend must return each member's `lastReadAt` on `memberships` (and update it when `markRead` is called), and the app has no push for read times: "Seen" updates when the next message batch arrives.
+
