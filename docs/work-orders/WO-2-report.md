@@ -116,3 +116,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): inline title, info button, composer in safeAreaInset(.bar), scrollDismissesKeyboard, long-press menu (Copy, Edit, Delete, Report), confirmation before delete pass; large text not looked at
 - Notes: NOT built: sending photos (PhotosPicker, max 2). There is no call to store a processed photo and the photo permission text is X-9, so photos are listed under Needs from Lohitaksh. Voice: tap the mic to record and tap again to send (not hold-to-record and slide-to-cancel); recording needs the microphone text (X-9); playback of old notes fails with a message because their files do not exist. Read receipts: only 'Delivered' is shown, because the repository does not report when others last read (the Seen logic is in and tested). Unread counts on the Community tab are refreshed. Report pushes the shared Report screen on the tab. The stream stops when the screen goes away. Hold-to-record, link opening uses UIApplication.shared.open.
 
+## SC-S1: done (recent searches are not saved between launches)
+- Files: SearchFeature/Search/* (3 files), SearchViewModelTests, SearchScreens (root), catalog
+- Tests: 12
+- Screenshots: build/screenshots/s1-query.png opened (large title, search field, grouped Hangouts/Places/People); s1-idle.png taken, not opened. The Search root has no route, so both were taken with a temporary route that was reverted.
+- Button heights: rows 44 pt+ (system List)
+- Checklist (WO-3 prompt section 6): .searchable inside SearchView on the tab's own stack, grouped inset list, section headers, VoiceOver headers pass; large text and the keyboard not looked at
+- Notes: Group order is read when a query runs (Discover: Hangouts first; Community: People first; Profile: your Saved Hangouts first). Typing is debounced 0.25 s. Blocked people are hidden. Needs from Lohitaksh: AppSettings has no recent-searches setting, so recent searches live in memory for the session only; add AppSettings.recentSearches (and give Screens access to it) to keep them.
+

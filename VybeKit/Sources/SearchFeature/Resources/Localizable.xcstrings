@@ -1,5 +1,127 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "search.group.hangouts" : {
+      "comment" : "Search screens: search.group.hangouts",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangouts"
+          }
+        }
+      }
+    },
+    "search.group.people" : {
+      "comment" : "Search screens: search.group.people",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "People"
+          }
+        }
+      }
+    },
+    "search.group.places" : {
+      "comment" : "Search screens: search.group.places",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Places"
+          }
+        }
+      }
+    },
+    "search.group.saved" : {
+      "comment" : "Search screens: search.group.saved",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
+    "search.noResults" : {
+      "comment" : "Search screens: search.noResults",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing yet. Know a good spot?"
+          }
+        }
+      }
+    },
+    "search.prompt" : {
+      "comment" : "Search screens: search.prompt",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangouts, places and people"
+          }
+        }
+      }
+    },
+    "search.recents" : {
+      "comment" : "Search screens: search.recents",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Recent"
+          }
+        }
+      }
+    },
+    "search.seeAll" : {
+      "comment" : "Search screens: search.seeAll",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "See all"
+          }
+        }
+      }
+    },
+    "search.suggestPlace" : {
+      "comment" : "Search screens: search.suggestPlace",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggest a place"
+          }
+        }
+      }
+    },
+    "search.suggestions" : {
+      "comment" : "Search screens: search.suggestions",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picks near you"
+          }
+        }
+      }
+    },
+    "search.title" : {
+      "comment" : "Search screens: search.title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }
