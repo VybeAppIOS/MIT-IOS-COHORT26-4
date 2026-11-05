@@ -68,3 +68,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): large sheet with drag indicator, grouped list, multi-select with checkmark + isSelected trait pass; not looked at
 - Notes: One friend opens a direct message (an existing one is reused); two or more make a group that needs a name (at least 3 people counting you).
 
+## SC-CH1: done
+- Files: ChatFeature/List/* (3 files), Shared/ChatPeople, ListViewModelTests, ChatScreens, AppShellTests row, catalog
+- Tests: 8
+- Screenshots: build/screenshots/ch1-loaded.png opened (Messages-style rows, group avatar stack, unread badges, Yesterday); other states not opened
+- Button heights: rows 44 pt+; New chat is a system toolbar button
+- Checklist (WO-3 prompt section 6): large title, plain list, VoiceOver reads title, unread, preview and time pass; large text not looked at
+- Notes: The repository words the last-message kind (Photo, Voice note, Hangout); the screen adds 'You:' or the sender's first name. Times show the clock today, Yesterday, or the day and month. Offline disables New chat. The list refreshes BadgeStore when it loads.
+

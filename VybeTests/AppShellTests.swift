@@ -32,7 +32,9 @@ struct AppShellTests {
         (.friendsHub, "view:HubView"),
         (.profile("u1"), "view:OtherProfileView"),
         (.mutualFriends("u1"), "view:MutualFriendsView"),
-        (.conversation("c1"), "CH2"), (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
+        (.conversation("c1"), "CH2"),
+        (.chatList, "view:ListView"),
+        (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
         (.suggestPlace, "E3")
     ])
     func routesReachTheirScreen(route: Route, screenID: String) {

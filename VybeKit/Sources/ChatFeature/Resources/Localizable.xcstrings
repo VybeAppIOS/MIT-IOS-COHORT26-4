@@ -1,6 +1,95 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "chat.list.empty" : {
+      "comment" : "Chat screens: chat.list.empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No chats yet. Start one with a friend."
+          }
+        }
+      }
+    },
+    "chat.list.emptyAction" : {
+      "comment" : "Chat screens: chat.list.emptyAction",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New chat"
+          }
+        }
+      }
+    },
+    "chat.list.new" : {
+      "comment" : "Chat screens: chat.list.new",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New chat"
+          }
+        }
+      }
+    },
+    "chat.list.noMessages" : {
+      "comment" : "Chat screens: chat.list.noMessages",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No messages yet"
+          }
+        }
+      }
+    },
+    "chat.list.title" : {
+      "comment" : "Chat screens: chat.list.title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chats"
+          }
+        }
+      }
+    },
+    "chat.list.unread %lld" : {
+      "comment" : "Chat screens: chat.list.unread %lld",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld unread message"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "%lld unread messages"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "chat.list.you %@" : {
+      "comment" : "Chat screens: chat.list.you %@",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You: %@"
+          }
+        }
+      }
+    },
     "chat.new.cancel" : {
       "comment" : "Chat screens: chat.new.cancel",
       "localizations" : {
@@ -96,6 +185,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "New chat"
+          }
+        }
+      }
+    },
+    "chat.time.yesterday" : {
+      "comment" : "Chat screens: chat.time.yesterday",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yesterday"
           }
         }
       }

@@ -6,10 +6,21 @@ import SwiftUI
 /// The only public type in ChatFeature (ADR 002). The App's screen factory calls these; each one builds the
 /// feature's View and ViewModel from `AppDependencies`. A screen task replaces only its own placeholder `case`.
 public enum ChatScreens {
+    /// Builds the New chat sheet for the Chats list.
+    private static func newChatFactory(_ deps: AppDependencies) -> NewChatFactory {
+        { onExit in
+            NewChatViewModel(
+                friends: deps.friends, chat: deps.chat, session: deps.session, network: deps.network, onExit: onExit)
+        }
+    }
+
     @ViewBuilder
     public static func view(for route: ChatRoute, _ deps: AppDependencies) -> some View {
         switch route {
-        case .list: ScreenPlaceholder(id: "CH1", name: "Chats list")
+        case .list:
+            ListView(viewModel: ListViewModel(
+                chat: deps.chat, profiles: deps.profiles, session: deps.session, badges: deps.badges,
+                network: deps.network, router: deps.router, now: deps.now, makeNewChat: newChatFactory(deps)))
         case .conversation: ScreenPlaceholder(id: "CH2", name: "Conversation")
         case .groupInfo: ScreenPlaceholder(id: "CH4", name: "Group info")
         }
