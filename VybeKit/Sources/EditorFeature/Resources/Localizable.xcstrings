@@ -1,5 +1,61 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "editor.addSpot.all" : {
+      "comment" : "The chip that shows every category.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All"
+          }
+        }
+      }
+    },
+    "editor.addSpot.empty" : {
+      "comment" : "Empty state.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Places here yet. Suggest one and we'll check it."
+          }
+        }
+      }
+    },
+    "editor.addSpot.filteredEmpty" : {
+      "comment" : "When a category chip has no Places.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Places of this kind here yet."
+          }
+        }
+      }
+    },
+    "editor.addSpot.suggest" : {
+      "comment" : "Secondary button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Can't find it? Suggest a Place"
+          }
+        }
+      }
+    },
+    "editor.addSpot.title" : {
+      "comment" : "Title of the Add Spot sheet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a Spot"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }
