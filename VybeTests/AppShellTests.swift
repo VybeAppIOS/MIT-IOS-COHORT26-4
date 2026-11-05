@@ -24,7 +24,7 @@ struct AppShellTests {
     }
 
     @Test(arguments: [
-        (Route.signIn, "A1"), (.nameAndPhoto, "O2"), (.remixTree("h1"), "view:RemixTreeView"),
+        (Route.signIn, "A1"), (.nameAndPhoto, "view:NameAndPhotoView"), (.remixTree("h1"), "view:RemixTreeView"),
         (.liveSummary("r1"), "H3"),
         (.composePost("r1"), "PO1"), (.searchSeeAll(.places), "S2"), (.saved, "PR4"),
         (.settingsPage(.privacy), "ST2"), (.post("r1"), "view:PostDetailView"),
