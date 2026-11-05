@@ -101,4 +101,71 @@ struct NewChatViewModelTests {
         await viewModel.load()
         #expect(viewModel.state == .empty)
     }
+
+    // MARK: Search
+
+    private func shown(_ viewModel: NewChatViewModel) -> [UserID] {
+        guard case .loaded(let content, _) = viewModel.state else { return [] }
+        return viewModel.visibleFriends(in: content).map(\.id)
+    }
+
+    @Test func noSearchShowsEveryFriend() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        guard case .loaded(let content, _) = viewModel.state else { Issue.record("not loaded"); return }
+        #expect(!viewModel.isSearching && shown(viewModel) == content.friends.map(\.id))
+    }
+
+    @Test func searchMatchesTheNameIgnoringCase() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        viewModel.searchText = SampleSocialData.aarav.displayName.uppercased()
+        #expect(shown(viewModel) == [SampleSocialData.aarav.id])
+    }
+
+    @Test func searchIgnoresAccents() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        viewModel.searchText = SampleSocialData.aarav.displayName.uppercased().replacingOccurrences(of: "A", with: "Á")
+        #expect(shown(viewModel) == [SampleSocialData.aarav.id])
+    }
+
+    @Test func searchMatchesTheUsernameToo() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        viewModel.searchText = " \(SampleSocialData.isha.username) "   // spaces around it are ignored
+        #expect(shown(viewModel) == [SampleSocialData.isha.id])
+    }
+
+    @Test func nothingMatchingShowsNobodyButStillSearching() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        viewModel.searchText = "zzzzqx"
+        #expect(viewModel.isSearching && shown(viewModel).isEmpty)
+    }
+
+    @Test func pickedPeopleStayPickedWhileFilteringAndAfterClearing() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        viewModel.toggle(SampleSocialData.friend.id)
+        viewModel.toggle(SampleSocialData.aarav.id)
+        viewModel.groupName = "Saturday crew"
+        viewModel.searchText = SampleSocialData.isha.displayName   // hides both picked people
+        #expect(!shown(viewModel).contains(SampleSocialData.aarav.id))
+        #expect(viewModel.isSelected(SampleSocialData.aarav.id) && viewModel.isSelected(SampleSocialData.friend.id))
+        #expect(viewModel.isGroup && viewModel.canCreate)
+        viewModel.toggle(SampleSocialData.isha.id)   // picking from the filtered list adds to the picks
+        viewModel.searchText = ""
+        #expect(viewModel.selected.count == 3 && !viewModel.isSearching)
+    }
+
+    @Test func clearingTheSearchShowsEveryoneAgain() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        let everyone = shown(viewModel)
+        viewModel.searchText = SampleSocialData.aarav.displayName
+        #expect(shown(viewModel).count < everyone.count)
+        viewModel.searchText = ""
+        #expect(shown(viewModel) == everyone)
+    }
 }

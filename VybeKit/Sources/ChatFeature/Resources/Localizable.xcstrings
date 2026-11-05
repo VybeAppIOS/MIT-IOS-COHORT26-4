@@ -772,6 +772,17 @@
         }
       }
     },
+    "chat.new.searchPrompt" : {
+      "comment" : "Placeholder of the search field on the New chat sheet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search your friends"
+          }
+        }
+      }
+    },
     "chat.new.title" : {
       "comment" : "Chat screens: chat.new.title",
       "localizations" : {

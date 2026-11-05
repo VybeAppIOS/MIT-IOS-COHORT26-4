@@ -206,7 +206,8 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 3 Primary and Secondary a little smaller | done (own commit, easy to revert; checked at the end of Group 2) |
 | 4 No Report or Block on your own things | done (committed; checked at the end of Group 3) |
 | 5 Activity opens the post | done (committed together with item 4; checked at the end of Group 3) |
-| 6-25 | not started |
+| 6 New chat search | done (committed; checked at the end of Group 4) |
+| 7-25 | not started |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -259,3 +260,12 @@ Looked at (screenshot opened): Activity list with the new "replied to your comme
 Needs from Lohitaksh: the server must send `runID` on comment and reply rows (see item 2 above).
 
 Group 3 full check: one `./scripts/check.sh` run after items 4 and 5 ended with `==> All checks passed` (exit 0).
+
+### Item 6: Search field on New chat
+What changed: `NewChatViewModel` has `searchText`, `isSearching`, `searchPrompt` and `visibleFriends(in:)`. It keeps the friends whose name or username contain the text, using `localizedStandardContains` (ignores case and accents), on the phone with no repository call. `selected` is never touched by the filter, so people who are picked stay picked while hidden, and the Create button and group name still count them. `NewChatView` has `.searchable` (always shown, no auto-capitalisation or autocorrect) and shows `ContentUnavailableView.search` when nothing matches. New string `chat.new.searchPrompt`.
+Files: `ChatFeature/NewChat/NewChatView.swift`, `NewChatViewModel.swift`, `ChatFeature/Resources/Localizable.xcstrings`, `ChatFeatureTests/NewChatViewModelTests.swift`, this report.
+Tests: no search shows everyone; case; accents; username with spaces around it; no match; picks stay picked while filtering and after clearing (and the group still counts them); clearing restores everyone. They assert IDs and counts, not names.
+Looked at (screenshots opened, with a temporary search text and sheet-open flag that I reverted): the sheet with the search field, a match for "ÍSHA" (accent and case), and the "No Results" state.
+Not driven by hand: typing in the field or picking while filtered (the ViewModel tests cover the logic). Not looked at: the sheet at the largest text size.
+Needs from Lohitaksh: none.
+

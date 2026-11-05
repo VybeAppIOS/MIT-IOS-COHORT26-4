@@ -29,6 +29,8 @@ final class NewChatViewModel {
     private(set) var selected: [UserID] = []
     private(set) var isCreating = false
     var groupName = ""
+    /// What the person typed in the search field. Filters the list on the phone; picks are kept (SC-CH3).
+    var searchText = ""
     /// A short message to show once. The View clears it.
     var notice: String?
 
@@ -57,6 +59,7 @@ final class NewChatViewModel {
     var emptyMessage: String { String(localized: "chat.new.empty", bundle: #bundle) }
     var namePlaceholder: String { String(localized: "chat.new.namePlaceholder", bundle: #bundle) }
     var cancelLabel: String { String(localized: "chat.new.cancel", bundle: #bundle) }
+    var searchPrompt: String { String(localized: "chat.new.searchPrompt", bundle: #bundle) }
     var okLabel: String { String(localized: "chat.new.ok", bundle: #bundle) }
 
     var createLabel: String {
@@ -80,6 +83,20 @@ final class NewChatViewModel {
     var canCreate: Bool {
         guard !isCreating, !network.isOffline else { return false }
         return selected.count == 1 || (isGroup && !trimmedName.isEmpty)
+    }
+
+    private var query: String { searchText.trimmingCharacters(in: .whitespacesAndNewlines) }
+
+    /// True while something is typed in the search field.
+    var isSearching: Bool { !query.isEmpty }
+
+    /// The friends to show: all of them, or the ones whose name or username match what was typed. Case and accents
+    /// are ignored, and nothing is asked of the repository. Picks stay picked whether or not they are shown.
+    func visibleFriends(in content: NewChatContent) -> [PersonChoice] {
+        guard isSearching else { return content.friends }
+        return content.friends.filter {
+            $0.name.localizedStandardContains(query) || $0.username.localizedStandardContains(query)
+        }
     }
 
     func isSelected(_ id: UserID) -> Bool { selected.contains(id) }
