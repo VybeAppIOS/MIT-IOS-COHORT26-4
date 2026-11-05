@@ -100,3 +100,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): medium sheet with drag indicator, destructive role on Leave and block pass; large text not looked at
 - Notes: Leave and block declines the invitation, then opens the shared Block question for the person who added you. Needs from Lohitaksh: the stub does not model a pending invitation, so the adder is taken to be the group's admin and a group you are already in is shown.
 
+## SC-CH6: done (local sheet, no route)
+- Files: ChatFeature/Poll/* (3 files), PollViewModelTests, catalog
+- Tests: 7
+- Screenshots: none: a local sheet opened from the Conversation's + menu; not looked at in the simulator
+- Button heights: Send and Cancel are system toolbar buttons; answer rows 44 pt+
+- Checklist (WO-3 prompt section 6): medium sheet with drag indicator, keyboard focus, scrollDismissesKeyboard pass; not looked at
+- Notes: The two answers are exactly 'I'm in' and 'Not for me' (taken from the shared strings). The + menu offers Poll in group chats only. The question is limited to 140 characters.
+

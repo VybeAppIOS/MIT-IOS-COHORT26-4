@@ -442,6 +442,83 @@
         }
       }
     },
+    "chat.poll.cancel" : {
+      "comment" : "Chat screens: chat.poll.cancel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "chat.poll.ok" : {
+      "comment" : "Chat screens: chat.poll.ok",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "chat.poll.options" : {
+      "comment" : "Chat screens: chat.poll.options",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Answers"
+          }
+        }
+      }
+    },
+    "chat.poll.placeholder" : {
+      "comment" : "Chat screens: chat.poll.placeholder",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coffee at 5?"
+          }
+        }
+      }
+    },
+    "chat.poll.question" : {
+      "comment" : "Chat screens: chat.poll.question",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Question"
+          }
+        }
+      }
+    },
+    "chat.poll.send" : {
+      "comment" : "Chat screens: chat.poll.send",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send"
+          }
+        }
+      }
+    },
+    "chat.poll.title" : {
+      "comment" : "Chat screens: chat.poll.title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New poll"
+          }
+        }
+      }
+    },
     "chat.share.cancel" : {
       "comment" : "Chat screens: chat.share.cancel",
       "localizations" : {
