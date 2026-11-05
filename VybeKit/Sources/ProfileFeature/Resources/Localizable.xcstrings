@@ -331,6 +331,72 @@
         }
       }
     },
+    "profile.drafts.delete" : {
+      "comment" : "Swipe action and confirm button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "profile.drafts.delete.confirm" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this Draft?"
+          }
+        }
+      }
+    },
+    "profile.drafts.delete.message" : {
+      "comment" : "Confirmation message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It can't be brought back."
+          }
+        }
+      }
+    },
+    "profile.drafts.empty" : {
+      "comment" : "Empty state.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No Drafts yet. Start a Hangout from scratch or Remix one you like."
+          }
+        }
+      }
+    },
+    "profile.drafts.new" : {
+      "comment" : "Button: start a Hangout from scratch in the editor.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New Hangout"
+          }
+        }
+      }
+    },
+    "profile.drafts.title" : {
+      "comment" : "Title of Drafts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drafts"
+          }
+        }
+      }
+    },
     "profile.help.blocked" : {
       "comment" : "Row that opens the Blocked list.",
       "localizations" : {
