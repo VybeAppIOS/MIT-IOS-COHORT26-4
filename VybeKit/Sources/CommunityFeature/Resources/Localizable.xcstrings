@@ -1,72 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "community.feed.empty" : {
-      "comment" : "Empty state of the Feed: no posts and no Picks yet.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Add friends to see their Hangouts here"
-          }
-        }
-      }
-    },
-    "community.feed.title" : {
-      "comment" : "Title of the Feed screen (the Community tab).",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Community"
-          }
-        }
-      }
-    },
-    "community.feed.emptyAction" : {
-      "comment" : "Button under the empty Feed message; opens Friends.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Find friends"
-          }
-        }
-      }
-    },
-    "community.feed.picks" : {
-      "comment" : "Header of the strip of official Vybe Hangouts.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Picks"
-          }
-        }
-      }
-    },
-    "community.feed.trending" : {
-      "comment" : "Row at the end of the Feed that opens Trending.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Trending this week near Kothrud"
-          }
-        }
-      }
-    },
-    "community.feed.friends" : {
-      "comment" : "VoiceOver label of the Friends button in the top bar.",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Friends"
-          }
-        }
-      }
-    },
     "community.feed.activity" : {
       "comment" : "VoiceOver label of the Activity (bell) button.",
       "localizations" : {
@@ -123,6 +57,39 @@
         }
       }
     },
+    "community.feed.empty" : {
+      "comment" : "Empty state of the Feed: no posts and no Picks yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add friends to see their Hangouts here"
+          }
+        }
+      }
+    },
+    "community.feed.emptyAction" : {
+      "comment" : "Button under the empty Feed message; opens Friends.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find friends"
+          }
+        }
+      }
+    },
+    "community.feed.friends" : {
+      "comment" : "VoiceOver label of the Friends button in the top bar.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    },
     "community.feed.likeFailed" : {
       "comment" : "Shown when a like could not be saved and was undone.",
       "localizations" : {
@@ -141,6 +108,204 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        }
+      }
+    },
+    "community.feed.picks" : {
+      "comment" : "Header of the strip of official Vybe Hangouts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picks"
+          }
+        }
+      }
+    },
+    "community.feed.title" : {
+      "comment" : "Title of the Feed screen (the Community tab).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Community"
+          }
+        }
+      }
+    },
+    "community.feed.trending" : {
+      "comment" : "Row at the end of the Feed that opens Trending.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trending this week near Kothrud"
+          }
+        }
+      }
+    },
+    "community.postDetail.comments" : {
+      "comment" : "Header of the comments preview.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comments"
+          }
+        }
+      }
+    },
+    "community.postDetail.edit" : {
+      "comment" : "Menu item on your own post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit post"
+          }
+        }
+      }
+    },
+    "community.postDetail.empty" : {
+      "comment" : "Shown when a post was removed or its author is blocked.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This post is unavailable"
+          }
+        }
+      }
+    },
+    "community.postDetail.friendsOnly" : {
+      "comment" : "Note on a post only friends can see.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends only"
+          }
+        }
+      }
+    },
+    "community.postDetail.likeFailed" : {
+      "comment" : "Shown when a like could not be saved and was undone.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't save your like. Try again."
+          }
+        }
+      }
+    },
+    "community.postDetail.more" : {
+      "comment" : "VoiceOver label of the ••• menu.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
+          }
+        }
+      }
+    },
+    "community.postDetail.noComments" : {
+      "comment" : "Shown when a post has no comments yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Be the first to comment."
+          }
+        }
+      }
+    },
+    "community.postDetail.ok" : {
+      "comment" : "Button that closes a short message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "community.postDetail.pickStats %lld %lld" : {
+      "comment" : "Line on a Pick: how many times it was done and remixed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done %1$lld× · Remixed %2$lld×"
+          }
+        }
+      }
+    },
+    "community.postDetail.report" : {
+      "comment" : "Menu item on someone else's post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        }
+      }
+    },
+    "community.postDetail.save" : {
+      "comment" : "VoiceOver label of the bookmark on a post that is not saved.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Hangout"
+          }
+        }
+      }
+    },
+    "community.postDetail.spots" : {
+      "comment" : "Header of the list of visited Spots.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spots visited"
+          }
+        }
+      }
+    },
+    "community.postDetail.title" : {
+      "comment" : "Title of the Post detail screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangout"
+          }
+        }
+      }
+    },
+    "community.postDetail.unsave" : {
+      "comment" : "VoiceOver label of the bookmark on a saved post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from saved"
+          }
+        }
+      }
+    },
+    "community.postDetail.viewAll" : {
+      "comment" : "Button that opens all comments.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View all comments"
           }
         }
       }
