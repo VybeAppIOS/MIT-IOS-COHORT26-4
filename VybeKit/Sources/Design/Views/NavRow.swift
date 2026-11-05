@@ -4,25 +4,30 @@ import SwiftUI
 public struct NavRow: View {
     private let title: VybeText
     private let subtitle: String?
+    private let value: String?
     private let systemImage: String?
     private let action: () -> Void
+    /// Icons differ in width, so each gets the same width and the titles line up.
+    @ScaledMetric private var iconWidth: CGFloat = 28
 
     public init(
-        _ title: LocalizedStringResource, subtitle: String? = nil, systemImage: String? = nil,
+        _ title: LocalizedStringResource, subtitle: String? = nil, value: String? = nil, systemImage: String? = nil,
         action: @escaping () -> Void
     ) {
         self.title = .fixed(title)
         self.subtitle = subtitle
+        self.value = value
         self.systemImage = systemImage
         self.action = action
     }
 
     public init(
-        verbatim title: String, subtitle: String? = nil, systemImage: String? = nil,
+        verbatim title: String, subtitle: String? = nil, value: String? = nil, systemImage: String? = nil,
         action: @escaping () -> Void
     ) {
         self.title = .verbatim(title)
         self.subtitle = subtitle
+        self.value = value
         self.systemImage = systemImage
         self.action = action
     }
@@ -33,6 +38,7 @@ public struct NavRow: View {
                 if let systemImage {
                     Image(systemName: systemImage)
                         .foregroundStyle(Theme.Color.accent)
+                        .frame(width: iconWidth)
                         .accessibilityHidden(true)
                 }
                 VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {
@@ -44,11 +50,17 @@ public struct NavRow: View {
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
+                if let value {
+                    Text(verbatim: value)
+                        .font(Theme.Font.body)
+                        .foregroundStyle(Theme.Color.textSecondary)
+                }
                 Image(systemName: "chevron.right")
                     .font(Theme.Font.footnote)
                     .foregroundStyle(Theme.Color.textSecondary)
                     .accessibilityHidden(true)
             }
+            .padding(.vertical, Theme.Spacing.small)
             .frame(minHeight: Theme.Size.minTapTarget)
             .contentShape(.rect)
         }
