@@ -32,7 +32,7 @@ struct AppShellTests {
         (.settingsPage(.account), "view:AccountSettingsView"), (.deleteAccount, "view:DeleteAccountView"),
         (.settingsPage(.help), "view:HelpView"), (.settingsPage(.placeSuggestions), "view:MySuggestionsView"),
         (.settingsPage(.about), "view:AboutView"), (.drafts, "view:DraftsView"),
-        (.admin(.reports), "view:AdminReportsView"),
+        (.admin(.reports), "view:AdminReportsView"), (.admin(.placeSuggestions), "view:AdminSuggestionsView"),
         (.readyToPost, "view:ReadyToPostView")
     ])
     func routesReachTheirScreen(route: Route, screenID: String) {

@@ -155,6 +155,193 @@
         }
       }
     },
+    "admin.review.address" : {
+      "comment" : "AD2 field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Address"
+          }
+        }
+      }
+    },
+    "admin.review.approve" : {
+      "comment" : "AD2 approve button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Approve and add the Place"
+          }
+        }
+      }
+    },
+    "admin.review.area" : {
+      "comment" : "AD2 field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Area (for example Kothrud)"
+          }
+        }
+      }
+    },
+    "admin.review.category" : {
+      "comment" : "AD2 field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kind of Place"
+          }
+        }
+      }
+    },
+    "admin.review.costLower" : {
+      "comment" : "AD2 number field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lowest cost per person, in rupees"
+          }
+        }
+      }
+    },
+    "admin.review.costUpper" : {
+      "comment" : "AD2 number field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Highest cost per person, in rupees"
+          }
+        }
+      }
+    },
+    "admin.review.name" : {
+      "comment" : "AD2 field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        }
+      }
+    },
+    "admin.review.note" : {
+      "comment" : "AD2 reject note field",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Why (sent to the person)"
+          }
+        }
+      }
+    },
+    "admin.review.place" : {
+      "comment" : "AD2 approve section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The Place"
+          }
+        }
+      }
+    },
+    "admin.review.reject" : {
+      "comment" : "AD2 reject button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reject with this note"
+          }
+        }
+      }
+    },
+    "admin.review.reject.section" : {
+      "comment" : "AD2 reject section",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reject"
+          }
+        }
+      }
+    },
+    "admin.review.residential" : {
+      "comment" : "AD2 one-tap reject",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reject: residential address"
+          }
+        }
+      }
+    },
+    "admin.review.title" : {
+      "comment" : "AD2 review sheet title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review suggestion"
+          }
+        }
+      }
+    },
+    "admin.suggestions.detail" : {
+      "comment" : "AD2 row: category, how long ago it was sent",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$@ ago"
+          }
+        }
+      }
+    },
+    "admin.suggestions.empty" : {
+      "comment" : "AD2 empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No suggestions waiting."
+          }
+        }
+      }
+    },
+    "admin.suggestions.residential.note" : {
+      "comment" : "Reject note sent for the one-tap residential reject",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Residential address (home or hostel). We don't add these."
+          }
+        }
+      }
+    },
+    "admin.suggestions.title" : {
+      "comment" : "AD2 title (team only)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place suggestions"
+          }
+        }
+      }
+    },
     "admin.target.comment" : {
       "comment" : "AD1 what was reported",
       "localizations" : {
