@@ -271,6 +271,10 @@ cover); and **CM2's "Save" on a post saves the underlying Hangout** (Save is a l
 2. **D2 pin preview:** card overlay (tab bar stays visible) or a sheet (covers the tab bar)?
 3. **"Search only in the Search tab" vs pickers.** Add Spot (E2), pick friends (CH3) and share (CH5) need typing: is a small filter
    field inside a picker acceptable, or must it all go through the Search tab?
+   *Answer for pickers (WO-2 fixes, approved by Atharva and Lohitaksh):* a small on-device filter (`.searchable`, name or
+   username, nothing sent anywhere) is allowed in pickers and lists of people you already have: New chat (CH3) and the
+   Friends hub (FR1). Finding new people and Hangouts stays in the Search tab. Add Spot (E2) and share (CH5) are not
+   decided here.
 4. **Done-but-not-posted runs:** keep them in "Ready to post" forever, or expire them?
 5. **When does a user's own Hangout appear publicly or on the map?** Only after its first posted run?
 6. **Live Hangout while using other tabs:** worth building the mini-bar (H4), or keep the live screen full-screen only?

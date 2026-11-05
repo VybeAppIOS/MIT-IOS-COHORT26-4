@@ -207,7 +207,8 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 4 No Report or Block on your own things | done (committed; checked at the end of Group 3) |
 | 5 Activity opens the post | done (committed together with item 4; checked at the end of Group 3) |
 | 6 New chat search | done (committed; checked at the end of Group 4) |
-| 7-25 | not started |
+| 7 Friends hub search | done (committed with the docs answer; checked at the end of Group 4) |
+| 8-25 | not started |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -269,3 +270,9 @@ Looked at (screenshots opened, with a temporary search text and sheet-open flag 
 Not driven by hand: typing in the field or picking while filtered (the ViewModel tests cover the logic). Not looked at: the sheet at the largest text size.
 Needs from Lohitaksh: none.
 
+### Item 7: Search field on the Friends hub
+What changed: `HubViewModel` has `searchText`, `isSearching`, `searchPrompt` and `matchingFriends(in:)` (same matching as item 6; only My friends are searched, not requests or suggestions). `HubView` has `.searchable`; while searching it shows only the matching friends (or `ContentUnavailableView.search`) and the other sections (limit note, Requests, Other requests, Sent, You might know) are hidden. Clearing the field brings them back; the loaded content is never changed. New string `friends.hub.searchPrompt`. `docs/tasks/40-screens-community-friends-chat.md`: the SC-FR1 "No search field here" line now describes this (and the SC-CH3 text describes item 6). `docs/IA.md` section 8 question 3 is answered for pickers: a small on-device filter is allowed in New chat and the Friends hub; Add Spot and share are not decided.
+Files: `FriendsFeature/Hub/HubView.swift`, `HubViewModel.swift`, `FriendsFeature/Resources/Localizable.xcstrings`, `FriendsFeatureTests/HubViewModelTests.swift`, `docs/tasks/40-screens-community-friends-chat.md`, `docs/IA.md`, this report.
+Tests: all friends without search; case and accents; username; requests and suggestions are not searched; content unchanged and no repository call while searching; clearing (including only spaces) restores everything.
+Looked at (screenshots opened): the hub with the empty search field, and with "ÁARAV" typed (only Sample Aarav under My friends, all other sections hidden). The search text was a temporary change that I reverted. Not driven by hand: typing and clearing. Not looked at: the "No Results" state on the hub (same code as New chat) and the hub at the largest text size with the search field.
+Needs from Lohitaksh: none. Decision for later: Add Spot and share pickers still have no filter.

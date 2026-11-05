@@ -35,12 +35,15 @@ struct HubContent: Equatable {
 }
 
 /// Friends hub (SC-FR1): requests to answer, requests with no mutual friends ("Other"), requests you sent,
-/// people you might know (mutual friends only) and your friends, A to Z. There is no search here; Search has it.
+/// people you might know (mutual friends only) and your friends, A to Z. A small search field filters your friends on
+/// the phone (name or username); while it is used the other sections are hidden. Finding new people is another tab.
 @MainActor @Observable
 final class HubViewModel {
     private(set) var state: LoadState<HubContent> = .loading
     /// True while the "Other requests" list is open (a local sheet).
     var showsOtherRequests = false
+    /// What the person typed in the search field. Filters the friends on the phone, with no repository call.
+    var searchText = ""
     /// The friend waiting for a "Remove?" answer.
     private(set) var removingID: UserID?
     /// A short message to show once. The View clears it.
@@ -94,6 +97,7 @@ final class HubViewModel {
     var cancelLabel: String { String(localized: "friends.hub.cancel", bundle: #bundle) }
     var doneLabel: String { String(localized: "friends.hub.done", bundle: #bundle) }
     var okLabel: String { String(localized: "friends.hub.ok", bundle: #bundle) }
+    var searchPrompt: String { String(localized: "friends.hub.searchPrompt", bundle: #bundle) }
     var otherTitle: String { String(localized: "friends.hub.otherTitle", bundle: #bundle) }
 
     func otherRequestsText(_ count: Int) -> String {
@@ -111,6 +115,21 @@ final class HubViewModel {
         case .friends: String(localized: "friends.hub.limit.friends \(FriendLimits.friends)", bundle: #bundle)
         case .pending: String(localized: "friends.hub.limit.pending \(FriendLimits.pendingRequests)", bundle: #bundle)
         case .today: String(localized: "friends.hub.limit.today \(FriendLimits.requestsPerDay)", bundle: #bundle)
+        }
+    }
+
+    // MARK: Search
+
+    private var query: String { searchText.trimmingCharacters(in: .whitespacesAndNewlines) }
+
+    /// True while something is typed in the search field. The View then shows only `matchingFriends`.
+    var isSearching: Bool { !query.isEmpty }
+
+    /// The friends whose name or username match what was typed. Case and accents are ignored.
+    func matchingFriends(in content: HubContent) -> [PersonRowData] {
+        guard isSearching else { return content.friends }
+        return content.friends.filter {
+            $0.name.localizedStandardContains(query) || $0.username.localizedStandardContains(query)
         }
     }
 

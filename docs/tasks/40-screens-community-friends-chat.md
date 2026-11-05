@@ -59,8 +59,10 @@ message. Common dependencies: **F-4, F-5, F-7, F-9, DS-1/2/3**.
 - **Read:** IA 4 (FR1) · PRODUCT 4 (Friends) · RISKS 3 (request limits)
 - **Build:** `Hub/`: sections **Requests** (received, Accept/Ignore), an **Other requests** row (requests
   with no mutual friends; opens a list), **Sent** (Cancel), **You might know** (mutual friends only, with the
-  reason "3 mutual friends"), **My friends** (alphabetical; menu: Remove, Block, Message). No search field here
-  (all search is the Search tab). Shows the friend cap (500) message and the request limits (30 a day, 100
+  reason "3 mutual friends"), **My friends** (alphabetical; menu: Remove, Block, Message). A small search field
+  (`.searchable`) filters **My friends** on the phone by name or username (case and accents ignored, no repository
+  call); while it is used only the matching friends show and the other sections are hidden, and clearing it brings
+  them back. Finding new people is still the Search tab. Shows the friend cap (500) message and the request limits (30 a day, 100
   pending) when reached.
 - **Done when:** tests: accept/ignore/cancel; limits message; "Other" folder routing.
 
@@ -104,8 +106,10 @@ message. Common dependencies: **F-4, F-5, F-7, F-9, DS-1/2/3**.
 ### SC-CH3 — New chat or group  `[M]`
 - **Depends on:** common, CP-4
 - **Build:** `NewChat/`: local sheet; pick friends (multi-select). One friend → a DM; two or more → a group
-  (**minimum 3 people including you**) with a name field; Create → opens the conversation.
-- **Done when:** tests: group below 3 is blocked with a message; DM reuses an existing conversation.
+  (**minimum 3 people including you**) with a name field; Create → opens the conversation. A `.searchable` field
+  filters your friends on the phone by name or username (case and accents ignored, no repository call); people
+  you already picked stay picked while the list is filtered; no match shows `ContentUnavailableView.search`.
+- **Done when:** tests: group below 3 is blocked with a message; DM reuses an existing conversation; filtering keeps picks.
 
 ### SC-CH4 — Group info  `[M]`
 - **Depends on:** common, CP-4
