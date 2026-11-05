@@ -84,3 +84,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): inline title, grouped inset list, confirmation before remove and leave, swipe to remove pass; large text not looked at
 - Notes: Admin handover on leave is done by the repository (the oldest member becomes admin). Below 3 members the screen shows a read-only note. Needs from Lohitaksh: the invitation rule 'a non-friend of the added person must accept first' needs a pending-member state that ChatRepository does not expose, so Add members adds at once.
 
+## SC-CH5: done
+- Files: ChatFeature/ShareSheet/* (3 files), ShareSheetViewModelTests, ChatScreens, AppShellTests row, catalog
+- Tests: 9
+- Screenshots: build/screenshots/ch5.png taken, not opened
+- Button heights: rows 44 pt+; Send and Cancel are system toolbar buttons
+- Checklist (WO-3 prompt section 6): sheet detents + drag indicator, ShareLink for More… pass; not looked at in the simulator
+- Notes: A post is shared as the Hangout behind it. Needs from Lohitaksh: no deep links or share URL exist yet, so More… shares the Hangout's title and 'find it on Vybe' as text.
+

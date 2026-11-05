@@ -365,6 +365,128 @@
         }
       }
     },
+    "chat.share.cancel" : {
+      "comment" : "Chat screens: chat.share.cancel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "chat.share.empty" : {
+      "comment" : "Chat screens: chat.share.empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add friends first, then you can share Hangouts with them."
+          }
+        }
+      }
+    },
+    "chat.share.friends" : {
+      "comment" : "Chat screens: chat.share.friends",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    },
+    "chat.share.groups" : {
+      "comment" : "Chat screens: chat.share.groups",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Groups"
+          }
+        }
+      }
+    },
+    "chat.share.more" : {
+      "comment" : "Chat screens: chat.share.more",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More…"
+          }
+        }
+      }
+    },
+    "chat.share.ok" : {
+      "comment" : "Chat screens: chat.share.ok",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "chat.share.send" : {
+      "comment" : "Chat screens: chat.share.send",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send"
+          }
+        }
+      }
+    },
+    "chat.share.sent %lld" : {
+      "comment" : "Chat screens: chat.share.sent %lld",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Sent to %lld chat"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Sent to %lld chats"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "chat.share.text %@" : {
+      "comment" : "Chat screens: chat.share.text %@",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@: find it on Vybe"
+          }
+        }
+      }
+    },
+    "chat.share.title" : {
+      "comment" : "Chat screens: chat.share.title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share to…"
+          }
+        }
+      }
+    },
     "chat.time.yesterday" : {
       "comment" : "Chat screens: chat.time.yesterday",
       "localizations" : {

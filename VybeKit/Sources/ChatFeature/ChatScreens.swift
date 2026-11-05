@@ -31,7 +31,9 @@ public enum ChatScreens {
 
     @ViewBuilder
     public static func shareSheet(_ item: ShareItem, _ deps: AppDependencies) -> some View {
-        ScreenPlaceholder(id: "CH5", name: "Share to…")
+        ShareSheetView(viewModel: ShareSheetViewModel(
+            item: item, chat: deps.chat, friends: deps.friends, hangouts: deps.hangouts, feed: deps.feed,
+            session: deps.session, network: deps.network, router: deps.router))
     }
 
     @ViewBuilder
