@@ -221,7 +221,9 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 13 Read receipts | done (own commit) |
 | 14 Voice notes: hold to record | done (own commit; microphone purpose string still missing, see below) |
 | 15 Docs for the approved fixes | done (docs only; no check run, as agreed) |
-| 16-25 | not started (later stages) |
+| 16 Full check and push | done (check passed at commit 74374d2, then pushed) |
+| 17-18 Preview build on the simulator | see the summary (local only, not pushed) |
+| 20-25 Search | not on this branch: see `a/wo2-search-alt` and PR #66 |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
