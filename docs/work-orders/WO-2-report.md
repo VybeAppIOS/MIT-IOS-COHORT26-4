@@ -240,3 +240,5 @@ Measured on the Invitation sheet (iPhone 18 Pro, 3x, screenshot pixels / 3): bef
 Not changed: `EmptyStateView`, `ErrorView`, `BlockConfirmView` and the Report screen still use `.controlSize(.large)` buttons of their own (about 51 pt); they were not on the list.
 Not looked at: these two buttons at the largest text size on a screen (only the previews exist); not tapped by hand.
 Needs from Lohitaksh: if you want the other large buttons above to match, say so and I will switch them to `PrimaryButton`.
+
+Group 2 full check: one `./scripts/check.sh` run after items 2 and 3 ended with `==> All checks passed` (exit 0).
