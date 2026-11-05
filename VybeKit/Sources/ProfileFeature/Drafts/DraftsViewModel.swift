@@ -25,6 +25,12 @@ final class DraftsViewModel {
         self.router = router
     }
 
+    /// The toolbar "+" shows only when there are Drafts; with none, the empty state carries the New Hangout button.
+    var hasDrafts: Bool {
+        if case .loaded = state { return true }
+        return false
+    }
+
     var title: String { String(localized: "profile.drafts.title", bundle: #bundle) }
     var emptyMessage: String { String(localized: "profile.drafts.empty", bundle: #bundle) }
     var newTitle: String { String(localized: "profile.drafts.new", bundle: #bundle) }

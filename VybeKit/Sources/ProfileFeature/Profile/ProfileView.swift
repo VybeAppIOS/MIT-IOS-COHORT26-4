@@ -67,7 +67,8 @@ struct ProfileView: View {
     private var libraryRows: some View {
         VStack(spacing: 0) {
             ForEach(viewModel.libraryRows) { row in
-                NavRow(verbatim: row.title, subtitle: row.count.formatted(), systemImage: row.systemImage) {
+                NavRow(verbatim: row.title, subtitle: row.hint, value: row.count.formatted(),
+                       systemImage: row.systemImage) {
                     viewModel.libraryRowTapped(row)
                 }
                 .padding(.horizontal, Theme.Spacing.large)

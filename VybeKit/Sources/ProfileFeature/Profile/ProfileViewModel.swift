@@ -13,6 +13,7 @@ struct ProfileContent: Equatable {
 struct ProfileLibraryRow: Identifiable, Equatable {
     let id: String
     let title: String
+    let hint: String
     let systemImage: String
     let count: Int
     let route: Route
@@ -63,10 +64,13 @@ final class ProfileViewModel {
     /// Read from the shared library, so the numbers change as soon as something is saved, drafted or finished.
     var libraryRows: [ProfileLibraryRow] {
         [ProfileLibraryRow(id: "saved", title: String(localized: "profile.profile.saved", bundle: #bundle),
+                           hint: String(localized: "profile.profile.saved.hint", bundle: #bundle),
                            systemImage: "bookmark", count: libraryStore.library.saves.count, route: .saved),
          ProfileLibraryRow(id: "drafts", title: String(localized: "profile.profile.drafts", bundle: #bundle),
+                           hint: String(localized: "profile.profile.drafts.hint", bundle: #bundle),
                            systemImage: "pencil", count: libraryStore.drafts.count, route: .drafts),
          ProfileLibraryRow(id: "ready", title: String(localized: "profile.profile.ready", bundle: #bundle),
+                           hint: String(localized: "profile.profile.ready.hint", bundle: #bundle),
                            systemImage: "paperplane", count: libraryStore.finishedRuns.count, route: .readyToPost)]
     }
 
@@ -85,7 +89,7 @@ final class ProfileViewModel {
             let mine = try await profiles.currentProfile()
             loadedProfile = mine
             let posts = try await myPosts(mine.id)
-            state = .loaded(ProfileContent(header: header(for: mine), posts: posts.map(card)))
+            state = .loaded(ProfileContent(header: header(for: mine), posts: posts.map { card($0, avatar: mine) }))
             hasLoaded = true
         } catch is CancellationError {
             return   // leaving the screen is not an error (ADR 005)
@@ -122,10 +126,11 @@ final class ProfileViewModel {
             friendCount: mine.friendCount)
     }
 
-    private func card(_ run: HangoutRun) -> PostCardData {
+    private func card(_ run: HangoutRun, avatar mine: UserProfile) -> PostCardData {
         let cover = run.photos.first { $0.id == run.coverPhotoID } ?? run.photos.first
-        return PostCardData(run, coverURL: cover.flatMap { photos.url(for: $0) }, avatarURL: nil, routePoints: [],
-                            remixCount: 0, isPick: false, isLiked: false, isSaved: false)
+        let avatarURL = mine.photo.flatMap { photos.url(for: $0) }
+        return PostCardData(run, coverURL: cover.flatMap { photos.url(for: $0) }, avatarURL: avatarURL,
+                            routePoints: [], remixCount: 0, isPick: false, isLiked: false, isSaved: false)
     }
 
     // MARK: What the person does

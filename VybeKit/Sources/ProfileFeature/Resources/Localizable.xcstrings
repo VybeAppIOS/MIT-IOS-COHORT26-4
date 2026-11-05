@@ -1101,6 +1101,17 @@
         }
       }
     },
+    "profile.profile.drafts.hint" : {
+      "comment" : "Row hint on My profile.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Started, not finished"
+          }
+        }
+      }
+    },
     "profile.profile.posts" : {
       "comment" : "Header above my posted Hangouts.",
       "localizations" : {
@@ -1134,6 +1145,17 @@
         }
       }
     },
+    "profile.profile.ready.hint" : {
+      "comment" : "Row hint on My profile.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finished, not shared yet"
+          }
+        }
+      }
+    },
     "profile.profile.saved" : {
       "comment" : "Row: saved Hangouts.",
       "localizations" : {
@@ -1141,6 +1163,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Saved"
+          }
+        }
+      }
+    },
+    "profile.profile.saved.hint" : {
+      "comment" : "Row hint on My profile.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bookmarked Hangouts"
           }
         }
       }

@@ -34,8 +34,8 @@ struct AddSpotView: View {
             } placeholder: {
                 List(0..<4, id: \.self) { _ in Text(verbatim: viewModel.title).frame(minHeight: thumbnailSize) }
             } empty: {
-                EmptyStateView(systemImage: "mappin.slash", message: viewModel.emptyMessage,
-                               actionTitle: viewModel.suggestTitle) { viewModel.suggestTapped() }
+                // The bar below already offers "Can't find it?", so the empty state only explains.
+                EmptyStateView(systemImage: "mappin.slash", message: viewModel.emptyMessage)
             }
             .navigationTitle(Text(verbatim: viewModel.title))
             .navigationBarTitleDisplayMode(.inline)

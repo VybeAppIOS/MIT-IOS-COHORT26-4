@@ -44,9 +44,12 @@ struct DraftsView: View {
         .background(Theme.Color.surface)
         .navigationTitle(Text(verbatim: viewModel.title))
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
-                IconButton(systemImage: "plus", verbatimLabel: viewModel.newTitle) { viewModel.newTapped() }
-                    .accessibilityIdentifier("profile.drafts.new")
+            // With no Drafts the empty state already offers New Hangout; showing the "+" too would be a twin button.
+            if viewModel.hasDrafts {
+                ToolbarItem(placement: .primaryAction) {
+                    IconButton(systemImage: "plus", verbatimLabel: viewModel.newTitle) { viewModel.newTapped() }
+                        .accessibilityIdentifier("profile.drafts.new")
+                }
             }
         }
         .confirmationDialog(viewModel.deleteConfirmTitle, isPresented: $viewModel.isConfirmingDelete,
