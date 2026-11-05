@@ -11,26 +11,36 @@ struct AppShellTests {
 
     private func describe(_ view: some Any) -> String { String(describing: view) }
 
+    /// A placeholder is found by its quoted screen ID. A screen that has been built is found by its type name:
+    /// write `"view:ReportView"` in the tables below when a screen task replaces its placeholder.
+    private func reaches(_ view: some Any, _ expected: String) -> Bool {
+        let text = describe(view)
+        if expected.hasPrefix("view:") { return text.contains(expected.dropFirst("view:".count)) }
+        return text.contains("\"\(expected)\"")
+    }
+
     @Test func aHangoutRouteResolvesThroughHangoutDetailScreens() {
-        #expect(describe(factory.screen(for: .hangout("h1"))).contains("\"HD1\""))
+        #expect(reaches(factory.screen(for: .hangout("h1")), "view:HangoutDetailView"))
     }
 
     @Test(arguments: [
         (Route.signIn, "A1"), (.nameAndPhoto, "O2"), (.remixTree("h1"), "HD3"), (.liveSummary("r1"), "H3"),
         (.composePost("r1"), "PO1"), (.searchSeeAll(.places), "S2"), (.saved, "PR4"),
         (.settingsPage(.privacy), "ST2"), (.post("r1"), "CM2"), (.friendsHub, "FR1"), (.profile("u1"), "PR3"),
-        (.conversation("c1"), "CH2"), (.report(.user("u1")), "R1"), (.admin(.users), "AD3"), (.suggestPlace, "E3")
+        (.conversation("c1"), "CH2"), (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
+        (.suggestPlace, "E3")
     ])
     func routesReachTheirScreen(route: Route, screenID: String) {
-        #expect(describe(factory.screen(for: route)).contains("\"\(screenID)\""))
+        #expect(reaches(factory.screen(for: route), screenID))
     }
 
     @Test(arguments: [
-        (Sheet.spot("p1"), "HD2"), (.report(.place("p1")), "R1"), (.share(.post("r1")), "CH5"),
+        (Sheet.spot("p1"), "HD2"), (.report(.place("p1")), "view:ReportView"),
+        (.blockConfirm("u1"), "view:BlockConfirmView"), (.share(.post("r1")), "CH5"),
         (.suggestPlace, "E3"), (.editPost("r1"), "PO2"), (.groupInvitation("c1"), "CH7")
     ])
     func sheetsReachTheirScreen(sheet: Sheet, screenID: String) {
-        #expect(describe(factory.sheet(for: sheet)).contains("\"\(screenID)\""))
+        #expect(reaches(factory.sheet(for: sheet), screenID))
     }
 
     @Test func coversReachTheirScreen() {

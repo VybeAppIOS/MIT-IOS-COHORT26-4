@@ -26,7 +26,7 @@ struct RouteCodingTests {
 
     static let allSheets: [Sheet] = [
         .spot("p1"), .report(.place("p1")), .share(.hangout("h1")), .share(.post("r1")), .suggestPlace,
-        .editPost("r1"), .groupInvitation("c1")
+        .editPost("r1"), .groupInvitation("c1"), .blockConfirm("u1")
     ]
 
     static let allCovers: [Cover] = [.live("h1"), .editor(.new), .editor(.draft("h1")), .editor(.remix("h1"))]
@@ -64,9 +64,10 @@ struct RouteCodingTests {
     }
 
     @Test func sheetAndCoverIDsAreStableAndDistinct() {
-        #expect(Set(Self.allSheets.map(\.id)).count == 6)   // the two share cases share one id
+        #expect(Set(Self.allSheets.map(\.id)).count == 7)   // the two share cases share one id
         #expect(Cover.live("h1").id == "live-h1")
         #expect(Sheet.spot("p1").id == "spot-p1")
+        #expect(Sheet.blockConfirm("u1").id == "block-u1")
     }
 
     @Test func tabsAndStacksRoundTrip() throws {

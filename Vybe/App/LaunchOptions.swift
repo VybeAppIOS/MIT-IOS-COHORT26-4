@@ -169,7 +169,7 @@ enum DebugDestination: Equatable {
 
     private static let sheetsWithID: [String: @Sendable (String) -> Sheet] = [
         "spot": { .spot(PlaceID($0)) }, "edit-post": { .editPost(RunID($0)) },
-        "group-invitation": { .groupInvitation(ConversationID($0)) }
+        "group-invitation": { .groupInvitation(ConversationID($0)) }, "block": { .blockConfirm(UserID($0)) }
     ]
 
     private static func sheet(_ parts: [String]) -> Sheet? {
@@ -208,6 +208,7 @@ enum DebugDestination: Equatable {
         case "user": .user(UserID(id))
         case "message": .message(MessageID(id))
         case "place": .place(PlaceID(id))
+        case "hangout": .hangout(HangoutID(id))
         default: nil
         }
     }

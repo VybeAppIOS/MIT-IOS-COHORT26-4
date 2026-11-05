@@ -8,6 +8,8 @@ public enum Sheet: Hashable, Codable, Sendable, Identifiable {
     case spot(PlaceID)
     /// R1.
     case report(ReportTarget)
+    /// R2: "Block this person?". Opened from R1, a person's profile and a chat.
+    case blockConfirm(UserID)
     /// CH5.
     case share(ShareItem)
     /// E3: opened from Search (empty) and the editor.
@@ -21,6 +23,7 @@ public enum Sheet: Hashable, Codable, Sendable, Identifiable {
         switch self {
         case .spot(let id): "spot-\(id.rawValue)"
         case .report: "report"
+        case .blockConfirm(let id): "block-\(id.rawValue)"
         case .share: "share"
         case .suggestPlace: "suggestPlace"
         case .editPost(let id): "editPost-\(id.rawValue)"

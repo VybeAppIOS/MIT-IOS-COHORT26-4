@@ -44,6 +44,7 @@ struct ScreenFactory {
         switch sheet {
         case .spot(let id): HangoutDetailScreens.spotSheet(id, deps)
         case .report(let target): ModerationScreens.reportSheet(target, deps)
+        case .blockConfirm(let id): ModerationScreens.blockConfirmSheet(id, deps)
         case .share(let item): ChatScreens.shareSheet(item, deps)
         case .suggestPlace: EditorScreens.suggestPlaceSheet(deps)
         case .editPost(let id): PostingScreens.editPostSheet(id, deps)

@@ -68,7 +68,7 @@ struct LaunchOptionsTests {
         ("sheet/spot/p1", DebugDestination.sheet(.spot("p1"))), ("sheet/suggest-place", .sheet(.suggestPlace)),
         ("sheet/edit-post/r1", .sheet(.editPost("r1"))),
         ("sheet/group-invitation/c1", .sheet(.groupInvitation("c1"))),
-        ("sheet/report/user/u1", .sheet(.report(.user("u1")))),
+        ("sheet/report/user/u1", .sheet(.report(.user("u1")))), ("sheet/block/u1", .sheet(.blockConfirm("u1"))),
         ("sheet/share/hangout/h1", .sheet(.share(.hangout("h1")))),
         ("sheet/share/post/r1", .sheet(.share(.post("r1")))),
         ("cover/live/h1", .cover(.live("h1"))),

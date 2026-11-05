@@ -1,5 +1,171 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "hangoutDetail.more" : {
+      "comment" : "Toolbar menu with Remix and Report.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
+          }
+        }
+      }
+    },
+    "hangoutDetail.notFound" : {
+      "comment" : "Shown when the Hangout was removed or never existed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This Hangout is no longer available."
+          }
+        }
+      }
+    },
+    "hangoutDetail.offline" : {
+      "comment" : "Under the disabled Start button while offline.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're offline. Connect to start this Hangout."
+          }
+        }
+      }
+    },
+    "hangoutDetail.otherHangoutLive" : {
+      "comment" : "Under the disabled Start button while another Hangout is live.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have a Hangout going. Finish it first."
+          }
+        }
+      }
+    },
+    "hangoutDetail.remix" : {
+      "comment" : "Menu item: make your own version of this Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remix"
+          }
+        }
+      }
+    },
+    "hangoutDetail.remixedFrom %@" : {
+      "comment" : "Credit line on a Remix. %@ is the original author's username.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remixed from @%@"
+          }
+        }
+      }
+    },
+    "hangoutDetail.report" : {
+      "comment" : "Menu item: report this Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        }
+      }
+    },
+    "hangoutDetail.resume" : {
+      "comment" : "Main button on Hangout detail while this Hangout is live.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Resume Hangout"
+          }
+        }
+      }
+    },
+    "hangoutDetail.save" : {
+      "comment" : "Toolbar button: save this Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "hangoutDetail.saved" : {
+      "comment" : "Toolbar button when the Hangout is saved; tap to unsave.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
+    "hangoutDetail.shareButton" : {
+      "comment" : "Toolbar button: share this Hangout as text.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Share"
+          }
+        }
+      }
+    },
+    "hangoutDetail.shareText %@" : {
+      "comment" : "Plain text that Share sends. %@ is the Hangout title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@\nFind it on Vybe"
+          }
+        }
+      }
+    },
+    "hangoutDetail.spotsHeader" : {
+      "comment" : "Heading above the ordered Spots.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spots"
+          }
+        }
+      }
+    },
+    "hangoutDetail.start" : {
+      "comment" : "Main button on Hangout detail; starts the live Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Start Hangout"
+          }
+        }
+      }
+    },
+    "hangoutDetail.trekSafety" : {
+      "comment" : "Safety note when any Spot is a trek (RISKS 7).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This Hangout has a trek. Go in a group, carry water, and head back before dark."
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }
