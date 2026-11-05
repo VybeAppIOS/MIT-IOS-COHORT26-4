@@ -27,7 +27,7 @@ struct AppShellTests {
         (Route.signIn, "view:SignInView"), (.nameAndPhoto, "view:NameAndPhotoView"),
         (.remixTree("h1"), "view:RemixTreeView"),
         (.liveSummary("r1"), "H3"),
-        (.composePost("r1"), "PO1"), (.searchSeeAll(.places), "S2"), (.saved, "PR4"),
+        (.composePost("r1"), "PO1"), (.searchSeeAll(.places), "view:SeeAllView"), (.saved, "PR4"),
         (.settingsPage(.privacy), "ST2"), (.post("r1"), "view:PostDetailView"),
         (.trending, "view:TrendingView"), (.activity, "view:ActivityView"),
         (.friendsHub, "view:HubView"),
