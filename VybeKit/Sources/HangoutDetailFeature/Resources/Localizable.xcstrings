@@ -56,6 +56,72 @@
         }
       }
     },
+    "hangoutDetail.remixTree.done %@" : {
+      "comment" : "Remix tree counter. %@ is a formatted number of posted runs.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done %@×"
+          }
+        }
+      }
+    },
+    "hangoutDetail.remixTree.empty" : {
+      "comment" : "Remix tree when there are no Remixes.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nobody has remixed this yet. Be the first."
+          }
+        }
+      }
+    },
+    "hangoutDetail.remixTree.remixed %@" : {
+      "comment" : "Remix tree counter. %@ is a formatted number of counted Remixes.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remixed %@×"
+          }
+        }
+      }
+    },
+    "hangoutDetail.remixTree.remixedFromHeader" : {
+      "comment" : "Remix tree heading above the original Hangout's card.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remixed from"
+          }
+        }
+      }
+    },
+    "hangoutDetail.remixTree.remixesHeader" : {
+      "comment" : "Remix tree heading above the list of Remixes.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remixes of this Hangout"
+          }
+        }
+      }
+    },
+    "hangoutDetail.remixTree.title" : {
+      "comment" : "Title of the Remix tree screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remixes"
+          }
+        }
+      }
+    },
     "hangoutDetail.remixedFrom %@" : {
       "comment" : "Credit line on a Remix. %@ is the original author's username.",
       "localizations" : {
