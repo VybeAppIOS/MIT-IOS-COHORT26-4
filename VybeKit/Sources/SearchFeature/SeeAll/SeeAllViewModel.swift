@@ -110,8 +110,10 @@ final class SeeAllViewModel {
         }
     }
 
-    /// Blocked people never appear.
-    private func isShownPerson(_ person: UserProfile) -> Bool { !session.isBlocked(person.id) }
+    /// Blocked people never appear, and neither do you.
+    private func isShownPerson(_ person: UserProfile) -> Bool {
+        !session.isBlocked(person.id) && person.id != session.currentUser?.id
+    }
 
     private func row(for hangout: Hangout) -> SearchRowData {
         let card = HangoutCardData(hangout, coverURL: nil, isSaved: false)

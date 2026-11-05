@@ -23,6 +23,20 @@ private struct ManyFriends: FriendsRepository {
     func removeFriend(_ user: UserID) async throws {}
 }
 
+/// A friends list with exactly the given people.
+private struct SelfIncludingFriends: FriendsRepository {
+    let people: [UserProfile]
+
+    func friends() async throws -> [UserProfile] { people }
+    func requests() async throws -> FriendRequests { FriendRequests() }
+    func suggestions() async throws -> [UserProfile] { [] }
+    func mutualFriends(with user: UserID) async throws -> [UserProfile] { [] }
+    func sendRequest(to user: UserID) async throws -> FriendRequest { throw AppError.unknown }
+    func acceptRequest(from user: UserID) async throws {}
+    func cancelRequest(to user: UserID) async throws {}
+    func removeFriend(_ user: UserID) async throws {}
+}
+
 /// A search repository with fixed results that remembers what it was asked.
 private final class RecordingSearch: SearchRepository {
     let results: SearchResults
@@ -117,12 +131,31 @@ struct SeeAllViewModelTests {
             settings: AppSettings(suiteName: "test.\(UUID().uuidString)"), currentUser: SampleData.signedInUser,
             blockedIDs: [SampleSocialData.aarav.id])
         blocking.lastSearchQuery = "a"
-        let search = RecordingSearch(SearchResults(people: [SampleSocialData.aarav, SampleSocialData.currentUser]))
+        let search = RecordingSearch(SearchResults(people: [SampleSocialData.aarav, SampleSocialData.isha]))
         let viewModel = SeeAllViewModel(
             kind: .people, hangouts: deps.hangouts, places: deps.places, friends: deps.friends, search: search,
             session: blocking, router: deps.router)
         await viewModel.load()
-        #expect(content(viewModel)?.rows.map(\.id) == [SampleSocialData.currentUser.id.rawValue])
+        #expect(content(viewModel)?.rows.map(\.id) == [SampleSocialData.isha.id.rawValue])
+    }
+
+    @Test func youNeverAppearInYourOwnPeopleList() async {
+        let deps = AppDependencies.preview(.loaded)
+        #expect(deps.session.currentUser?.id == SampleSocialData.currentUser.id)
+        let others = [SampleSocialData.aarav, SampleSocialData.isha]
+        // In the matches ...
+        deps.session.lastSearchQuery = "sample"
+        let search = RecordingSearch(SearchResults(people: [SampleSocialData.currentUser] + others))
+        let matches = makeViewModel(.people, search: search, deps: deps)
+        await matches.load()
+        #expect(content(matches)?.rows.map(\.id) == others.map(\.id.rawValue))
+        // ... and in the whole group (a friends list that wrongly includes you).
+        deps.session.lastSearchQuery = ""
+        let wrongList = SelfIncludingFriends(people: [SampleSocialData.currentUser] + others)
+        let everyone = makeViewModel(.people, friends: wrongList, deps: deps)
+        await everyone.load()
+        #expect(content(everyone)?.rows.map(\.id).contains(SampleSocialData.currentUser.id.rawValue) == false)
+        #expect(content(everyone)?.rows.count == others.count)
     }
 
     @Test func matchesArePagedToo() async {

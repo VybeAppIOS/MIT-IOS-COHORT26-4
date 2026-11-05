@@ -235,7 +235,7 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 16-19 | later stages, on `a/wo2-screens` |
 | 20 Recent searches are kept | done (own commit) |
 | 21 See all shows the matches | done (own commit) |
-| 22 You are not in your own People results | not started |
+| 22 You are not in your own People results | done (own commit) |
 | 23 People on a normal launch | not started |
 | 24 SC-S1 "Done when" on a real run | not started |
 | 25 Report and check | not started |
@@ -389,6 +389,12 @@ What changed: `SessionStore.lastSearchQuery` (in memory, like `onboardingDraft`;
 Files: `Core/Stores/SessionStore.swift`, `SearchFeature/SeeAll/SeeAllViewModel.swift`, `SeeAll+Preview.swift`, `SearchFeature/SearchScreens.swift`, `SearchFeature/Search/SearchViewModel.swift`, `SeeAllViewModelTests`, `SearchViewModelTests`, this report.
 Tests (SearchFeatureTests: 26 passed): only matches in that group and the repository is asked with only that group and the trimmed words; blank query never searches and lists the whole group; matches keep blocked people out; matches are paged; no matches is the empty state; the Search ViewModel stores the trimmed words when See all is tapped.
 Not looked at yet: the screen (item 24 looks at every state).
+
+### Item 22: You never appear in your own People results
+What changed: both ViewModels drop `session.currentUser?.id` from People (next to the existing blocked filter): `SearchViewModel` for the Search groups and `SeeAllViewModel` for the matches and for the whole friends list. If you are the only match, the People group disappears (and the empty state shows when nothing else matches).
+Files: `SearchFeature/Search/SearchViewModel.swift`, `SearchFeature/SeeAll/SeeAllViewModel.swift`, `SearchViewModelTests`, `SeeAllViewModelTests`, this report.
+Tests (SearchFeatureTests: 28 passed): Search drops me and keeps others, and shows the empty state when only I match; See all drops me from the matches and from a friends list that wrongly includes me.
+Not looked at: the screen (item 24).
 
 ### Shared files touched in this job
 From `git diff --name-only 27fee49..HEAD` (the commits of the fixes, not the merge from `main`), restricted to the approved shared folders. The list for the whole PR (which also has Tanvi's Feed and PostCard commits and the first WO-2 round, for example `Components/PostCard.swift`) is `git diff --name-only origin/main...HEAD`.
