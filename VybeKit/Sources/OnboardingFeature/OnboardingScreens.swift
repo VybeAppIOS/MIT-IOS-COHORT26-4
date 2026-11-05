@@ -17,7 +17,10 @@ public enum OnboardingScreens {
             NameAndPhotoView(viewModel: NameAndPhotoViewModel(
                 session: deps.session, router: deps.router, processor: PhotoProcessor()))
         case .interests: InterestsView(viewModel: InterestsViewModel(session: deps.session, router: deps.router))
-        case .location: ScreenPlaceholder(id: "O4", name: "Location")
+        case .location:
+            LocationView(viewModel: LocationViewModel(
+                location: deps.location, hangouts: deps.hangouts, places: deps.places, session: deps.session,
+                router: deps.router))
         case .findFriends: ScreenPlaceholder(id: "O5", name: "Find friends")
         }
     }
