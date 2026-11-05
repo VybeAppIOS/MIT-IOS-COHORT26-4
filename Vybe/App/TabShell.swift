@@ -1,6 +1,7 @@
 import CommunityFeature
 import Core
 import DiscoverFeature
+import LiveFeature
 import ProfileFeature
 import SearchFeature
 import SwiftUI
@@ -28,6 +29,7 @@ struct TabShell: View {
                 RoutedStack(stack: .tab(.search), deps: deps) { SearchScreens.root(deps) }
             }
         }
+        .modifier(LiveScreens.miniBarAccessory(deps))   // the live mini-bar above the tabs (SC-H4)
         .modifier(RouterSheetHost(deps: deps, coverIsUp: false))
     }
 }

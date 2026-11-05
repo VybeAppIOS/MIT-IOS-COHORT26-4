@@ -12,6 +12,13 @@ public enum LiveScreens {
             location: deps.location, router: deps.router))
     }
 
+    /// The live mini-bar (H4) for the App's `TabView`: `.modifier(LiveScreens.miniBarAccessory(deps))`. It shows only
+    /// while a run is live and its screen is closed.
+    public static func miniBarAccessory(_ deps: AppDependencies) -> some ViewModifier {
+        MiniBarAccessory(viewModel: MiniBarViewModel(
+            hangouts: deps.hangouts, places: deps.places, liveStore: deps.liveStore, router: deps.router))
+    }
+
     @ViewBuilder
     public static func view(for route: LiveRoute, _ deps: AppDependencies) -> some View {
         switch route {
