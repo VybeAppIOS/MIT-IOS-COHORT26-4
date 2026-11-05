@@ -63,6 +63,7 @@ for mode in "${MODES[@]}"; do
   [ "$MODE" = "all" ] && target="$OUT/$NAME-$mode.png"
   xcrun simctl terminate "$UDID" "$BUNDLE_ID" >/dev/null 2>&1 || true
   args=(-skipOnboarding -resetState -stubMode "$mode")
+  [ "${TEAM:-0}" = "1" ] && args+=(-teamAccount)
   case "$ROUTE" in
     none) ;;
     tab:*) args+=(-tab "${ROUTE#tab:}") ;;
