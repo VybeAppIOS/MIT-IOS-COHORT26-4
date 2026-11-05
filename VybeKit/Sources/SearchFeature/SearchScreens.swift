@@ -7,9 +7,7 @@ import SwiftUI
 public enum SearchScreens {
     @ViewBuilder
     public static func root(_ deps: AppDependencies) -> some View {
-        SearchView(viewModel: SearchViewModel(
-            search: deps.search, hangouts: deps.hangouts, libraryStore: deps.libraryStore, session: deps.session,
-            router: deps.router))
+        ScreenPlaceholder(id: "S1", name: "Search")
     }
 
     @ViewBuilder
