@@ -35,6 +35,9 @@ public enum ChatScreens {
             GroupInfoView(viewModel: GroupInfoViewModel(
                 conversationID: id, chat: deps.chat, friends: deps.friends, profiles: deps.profiles,
                 session: deps.session, network: deps.network, router: deps.router))
+        case .groupPhotos(let id):
+            GroupPhotosView(viewModel: GroupPhotosViewModel(
+                conversationID: id, chat: deps.chat, photos: deps.photos, session: deps.session))
         }
     }
 

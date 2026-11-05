@@ -11,6 +11,7 @@ struct ChatScreensTests {
         _ = ChatScreens.view(for: .list, deps)
         _ = ChatScreens.view(for: .conversation("c1"), deps)
         _ = ChatScreens.view(for: .groupInfo("c1"), deps)
+        _ = ChatScreens.view(for: .groupPhotos("c1"), deps)
         _ = ChatScreens.shareSheet(.hangout("h1"), deps)
         _ = ChatScreens.groupInvitationSheet("c1", deps)
     }

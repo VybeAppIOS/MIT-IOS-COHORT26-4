@@ -529,6 +529,17 @@
         }
       }
     },
+    "chat.group.photos" : {
+      "comment" : "Group info: the row that opens every photo sent in the group.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        }
+      }
+    },
     "chat.group.readOnly" : {
       "comment" : "Chat screens: chat.group.readOnly",
       "localizations" : {
@@ -591,6 +602,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unmute"
+          }
+        }
+      }
+    },
+    "chat.groupPhotos.empty" : {
+      "comment" : "Empty state of the Group photos screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No photos yet. Photos sent in this group show up here."
+          }
+        }
+      }
+    },
+    "chat.groupPhotos.title" : {
+      "comment" : "Title of the Group photos screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group photos"
           }
         }
       }

@@ -35,6 +35,7 @@ struct AppShellTests {
         (.mutualFriends("u1"), "view:MutualFriendsView"),
         (.conversation("c1"), "view:ConversationView"),
         (.groupInfo("c1"), "view:GroupInfoView"),
+        (.groupPhotos("c1"), "view:GroupPhotosView"),
         (.chatList, "view:ListView"),
         (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
         (.suggestPlace, "E3")
