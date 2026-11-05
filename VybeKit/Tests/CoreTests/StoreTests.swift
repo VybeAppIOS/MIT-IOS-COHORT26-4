@@ -87,6 +87,15 @@ struct SessionStoreTests {
         #expect(!session.onboardingDone && !settings.onboardingDone && settings.interests.isEmpty)
     }
 
+    @Test func recentSearchesAreKeptInSettingsAndForgottenOnReset() {
+        let settings = freshSettings()
+        let session = SessionStore(settings: settings)
+        session.recentSearches = ["one", "two"]
+        #expect(SessionStore(settings: settings).recentSearches == ["one", "two"])
+        session.resetOnboarding()
+        #expect(session.recentSearches.isEmpty)
+    }
+
     @Test func blockedPeopleAreKnown() {
         let session = SessionStore(settings: freshSettings(), blockedIDs: [SampleData.friend.id])
         #expect(session.isBlocked(SampleData.friend.id) && !session.isBlocked(SampleData.signedInUser.id))

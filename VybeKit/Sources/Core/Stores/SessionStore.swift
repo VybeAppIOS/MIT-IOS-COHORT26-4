@@ -26,6 +26,9 @@ public final class SessionStore {
     /// Shows the hidden admin pages in Settings. The server enforces access; this only hides the entry.
     public private(set) var isTeamAccount: Bool
     public var onboardingDraft = OnboardingDraft()
+    /// What was typed when See all was tapped, so See all can show the matches (the route carries only the group).
+    /// In memory only, like `onboardingDraft`: after a restored route it is empty and See all lists the whole group.
+    public var lastSearchQuery = ""
 
     private let settings: AppSettings
 
@@ -38,6 +41,12 @@ public final class SessionStore {
         self.blockedIDs = blockedIDs
         self.isTeamAccount = isTeamAccount
         onboardingDone = settings.onboardingDone
+    }
+
+    /// Recent searches, newest first. They are kept in settings, so they survive closing the app.
+    public var recentSearches: [String] {
+        get { settings.recentSearches }
+        set { settings.recentSearches = newValue }
     }
 
     public func setCurrentUser(_ user: UserProfile?) { currentUser = user }

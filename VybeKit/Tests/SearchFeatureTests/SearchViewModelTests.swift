@@ -156,6 +156,31 @@ struct SearchViewModelTests {
         if case .loaded(.idle(_, let after), _) = viewModel.state { #expect(after.isEmpty) }
     }
 
+    @Test func recentSearchesComeBackAfterTheAppRestarts() async {
+        let settings = AppSettings(suiteName: "vybe.test.\(UUID().uuidString)")
+        let deps = AppDependencies.preview(.loaded)
+        let first = SessionStore(settings: settings, currentUser: SampleData.signedInUser)
+        let viewModel = makeViewModel(FixedSearch(everything), deps: deps, session: first)
+        for word in ["one", "two"] {
+            viewModel.query = word
+            await viewModel.queryChanged()
+        }
+        // A new session and a new view model on the same settings: the app was closed and opened again.
+        let second = SessionStore(settings: settings, currentUser: SampleData.signedInUser)
+        let reopened = makeViewModel(FixedSearch(everything), deps: deps, session: second)
+        await reopened.load()
+        guard case .loaded(.idle(_, let recents), _) = reopened.state else {
+            Issue.record("expected idle, got \(reopened.state)")
+            return
+        }
+        #expect(recents == ["two", "one"])
+        reopened.clearRecents()
+        #expect(second.recentSearches.isEmpty && settings.recentSearches.isEmpty)
+        let third = makeViewModel(deps: deps, session: SessionStore(settings: settings))
+        await third.load()
+        if case .loaded(.idle(_, let after), _) = third.state { #expect(after.isEmpty) }
+    }
+
     @Test func tapsGoThroughTheRouter() {
         let deps = AppDependencies.preview(.loaded)
         let viewModel = makeViewModel(deps: deps)
