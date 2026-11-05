@@ -44,7 +44,7 @@ final class EditorViewModel {
     /// The Draft as it was when the editor opened (to put back on Discard).
     private var openedDraft: Hangout?
 
-    private let start: EditorStart
+    let start: EditorStart
     private let hangouts: any HangoutRepository
     private let places: any PlaceRepository
     private let profiles: any ProfileRepository
@@ -147,26 +147,6 @@ final class EditorViewModel {
     }
 
     // MARK: Words and view-ready values
-
-    var screenTitle: String {
-        switch start {
-        case .new: String(localized: "editor.title.new", bundle: #bundle)
-        case .draft: String(localized: "editor.title.draft", bundle: #bundle)
-        case .remix: String(localized: "editor.title.remix", bundle: #bundle)
-        }
-    }
-
-    var spotRows: [SpotRowData] {
-        spots.enumerated().compactMap { offset, spot in
-            guard let place = placesByID[spot.placeID] else { return nil }
-            let twice = spots.filter { $0.placeID == spot.placeID }.count > 1
-            return SpotRowData(spot: spot, place: place, order: offset + 1, total: spots.count,
-                               hasDuplicateWarning: twice)
-        }
-    }
-
-    var estimatedMinutes: Int { minutesOverride ?? spots.compactMap(\.minutes).reduce(0, +) }
-    var estimatedText: String { HangoutRules.roundedDuration(estimatedMinutes) }
 
     let tagOptions: [EditorChip] = ["good-for-groups", "budget-friendly", "rainy-day", "date-idea", "solo-friendly"]
         .map { EditorChip(id: $0, title: EditorViewModel.word("editor.tag.", $0)) }
@@ -276,14 +256,6 @@ final class EditorViewModel {
         let trimmed = note.trimmingCharacters(in: .whitespacesAndNewlines)
         spots[index].note = trimmed.isEmpty ? nil : note
         edited()
-    }
-
-    func minutes(for id: SpotID) -> Int { spots.first { $0.id == id }?.minutes ?? 0 }
-    func note(for id: SpotID) -> String { spots.first { $0.id == id }?.note ?? "" }
-
-    /// "45 min here".
-    func minutesText(for id: SpotID) -> String {
-        String(format: String(localized: "editor.spot.minutes", bundle: #bundle), minutes(for: id))
     }
 
     func setEstimate(_ minutes: Int) {

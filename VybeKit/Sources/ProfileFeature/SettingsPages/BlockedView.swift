@@ -10,8 +10,10 @@ struct BlockedView: View {
         _viewModel = State(initialValue: viewModel)
     }
 
+    private func retry() { Task { await viewModel.reload() } }
+
     var body: some View {
-        LoadStateView(viewModel.state, onRetry: { Task { await viewModel.reload() } }) { rows in
+        LoadStateView(viewModel.state, onRetry: retry) { rows in
             List {
                 Section {
                     ForEach(rows) { row in

@@ -10,8 +10,10 @@ struct NotificationsView: View {
         _viewModel = State(initialValue: viewModel)
     }
 
+    private func retry() { Task { await viewModel.reload() } }
+
     var body: some View {
-        LoadStateView(viewModel.state, onRetry: { Task { await viewModel.reload() } }) { switches in
+        LoadStateView(viewModel.state, onRetry: retry) { switches in
             List {
                 Section {
                     ForEach(switches) { item in

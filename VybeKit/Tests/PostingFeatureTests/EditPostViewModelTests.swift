@@ -7,7 +7,13 @@ import Testing
 @MainActor
 struct EditPostViewModelTests {
     /// A scheduled post of the EXAMPLE evening Hangout with two photos, made by the real live store.
-    private func make() async throws -> (EditPostViewModel, AppDependencies, HangoutRun) {
+    private struct Setup {
+        let viewModel: EditPostViewModel
+        let deps: AppDependencies
+        let run: HangoutRun
+    }
+
+    private func make() async throws -> Setup {
         let deps = AppDependencies.preview(.loaded)
         _ = try await deps.liveStore.startOrResume(hangoutID: SampleData.evening.id)
         for spot in SampleData.evening.spots { deps.liveStore.markVisited(spotID: spot.id) }
@@ -20,11 +26,12 @@ struct EditPostViewModelTests {
         let viewModel = EditPostViewModel(runID: run.id, libraryStore: deps.libraryStore, places: deps.places,
                                           photos: deps.photos, session: deps.session, router: deps.router)
         await viewModel.load()
-        return (viewModel, deps, run)
+        return Setup(viewModel: viewModel, deps: deps, run: run)
     }
 
     @Test func theSpotsAreShownAndNeverChange() async throws {
-        let (viewModel, deps, run) = try await make()
+        let setup = try await make()
+        let (viewModel, deps, run) = (setup.viewModel, setup.deps, setup.run)
         #expect(viewModel.spotRows.count == run.visits.count)
         viewModel.title = "Kothrud evening, again"
         viewModel.removePhoto("photo-1")
@@ -37,7 +44,8 @@ struct EditPostViewModelTests {
     }
 
     @Test func deleteAsksFirstThenRemovesThePost() async throws {
-        let (viewModel, deps, run) = try await make()
+        let setup = try await make()
+        let (viewModel, deps, run) = (setup.viewModel, setup.deps, setup.run)
         viewModel.deleteTapped()
         #expect(viewModel.isConfirmingDelete)
         #expect(deps.libraryStore.library.runs.contains { $0.id == run.id })
@@ -48,7 +56,7 @@ struct EditPostViewModelTests {
     }
 
     @Test func publicAsksFirst() async throws {
-        let (viewModel, _, _) = try await make()
+        let viewModel = try await make().viewModel
         viewModel.audienceTapped(.public)
         #expect(viewModel.isConfirmingPublic && viewModel.visibility == .friends)
         viewModel.publicConfirmed()
@@ -56,7 +64,7 @@ struct EditPostViewModelTests {
     }
 
     @Test func anEmptyTitleCannotBeSaved() async throws {
-        let (viewModel, _, _) = try await make()
+        let viewModel = try await make().viewModel
         viewModel.title = "   "
         #expect(viewModel.titleError != nil && !viewModel.canSave)
     }

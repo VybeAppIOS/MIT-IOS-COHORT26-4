@@ -10,8 +10,10 @@ struct ComposerView: View {
         _viewModel = State(initialValue: viewModel)
     }
 
+    private func retry() { Task { await viewModel.reload() } }
+
     var body: some View {
-        LoadStateView(viewModel.state, onRetry: { Task { await viewModel.reload() } }) { _ in
+        LoadStateView(viewModel.state, onRetry: retry) { _ in
             form
         } placeholder: {
             List { Text(verbatim: viewModel.screenTitle) }

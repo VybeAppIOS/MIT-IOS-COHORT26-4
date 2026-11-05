@@ -10,8 +10,10 @@ struct ReadyToPostView: View {
         _viewModel = State(initialValue: viewModel)
     }
 
+    private func retry() { Task { await viewModel.reload() } }
+
     var body: some View {
-        LoadStateView(viewModel.state, onRetry: { Task { await viewModel.reload() } }) { content in
+        LoadStateView(viewModel.state, onRetry: retry) { content in
             ScrollView {
                 VStack(alignment: .leading, spacing: Theme.Spacing.large) {
                     section(viewModel.finishedHeader, rows: content.finished, none: viewModel.noFinished) { row in

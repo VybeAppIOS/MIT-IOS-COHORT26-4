@@ -10,6 +10,8 @@ struct AdminReportsView: View {
         _viewModel = State(initialValue: viewModel)
     }
 
+    private func retry() { Task { await viewModel.reload() } }
+
     var body: some View {
         Group {
             if viewModel.isAllowed {
@@ -27,7 +29,7 @@ struct AdminReportsView: View {
     }
 
     private var queue: some View {
-        LoadStateView(viewModel.state, onRetry: { Task { await viewModel.reload() } }) { rows in
+        LoadStateView(viewModel.state, onRetry: retry) { rows in
             List(rows) { row in
                 Button { viewModel.rowTapped(row) } label: { AdminReportLine(row: row) }
             }

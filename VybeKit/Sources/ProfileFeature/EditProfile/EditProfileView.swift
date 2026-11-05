@@ -54,31 +54,16 @@ struct EditProfileView: View {
     }
 
     private var pictures: some View {
-        VStack(alignment: .leading, spacing: Theme.Spacing.small) {
-            PhotosPicker(selection: $photoItem, matching: .images) {
-                pickerLabel(viewModel.photoLabel, systemImage: "person.crop.circle", ready: viewModel.newPhoto != nil)
-            }
-            PhotosPicker(selection: $bannerItem, matching: .images) {
-                pickerLabel(viewModel.bannerLabel, systemImage: "photo", ready: viewModel.newBanner != nil)
-            }
+        // Read from the view model here: the picker builds its label off the main actor.
+        let photo = PickerLabel(title: viewModel.photoLabel, systemImage: "person.crop.circle",
+                                readyText: viewModel.newPhoto != nil ? viewModel.photoReady : nil)
+        let banner = PickerLabel(title: viewModel.bannerLabel, systemImage: "photo",
+                                 readyText: viewModel.newBanner != nil ? viewModel.photoReady : nil)
+        return VStack(alignment: .leading, spacing: Theme.Spacing.small) {
+            PhotosPicker(selection: $photoItem, matching: .images) { photo }
+            PhotosPicker(selection: $bannerItem, matching: .images) { banner }
             if viewModel.photoFailed { SafetyNote(viewModel.photoError, style: .warning) }
         }
-    }
-
-    private func pickerLabel(_ title: String, systemImage: String, ready: Bool) -> some View {
-        HStack(spacing: Theme.Spacing.medium) {
-            Image(systemName: systemImage).foregroundStyle(Theme.Color.accent)
-            Text(verbatim: title).font(Theme.Font.body).foregroundStyle(Theme.Color.textPrimary)
-            Spacer(minLength: Theme.Spacing.small)
-            if ready {
-                Label(viewModel.photoReady, systemImage: "checkmark.circle.fill")
-                    .font(Theme.Font.footnote)
-                    .foregroundStyle(Theme.Color.positive)
-            }
-        }
-        .padding(.horizontal, Theme.Spacing.medium)
-        .frame(maxWidth: .infinity, minHeight: Theme.Size.minTapTarget)
-        .background(Theme.Color.surfaceRaised, in: RoundedRectangle(cornerRadius: Theme.Radius.medium))
     }
 
     private var usernameField: some View {
@@ -148,5 +133,29 @@ struct EditProfileView: View {
             guard let data = try? await item.loadTransferable(type: Data.self) else { return }
             await viewModel.photoPicked(data, isBanner: isBanner)
         }
+    }
+}
+
+/// The row inside a photo picker: plain values, because the picker builds its label off the main actor.
+private struct PickerLabel: View {
+    let title: String
+    let systemImage: String
+    /// Set once a picture has been chosen, for example "Ready".
+    let readyText: String?
+
+    var body: some View {
+        HStack(spacing: Theme.Spacing.medium) {
+            Image(systemName: systemImage).foregroundStyle(Theme.Color.accent)
+            Text(verbatim: title).font(Theme.Font.body).foregroundStyle(Theme.Color.textPrimary)
+            Spacer(minLength: Theme.Spacing.small)
+            if let readyText {
+                Label(readyText, systemImage: "checkmark.circle.fill")
+                    .font(Theme.Font.footnote)
+                    .foregroundStyle(Theme.Color.positive)
+            }
+        }
+        .padding(.horizontal, Theme.Spacing.medium)
+        .frame(maxWidth: .infinity, minHeight: Theme.Size.minTapTarget)
+        .background(Theme.Color.surfaceRaised, in: RoundedRectangle(cornerRadius: Theme.Radius.medium))
     }
 }

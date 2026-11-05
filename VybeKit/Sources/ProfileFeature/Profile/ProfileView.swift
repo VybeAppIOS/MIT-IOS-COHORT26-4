@@ -10,8 +10,11 @@ struct ProfileView: View {
         _viewModel = State(initialValue: viewModel)
     }
 
+    private func editingEnded() { Task { await viewModel.editingEnded() } }
+    private func retry() { Task { await viewModel.reload() } }
+
     var body: some View {
-        LoadStateView(viewModel.state, onRetry: { Task { await viewModel.reload() } }) { content in
+        LoadStateView(viewModel.state, onRetry: retry) { content in
             ScrollView {
                 page(content)
             }
@@ -34,7 +37,7 @@ struct ProfileView: View {
                 .accessibilityIdentifier("profile.profile.settings")
             }
         }
-        .sheet(item: $viewModel.editing, onDismiss: { Task { await viewModel.editingEnded() } }) { profile in
+        .sheet(item: $viewModel.editing, onDismiss: editingEnded) { profile in
             EditProfileView(viewModel: viewModel.makeEditViewModel(profile))
         }
         .task { await viewModel.load() }

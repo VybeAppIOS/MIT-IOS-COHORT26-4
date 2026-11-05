@@ -47,7 +47,7 @@ struct EditorViewModelTests {
         viewModel.addSpot(Spot(id: "b", placeID: SampleData.cafe.id), place: SampleData.cafe)
         #expect(viewModel.spotCountError == nil)
         #expect(viewModel.duplicateWarning != nil)
-        #expect(viewModel.spotRows.allSatisfy(\.hasDuplicateWarning))
+        #expect(viewModel.spotRows.allSatisfy { $0.hasDuplicateWarning })
         #expect(viewModel.canFinish)
     }
 

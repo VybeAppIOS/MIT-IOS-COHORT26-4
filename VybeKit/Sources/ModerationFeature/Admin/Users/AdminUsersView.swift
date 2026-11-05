@@ -10,6 +10,8 @@ struct AdminUsersView: View {
         _viewModel = State(initialValue: viewModel)
     }
 
+    private func retry() { Task { await viewModel.searchSubmitted() } }
+
     var body: some View {
         Group {
             if viewModel.isAllowed {
@@ -30,7 +32,7 @@ struct AdminUsersView: View {
     }
 
     private var content: some View {
-        LoadStateView(viewModel.state, onRetry: { Task { await viewModel.searchSubmitted() } }) { card in
+        LoadStateView(viewModel.state, onRetry: retry) { card in
             List {
                 Section {
                     InfoRow(verbatim: card.name, value: card.username)

@@ -35,4 +35,3 @@ public enum ModerationScreens {
             userID: user, profiles: deps.profiles, safety: deps.safety, session: deps.session, router: deps.router))
     }
 }
-

@@ -45,18 +45,20 @@ final class SettingsViewModel {
         SettingsSection(
             id: "account", title: String(localized: "profile.settings.section.account", bundle: #bundle),
             rows: [
-                Self.row("account", "profile.settings.row.account", "person.crop.circle", .settingsPage(.account)),
-                Self.row("privacy", "profile.settings.row.privacy", "lock", .settingsPage(.privacy)),
-                Self.row("blocked", "profile.settings.row.blocked", "hand.raised", .settingsPage(.blocked)),
-                Self.row("notifications", "profile.settings.row.notifications", "bell", .settingsPage(.notifications))
+                SettingsRowMaker.row("account", "profile.settings.row.account", "person.crop.circle",
+                                     .settingsPage(.account)),
+                SettingsRowMaker.row("privacy", "profile.settings.row.privacy", "lock", .settingsPage(.privacy)),
+                SettingsRowMaker.row("blocked", "profile.settings.row.blocked", "hand.raised", .settingsPage(.blocked)),
+                SettingsRowMaker.row("notifications", "profile.settings.row.notifications", "bell",
+                                     .settingsPage(.notifications))
             ]),
         SettingsSection(
             id: "app", title: String(localized: "profile.settings.section.app", bundle: #bundle),
             rows: [
-                Self.row("help", "profile.settings.row.help", "questionmark.circle", .settingsPage(.help)),
-                Self.row("suggestions", "profile.settings.row.suggestions", "mappin.and.ellipse",
+                SettingsRowMaker.row("help", "profile.settings.row.help", "questionmark.circle", .settingsPage(.help)),
+                SettingsRowMaker.row("suggestions", "profile.settings.row.suggestions", "mappin.and.ellipse",
                          .settingsPage(.placeSuggestions)),
-                Self.row("about", "profile.settings.row.about", "info.circle", .settingsPage(.about))
+                SettingsRowMaker.row("about", "profile.settings.row.about", "info.circle", .settingsPage(.about))
             ])
     ]
 
@@ -78,3 +80,6 @@ final class SettingsViewModel {
         SettingsRow(id: id, title: String(localized: key, bundle: #bundle), systemImage: symbol, route: route)
     }
 }
+
+/// Short name for building rows inside the stored property above.
+private typealias SettingsRowMaker = SettingsViewModel

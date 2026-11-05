@@ -12,9 +12,11 @@ struct AddSpotView: View {
         _viewModel = State(initialValue: viewModel)
     }
 
+    private func retry() { Task { await viewModel.reload() } }
+
     var body: some View {
         NavigationStack {
-            LoadStateView(viewModel.state, onRetry: { Task { await viewModel.reload() } }) { _ in
+            LoadStateView(viewModel.state, onRetry: retry) { _ in
                 List {
                     Section {
                         chipRow

@@ -5,11 +5,11 @@ import SwiftUI
 
 extension ProfileViewModel {
     /// The real ViewModel on the stubs. `asFriend` signs in as a sample person who has posted, so the posts show
-    /// (the sample "me" has not posted yet).
+    /// (the sample "mine" has not posted yet).
     static func preview(_ mode: StubMode = .loaded, asFriend: Bool = true) -> ProfileViewModel {
         let deps = AppDependencies.preview(mode)
-        let me = asFriend ? SampleData.friend.id : SampleData.signedInUser.id
-        let profiles = StubProfileRepository(mode: mode, people: SampleSocialData.people, currentID: me)
+        let mine = asFriend ? SampleData.friend.id : SampleData.signedInUser.id
+        let profiles = StubProfileRepository(mode: mode, people: SampleSocialData.people, currentID: mine)
         return ProfileViewModel(profiles: profiles, auth: deps.auth, feed: deps.feed, photos: deps.photos,
                                 session: deps.session, libraryStore: deps.libraryStore, router: deps.router)
     }

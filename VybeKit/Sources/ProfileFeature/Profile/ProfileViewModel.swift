@@ -82,10 +82,10 @@ final class ProfileViewModel {
     private func fetch() async {
         do {
             await libraryStore.ensureLoaded()
-            let me = try await profiles.currentProfile()
-            loadedProfile = me
-            let posts = try await myPosts(me.id)
-            state = .loaded(ProfileContent(header: header(for: me), posts: posts.map(card)))
+            let mine = try await profiles.currentProfile()
+            loadedProfile = mine
+            let posts = try await myPosts(mine.id)
+            state = .loaded(ProfileContent(header: header(for: mine), posts: posts.map(card)))
             hasLoaded = true
         } catch is CancellationError {
             return   // leaving the screen is not an error (ADR 005)
@@ -99,12 +99,12 @@ final class ProfileViewModel {
     }
 
     /// My posted runs from the feed (every page), newest first.
-    private func myPosts(_ me: UserID) async throws -> [HangoutRun] {
+    private func myPosts(_ mine: UserID) async throws -> [HangoutRun] {
         var found: [HangoutRun] = []
         var cursor: String?
         for _ in 0..<Self.maxPages {
             let page = try await feed.feed(after: cursor)
-            found += page.items.filter { $0.runnerID == me }
+            found += page.items.filter { $0.runnerID == mine }
             guard let next = page.nextCursor else { break }
             cursor = next
         }
@@ -112,13 +112,14 @@ final class ProfileViewModel {
     }
 
     /// Stats are counts from my own runs: Hangouts done (ended, scheduled or posted) and Spots visited in them.
-    private func header(for me: UserProfile) -> ProfileHeaderData {
+    private func header(for mine: UserProfile) -> ProfileHeaderData {
         let doneRuns = libraryStore.library.runs.filter { $0.state != .live }
         return ProfileHeaderData(
-            name: me.displayName, username: "@\(me.username)", bio: me.bio,
-            bannerURL: me.banner.flatMap { photos.url(for: $0) }, avatarURL: me.photo.flatMap { photos.url(for: $0) },
+            name: mine.displayName, username: "@\(mine.username)", bio: mine.bio,
+            bannerURL: mine.banner.flatMap { photos.url(for: $0) },
+            avatarURL: mine.photo.flatMap { photos.url(for: $0) },
             hangoutsDone: doneRuns.count, spotsVisited: doneRuns.reduce(0) { $0 + $1.visits.count },
-            friendCount: me.friendCount)
+            friendCount: mine.friendCount)
     }
 
     private func card(_ run: HangoutRun) -> PostCardData {

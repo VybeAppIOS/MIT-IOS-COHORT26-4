@@ -30,7 +30,7 @@ struct NotificationsViewModelTests {
         let viewModel = make(Memory())
         await viewModel.load()
         #expect(switches(viewModel).map(\.kind) == NotificationSwitch.Kind.allCases)
-        #expect(switches(viewModel).allSatisfy(\.isOn))
+        #expect(switches(viewModel).allSatisfy { $0.isOn })
     }
 
     @Test func aChangeIsSavedAndReadBack() async {

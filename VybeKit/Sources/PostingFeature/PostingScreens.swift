@@ -22,4 +22,3 @@ public enum PostingScreens {
             session: deps.session, router: deps.router))
     }
 }
-
