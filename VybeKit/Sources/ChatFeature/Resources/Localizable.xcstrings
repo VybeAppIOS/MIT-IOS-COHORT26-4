@@ -1,6 +1,182 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "chat.group.add" : {
+      "comment" : "Chat screens: chat.group.add",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add members"
+          }
+        }
+      }
+    },
+    "chat.group.addTitle" : {
+      "comment" : "Chat screens: chat.group.addTitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add members"
+          }
+        }
+      }
+    },
+    "chat.group.admin" : {
+      "comment" : "Chat screens: chat.group.admin",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Admin"
+          }
+        }
+      }
+    },
+    "chat.group.cancel" : {
+      "comment" : "Chat screens: chat.group.cancel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel"
+          }
+        }
+      }
+    },
+    "chat.group.done" : {
+      "comment" : "Chat screens: chat.group.done",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "chat.group.leave" : {
+      "comment" : "Chat screens: chat.group.leave",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave group"
+          }
+        }
+      }
+    },
+    "chat.group.leaveTitle" : {
+      "comment" : "Chat screens: chat.group.leaveTitle",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave this group?"
+          }
+        }
+      }
+    },
+    "chat.group.members" : {
+      "comment" : "Chat screens: chat.group.members",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Members"
+          }
+        }
+      }
+    },
+    "chat.group.name" : {
+      "comment" : "Chat screens: chat.group.name",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group name"
+          }
+        }
+      }
+    },
+    "chat.group.nothingToAdd" : {
+      "comment" : "Chat screens: chat.group.nothingToAdd",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "All your friends are already in this group."
+          }
+        }
+      }
+    },
+    "chat.group.ok" : {
+      "comment" : "Chat screens: chat.group.ok",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "chat.group.readOnly" : {
+      "comment" : "Chat screens: chat.group.readOnly",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This group has fewer than 3 people, so it is read-only."
+          }
+        }
+      }
+    },
+    "chat.group.remove" : {
+      "comment" : "Chat screens: chat.group.remove",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
+          }
+        }
+      }
+    },
+    "chat.group.removeTitle %@" : {
+      "comment" : "Chat screens: chat.group.removeTitle %@",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove %@ from the group?"
+          }
+        }
+      }
+    },
+    "chat.group.save" : {
+      "comment" : "Chat screens: chat.group.save",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "chat.group.title" : {
+      "comment" : "Chat screens: chat.group.title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group info"
+          }
+        }
+      }
+    },
     "chat.list.empty" : {
       "comment" : "Chat screens: chat.list.empty",
       "localizations" : {

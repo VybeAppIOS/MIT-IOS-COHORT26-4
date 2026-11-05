@@ -76,3 +76,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): large title, plain list, VoiceOver reads title, unread, preview and time pass; large text not looked at
 - Notes: The repository words the last-message kind (Photo, Voice note, Hangout); the screen adds 'You:' or the sender's first name. Times show the clock today, Yesterday, or the day and month. Offline disables New chat. The list refreshes BadgeStore when it loads.
 
+## SC-CH4: done
+- Files: ChatFeature/GroupInfo/* (3 files), GroupInfoViewModelTests, ChatScreens, AppShellTests row, catalog
+- Tests: 11
+- Screenshots: build/screenshots/ch4.png opened (grouped inset list: name, members with Admin, Add members, Leave group)
+- Button heights: rows 44 pt+; Leave group row about 44 pt+ (system List row)
+- Checklist (WO-3 prompt section 6): inline title, grouped inset list, confirmation before remove and leave, swipe to remove pass; large text not looked at
+- Notes: Admin handover on leave is done by the repository (the oldest member becomes admin). Below 3 members the screen shows a read-only note. Needs from Lohitaksh: the invitation rule 'a non-friend of the added person must accept first' needs a pending-member state that ChatRepository does not expose, so Add members adds at once.
+

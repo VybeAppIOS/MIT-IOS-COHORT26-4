@@ -22,7 +22,10 @@ public enum ChatScreens {
                 chat: deps.chat, profiles: deps.profiles, session: deps.session, badges: deps.badges,
                 network: deps.network, router: deps.router, now: deps.now, makeNewChat: newChatFactory(deps)))
         case .conversation: ScreenPlaceholder(id: "CH2", name: "Conversation")
-        case .groupInfo: ScreenPlaceholder(id: "CH4", name: "Group info")
+        case .groupInfo(let id):
+            GroupInfoView(viewModel: GroupInfoViewModel(
+                conversationID: id, chat: deps.chat, friends: deps.friends, profiles: deps.profiles,
+                session: deps.session, network: deps.network, router: deps.router))
         }
     }
 
