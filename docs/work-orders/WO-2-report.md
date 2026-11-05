@@ -132,3 +132,81 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): inline title, grouped inset list, paged on scroll pass; large text not looked at
 - Notes: Needs from Lohitaksh: Route.searchSeeAll(kind) carries only the group, not the typed words, so this screen shows everything in the group (all Hangouts, Places in Kothrud, your friends) instead of the matches. Fix: add the query to the route, or a Core store that remembers the last query. Paging is done on the phone, 20 at a time.
 
+## Needs from Lohitaksh
+1. **Ignore a friend request**: `FriendsRepository` has no `ignoreRequest`, so Ignore (Activity, Friends hub) only hides the row on this phone.
+2. **Activity rows about a comment** carry only a comment ID, not the post's ID, so they open the commenter's profile. Activity needs the post ID.
+3. **ProfileHeader** always shows the Hangouts and Spots numbers, so a private profile shows "0" and "0". It needs a way to hide them.
+4. **PostCard** (Components): the ••• menu only has Report. A `block` action on `PostCardActions` would let the Feed offer Block there; today it is in the long-press menu.
+5. **Posts by one person**: there is no call for it, so a profile reads up to 3 feed pages and keeps that person's posts.
+6. **Recent searches**: add `AppSettings.recentSearches` and give Screens access to settings; today recents live in memory for the session.
+7. **See all**: `Route.searchSeeAll(kind)` has no query, so See all lists everything in the group. Add the query to the route, or a Core store of the last query.
+8. **Read receipts**: the repository does not say when others last read a chat, so only "Delivered" is shown (the "Seen" logic is in and tested).
+9. **Group invitations**: no pending-member state is exposed, so Add members adds at once (the task says a non-friend must accept first) and the invitation screen assumes the group's admin added you.
+10. **Photos in chat**: no call to store a processed photo, and the photo and microphone permission texts (X-9) are not in the project. Sending photos is not built; recording a voice note asks for the microphone and needs that text. Voice notes: how a `path` maps to a playable file is not defined (recordings go to `voice/<file>` in the temporary folder).
+11. **App launch**: nothing calls `BadgeStore.refresh()` at launch, so the Community tab badge stays empty until the Feed or Chats list opens (they now refresh it).
+12. **Sample data** still has EXAMPLE places and titles on screen; the sample-natural-hangouts branch (separate PR) addresses that.
+13. `LaunchOptions.swift` was not changed: no new short form was needed.
+
+## Decisions I need
+- **Report from the Comments sheet** closes the sheet and opens the shared Report sheet (a local sheet cannot push another feature's screen), instead of pushing inside the sheet as the task says. OK?
+- **Block in the Feed** is in the long-press menu for now. OK until item 4 above is done?
+- **Voice notes** are tap to record, tap to send (not hold-to-record with slide-to-cancel).
+- **Friend request limits**: the 30-a-day count is worked out from the sent requests' dates, since no counter exists.
+- **Photos in chat** left out (item 10): build a placeholder now, or wait for photo storage?
+- **Search recents**: a session-only list is acceptable for now?
+
+## Risks I saw
+- Tanvi's Feed, Post detail and PostCard commits are on this branch too. When her PRs merge, `CommunityScreens.swift`, the Community catalog and `AppShellTests.swift` will conflict: merge `main` into this branch and keep both sides.
+- Flaky tests that are not from this work: audio timing tests, and in the Chat run the Auth tests (`EmailCodeViewModelTests`, `SignInViewModelTests`) failed once under load and passed alone. Xcode open makes builds lock or crawl: close it before running `check.sh`.
+- For most screens I did not look at the largest text size or VoiceOver in the simulator; the previews and labels exist but were not exercised.
+- Screenshots are in `build/` on my Mac and are not committed (the folder is 400 MB and not ignored). Never `git add .`.
+- The Feed, Chats list, Search and the Comments/New chat/Poll sheets have no debug route, so they were photographed with temporary changes that were reverted.
+
+## Checks
+Final `./scripts/check.sh` (Search group, last run of the branch):
+```
+==> SwiftLint
+Done linting! Found 0 violations, 0 serious in 396 files.
+==> Architecture rules
+==> Architecture rules passed
+==> Architecture check self-test
+==> Architecture check self-test passed
+==> Tests on: iPhone 18 Pro
+==> VybeKit package tests on: iPhone 18 Pro
+(app target: 123 test cases passed, 0 failed; package tests ran with -quiet)
+==> All checks passed
+```
+
+## git log (commits on this branch beyond main, before this report commit)
+```
+e8bf8f5 Merge remote-tracking branch 'origin/main' into a/wo2-screens
+2bdccf3 SC-S2: See all
+f1ad743 SC-S1: Search
+5450004 SC-CH2: Name the main Conversation test file after the ViewModel
+120df5d Merge remote-tracking branch 'origin/main' into a/wo2-screens
+ba7727d SC-CH2: Conversation
+94ddcf2 SC-CH6: Poll composer sheet
+1b8cb08 SC-CH7: Group invitation
+47272f7 SC-CH5: Share to... sheet
+eb0c517 SC-CH4: Group info
+1e7f0a8 SC-CH1: Chats list
+e5b2aaf SC-CH3: New chat or group sheet
+372d1f6 Merge remote-tracking branch 'origin/main' into a/wo2-screens
+5b0aa83 SC-PR7: Mutual friends
+0404cc3 SC-PR3: Other person's profile
+4af7f74 SC-FR1: Friends hub
+7038cdc SC-CM1/CM2: Add Block and the unread chat count
+2ed61d7 SC-CM5: Activity list
+9e76c85 SC-CM4: Trending list of posts
+b62661b SC-CM3: Put replies under their parent and open a commenter's profile
+cb0ea0a SC-CM3: Comments sheet, opened from the Feed and Post detail
+9148b9a Merge origin/t/sc-cm2-post-detail into a/wo2-screens (catalog keys from both sides)
+7caf8d5 Merge remote-tracking branch 'origin/t/sc-cm1-feed' into a/wo2-screens
+c16f706 Merge origin/main into t/sc-cm1-feed
+45876c3 Merge origin/main into t/sc-cm2-post-detail
+aacb70e SC-CM2: Expect the real Post detail screen in the app-shell route test
+e000f71 Merge origin/main into t/sc-cm2-post-detail
+5604013 SC-CM2: Community Post detail screen
+1d6ac12 SC-CM1: Community Feed screen
+ff8d793 CP-6: One action bar and a clearer text stack on PostCard
+```
