@@ -1,26 +1,30 @@
 #if DEBUG
 import Foundation
 
-/// Preview and test data. Places and Hangouts are the EXAMPLE values from `docs/DATA-MODEL.md` section 4, labelled
-/// EXAMPLE, until the real X-C1 content is merged (ADR 004: samples never invent a real-looking venue).
+/// Preview and test data. The two Places are real Kothrud venues taken from the X-C1 draft (names, addresses, prices
+/// and hours are the unverified draft values: Lohitaksh and Shreya have to confirm them). The Hangouts are made up
+/// from those two Places. The IDs are still the old `...-example-...` ones, because tests and sample posts use them.
+/// The coordinates are NOT the venues' real positions (the draft has none yet): they are the old placeholders.
 /// People are clearly fake (`user-sample-...`).
 public enum SampleData {
     public static let day = Date(timeIntervalSince1970: 1_793_700_000)   // 2026-11-03T10:00:00Z
 
     public static let cafe = Place(
-        id: "place-example-cafe-a1b2", name: "EXAMPLE Café", category: .cafe, city: "Pune", area: "Kothrud",
-        address: "EXAMPLE address line, Kothrud", coordinate: Coordinate(latitude: 18.5000, longitude: 73.8000),
-        costPerPerson: RupeeRange(lower: 100, upper: 250),
-        hours: [OpeningPeriod(weekday: 1, open: "09:00", close: "22:00"),
-                OpeningPeriod(weekday: 2, open: "09:00", close: "22:00")],
+        id: "place-example-cafe-a1b2", name: "Amarii Cafe", category: .cafe, city: "Pune", area: "Kothrud",
+        address: "Roopnagari Society, near Apple Unisex Salon, Mayur Colony, Kothrud, Pune 411038",
+        coordinate: Coordinate(latitude: 18.5000, longitude: 73.8000),
+        costPerPerson: RupeeRange(lower: 250, upper: 500),
+        hours: (1...7).map { OpeningPeriod(weekday: $0, open: "09:00", close: "23:00") },
         photos: [Photo(id: "photo-example-cafe-1", path: "place-example-cafe-a1b2-1.jpg", width: 1600, height: 1200,
-                       credit: "EXAMPLE Teammate")],
+                       credit: "Vybe team")],
         verifiedAt: day)
 
     public static let park = Place(
-        id: "place-example-park-e5f6", name: "EXAMPLE Park", category: .parkGarden, city: "Pune", area: "Kothrud",
-        address: "EXAMPLE address line, Kothrud", coordinate: Coordinate(latitude: 18.5010, longitude: 73.8020),
-        costPerPerson: RupeeRange(lower: 0, upper: 0), hoursNote: "EXAMPLE hours note", verifiedAt: day)
+        id: "place-example-park-e5f6", name: "Thorat Garden", category: .parkGarden, city: "Pune", area: "Kothrud",
+        address: "DP Road, next to Yashwantrao Natyagruha, Mayur Colony, Kothrud, Pune 411038",
+        coordinate: Coordinate(latitude: 18.5010, longitude: 73.8020),
+        costPerPerson: RupeeRange(lower: 0, upper: 0), hoursNote: "Open 6 to 11 am and 4 to 8 pm, every day.",
+        verifiedAt: day)
 
     public static let places = [cafe, park]
 
@@ -37,18 +41,20 @@ public enum SampleData {
 
     public static let people = [signedInUser, friend, vybeTeam]
 
-    /// The EXAMPLE Hangout from `docs/DATA-MODEL.md` section 4 (a Pick).
+    /// An evening Hangout over the two Places (a Pick).
     public static let evening = Hangout(
-        id: "hangout-example-evening-c3d4", title: "EXAMPLE Evening Hangout", summary: "EXAMPLE summary text.",
-        spots: [Spot(id: "s1", placeID: cafe.id, minutes: 45, note: "EXAMPLE note"),
+        id: "hangout-example-evening-c3d4", title: "Coffee, Then a Garden Walk",
+        summary: "Start with coffee and snacks at Amarii Cafe, then walk it off in Thorat Garden.",
+        spots: [Spot(id: "s1", placeID: cafe.id, minutes: 45, note: "Coffee, snacks and conversations."),
                 Spot(id: "s2", placeID: park.id, minutes: 30)],
         budgetPerPerson: RupeeRange(lower: 150, upper: 400), estimatedMinutes: 120, bestTimes: ["evening"],
         tags: ["good-for-groups"], vibeTags: ["chill"], authorID: vybeTeam.id, isPick: true, createdAt: day,
         updatedAt: day)
 
-    /// A second EXAMPLE Hangout over the same two EXAMPLE places, made by a sample person (not a Pick).
+    /// A second Hangout over the same two Places, made by a sample person (not a Pick).
     public static let morning = Hangout(
-        id: "hangout-example-morning-g7h8", title: "EXAMPLE Morning Hangout", summary: "EXAMPLE summary text.",
+        id: "hangout-example-morning-g7h8", title: "Early Walk, Then Coffee",
+        summary: "Beat the crowds at Thorat Garden, then settle in at Amarii Cafe.",
         spots: [Spot(id: "s1", placeID: park.id, minutes: 40), Spot(id: "s2", placeID: cafe.id, minutes: 50)],
         budgetPerPerson: RupeeRange(lower: 100, upper: 250), estimatedMinutes: 90, bestTimes: ["morning"],
         tags: ["outdoors"], vibeTags: ["fresh"], authorID: friend.id, createdAt: day, updatedAt: day)

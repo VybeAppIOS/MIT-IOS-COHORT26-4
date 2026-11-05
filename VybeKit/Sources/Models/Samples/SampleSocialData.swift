@@ -3,7 +3,7 @@ import Foundation
 
 /// Fake social data for previews and tests (task F-7). Every person, post, comment and chat is made up: names start
 /// with "Sample", usernames are `sample.<name>`, and nothing refers to a real person (`AGENTS.md` 4).
-/// Places and Hangouts come from `SampleData` (EXAMPLE values).
+/// Places and Hangouts come from `SampleData`.
 public enum SampleSocialData {
     private static var day: Date { SampleData.day }
     private static func hours(_ amount: Double) -> Date { day.addingTimeInterval(amount * 3600) }
@@ -11,7 +11,7 @@ public enum SampleSocialData {
     private static func person(_ name: String, friends: Int, isPrivate: Bool = false) -> UserProfile {
         UserProfile(
             id: UserID("user-sample-\(name.lowercased())"), username: "sample.\(name.lowercased())",
-            displayName: "Sample \(name)", bio: "EXAMPLE bio, Kothrud", isPrivate: isPrivate,
+            displayName: "Sample \(name)", bio: "Always up for a café or a long walk in Kothrud.", isPrivate: isPrivate,
             interests: ["cafes", "treks"], friendCount: friends, createdAt: day)
     }
 
@@ -48,12 +48,19 @@ public enum SampleSocialData {
         var audience: Visibility = .friends
     }
 
+    /// What a runner wrote under the post, by Hangout.
+    private static func caption(for hangout: Hangout) -> String {
+        hangout.id == SampleData.morning.id
+            ? "Up early for the garden, and the coffee afterwards was worth it."
+            : "Coffee first, then a slow walk round the garden. Perfect evening."
+    }
+
     private static func post(_ spec: PostSpec) -> HangoutRun {
         let hangout = spec.hangout
         return HangoutRun(
             id: RunID("run-sample-\(spec.number)"), hangoutID: hangout.id, runnerID: spec.runner.id, state: .posted,
             visits: hangout.spots.enumerated().map { Visit(spotID: $1.id, placeID: $1.placeID, order: $0 + 1) },
-            durationMinutes: hangout.estimatedMinutes, caption: "EXAMPLE caption", tags: hangout.tags,
+            durationMinutes: hangout.estimatedMinutes, caption: caption(for: hangout), tags: hangout.tags,
             visibility: spec.audience, audience: spec.audience,
             card: RunCardCopy(hangoutTitle: hangout.title, totalSpots: hangout.spots.count,
                               budgetPerPerson: hangout.budgetPerPerson, runnerUsername: spec.runner.username,
@@ -88,12 +95,12 @@ public enum SampleSocialData {
     }
 
     public static let comments: [Comment] = [
-        comment(1, run: 1, by: friend, "EXAMPLE comment: looks fun!", hoursAgo: 1.5, likes: 2),
-        comment(2, run: 1, by: aarav, "EXAMPLE reply", reply: 1, hoursAgo: 1.2),
-        comment(3, run: 1, by: isha, "EXAMPLE comment: which Spot was best?", hoursAgo: 1),
-        comment(4, run: 3, by: currentUser, "EXAMPLE comment", hoursAgo: 4),
-        comment(5, run: 3, by: rohan, "EXAMPLE reply", reply: 4, hoursAgo: 3.5),
-        comment(6, run: 5, by: meera, "EXAMPLE comment", hoursAgo: 11)
+        comment(1, run: 1, by: friend, "This looks so good, saving it for the weekend!", hoursAgo: 1.5, likes: 2),
+        comment(2, run: 1, by: aarav, "Same here, count me in.", reply: 1, hoursAgo: 1.2),
+        comment(3, run: 1, by: isha, "Which Spot was your favourite?", hoursAgo: 1),
+        comment(4, run: 3, by: currentUser, "Love the early start. How long was the walk?", hoursAgo: 4),
+        comment(5, run: 3, by: rohan, "About an hour, then coffee.", reply: 4, hoursAgo: 3.5),
+        comment(6, run: 5, by: meera, "Adding this to my list.", hoursAgo: 11)
     ]
 
     // MARK: Friend requests and suggestions
@@ -113,7 +120,7 @@ public enum SampleSocialData {
         id: .dm(currentUser.id, aarav.id), kind: .directMessage, memberIDs: [currentUser.id, aarav.id],
         createdAt: hours(-48))
     public static let crew = Conversation(
-        id: "conversation-sample-crew", kind: .group, name: "EXAMPLE Kothrud Crew", adminID: currentUser.id,
+        id: "conversation-sample-crew", kind: .group, name: "Kothrud Crew", adminID: currentUser.id,
         memberIDs: [currentUser.id, friend.id, aarav.id, isha.id], createdAt: hours(-24))
     public static let conversations = [friendChat, aaravChat, crew]
 
@@ -125,13 +132,13 @@ public enum SampleSocialData {
     }
 
     public static let messages: [Message] = [
-        message(1, in: friendChat, by: friend, hoursAgo: 6, .text("EXAMPLE hey, free this evening?")),
-        message(2, in: friendChat, by: currentUser, hoursAgo: 5.9, .text("EXAMPLE yes!")),
+        message(1, in: friendChat, by: friend, hoursAgo: 6, .text("Hey, free this evening?")),
+        message(2, in: friendChat, by: currentUser, hoursAgo: 5.9, .text("Yes! What did you have in mind?")),
         message(3, in: friendChat, by: friend, hoursAgo: 5.8, .hangout(SampleData.evening.id)),
-        message(4, in: aaravChat, by: aarav, hoursAgo: 40, .link(URL(string: "https://example.com/EXAMPLE")!)),
-        message(5, in: aaravChat, by: currentUser, hoursAgo: 39, .text("EXAMPLE thanks")),
-        message(6, in: crew, by: isha, hoursAgo: 12, .text("EXAMPLE what are we doing on Saturday?")),
-        message(7, in: crew, by: currentUser, hoursAgo: 11, .poll(question: "EXAMPLE: coffee at 5?")),
+        message(4, in: aaravChat, by: aarav, hoursAgo: 40, .link(URL(string: "https://example.com/kothrud-cafes")!)),
+        message(5, in: aaravChat, by: currentUser, hoursAgo: 39, .text("Thanks, this helps!")),
+        message(6, in: crew, by: isha, hoursAgo: 12, .text("What are we doing on Saturday?")),
+        message(7, in: crew, by: currentUser, hoursAgo: 11, .poll(question: "Coffee at 5?")),
         message(8, in: crew, by: aarav, hoursAgo: 10, .voice(path: "voice/EXAMPLE.m4a", seconds: 12)),
         message(9, in: crew, by: friend, hoursAgo: 2, .photos([Photo(id: "photo-sample-1", path: "EXAMPLE.jpg",
                                                                       width: 800, height: 600)]))
@@ -151,7 +158,8 @@ public enum SampleSocialData {
 
     public static let reports: [Report] = [
         Report(id: "report-sample-1", reporterID: friend.id, target: .comment("comment-sample-3"),
-               targetOwnerID: isha.id, reason: .harassment, detail: "EXAMPLE detail", createdAt: hours(-4)),
+               targetOwnerID: isha.id, reason: .harassment, detail: "Kept sending unkind replies.",
+               createdAt: hours(-4)),
         Report(id: "report-sample-2", reporterID: aarav.id, target: .user(kabir.id), targetOwnerID: kabir.id,
                reason: .impersonation, createdAt: hours(-9)),
         Report(id: "report-sample-3", reporterID: isha.id, target: .run("run-sample-7"), targetOwnerID: kabir.id,
@@ -159,10 +167,10 @@ public enum SampleSocialData {
     ]
 
     public static let placeSuggestions: [PlaceSuggestion] = [
-        PlaceSuggestion(id: "suggestion-sample-1", submitterID: friend.id, name: "EXAMPLE Suggested Café",
+        PlaceSuggestion(id: "suggestion-sample-1", submitterID: friend.id, name: "Hotel Durga",
                         coordinate: Coordinate(latitude: 18.505, longitude: 73.805), category: .cafe,
-                        note: "EXAMPLE note", createdAt: hours(-15)),
-        PlaceSuggestion(id: "suggestion-sample-2", submitterID: rohan.id, name: "EXAMPLE Suggested Garden",
+                        note: "Suggested for an easy, cheap breakfast.", createdAt: hours(-15)),
+        PlaceSuggestion(id: "suggestion-sample-2", submitterID: rohan.id, name: "Pandit Bhimsen Joshi Garden",
                         coordinate: Coordinate(latitude: 18.51, longitude: 73.81), category: .parkGarden,
                         createdAt: hours(-40))
     ]

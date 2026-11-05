@@ -237,7 +237,7 @@ struct SocialBehaviourTests {
         let initial = try await iterator.next()
         let arrived = try await iterator.next()
         #expect(arrived?.count == (initial?.count ?? 0) + 1)
-        #expect(arrived?.last?.payload == .text("EXAMPLE incoming message"))
+        #expect(arrived?.last?.payload == .text("Just got here, where are you?"))
         #expect(Date().timeIntervalSince(start) >= 1.9)
     }
 }
