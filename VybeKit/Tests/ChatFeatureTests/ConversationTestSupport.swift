@@ -43,10 +43,12 @@ struct ConversationKit {
 
     func makeViewModel(
         _ id: ConversationID? = nil, chat: (any ChatRepository)? = nil, deps: AppDependencies = .preview(.loaded),
-        recorder: FakeRecorder = FakeRecorder(), offline: Bool = false, session: SessionStore? = nil
+        recorder: FakeRecorder = FakeRecorder(), offline: Bool = false, session: SessionStore? = nil,
+        photos: (any PhotoStore)? = nil
     ) -> ConversationViewModel {
         ConversationViewModel(
             conversationID: id ?? crew, chat: chat ?? deps.chat, profiles: deps.profiles, hangouts: deps.hangouts,
+            photos: photos ?? deps.photos,
             libraryStore: deps.libraryStore, session: session ?? deps.session, badges: deps.badges,
             network: NetworkMonitor(isOffline: offline), router: deps.router, now: { SampleData.day },
             recorder: recorder, player: AudioPlayer(),
