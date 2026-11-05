@@ -562,6 +562,83 @@
         }
       }
     },
+    "profile.saved.empty" : {
+      "comment" : "Empty state.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing saved yet. Save a Hangout from Discover and it waits for you here."
+          }
+        }
+      }
+    },
+    "profile.saved.remove" : {
+      "comment" : "Swipe action: unsave.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove"
+          }
+        }
+      }
+    },
+    "profile.saved.removed" : {
+      "comment" : "Shown in the Undo bar.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Removed from Saved"
+          }
+        }
+      }
+    },
+    "profile.saved.title" : {
+      "comment" : "Title of Saved.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
+    "profile.saved.unavailable" : {
+      "comment" : "A saved Hangout that was removed or made private.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No longer available"
+          }
+        }
+      }
+    },
+    "profile.saved.unavailable.body" : {
+      "comment" : "Under the unavailable title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It was removed or made private. Swipe to remove it from Saved."
+          }
+        }
+      }
+    },
+    "profile.saved.undo" : {
+      "comment" : "Button: save it again.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Undo"
+          }
+        }
+      }
+    },
     "profile.settings.reset" : {
       "comment" : "Destructive row: go back to the Welcome screen.",
       "localizations" : {

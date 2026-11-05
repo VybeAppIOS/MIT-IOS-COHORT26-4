@@ -15,7 +15,10 @@ public enum ProfileScreens {
     @ViewBuilder
     public static func view(for route: ProfileRoute, _ deps: AppDependencies) -> some View {
         switch route {
-        case .saved: ScreenPlaceholder(id: "PR4", name: "Saved")
+        case .saved:
+            SavedView(viewModel: SavedViewModel(
+                hangouts: deps.hangouts, places: deps.places, photos: deps.photos, libraryStore: deps.libraryStore,
+                router: deps.router))
         case .drafts: ScreenPlaceholder(id: "PR5", name: "Drafts")
         case .readyToPost: ScreenPlaceholder(id: "PR8", name: "Ready to post")
         case .settings: SettingsView(viewModel: SettingsViewModel(session: deps.session, router: deps.router))
