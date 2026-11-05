@@ -124,7 +124,7 @@ public enum SampleSocialData {
         memberIDs: [currentUser.id, friend.id, aarav.id, isha.id], createdAt: hours(-24))
     /// A group I was added to by someone who is not my friend. It waits for Join or Leave and block.
     public static let invitation = Conversation(
-        id: "conversation-sample-invitation", kind: .group, name: "EXAMPLE Sunday Walkers", adminID: vihaan.id,
+        id: "conversation-sample-invitation", kind: .group, name: "Sunday Walkers", adminID: vihaan.id,
         memberIDs: [vihaan.id, tara.id, currentUser.id], createdAt: hours(-5))
     public static let conversations = [friendChat, aaravChat, crew, invitation]
     /// Groups I have been invited to but not joined yet.
