@@ -51,6 +51,11 @@ final class ConversationViewModel {
     var draft = ""
     var editingID: MessageID?
     var isRecording = false
+    /// True while a finger is held on the microphone (hold to record). VoiceOver records without holding.
+    var isHolding = false
+    /// How far the finger has slid to the left (0 or negative, in points). Past the cancel distance, letting go
+    /// throws the recording away.
+    var slideOffset = 0.0
     private(set) var isSending = false
     /// The message waiting for a "Delete for everyone?" answer.
     var deletingID: MessageID?
@@ -78,6 +83,10 @@ final class ConversationViewModel {
     let router: Router
     let now: @Sendable () -> Date
     let recorder: any VoiceRecording
+    /// Waits for the 2 minute cap. Injected so tests do not wait two minutes.
+    let sleep: @Sendable (Duration) async throws -> Void
+    var startTask: Task<Void, Never>?
+    var capTask: Task<Void, Never>?
     let player: AudioPlayer
     let makePoll: PollFactory
     var conversation: Conversation?
@@ -97,8 +106,10 @@ final class ConversationViewModel {
         hangouts: any HangoutRepository, photos: any PhotoStore, libraryStore: LibraryStore, session: SessionStore,
         badges: BadgeStore, network: NetworkMonitor, router: Router, now: @escaping @Sendable () -> Date,
         recorder: any VoiceRecording, player: AudioPlayer, makePoll: @escaping PollFactory,
-        processor: PhotoProcessor = PhotoProcessor()
+        processor: PhotoProcessor = PhotoProcessor(),
+        sleep: @escaping @Sendable (Duration) async throws -> Void = { try await Task.sleep(for: $0) }
     ) {
+        self.sleep = sleep
         self.conversationID = conversationID
         self.chat = chat
         self.profiles = profiles
@@ -149,26 +160,6 @@ final class ConversationViewModel {
 
     /// The Retry button.
     func retry() async { await run() }
-
-    /// Who is in the chat and when they last read it. This tells me whether the admin has muted me in this group and
-    /// whether anyone has seen my last message. A failed lookup keeps what was known before (so nothing flips to
-    /// muted or seen by mistake); a muted person's message is still refused by the repository, with a notice.
-    private func loadMemberships(in conversation: Conversation) async {
-        memberships = (try? await chat.memberships(in: conversationID)) ?? memberships
-        guard conversation.kind == .group, let myID = session.currentUser?.id else {
-            isMuted = false
-            return
-        }
-        isMuted = memberships.first { $0.userID == myID }?.mutedAt != nil
-    }
-
-    /// The latest time any other active member (not someone I blocked) read this chat.
-    private func othersLastReadAt(myID: UserID?) -> Date? {
-        memberships
-            .filter { $0.userID != myID && $0.status == .active && !session.isBlocked($0.userID) }
-            .compactMap(\.lastReadAt)
-            .max()
-    }
 
     private func loadVotesAndCards() async {
         for message in messages {
@@ -223,13 +214,6 @@ final class ConversationViewModel {
             isMine: isMine, content: content(for: message, myID: myID), isEdited: message.editedAt != nil,
             receipt: isMine && isLast ? Self.receipt(for: message, othersLastReadAt: othersLastReadAt) : nil,
             startsGroup: startsGroup)
-    }
-
-    /// "Seen" when someone else has read up to this message, otherwise "Delivered". Read receipts are always on.
-    /// `othersLastReadAt` is the newest read time among the other members (nil when nobody has read the chat).
-    static func receipt(for message: Message, othersLastReadAt: Date?) -> MessageRowData.Receipt {
-        if let readAt = othersLastReadAt, readAt >= message.createdAt { return .seen }
-        return .delivered
     }
 
     private func content(for message: Message, myID: UserID?) -> MessageRowData.Content {

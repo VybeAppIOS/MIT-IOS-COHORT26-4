@@ -31,6 +31,7 @@ struct ConversationView: View {
         .background(Theme.Color.surface)
         .safeAreaInset(edge: .bottom) { composer }
         .task { await viewModel.run() }
+        .onDisappear { Task { await viewModel.screenDisappeared() } }
         .sheet(isPresented: $viewModel.isShowingPoll, content: { PollView(viewModel: viewModel.makePollViewModel()) })
         .sheet(isPresented: $viewModel.isShowingSaved, content: { savedSheet })
         .fullScreenCover(item: $viewModel.viewer) { PhotoViewer(item: $0) }
@@ -148,7 +149,7 @@ struct ConversationView: View {
             }
             HStack(alignment: .bottom, spacing: Theme.Spacing.small) {
                 plusMenu
-                if viewModel.isRecording { recordingBar } else { field }
+                if viewModel.isRecording { RecordingBar(viewModel: viewModel) } else { field }
                 trailingButton
             }
         }
@@ -198,36 +199,15 @@ struct ConversationView: View {
             .background(Theme.Color.surfaceRaised, in: .rect(cornerRadius: Theme.Radius.large))
     }
 
-    private var recordingBar: some View {
-        HStack {
-            Image(systemName: "waveform").foregroundStyle(Theme.Color.critical).accessibilityHidden(true)
-            Text(verbatim: viewModel.recordingText).font(Theme.Font.body)
-            Spacer(minLength: 0)
-            IconButton(systemImage: "trash", verbatimLabel: viewModel.cancelRecordingLabel) {
-                Task { await viewModel.cancelRecording() }
-            }
-        }
-        .padding(.horizontal, Theme.Spacing.medium)
-        .frame(minHeight: Theme.Size.minTapTarget)
-        .background(Theme.Color.surfaceRaised, in: .rect(cornerRadius: Theme.Radius.large))
-    }
-
-    /// Send when there are words; otherwise the microphone (tap to start, tap again to send).
+    /// Send when there are words; otherwise the microphone (hold to record).
     @ViewBuilder private var trailingButton: some View {
-        if viewModel.isRecording {
-            IconButton(systemImage: "arrow.up.circle.fill", verbatimLabel: viewModel.finishLabel) {
-                Task { await viewModel.micTapped() }
-            }
-        } else if viewModel.canSendDraft {
+        if viewModel.canSendDraft {
             IconButton(
                 systemImage: "arrow.up.circle.fill",
                 verbatimLabel: viewModel.editingID == nil ? viewModel.sendLabel : viewModel.saveEditLabel
             ) { Task { await viewModel.sendTapped() } }
         } else {
-            IconButton(systemImage: "mic.fill", verbatimLabel: viewModel.micLabel) {
-                Task { await viewModel.micTapped() }
-            }
-            .disabled(!viewModel.canWrite)
+            MicControl(viewModel: viewModel)
         }
     }
 
