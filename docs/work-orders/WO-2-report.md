@@ -121,7 +121,7 @@ Not part of this branch. Tanvi is taking the last two screens, so the Search tab
 
 ## Needs from Lohitaksh
 1. **Ignore a friend request**: `FriendsRepository` has no `ignoreRequest`, so Ignore (Activity, Friends hub) only hides the row on this phone.
-2. **Activity rows about a comment** carry only a comment ID, not the post's ID, so they open the commenter's profile. Activity needs the post ID.
+2. **Activity rows about a comment** now carry an optional `runID` (item 5) and open that post. The real server must fill `runID` for comment and reply rows; without it the row falls back to the commenter's profile.
 3. **ProfileHeader** always shows the Hangouts and Spots numbers, so a private profile shows "0" and "0". It needs a way to hide them.
 4. **PostCard** (Components): the ••• menu only has Report. A `block` action on `PostCardActions` would let the Feed offer Block there; today it is in the long-press menu.
 5. **Posts by one person**: there is no call for it, so a profile reads up to 3 feed pages and keeps that person's posts.
@@ -204,7 +204,9 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 1 Who "you" are | done (committed; full check passed at the end of Group 1) |
 | 2 Pill buttons | done (committed; checked at the end of Group 2) |
 | 3 Primary and Secondary a little smaller | done (own commit, easy to revert; checked at the end of Group 2) |
-| 4-25 | not started |
+| 4 No Report or Block on your own things | done (committed; checked at the end of Group 3) |
+| 5 Activity opens the post | done (committed together with item 4; checked at the end of Group 3) |
+| 6-25 | not started |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -242,3 +244,16 @@ Not looked at: these two buttons at the largest text size on a screen (only the 
 Needs from Lohitaksh: if you want the other large buttons above to match, say so and I will switch them to `PrimaryButton`.
 
 Group 2 full check: one `./scripts/check.sh` run after items 2 and 3 ended with `==> All checks passed` (exit 0).
+
+### Item 4: No Report or Block on your own things
+What changed: `CommentRowData` has `canReport` (default true). `CommentRow` hides Report when it is false, and hides the ••• menu entirely when there is nothing in it (own comment on someone else's post). `CommentsViewModel` and `PostDetailViewModel` set it to false for your own comments. The Feed and Trending have `canReport(post)`: for your own post the card gets `report: nil` (no ••• menu) and the Feed's long-press menu drops Report. Block was already hidden on your own posts and Picks (`canBlock`, tested). `TrendingViewModel` now takes `session:` (to know who you are); `CommunityScreens` and the preview pass `deps.session`.
+Files: `Components/CommentRow.swift`, `CommunityFeature/Comments/CommentsViewModel.swift`, `CommunityFeature/PostDetail/PostDetailViewModel.swift`, `CommunityFeature/Feed/FeedView.swift`, `FeedViewModel.swift`, `CommunityFeature/Trending/TrendingView.swift`, `TrendingViewModel.swift`, `Trending+Preview.swift`, `CommunityScreens.swift`, tests below, this report.
+Tests: own comment not reportable and someone else's is (Comments), `canReport` default (Components), `canReport` on Feed (own post false, others true, plus the existing `canBlock` checks) and Trending.
+Not looked at in the simulator: the Comments sheet and the Feed/Trending cards with your own post (the sample feed has no post by the signed-in person that I opened, and there is no debug route to the Comments sheet). Not driven by hand.
+Needs from Lohitaksh: none.
+
+### Item 5: Activity opens the post
+What changed: `Activity` has an optional `runID: RunID?` (init parameter defaults to nil; older JSON without it still decodes, tested). A comment or reply row opens `.post(runID)`; only when `runID` is nil does it open the commenter's profile. Sample data: `activity-sample-3` is now a reply (it is a reply to my comment) with `runID`, and a new read comment row `activity-sample-6` has `runID`; unread count is still 3 (of 6). The stub and the contract checks do not construct `Activity`, so they needed no change.
+Files (shared, approved): `Models/Safety/Activity.swift`, `Models/Samples/SampleSocialData.swift`. Feature: `CommunityFeature/Activity/ActivityViewModel.swift`. Tests: `ActivityViewModelTests` (reply and comment open the post, no `runID` falls back to the profile, sample rows carry a post), `CommunityModelsTests` (round trip with `runID`, old JSON decodes).
+Looked at (screenshot opened): Activity list with the new "replied to your comment" and "commented on your post" rows. Not driven by hand: tapping a row (covered by the ViewModel tests).
+Needs from Lohitaksh: the server must send `runID` on comment and reply rows (see item 2 above).

@@ -165,6 +165,10 @@ struct FeedViewModelTests {
         #expect(!viewModel.canBlock(cards[1]))
         #expect(!viewModel.canBlock(cards[2]))
 
+        #expect(viewModel.canReport(cards[0]))
+        #expect(!viewModel.canReport(cards[1]))   // your own post: no Report
+        #expect(viewModel.canReport(cards[2]))
+
         viewModel.blockTapped(cards[0])
         #expect(deps.router.sheet == .blockConfirm(friendPost.runnerID))
         deps.router.dismissSheet()

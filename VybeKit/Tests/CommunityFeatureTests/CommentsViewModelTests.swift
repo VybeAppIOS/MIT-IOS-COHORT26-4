@@ -167,6 +167,14 @@ struct CommentsViewModelTests {
         #expect(byId["comment-sample-5"]?.canDelete == false)
     }
 
+    @Test func youCannotReportYourOwnCommentButCanReportSomeoneElses() async {
+        let (viewModel, _) = makeViewModel(myCommentPost)
+        await viewModel.load()
+        let byId = Dictionary(uniqueKeysWithValues: rows(viewModel).map { ($0.id, $0) })
+        #expect(byId["comment-sample-4"]?.canReport == false)
+        #expect(byId["comment-sample-5"]?.canReport == true)
+    }
+
     @Test func deletingShowsDeletedInPlaceAndKeepsTheReply() async {
         let (viewModel, _) = makeViewModel(myCommentPost)
         await viewModel.load()

@@ -17,11 +17,13 @@ public struct CommentRowData: Hashable, Sendable, Identifiable {
     public var isDeleted: Bool
     /// The author, or the owner of the post, may delete it.
     public var canDelete: Bool
+    /// False for your own comment: you cannot report yourself.
+    public var canReport: Bool
 
     public init(
         id: String, authorName: String, username: String, text: String, relativeTimeText: String,
         avatarURL: URL? = nil, likeCount: Int = 0, isLiked: Bool = false, depth: Int = 0, isDeleted: Bool = false,
-        canDelete: Bool = false
+        canDelete: Bool = false, canReport: Bool = true
     ) {
         self.id = id
         self.authorName = authorName
@@ -34,6 +36,7 @@ public struct CommentRowData: Hashable, Sendable, Identifiable {
         self.depth = depth
         self.isDeleted = isDeleted
         self.canDelete = canDelete
+        self.canReport = canReport
     }
 
     /// Only two levels are indented; deeper threads show "View more replies" instead.
@@ -120,17 +123,22 @@ public struct CommentRow: View {
             Button(ComponentStrings.reply, action: actions.reply)
                 .frame(minHeight: Theme.Size.minTapTarget)
             Spacer(minLength: 0)
-            Menu {
-                Button(ComponentStrings.report, systemImage: "flag", action: actions.report)
-                if data.canDelete {
-                    Button(ComponentStrings.delete, systemImage: "trash", role: .destructive, action: actions.delete)
+            if data.canReport || data.canDelete {
+                Menu {
+                    if data.canReport {
+                        Button(ComponentStrings.report, systemImage: "flag", action: actions.report)
+                    }
+                    if data.canDelete {
+                        Button(ComponentStrings.delete, systemImage: "trash", role: .destructive,
+                               action: actions.delete)
+                    }
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .frame(minWidth: Theme.Size.minTapTarget, minHeight: Theme.Size.minTapTarget)
+                        .contentShape(.rect)
                 }
-            } label: {
-                Image(systemName: "ellipsis")
-                    .frame(minWidth: Theme.Size.minTapTarget, minHeight: Theme.Size.minTapTarget)
-                    .contentShape(.rect)
+                .accessibilityLabel(Text(verbatim: ComponentStrings.moreOptions))
             }
-            .accessibilityLabel(Text(verbatim: ComponentStrings.moreOptions))
         }
         .buttonStyle(.plain)
         .font(Theme.Font.footnote)
@@ -162,7 +170,7 @@ private let sampleComments = [
                    text: "EXAMPLE The chai break was the best part!", relativeTimeText: "2 d", likeCount: 3),
     CommentRowData(id: "c2", authorName: "Sample Aarav", username: "@sample.aarav",
                    text: "EXAMPLE Agreed, going again on Sunday.", relativeTimeText: "1 d", isLiked: true, depth: 1,
-                   canDelete: true),
+                   canDelete: true, canReport: false),
     CommentRowData(id: "c3", authorName: "Sample Meera", username: "@sample.meera",
                    text: "EXAMPLE A much longer reply that wraps onto several lines so the row can be checked at "
                        + "every text size without cutting any words.", relativeTimeText: "5 h", depth: 2),

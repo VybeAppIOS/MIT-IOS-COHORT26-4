@@ -8,7 +8,8 @@ extension TrendingViewModel {
         let deps = AppDependencies.preview(mode)
         return TrendingViewModel(
             feed: deps.feed, hangouts: deps.hangouts, places: deps.places, photos: deps.photos,
-            libraryStore: deps.libraryStore, router: deps.router, makeComments: CommentsViewModel.previewFactory(deps))
+            libraryStore: deps.libraryStore, session: deps.session, router: deps.router,
+            makeComments: CommentsViewModel.previewFactory(deps))
     }
 }
 
