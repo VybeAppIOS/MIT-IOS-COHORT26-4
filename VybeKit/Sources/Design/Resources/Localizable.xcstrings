@@ -974,6 +974,17 @@
         }
       }
     },
+    "component.post.save" : {
+      "comment" : "Button under a post: save the Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Hangout"
+          }
+        }
+      }
+    },
     "component.post.share" : {
       "comment" : "Button: share this post.",
       "localizations" : {
@@ -992,6 +1003,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unlike"
+          }
+        }
+      }
+    },
+    "component.post.unsave" : {
+      "comment" : "Button under a saved post: remove it from saved.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from saved"
           }
         }
       }

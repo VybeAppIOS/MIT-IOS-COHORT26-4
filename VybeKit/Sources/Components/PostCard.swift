@@ -9,10 +9,14 @@ public struct PostCardActions {
     public var comment: () -> Void
     public var remix: () -> Void
     public var share: () -> Void
+    public var save: () -> Void
+    /// When set, the ••• menu appears with a Report item that calls this.
+    public var report: (() -> Void)?
 
     public init(
         open: @escaping () -> Void, openAuthor: @escaping () -> Void = {}, like: @escaping () -> Void = {},
-        comment: @escaping () -> Void = {}, remix: @escaping () -> Void = {}, share: @escaping () -> Void = {}
+        comment: @escaping () -> Void = {}, remix: @escaping () -> Void = {}, share: @escaping () -> Void = {},
+        save: @escaping () -> Void = {}, report: (() -> Void)? = nil
     ) {
         self.open = open
         self.openAuthor = openAuthor
@@ -20,6 +24,8 @@ public struct PostCardActions {
         self.comment = comment
         self.remix = remix
         self.share = share
+        self.save = save
+        self.report = report
     }
 }
 
@@ -67,25 +73,34 @@ public struct PostCard: View {
     }
 
     private var content: some View {
-        VStack(alignment: .leading, spacing: Theme.Spacing.small) {
+        VStack(alignment: .leading, spacing: 0) {
             media.clipShape(.rect(cornerRadius: Theme.Radius.large))
             Text(verbatim: data.title)
-                .font(Theme.Font.headline)
+                .font(Theme.Font.title3.weight(.bold))
                 .foregroundStyle(Theme.Color.textPrimary)
+                .lineSpacing(lineSpacing)
+                .padding(.top, Theme.Spacing.medium)
             Text(verbatim: data.factsText)
                 .font(Theme.Font.subheadline)
                 .foregroundStyle(Theme.Color.textSecondary)
+                .lineSpacing(lineSpacing)
+                .padding(.top, Theme.Spacing.tiny)
             if let caption = data.caption {
                 Text(verbatim: caption)
-                    .font(Theme.Font.body)
+                    .font(Theme.Font.body.weight(.regular))
                     .foregroundStyle(Theme.Color.textPrimary)
+                    .lineSpacing(lineSpacing)
                     .lineLimit(3)
+                    .padding(.top, Theme.Spacing.medium)
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .contentShape(.rect)
         .accessibilityElement(children: .combine)
     }
+
+    /// A little extra space between wrapped lines (half of the smallest spacing token).
+    private var lineSpacing: CGFloat { Theme.Spacing.tiny / 2 }
 
     @ViewBuilder private var media: some View {
         if data.coverURL != nil || data.routePoints.count < 2 {
@@ -96,13 +111,29 @@ public struct PostCard: View {
     }
 }
 
-/// Like, Comment, Remix and Share, each with its count. Every button has a spoken label with its number.
+/// One row under the post: Like, Comment and Remix with their counts on the left; Share, Save and ••• on the right.
+/// At very large text sizes the two groups stack, so nothing is cut off. Every button has a spoken label.
 private struct PostActionBar: View {
     let data: PostCardData
     let actions: PostCardActions
 
     var body: some View {
-        HStack(spacing: Theme.Spacing.small) {
+        ViewThatFits(in: .horizontal) {
+            HStack(spacing: 0) {
+                reactions
+                Spacer(minLength: Theme.Spacing.small)
+                utilities
+            }
+            VStack(alignment: .leading, spacing: 0) {
+                reactions
+                utilities
+            }
+        }
+        .padding(.vertical, Theme.Spacing.small)
+    }
+
+    private var reactions: some View {
+        HStack(spacing: Theme.Spacing.tiny) {
             CountButton(
                 systemImage: data.isLiked ? "heart.fill" : "heart", count: data.likeCount,
                 label: data.isLiked ? ComponentStrings.unlike : ComponentStrings.like,
@@ -112,10 +143,62 @@ private struct PostActionBar: View {
                         value: ComponentStrings.commentCount(data.commentCount), action: actions.comment)
             CountButton(systemImage: "arrow.triangle.branch", count: data.remixCount, label: ComponentStrings.remix,
                         value: ComponentStrings.remixCount(data.remixCount), action: actions.remix)
-            Spacer(minLength: 0)
-            IconButton(systemImage: "square.and.arrow.up", verbatimLabel: ComponentStrings.share,
-                       action: actions.share)
         }
+    }
+
+    private var utilities: some View {
+        HStack(spacing: 0) {
+            ActionButton(
+                systemImage: "square.and.arrow.up", label: ComponentStrings.share, action: actions.share)
+            ActionButton(
+                systemImage: data.isSaved ? "bookmark.fill" : "bookmark",
+                label: data.isSaved ? ComponentStrings.unsave : ComponentStrings.save, action: actions.save)
+            if let report = actions.report {
+                Menu {
+                    Button(role: .destructive, action: report) {
+                        Label { Text(verbatim: ComponentStrings.report) } icon: { Image(systemName: "flag") }
+                    }
+                } label: {
+                    ActionIcon(systemImage: "ellipsis")
+                        .frame(minWidth: Theme.Size.minTapTarget, minHeight: Theme.Size.minTapTarget)
+                        .contentShape(.rect)
+                }
+                .accessibilityLabel(Text(verbatim: ComponentStrings.moreOptions))
+            }
+        }
+    }
+}
+
+/// Every icon in the action bar: the same font, weight, scale and box, so none looks bigger or heavier.
+/// The box grows with Dynamic Type.
+private struct ActionIcon: View {
+    let systemImage: String
+    var tint: Color?
+    @ScaledMetric(relativeTo: .body) private var box: CGFloat = 24
+
+    var body: some View {
+        Image(systemName: systemImage)
+            .font(Theme.Font.body.weight(.regular))
+            .imageScale(.medium)
+            .foregroundStyle(tint ?? Theme.Color.textPrimary)
+            .frame(width: box, height: box)
+    }
+}
+
+/// A plain icon button, 44 pt, with a spoken label.
+private struct ActionButton: View {
+    let systemImage: String
+    let label: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            ActionIcon(systemImage: systemImage)
+                .frame(minWidth: Theme.Size.minTapTarget, minHeight: Theme.Size.minTapTarget)
+                .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text(verbatim: label))
     }
 }
 
@@ -131,7 +214,7 @@ private struct CountButton: View {
     var body: some View {
         Button(action: action) {
             HStack(spacing: Theme.Spacing.tiny) {
-                Image(systemName: systemImage).foregroundStyle(tint ?? Theme.Color.textPrimary)
+                ActionIcon(systemImage: systemImage, tint: tint)
                 if count > 0 {
                     Text(verbatim: PostCardData.compact(count)).foregroundStyle(Theme.Color.textSecondary)
                 }
@@ -161,9 +244,9 @@ private var longCaption: PostCardData {
 #Preview("Feed") {
     ScrollView {
         VStack(spacing: Theme.Spacing.extraLarge) {
-            PostCard(.previewPick, actions: PostCardActions(open: {}))
-            PostCard(.previewFriend, actions: PostCardActions(open: {}))
-            PostCard(longCaption, actions: PostCardActions(open: {}))
+            PostCard(.previewPick, actions: PostCardActions(open: {}, report: {}))
+            PostCard(.previewFriend, actions: PostCardActions(open: {}, report: {}))
+            PostCard(longCaption, actions: PostCardActions(open: {}, report: {}))
         }
         .padding(Theme.Spacing.large)
     }
@@ -172,7 +255,7 @@ private var longCaption: PostCardData {
 
 #Preview("Large text") {
     ScrollView {
-        PostCard(.previewPick, actions: PostCardActions(open: {}))
+        PostCard(.previewPick, actions: PostCardActions(open: {}, report: {}))
             .padding(Theme.Spacing.large)
     }
     .dynamicTypeSize(.accessibility3)

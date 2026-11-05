@@ -8,7 +8,9 @@ import SwiftUI
 public enum CommunityScreens {
     @ViewBuilder
     public static func root(_ deps: AppDependencies) -> some View {
-        ScreenPlaceholder(id: "CM1", name: "Feed")
+        FeedView(viewModel: FeedViewModel(
+            feed: deps.feed, hangouts: deps.hangouts, places: deps.places, photos: deps.photos,
+            libraryStore: deps.libraryStore, badges: deps.badges, router: deps.router))
     }
 
     @ViewBuilder

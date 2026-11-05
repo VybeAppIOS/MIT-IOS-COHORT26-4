@@ -1,5 +1,150 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "community.feed.empty" : {
+      "comment" : "Empty state of the Feed: no posts and no Picks yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add friends to see their Hangouts here"
+          }
+        }
+      }
+    },
+    "community.feed.title" : {
+      "comment" : "Title of the Feed screen (the Community tab).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Community"
+          }
+        }
+      }
+    },
+    "community.feed.emptyAction" : {
+      "comment" : "Button under the empty Feed message; opens Friends.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Find friends"
+          }
+        }
+      }
+    },
+    "community.feed.picks" : {
+      "comment" : "Header of the strip of official Vybe Hangouts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picks"
+          }
+        }
+      }
+    },
+    "community.feed.trending" : {
+      "comment" : "Row at the end of the Feed that opens Trending.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Trending this week near Kothrud"
+          }
+        }
+      }
+    },
+    "community.feed.friends" : {
+      "comment" : "VoiceOver label of the Friends button in the top bar.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    },
+    "community.feed.activity" : {
+      "comment" : "VoiceOver label of the Activity (bell) button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activity"
+          }
+        }
+      }
+    },
+    "community.feed.activityUnseen" : {
+      "comment" : "VoiceOver label of the bell when there is something new.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activity, new"
+          }
+        }
+      }
+    },
+    "community.feed.chats" : {
+      "comment" : "VoiceOver label of the Chats button with nothing unread.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chats"
+          }
+        }
+      }
+    },
+    "community.feed.chatsUnread %lld" : {
+      "comment" : "VoiceOver label of the Chats button with unread chats. %lld is the count.",
+      "localizations" : {
+        "en" : {
+          "variations" : {
+            "plural" : {
+              "one" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Chats, %lld unread"
+                }
+              },
+              "other" : {
+                "stringUnit" : {
+                  "state" : "translated",
+                  "value" : "Chats, %lld unread"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "community.feed.likeFailed" : {
+      "comment" : "Shown when a like could not be saved and was undone.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't save your like. Try again."
+          }
+        }
+      }
+    },
+    "community.feed.ok" : {
+      "comment" : "Button that closes a short message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }
