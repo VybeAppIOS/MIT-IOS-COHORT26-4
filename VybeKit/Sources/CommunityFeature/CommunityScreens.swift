@@ -35,7 +35,10 @@ public enum CommunityScreens {
             TrendingView(viewModel: TrendingViewModel(
                 feed: deps.feed, hangouts: deps.hangouts, places: deps.places, photos: deps.photos,
                 libraryStore: deps.libraryStore, router: deps.router, makeComments: commentsFactory(deps)))
-        case .activity: ScreenPlaceholder(id: "CM5", name: "Activity")
+        case .activity:
+            ActivityView(viewModel: ActivityViewModel(
+                feed: deps.feed, friends: deps.friends, profiles: deps.profiles, badges: deps.badges,
+                router: deps.router, now: deps.now))
         }
     }
 }

@@ -1,6 +1,171 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "community.activity.accept" : {
+      "comment" : "Button that accepts a friend request.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accept"
+          }
+        }
+      }
+    },
+    "community.activity.comment %@" : {
+      "comment" : "One line of Activity. %@ is the person's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ commented on your post"
+          }
+        }
+      }
+    },
+    "community.activity.earlier" : {
+      "comment" : "Header of older activity.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Earlier"
+          }
+        }
+      }
+    },
+    "community.activity.empty" : {
+      "comment" : "Shown when there is no activity.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Quiet here."
+          }
+        }
+      }
+    },
+    "community.activity.friendAccepted %@" : {
+      "comment" : "One line of Activity. %@ is the person's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ accepted your friend request"
+          }
+        }
+      }
+    },
+    "community.activity.friendRequest %@" : {
+      "comment" : "One line of Activity. %@ is the person's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ sent you a friend request"
+          }
+        }
+      }
+    },
+    "community.activity.ignore" : {
+      "comment" : "Button that hides a friend request. Nobody is told.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ignore"
+          }
+        }
+      }
+    },
+    "community.activity.like %@" : {
+      "comment" : "One line of Activity. %@ is the person's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ liked your Hangout"
+          }
+        }
+      }
+    },
+    "community.activity.nowFriends %@" : {
+      "comment" : "One line of Activity. %@ is the person's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You and %@ are now friends"
+          }
+        }
+      }
+    },
+    "community.activity.ok" : {
+      "comment" : "Button that closes a short message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "community.activity.remixCredit %@" : {
+      "comment" : "One line of Activity. %@ is the person's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ remixed your Hangout"
+          }
+        }
+      }
+    },
+    "community.activity.reply %@" : {
+      "comment" : "One line of Activity. %@ is the person's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ replied to your comment"
+          }
+        }
+      }
+    },
+    "community.activity.title" : {
+      "comment" : "Title of the Activity screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activity"
+          }
+        }
+      }
+    },
+    "community.activity.today" : {
+      "comment" : "Header of today's activity.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Today"
+          }
+        }
+      }
+    },
+    "community.activity.unread" : {
+      "comment" : "VoiceOver label of the dot on a new activity.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New"
+          }
+        }
+      }
+    },
     "community.comments.cancel" : {
       "comment" : "Button that cancels deleting a comment.",
       "localizations" : {
