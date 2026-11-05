@@ -124,3 +124,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): .searchable inside SearchView on the tab's own stack, grouped inset list, section headers, VoiceOver headers pass; large text and the keyboard not looked at
 - Notes: Group order is read when a query runs (Discover: Hangouts first; Community: People first; Profile: your Saved Hangouts first). Typing is debounced 0.25 s. Blocked people are hidden. Needs from Lohitaksh: AppSettings has no recent-searches setting, so recent searches live in memory for the session only; add AppSettings.recentSearches (and give Screens access to it) to keep them.
 
+## SC-S2: done (lists everything in the group, not the typed query)
+- Files: SearchFeature/SeeAll/* (3 files), SeeAllViewModelTests, SearchScreens, AppShellTests row, catalog
+- Tests: 6
+- Screenshots: build/screenshots/s2.png taken, not opened
+- Button heights: rows 44 pt+ (system List)
+- Checklist (WO-3 prompt section 6): inline title, grouped inset list, paged on scroll pass; large text not looked at
+- Notes: Needs from Lohitaksh: Route.searchSeeAll(kind) carries only the group, not the typed words, so this screen shows everything in the group (all Hangouts, Places in Kothrud, your friends) instead of the matches. Fix: add the query to the route, or a Core store that remembers the last query. Paging is done on the phone, 20 at a time.
+

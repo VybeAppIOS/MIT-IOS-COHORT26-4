@@ -89,6 +89,50 @@
         }
       }
     },
+    "search.seeAll.empty" : {
+      "comment" : "Search screens: search.seeAll.empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing to show yet."
+          }
+        }
+      }
+    },
+    "search.seeAll.hangouts" : {
+      "comment" : "Search screens: search.seeAll.hangouts",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangouts"
+          }
+        }
+      }
+    },
+    "search.seeAll.people" : {
+      "comment" : "Search screens: search.seeAll.people",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "People"
+          }
+        }
+      }
+    },
+    "search.seeAll.places" : {
+      "comment" : "Search screens: search.seeAll.places",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Places"
+          }
+        }
+      }
+    },
     "search.suggestPlace" : {
       "comment" : "Search screens: search.suggestPlace",
       "localizations" : {
