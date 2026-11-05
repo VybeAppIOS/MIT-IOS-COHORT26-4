@@ -16,6 +16,7 @@ struct MicControl: View {
             .frame(minWidth: Theme.Size.minTapTarget, minHeight: Theme.Size.minTapTarget)
             .contentShape(.rect)
             .opacity(viewModel.canWrite ? 1 : 0.4)
+            .disabled(!viewModel.canWrite && !viewModel.isRecording)   // VoiceOver says "dimmed", not just a faded icon
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .updating($isPressing) { _, pressing, _ in pressing = true }

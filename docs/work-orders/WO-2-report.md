@@ -148,6 +148,8 @@ Not part of this branch. Tanvi is taking the last two screens, so the Search tab
 - For most screens I did not look at the largest text size or VoiceOver in the simulator; the previews and labels exist but were not exercised.
 - Screenshots are in `build/` on my Mac and are not committed (the folder is 400 MB and not ignored). Never `git add .`.
 - The Feed, Chats list and the Comments/New chat/Poll sheets have no debug route, so they were photographed with temporary changes that were reverted.
+- Found by the final review and not fixed (left for a human to decide): Activity still lists people you have blocked (the stub does not filter them; it was like this before this job). The stub's `mutedIn:` initialiser can mute the admin, which the real rules forbid (test setup only). "Muted" is hidden only in the UI: `memberships(in:)` returns every member's `mutedAt` to any member, so a real backend must redact it. Photos picked for a message are saved one by one, so a failed send leaves the saved files on the phone with no message. Leaving the Conversation while the very first microphone permission prompt is showing does not discard that recording. Picking and reading photos (`PhotoPicker`) is loaded in the View, not in the ViewModel.
+- Fixed after the review: the 2 minute voice cap no longer cancels its own sending task, and the microphone is now really disabled (VoiceOver says so) while you cannot write.
 
 ## Checks
 Final `./scripts/check.sh` (the run before the Search tab was moved to its own branch):

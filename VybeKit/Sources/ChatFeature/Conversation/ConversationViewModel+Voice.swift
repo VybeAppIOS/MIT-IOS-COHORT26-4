@@ -75,7 +75,8 @@ extension ConversationViewModel {
 
     private func finishRecording(capped: Bool = false) async {
         guard isRecording else { return }
-        stopCap()
+        // The cap clock calls this itself: cancelling it here would cancel the very task that is sending the note.
+        if capped { capTask = nil } else { stopCap() }
         resetHold()
         isRecording = false
         do {
