@@ -67,8 +67,41 @@
         }
       }
     },
-    "live.markDone" : {
-      "comment" : "Mark visited sheet button (until SC-H2).",
+    "live.markVisited" : {
+      "comment" : "H1 main button; opens the Mark visited sheet (H2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark visited"
+          }
+        }
+      }
+    },
+    "live.markVisited.addPhoto" : {
+      "comment" : "H2 optional photo button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a photo"
+          }
+        }
+      }
+    },
+    "live.markVisited.allVisited" : {
+      "comment" : "H2 success text on the last Spot.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every Spot visited!"
+          }
+        }
+      }
+    },
+    "live.markVisited.done" : {
+      "comment" : "H2 button that marks the Spot visited.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -78,8 +111,30 @@
         }
       }
     },
-    "live.markQuestion %@" : {
-      "comment" : "Mark visited sheet question (until SC-H2). %@ is the Spot's name.",
+    "live.markVisited.limitReached %lld" : {
+      "comment" : "H2 when the photo limit (2 per visited Spot) is reached.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can add up to %lld photos so far."
+          }
+        }
+      }
+    },
+    "live.markVisited.photoError" : {
+      "comment" : "H2 when a photo cannot be processed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't use that photo. Try another one."
+          }
+        }
+      }
+    },
+    "live.markVisited.question %@" : {
+      "comment" : "H2 question. %@ is the Spot's name.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
@@ -89,13 +144,24 @@
         }
       }
     },
-    "live.markVisited" : {
-      "comment" : "H1 main button; opens the Mark visited sheet (H2).",
+    "live.markVisited.removePhoto" : {
+      "comment" : "VoiceOver label for removing a picked photo.",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Mark visited"
+            "value" : "Remove photo"
+          }
+        }
+      }
+    },
+    "live.markVisited.visited" : {
+      "comment" : "H2 success text.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visited!"
           }
         }
       }
