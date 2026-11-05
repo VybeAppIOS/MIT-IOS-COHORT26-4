@@ -217,4 +217,20 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 
 | Item | State |
 |---|---|
-| 1-25 | not started |
+| 1 Who "you" are | done (committed; the full check runs at the end of Group 1) |
+| 2-25 | not started |
+
+### Item 1: Who "you" are
+Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
+
+Reproduced first (launch without `-stubMode`, `-skipOnboarding`, route to the group chat and Group info): in Group info my own row showed "?" and "@" (profile not found) and the Admin label sat on that empty row, and nothing in the chat was treated as mine (the poll I voted on showed on the left).
+
+What changed (DEBUG only, `Vybe/App`):
+- New `SampleIdentityProfileRepository` wraps the local profile repository. `currentProfile()` keeps the saved name, username, photo and bio but returns the sample ID. `profile(id:)` answers for the sample ID (as the saved profile) and for everyone in `SampleSocialData.people`; unknown IDs fall through to the local repository (not found). `update()` maps the sample ID back to the ID stored in `profile.json`, saves there, and answers with the sample ID, so the file keeps its own ID and works with an existing `profile.json`.
+- `AppDependencies+Local.swift`: a small `profileRepository(now:)` helper picks the wrapper in DEBUG and the plain local repository otherwise (Release builds stop at the `fatalError` in `socialRepositories()` anyway).
+
+Files: `Vybe/App/SampleIdentityProfileRepository.swift`, `Vybe/App/AppDependencies+Local.swift`, `VybeTests/SampleIdentityProfileRepositoryTests.swift`, this report.
+Tests: 5 app-target tests (saved name and photo kept with the sample ID, fresh install, own ID lookup, sample people found and a stranger not found, update saves under the stored ID and reads back). They use a temporary file, never the real `profile.json`.
+Looked at (screenshots opened): normal launch with a saved `profile.json` ("Saved Name", ID `user-local`) written into the simulator container: Group info shows the saved name with the Admin label, the three sample members' names, Add members and Leave group; the group chat shows the poll I voted on on the right with my choice checked, and other people's names above their messages.
+Not driven by hand: sending a message and deleting my own comment (no way to tap in this environment). These work off the same ID check (`senderID == session.currentUser?.id`, comment author and admin checks) that now match, and are covered by the ViewModel tests with the same IDs.
+Needs from Lohitaksh: none. Phase 2 note: the wrapper goes away once there is one ID per person.
