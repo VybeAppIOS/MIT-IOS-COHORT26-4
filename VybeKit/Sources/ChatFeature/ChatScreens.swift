@@ -38,7 +38,8 @@ public enum ChatScreens {
 
     @ViewBuilder
     public static func groupInvitationSheet(_ id: ConversationID, _ deps: AppDependencies) -> some View {
-        ScreenPlaceholder(id: "CH7", name: "Group invitation")
+        InvitationView(viewModel: InvitationViewModel(
+            conversationID: id, chat: deps.chat, profiles: deps.profiles, network: deps.network, router: deps.router))
     }
 }
 

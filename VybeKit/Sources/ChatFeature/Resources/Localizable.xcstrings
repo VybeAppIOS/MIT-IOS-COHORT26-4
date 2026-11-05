@@ -177,6 +177,83 @@
         }
       }
     },
+    "chat.invite.empty" : {
+      "comment" : "Chat screens: chat.invite.empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This invitation is no longer available."
+          }
+        }
+      }
+    },
+    "chat.invite.headline %@ %@" : {
+      "comment" : "Chat screens: chat.invite.headline %@ %@",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ added you to %2$@"
+          }
+        }
+      }
+    },
+    "chat.invite.hint" : {
+      "comment" : "Chat screens: chat.invite.hint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You are not friends yet. You can join, or leave and block the person who added you."
+          }
+        }
+      }
+    },
+    "chat.invite.join" : {
+      "comment" : "Chat screens: chat.invite.join",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Join"
+          }
+        }
+      }
+    },
+    "chat.invite.leaveAndBlock" : {
+      "comment" : "Chat screens: chat.invite.leaveAndBlock",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave and block"
+          }
+        }
+      }
+    },
+    "chat.invite.ok" : {
+      "comment" : "Chat screens: chat.invite.ok",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "chat.invite.title" : {
+      "comment" : "Chat screens: chat.invite.title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Invitation"
+          }
+        }
+      }
+    },
     "chat.list.empty" : {
       "comment" : "Chat screens: chat.list.empty",
       "localizations" : {

@@ -92,3 +92,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): sheet detents + drag indicator, ShareLink for More… pass; not looked at in the simulator
 - Notes: A post is shared as the Hangout behind it. Needs from Lohitaksh: no deep links or share URL exist yet, so More… shares the Hangout's title and 'find it on Vybe' as text.
 
+## SC-CH7: done
+- Files: ChatFeature/Invitation/* (3 files), InvitationViewModelTests, ChatScreens, AppShellTests row, catalog
+- Tests: 6
+- Screenshots: build/screenshots/ch7.png opened (avatar stack, headline, Join, Leave and block)
+- Button heights: Join about 48 pt (shared PrimaryButton, measured 110 px x 1.31 / 3); Leave and block a large bordered button with a 44 pt minimum
+- Checklist (WO-3 prompt section 6): medium sheet with drag indicator, destructive role on Leave and block pass; large text not looked at
+- Notes: Leave and block declines the invitation, then opens the shared Block question for the person who added you. Needs from Lohitaksh: the stub does not model a pending invitation, so the adder is taken to be the group's admin and a group you are already in is shown.
+

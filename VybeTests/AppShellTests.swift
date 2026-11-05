@@ -45,7 +45,7 @@ struct AppShellTests {
     @Test(arguments: [
         (Sheet.spot("p1"), "view:SpotSheetView"), (.report(.place("p1")), "view:ReportView"),
         (.blockConfirm("u1"), "view:BlockConfirmView"), (.share(.post("r1")), "view:ShareSheetView"),
-        (.suggestPlace, "E3"), (.editPost("r1"), "PO2"), (.groupInvitation("c1"), "CH7")
+        (.suggestPlace, "E3"), (.editPost("r1"), "PO2"), (.groupInvitation("c1"), "view:InvitationView")
     ])
     func sheetsReachTheirScreen(sheet: Sheet, screenID: String) {
         #expect(reaches(factory.sheet(for: sheet), screenID))
