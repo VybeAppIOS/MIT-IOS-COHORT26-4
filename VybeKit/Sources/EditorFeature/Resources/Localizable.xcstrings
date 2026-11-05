@@ -331,6 +331,193 @@
         }
       }
     },
+    "editor.suggest.category" : {
+      "comment" : "E3 category picker label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Kind of Place"
+          }
+        }
+      }
+    },
+    "editor.suggest.done" : {
+      "comment" : "E3 success button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "editor.suggest.error" : {
+      "comment" : "E3 send failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It didn't send. Check your connection and try again."
+          }
+        }
+      }
+    },
+    "editor.suggest.error.name" : {
+      "comment" : "E3 name error",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use 2 to 60 characters."
+          }
+        }
+      }
+    },
+    "editor.suggest.error.note" : {
+      "comment" : "E3 note too long",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep it under 300 characters."
+          }
+        }
+      }
+    },
+    "editor.suggest.error.photo" : {
+      "comment" : "E3 photo missing",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A photo is needed so we can check the Place."
+          }
+        }
+      }
+    },
+    "editor.suggest.map" : {
+      "comment" : "E3 hint under the map",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Move the map so the pin sits on the Place"
+          }
+        }
+      }
+    },
+    "editor.suggest.name" : {
+      "comment" : "E3 name field label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name of the Place"
+          }
+        }
+      }
+    },
+    "editor.suggest.note" : {
+      "comment" : "E3 note field label",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Anything we should know (optional)"
+          }
+        }
+      }
+    },
+    "editor.suggest.photo" : {
+      "comment" : "E3 photo button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a photo you took there"
+          }
+        }
+      }
+    },
+    "editor.suggest.photo.error" : {
+      "comment" : "E3 photo could not be read",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't use that photo. Try another one."
+          }
+        }
+      }
+    },
+    "editor.suggest.photo.ready" : {
+      "comment" : "E3 shown when a photo is ready",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo added"
+          }
+        }
+      }
+    },
+    "editor.suggest.promise" : {
+      "comment" : "E3 info line above the form",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll check it before it appears. We don't accept homes or hostels."
+          }
+        }
+      }
+    },
+    "editor.suggest.send" : {
+      "comment" : "E3 primary button",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send suggestion"
+          }
+        }
+      }
+    },
+    "editor.suggest.sent.body" : {
+      "comment" : "E3 success body",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We'll check it soon. You'll see it in My suggestions."
+          }
+        }
+      }
+    },
+    "editor.suggest.sent.title" : {
+      "comment" : "E3 success title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thanks, we got it"
+          }
+        }
+      }
+    },
+    "editor.suggest.title" : {
+      "comment" : "E3 title",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suggest a Place"
+          }
+        }
+      }
+    },
     "editor.tag.budget-friendly" : {
       "comment" : "Tag chip.",
       "localizations" : {

@@ -28,7 +28,7 @@ struct AppShellTests {
         (.composePost("r1"), "PO1"), (.searchSeeAll(.places), "S2"), (.saved, "view:SavedView"),
         (.settingsPage(.privacy), "ST2"), (.post("r1"), "CM2"), (.friendsHub, "FR1"), (.profile("u1"), "PR3"),
         (.conversation("c1"), "CH2"), (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
-        (.suggestPlace, "E3"), (.settings, "view:SettingsView"),
+        (.suggestPlace, "view:SuggestPlaceView"), (.settings, "view:SettingsView"),
         (.settingsPage(.account), "view:AccountSettingsView"), (.deleteAccount, "view:DeleteAccountView"),
         (.settingsPage(.help), "view:HelpView"), (.settingsPage(.placeSuggestions), "view:MySuggestionsView"),
         (.settingsPage(.about), "view:AboutView"), (.drafts, "view:DraftsView"),
@@ -41,7 +41,7 @@ struct AppShellTests {
     @Test(arguments: [
         (Sheet.spot("p1"), "HD2"), (.report(.place("p1")), "view:ReportView"),
         (.blockConfirm("u1"), "view:BlockConfirmView"), (.share(.post("r1")), "CH5"),
-        (.suggestPlace, "E3"), (.editPost("r1"), "PO2"), (.groupInvitation("c1"), "CH7")
+        (.suggestPlace, "view:SuggestPlaceView"), (.editPost("r1"), "PO2"), (.groupInvitation("c1"), "CH7")
     ])
     func sheetsReachTheirScreen(sheet: Sheet, screenID: String) {
         #expect(reaches(factory.sheet(for: sheet), screenID))
