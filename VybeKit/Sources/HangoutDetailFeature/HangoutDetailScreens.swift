@@ -9,14 +9,19 @@ public enum HangoutDetailScreens {
     @ViewBuilder
     public static func view(for route: HangoutDetailRoute, _ deps: AppDependencies) -> some View {
         switch route {
-        case .detail: ScreenPlaceholder(id: "HD1", name: "Hangout detail")
+        case .detail(let id):
+            HangoutDetailView(viewModel: HangoutDetailViewModel(
+                id: id, hangouts: deps.hangouts, places: deps.places, profiles: deps.profiles, photos: deps.photos,
+                library: deps.libraryStore, liveStore: deps.liveStore, network: deps.network, router: deps.router))
         case .remixTree: ScreenPlaceholder(id: "HD3", name: "Remix tree")
         }
     }
 
     @ViewBuilder
     public static func spotSheet(_ id: PlaceID, _ deps: AppDependencies) -> some View {
-        ScreenPlaceholder(id: "HD2", name: "Spot sheet")
+        SpotSheetView(viewModel: SpotSheetViewModel(
+            id: id, places: deps.places, hangouts: deps.hangouts, photos: deps.photos, library: deps.libraryStore,
+            router: deps.router, now: deps.now))
     }
 }
 
