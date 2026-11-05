@@ -1,6 +1,237 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "admin.action.ban" : {
+      "comment" : "AD1 action, opens Users",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ban the owner…"
+          }
+        }
+      }
+    },
+    "admin.action.dismiss" : {
+      "comment" : "AD1 action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dismiss report"
+          }
+        }
+      }
+    },
+    "admin.action.hide" : {
+      "comment" : "AD1 destructive action",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide content"
+          }
+        }
+      }
+    },
+    "admin.action.hide.confirm" : {
+      "comment" : "AD1 hide confirmation",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide this for everyone?"
+          }
+        }
+      }
+    },
+    "admin.actionFailed" : {
+      "comment" : "Admin action failed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That didn't work. Try again."
+          }
+        }
+      }
+    },
+    "admin.detail.anonymous" : {
+      "comment" : "AD1 detail note",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The reported person never sees who reported this."
+          }
+        }
+      }
+    },
+    "admin.detail.autoHidden" : {
+      "comment" : "AD1 detail note for nudity, self-harm, threats",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Already hidden for the person who reported it."
+          }
+        }
+      }
+    },
+    "admin.detail.reason" : {
+      "comment" : "AD1 detail row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reason"
+          }
+        }
+      }
+    },
+    "admin.detail.target" : {
+      "comment" : "AD1 detail row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reported"
+          }
+        }
+      }
+    },
+    "admin.detail.time" : {
+      "comment" : "AD1 detail row",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Time to act"
+          }
+        }
+      }
+    },
+    "admin.reports.empty" : {
+      "comment" : "AD1 empty",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No open reports."
+          }
+        }
+      }
+    },
+    "admin.reports.left" : {
+      "comment" : "AD1 time left, e.g. 1 hr, 20 min left",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ left"
+          }
+        }
+      }
+    },
+    "admin.reports.overdue" : {
+      "comment" : "AD1 time past the deadline",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overdue by %@"
+          }
+        }
+      }
+    },
+    "admin.reports.title" : {
+      "comment" : "AD1 title (team only)",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reports"
+          }
+        }
+      }
+    },
+    "admin.target.comment" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comment"
+          }
+        }
+      }
+    },
+    "admin.target.hangout" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangout"
+          }
+        }
+      }
+    },
+    "admin.target.message" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message"
+          }
+        }
+      }
+    },
+    "admin.target.place" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Place"
+          }
+        }
+      }
+    },
+    "admin.target.run" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post"
+          }
+        }
+      }
+    },
+    "admin.target.user" : {
+      "comment" : "AD1 what was reported",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Person"
+          }
+        }
+      }
+    },
+    "admin.teamOnly" : {
+      "comment" : "Admin pages for a non-team account",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This page is for the Vybe team only."
+          }
+        }
+      }
+    },
     "moderation.block.body" : {
       "comment" : "What blocking does.",
       "localizations" : {

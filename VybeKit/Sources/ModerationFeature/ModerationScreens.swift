@@ -13,7 +13,9 @@ public enum ModerationScreens {
             ReportView(viewModel: ReportViewModel(
                 target: target, presentation: .pushed, safety: deps.safety, session: deps.session,
                 router: deps.router))
-        case .admin(.reports): ScreenPlaceholder(id: "AD1", name: "Reports queue")
+        case .admin(.reports):
+            AdminReportsView(viewModel: AdminReportsViewModel(
+                admin: deps.admin, session: deps.session, router: deps.router, now: deps.now))
         case .admin(.placeSuggestions): ScreenPlaceholder(id: "AD2", name: "Place suggestions")
         case .admin(.users): ScreenPlaceholder(id: "AD3", name: "Users")
         }
