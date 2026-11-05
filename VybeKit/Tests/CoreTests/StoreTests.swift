@@ -91,6 +91,14 @@ struct SessionStoreTests {
         let session = SessionStore(settings: freshSettings(), blockedIDs: [SampleData.friend.id])
         #expect(session.isBlocked(SampleData.friend.id) && !session.isBlocked(SampleData.signedInUser.id))
     }
+
+    @Test func blockingAndUnblockingUpdatesTheSessionAtOnce() {
+        let session = SessionStore(settings: freshSettings())
+        session.block(SampleData.friend.id)
+        #expect(session.isBlocked(SampleData.friend.id))
+        session.unblock(SampleData.friend.id)
+        #expect(!session.isBlocked(SampleData.friend.id))
+    }
 }
 
 /// Loads fine, but every save fails.
