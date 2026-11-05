@@ -237,7 +237,7 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 21 See all shows the matches | done (own commit) |
 | 22 You are not in your own People results | done (own commit) |
 | 23 People on a normal launch | done (own commit) |
-| 24 SC-S1 "Done when" on a real run | not started |
+| 24 SC-S1 "Done when" on a real run | done (report only: nothing needed fixing in the code) |
 | 25 Report and check | not started |
 
 ### Item 1: Who "you" are
@@ -402,6 +402,18 @@ What changed: new `SampleSocialSearchRepository` wraps `LocalSearchRepository`: 
 Files: `Vybe/App/SampleSocialSearchRepository.swift` (new), `Vybe/App/AppDependencies+Local.swift`, `VybeTests/SampleSocialSearchRepositoryTests.swift` (new), this report.
 Tests (app target, 4 passed): Hangouts and Places stay local and local is never asked for people; people found by name and by username and only from the sample people; no people unless asked; blank text and no match give none.
 Looked at (screenshot opened): same launch after the fix, typed "sample": a People group with Sample Friend, Sample Aarav, Sample Isha and See all; "Sample Me" (you) is not listed (`build/screenshots/s1-after-people.png`).
+
+### Item 24: SC-S1 "Done when" on a real run (report only, no code change)
+How: a normal launch (`-skipOnboarding`, no `-stubMode`) for the real data, and `-stubMode loaded|empty|failing|loading` where the bundled content is empty. Temporary launch changes (open the Search tab from a chosen tab, preset the query, focus the field, preset the See all words) were used for the photographs only and were reverted; `git status` was clean afterwards. The simulator text size was set with `simctl ui content_size accessibility-extra-extra-extra-large`, then put back to large.
+Opened and looked at (screenshots in `build/screenshots/`, not committed):
+- Search, normal launch: no results for "sample" before the fix and People after it (`s1-before-people`, `s1-after-people`); "Sample Me" (you) is not in the list; recent search "sample" is shown on the next launch (`s1-idle`) so item 20 works across launches; "Nothing yet. Know a good spot?" with the Suggest a place button (`s1-kothrud`).
+- Search, sample data: idle with Picks (`s1-stub-idle`); results from Discover (Hangouts, Places, People), from Community (People first) and from Profile (Saved first, then Hangouts, Places, People) (`s1-stub-discover`, `-community`, `-profile`); error with Retry (`s1-stub-failing`); keyboard open with results (`s1-stub-keyboard`); largest text (`s1-stub-xxxl`) and largest text with the keyboard (`s1-stub-xxxl-keyboard`): rows wrap, nothing is cut off, the field and the cancel button stay usable.
+- See all: only the matches for the typed words (`s2-stub-matches`: "Park" gives one Place; `s2-stub-people-matches`: "sample" gives only people you can see), empty (`s2-stub-empty`), largest text (`s2-stub-xxxl`), back button present on the pushed screen.
+- The Search tab root has no back button (its own `NavigationStack`, the field sits on the screen, not on the `TabView`).
+Taken but not opened: loading for Search and the error state for See all (`s1-stub-loading`, `s2-stub-failing`), the whole-group See all (`s2-stub-all`).
+Not driven by hand (no way to tap in this environment): tapping a row (Hangout pushes, Place opens the Spot sheet, Person pushes), Suggest a place opening its sheet, typing and the debounce, Clear on recent searches, the See all button. These are covered by ViewModel tests that check the Router call or sheet; VoiceOver was not run.
+Found while looking: the Search tab showed raw keys (`search.title`) because the built `VybeKit_SearchFeature.bundle` was a stale, empty resource bundle left from before the Search commits were reapplied; deleting that bundle in `build/` and rebuilding fixed it. It is a local build-cache problem, not a code problem; if Search shows raw keys on another machine, clean the build folder.
+Not fixable here: the bundled content (`LocalData/Resources/Content`) has no Hangouts or Places yet, so on a normal launch only People can be found and there are no Picks to suggest; that waits for the real content (and the sample-natural-hangouts PR #57).
 
 ### Shared files touched in this job
 From `git diff --name-only 27fee49..HEAD` (the commits of the fixes, not the merge from `main`), restricted to the approved shared folders. The list for the whole PR (which also has Tanvi's Feed and PostCard commits and the first WO-2 round, for example `Components/PostCard.swift`) is `git diff --name-only origin/main...HEAD`.
