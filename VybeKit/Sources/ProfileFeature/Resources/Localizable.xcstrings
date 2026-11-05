@@ -1013,6 +1013,171 @@
         }
       }
     },
+    "profile.ready.cancel" : {
+      "comment" : "Button: un-schedule a post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancel post"
+          }
+        }
+      }
+    },
+    "profile.ready.delete" : {
+      "comment" : "Destructive button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete"
+          }
+        }
+      }
+    },
+    "profile.ready.delete.confirm" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delete this Hangout?"
+          }
+        }
+      }
+    },
+    "profile.ready.delete.message" : {
+      "comment" : "Confirmation message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Its photos and progress are removed from this phone."
+          }
+        }
+      }
+    },
+    "profile.ready.empty" : {
+      "comment" : "Empty state.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing waiting. When you end a Hangout it shows up here, ready to post."
+          }
+        }
+      }
+    },
+    "profile.ready.finished" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finished, not posted"
+          }
+        }
+      }
+    },
+    "profile.ready.finished.none" : {
+      "comment" : "Empty finished section.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No finished Hangouts waiting."
+          }
+        }
+      }
+    },
+    "profile.ready.needSpots" : {
+      "comment" : "Why Post is off.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visit at least %lld Spots to post."
+          }
+        }
+      }
+    },
+    "profile.ready.photos" : {
+      "comment" : "Number of photos taken.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld photos"
+          }
+        }
+      }
+    },
+    "profile.ready.post" : {
+      "comment" : "Button: open the post composer.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post"
+          }
+        }
+      }
+    },
+    "profile.ready.scheduled" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled"
+          }
+        }
+      }
+    },
+    "profile.ready.scheduled.none" : {
+      "comment" : "Empty scheduled section.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nothing scheduled."
+          }
+        }
+      }
+    },
+    "profile.ready.scheduledFor" : {
+      "comment" : "When a scheduled post appears; %@ is the day and time.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scheduled for %@"
+          }
+        }
+      }
+    },
+    "profile.ready.spots" : {
+      "comment" : "How many Spots were visited.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld of %2$lld Spots"
+          }
+        }
+      }
+    },
+    "profile.ready.title" : {
+      "comment" : "Title of PR8.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready to post"
+          }
+        }
+      }
+    },
     "profile.saved.empty" : {
       "comment" : "Empty state.",
       "localizations" : {

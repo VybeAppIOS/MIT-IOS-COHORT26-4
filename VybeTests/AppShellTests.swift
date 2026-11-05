@@ -31,7 +31,8 @@ struct AppShellTests {
         (.suggestPlace, "E3"), (.settings, "view:SettingsView"),
         (.settingsPage(.account), "view:AccountSettingsView"), (.deleteAccount, "view:DeleteAccountView"),
         (.settingsPage(.help), "view:HelpView"), (.settingsPage(.placeSuggestions), "view:MySuggestionsView"),
-        (.settingsPage(.about), "view:AboutView"), (.drafts, "view:DraftsView")
+        (.settingsPage(.about), "view:AboutView"), (.drafts, "view:DraftsView"),
+        (.readyToPost, "view:ReadyToPostView")
     ])
     func routesReachTheirScreen(route: Route, screenID: String) {
         #expect(reaches(factory.screen(for: route), screenID))

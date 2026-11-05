@@ -22,7 +22,8 @@ public enum ProfileScreens {
         case .drafts:
             DraftsView(viewModel: DraftsViewModel(
                 places: deps.places, photos: deps.photos, libraryStore: deps.libraryStore, router: deps.router))
-        case .readyToPost: ScreenPlaceholder(id: "PR8", name: "Ready to post")
+        case .readyToPost:
+            ReadyToPostView(viewModel: ReadyToPostViewModel(libraryStore: deps.libraryStore, router: deps.router))
         case .settings: SettingsView(viewModel: SettingsViewModel(session: deps.session, router: deps.router))
         case .settingsPage(let page): settingsPage(page, deps)
         case .deleteAccount:
