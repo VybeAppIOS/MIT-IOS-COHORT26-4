@@ -7,6 +7,7 @@ import UIKit
 struct ConversationView: View {
     @State private var viewModel: ConversationViewModel
     @FocusState private var composerFocused: Bool
+    @State private var showsPhotoPicker = false
 
     init(viewModel: ConversationViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -32,6 +33,11 @@ struct ConversationView: View {
         .task { await viewModel.run() }
         .sheet(isPresented: $viewModel.isShowingPoll, content: { PollView(viewModel: viewModel.makePollViewModel()) })
         .sheet(isPresented: $viewModel.isShowingSaved, content: { savedSheet })
+        .fullScreenCover(item: $viewModel.viewer) { PhotoViewer(item: $0) }
+        .photoPicker(
+            isPresented: $showsPhotoPicker, limit: ConversationViewModel.photoLimit,
+            onPicked: { pictures in await viewModel.photosPicked(pictures) },
+            onFailed: { viewModel.photoLoadFailed() })
         .confirmationDialog(
             Text(verbatim: viewModel.deleteTitle),
             isPresented: Binding(get: { viewModel.deletingID != nil }, set: { if !$0 { viewModel.cancelDelete() } }),
@@ -90,6 +96,7 @@ struct ConversationView: View {
         MessageBubbleActions(
             openHangout: { viewModel.openHangout($0) },
             openLink: { UIApplication.shared.open($0) },
+            openPhoto: { viewModel.photoTapped(row.id, at: $0) },
             togglePlayback: { viewModel.togglePlayback(row.id) },
             vote: { choice in Task { await viewModel.vote(choice, on: row.id) } })
     }
@@ -161,6 +168,10 @@ struct ConversationView: View {
             Button { Task { await viewModel.hangoutTapped() } } label: {
                 Label { Text(verbatim: viewModel.hangoutLabel) } icon: { Image(systemName: "map") }
             }
+            Button { showsPhotoPicker = true } label: {
+                Label { Text(verbatim: viewModel.photosLabel) } icon: { Image(systemName: "photo") }
+            }
+            .disabled(!viewModel.canAddPhotos)
             if viewModel.canStartPoll {
                 Button { viewModel.pollTapped() } label: {
                     Label { Text(verbatim: viewModel.pollLabel) } icon: { Image(systemName: "chart.bar") }

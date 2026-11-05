@@ -13,6 +13,15 @@ public struct ProcessedPhoto: Sendable, Equatable {
         self.large = large
         self.thumbnail = thumbnail
     }
+
+    /// The size of the large picture in pixels. Nil when the bytes are not an image.
+    public var pixelSize: (width: Int, height: Int)? {
+        guard let source = CGImageSourceCreateWithData(large as CFData, nil),
+              let properties = CGImageSourceCopyPropertiesAtIndex(source, 0, nil) as? [CFString: Any],
+              let width = properties[kCGImagePropertyPixelWidth] as? Int,
+              let height = properties[kCGImagePropertyPixelHeight] as? Int else { return nil }
+        return (width, height)
+    }
 }
 
 public enum PhotoProcessingError: Error, Equatable {

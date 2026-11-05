@@ -210,6 +210,28 @@
         }
       }
     },
+    "chat.conversation.photoFailed" : {
+      "comment" : "Chat screens: chat.conversation.photoFailed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not send your photo. Nothing was sent."
+          }
+        }
+      }
+    },
+    "chat.conversation.photos" : {
+      "comment" : "Chat screens: chat.conversation.photos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        }
+      }
+    },
     "chat.conversation.placeholder" : {
       "comment" : "Chat screens: chat.conversation.placeholder",
       "localizations" : {
@@ -889,6 +911,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "New chat"
+          }
+        }
+      }
+    },
+    "chat.photo.close" : {
+      "comment" : "Chat screens: chat.photo.close",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close photo"
+          }
+        }
+      }
+    },
+    "chat.photo.position %lld %lld" : {
+      "comment" : "Chat screens: chat.photo.position %lld %lld",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "chat.photo.single" : {
+      "comment" : "Chat screens: chat.photo.single",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo"
           }
         }
       }

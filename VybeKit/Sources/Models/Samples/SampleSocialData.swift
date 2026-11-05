@@ -144,8 +144,10 @@ public enum SampleSocialData {
         message(6, in: crew, by: isha, hoursAgo: 12, .text("EXAMPLE what are we doing on Saturday?")),
         message(7, in: crew, by: currentUser, hoursAgo: 11, .poll(question: "EXAMPLE: coffee at 5?")),
         message(8, in: crew, by: aarav, hoursAgo: 10, .voice(path: "voice/EXAMPLE.m4a", seconds: 12)),
-        message(9, in: crew, by: friend, hoursAgo: 2, .photos([Photo(id: "photo-sample-1", path: "EXAMPLE.jpg",
-                                                                      width: 800, height: 600)]))
+        message(9, in: crew, by: friend, hoursAgo: 2, .photos([
+            Photo(id: "photo-sample-1", path: "EXAMPLE.jpg", width: 800, height: 600),
+            Photo(id: "photo-sample-2", path: "EXAMPLE2.jpg", width: 600, height: 800)
+        ]))
     ]
 
     /// When I last read each chat (the friend chat and the crew chat have 2 unread messages each).

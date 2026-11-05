@@ -60,11 +60,17 @@ final class ConversationViewModel {
     var saved: [SavedHangoutChoice] = []
     /// A short message to show once. The View clears it.
     var notice: String?
+    /// The full-screen photo viewer, when a photo is open.
+    var viewer: PhotoViewerItem?
+    /// True while picked photos are being made safe, saved and sent.
+    var isSendingPhotos = false
 
     let conversationID: ConversationID
     let chat: any ChatRepository
     let profiles: any ProfileRepository
     let hangouts: any HangoutRepository
+    let photoStore: any PhotoStore
+    let processor: PhotoProcessor
     let libraryStore: LibraryStore
     let session: SessionStore
     let badges: BadgeStore
@@ -86,14 +92,17 @@ final class ConversationViewModel {
     /// Cheap: no loading here (ADR 005). Takes only what the screen needs, never `AppDependencies`.
     init(
         conversationID: ConversationID, chat: any ChatRepository, profiles: any ProfileRepository,
-        hangouts: any HangoutRepository, libraryStore: LibraryStore, session: SessionStore, badges: BadgeStore,
-        network: NetworkMonitor, router: Router, now: @escaping @Sendable () -> Date, recorder: any VoiceRecording,
-        player: AudioPlayer, makePoll: @escaping PollFactory
+        hangouts: any HangoutRepository, photos: any PhotoStore, libraryStore: LibraryStore, session: SessionStore,
+        badges: BadgeStore, network: NetworkMonitor, router: Router, now: @escaping @Sendable () -> Date,
+        recorder: any VoiceRecording, player: AudioPlayer, makePoll: @escaping PollFactory,
+        processor: PhotoProcessor = PhotoProcessor()
     ) {
         self.conversationID = conversationID
         self.chat = chat
         self.profiles = profiles
         self.hangouts = hangouts
+        self.photoStore = photos
+        self.processor = processor
         self.libraryStore = libraryStore
         self.session = session
         self.badges = badges
@@ -212,7 +221,7 @@ final class ConversationViewModel {
         if message.deletedAt != nil { return .deleted }
         switch message.payload {
         case .text(let text): return .text(text)
-        case .photos(let photos): return .photos(photos.map { _ in nil })
+        case .photos(let photos): return .photos(photos.map { photoStore.url(for: $0) })
         case .hangout(let id):
             if let card = cards[id] { return .hangout(card) }
             return .text(String(localized: "chat.conversation.hangoutMissing", bundle: #bundle))

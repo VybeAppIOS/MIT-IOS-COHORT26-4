@@ -24,8 +24,9 @@ public enum ChatScreens {
         case .conversation(let id):
             ConversationView(viewModel: ConversationViewModel(
                 conversationID: id, chat: deps.chat, profiles: deps.profiles, hangouts: deps.hangouts,
-                libraryStore: deps.libraryStore, session: deps.session, badges: deps.badges, network: deps.network,
-                router: deps.router, now: deps.now, recorder: SystemVoiceRecorder(), player: AudioPlayer(),
+                photos: deps.photos, libraryStore: deps.libraryStore, session: deps.session, badges: deps.badges,
+                network: deps.network, router: deps.router, now: deps.now, recorder: SystemVoiceRecorder(),
+                player: AudioPlayer(),
                 makePoll: { conversationID, onClose in
                     PollViewModel(
                         conversationID: conversationID, chat: deps.chat, network: deps.network, onClose: onClose)

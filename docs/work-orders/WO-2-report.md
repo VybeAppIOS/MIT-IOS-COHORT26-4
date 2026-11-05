@@ -211,7 +211,8 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 8 Group data: memberships, mute, invitations | done (own commit) |
 | 9 Group info: ••• menu, Mute, Add members for all | done (own commit) |
 | 10 Chats list shows invitations (CH7) | done (own commit; checked at the end of Group 5) |
-| 11-25 | not started |
+| 11 Photos in chat | done (own commit) |
+| 12-25 | not started |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -308,4 +309,12 @@ Not driven by hand: tapping the invitation row, Join, Leave and block, and the r
 Needs from Lohitaksh: none.
 
 Group 5 full check: one `./scripts/check.sh` run after items 8 to 10 ended with `==> All checks passed` (exit 0). The log also has one line, "error: the following command failed with exit code 0 but produced no further output", from the app-target test step; the run still passed. A pre-existing compiler warning (`var people` never mutated in `InvitationViewModel`) is still there.
+
+### Item 11: Photos in chat
+What changed: `PhotoStore` has `save(_ photo: ProcessedPhoto) async throws -> Photo`. `LocalPhotoStore` writes the large picture to `Application Support/Vybe/Photos` and `url(for:)` looks in the bundled folder and then the saved folder (a path with `..` is never found). `StubPhotoStore` (now a class, numbers its photos, keeps no file) conforms. Onboarding and Live were not touched (they only call `url(for:)`). `ProcessedPhoto.pixelSize` reads the width and height. The "+" menu has Photos (system `PhotosPicker`, max 2 per message, images only). Every picked picture goes through `PhotoProcessor` first (resized, location and all other details removed: docs/RISKS.md 3), is saved, and then all are sent as ONE message. If any step fails a short message shows and nothing is sent. Photos is off offline, while muted or read-only, while recording and while one is sending. The conversation now shows the real pictures through `PhotoStore` instead of nil. Tapping a photo opens the shared full-screen viewer (`ChatFeature/Shared/PhotoViewer.swift`, wired through the `openPhoto` closure): system page `TabView` to swipe between photos, a Close button with a VoiceOver label, a "Photo 2 of 3" label for each picture, no glass on the photos. The sample group message now has 2 photos so the viewer can be swiped.
+Files (shared, approved): `Core/Repositories/PhotoStore.swift`, `Core/Services/PhotoProcessor.swift`, `Core/Fakes/StubRepositories.swift`, `LocalData/LocalPhotoStore.swift`, `Models/Samples/SampleSocialData.swift`. Feature: `ChatFeature/ChatScreens.swift`, `Conversation/ConversationView.swift`, `ConversationViewModel.swift`, `ConversationViewModel+Photos.swift`, `Conversation+Preview.swift`, `Shared/PhotoPicker.swift`, `Shared/PhotoViewer.swift`, `Resources/Localizable.xcstrings` (5 strings).
+Tests: `ConversationPhotosTests` (picked photos are processed, location gone from what was saved, one message; max 2; not a picture sends nothing; one bad picture among two sends nothing; failed save; failed send; picker could not read; offline, muted and recording turn it off; real pictures from the store; tapping opens the viewer on that photo and ignores bad taps), `LocalPhotoStoreTests` (save and find again, separate files, bundled and saved both found, `..` path, no size for non-pictures), `PhotoProcessorTests` (size, stub store). No test file asserts sample text.
+Looked at (screenshot opened, with a temporary line that opened the viewer, since reverted): the viewer on the second of two photos, with the Close button top left and two page dots. The sample photos have no image files, so the placeholder shows.
+Not driven by hand: the "+" menu, the system photo picker and picking a real picture (cannot be automated here; the ViewModel is tested with fakes and real JPEG bytes that carry a GPS position), swiping in the viewer, VoiceOver, the viewer on a real image, the saved file on disk from the app.
+Needs from Lohitaksh: the backend upload (Phase 2) replaces `LocalPhotoStore.save`; the upload must also strip location (already done on the phone before `save`).
 
