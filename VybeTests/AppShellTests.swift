@@ -31,6 +31,7 @@ struct AppShellTests {
         (.trending, "view:TrendingView"), (.activity, "view:ActivityView"),
         (.friendsHub, "view:HubView"),
         (.profile("u1"), "view:OtherProfileView"),
+        (.mutualFriends("u1"), "view:MutualFriendsView"),
         (.conversation("c1"), "CH2"), (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
         (.suggestPlace, "E3")
     ])

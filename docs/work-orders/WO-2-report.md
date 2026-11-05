@@ -52,3 +52,11 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): inline title, toolbar Message and ••• menu, confirmation before removing pass; large text not looked at
 - Notes: Needs from Lohitaksh: (1) ProfileHeader always shows the Hangouts/Spots stats, so a private profile shows 0 and 0 instead of nothing; the header needs a way to hide them. (2) There is no 'posts by person' call, so the grid reads up to 3 pages of the feed and keeps this person's posts. (3) spotsVisited here is the number of Spots in their visible posts. The Own relationship does nothing on this screen (Edit profile belongs to the Profile screens).
 
+## SC-PR7: done
+- Files: FriendsFeature/MutualFriends/* (3 files), MutualFriendsViewModelTests, AppShellTests row, catalog, FriendsScreens
+- Tests: 5
+- Screenshots: build/screenshots/pr7.png taken, not opened
+- Button heights: rows are single-tap PersonRows, 44 pt minimum
+- Checklist (WO-3 prompt section 6): grouped inset list pass; empty/error/loading previews exist; not looked at in the simulator
+- Notes: Blocked people are filtered out of the list.
+

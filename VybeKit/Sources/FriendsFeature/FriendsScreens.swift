@@ -16,7 +16,9 @@ public enum FriendsScreens {
             OtherProfileView(viewModel: OtherProfileViewModel(
                 userID: id, profiles: deps.profiles, friends: deps.friends, feed: deps.feed, places: deps.places,
                 photos: deps.photos, session: deps.session, router: deps.router))
-        case .mutualFriends: ScreenPlaceholder(id: "PR7", name: "Mutual friends")
+        case .mutualFriends(let id):
+            MutualFriendsView(viewModel: MutualFriendsViewModel(
+                userID: id, friends: deps.friends, session: deps.session, router: deps.router))
         }
     }
 }

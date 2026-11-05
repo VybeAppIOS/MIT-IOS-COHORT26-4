@@ -300,6 +300,28 @@
         }
       }
     },
+    "friends.mutual.empty" : {
+      "comment" : "Shown when you and someone share no friends.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No mutual friends yet."
+          }
+        }
+      }
+    },
+    "friends.mutual.title" : {
+      "comment" : "Title of the Mutual friends screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mutual friends"
+          }
+        }
+      }
+    },
     "friends.profile.block" : {
       "comment" : "Menu item that blocks a person.",
       "localizations" : {
