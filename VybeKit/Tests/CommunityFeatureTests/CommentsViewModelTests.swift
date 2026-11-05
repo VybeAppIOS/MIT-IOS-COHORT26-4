@@ -57,7 +57,7 @@ struct CommentsViewModelTests {
     /// Post 3 has a comment by the signed-in person (comment 4) and a reply by someone else (comment 5).
     private let myCommentPost = SampleSocialData.posts[2]
 
-    private final class Reports { var ids: [CommentID] = [] }
+    private final class Reports { var exits: [CommentsExit] = [] }
 
     private func makeViewModel(
         _ run: HangoutRun, feed: ControlledFeed? = nil, offline: Bool = false, reports: Reports = Reports()
@@ -67,7 +67,7 @@ struct CommentsViewModelTests {
         let viewModel = CommentsViewModel(
             runID: run.id, feed: controlled, profiles: deps.profiles, session: deps.session,
             network: NetworkMonitor(isOffline: offline), now: deps.now, makeID: { "id-1" },
-            onReport: { reports.ids.append($0) })
+            onExit: { reports.exits.append($0) })
         return (viewModel, controlled)
     }
 
@@ -217,7 +217,39 @@ struct CommentsViewModelTests {
         let (viewModel, _) = makeViewModel(threadPost, reports: reports)
         await viewModel.load()
         viewModel.reportTapped("comment-sample-3")
-        #expect(reports.ids == ["comment-sample-3"])
+        #expect(reports.exits == [.report("comment-sample-3")])
+    }
+
+    @Test func aReplyToTheFirstCommentSitsDirectlyUnderItsThreadNotAtTheEnd() async {
+        let (viewModel, _) = makeViewModel(threadPost)
+        await viewModel.load()
+        viewModel.replyTapped("comment-sample-1")
+        viewModel.draft = "Same here"
+        await viewModel.sendTapped()
+        let list = rows(viewModel)
+        #expect(list.count == 4)
+        // comment 1, its older reply (2), the new reply, and only then comment 3
+        #expect(list[0].id == "comment-sample-1" && list[1].id == "comment-sample-2")
+        #expect(list[2].text == "Same here" && list[2].depth == 1)
+        #expect(list[3].id == "comment-sample-3")
+    }
+
+    @Test func threadOrderPutsRepliesUnderParentsOldestFirst() {
+        func comment(_ id: String, parent: String? = nil, at hour: Double) -> Models.Comment {
+            Models.Comment(id: CommentID(id), runID: "r", authorID: "u", parentID: parent.map { CommentID($0) },
+                           text: id, createdAt: Date(timeIntervalSince1970: hour * 3600))
+        }
+        let mixed = [comment("c", at: 3), comment("a", at: 1), comment("a2", parent: "a", at: 4),
+                     comment("b", at: 2), comment("a1", parent: "a", at: 2.5), comment("orphan", parent: "gone", at: 5)]
+        #expect(CommentsViewModel.threaded(mixed).map(\.id.rawValue) == ["a", "a1", "a2", "b", "c", "orphan"])
+    }
+
+    @Test func tappingACommentersNameClosesTheSheetForTheirProfile() async {
+        let reports = Reports()
+        let (viewModel, _) = makeViewModel(threadPost, reports: reports)
+        await viewModel.load()
+        viewModel.authorTapped("comment-sample-2")
+        #expect(reports.exits == [.profile(SampleSocialData.aarav.id)])
     }
 
     @Test func theLastCommentLoadsTheNextPage() async {

@@ -30,7 +30,7 @@ final class PostDetailViewModel {
     var isShowingComments = false
 
     private let makeComments: CommentsFactory
-    private var reportAfterComments: CommentID?
+    private var exitAfterComments: CommentsExit?
 
     private let runID: RunID
     private let feed: any FeedRepository
@@ -225,17 +225,20 @@ final class PostDetailViewModel {
     func commentsTapped() { isShowingComments = true }
 
     func makeCommentsViewModel() -> CommentsViewModel {
-        makeComments(runID) { [weak self] commentID in
-            self?.reportAfterComments = commentID
+        makeComments(runID) { [weak self] exit in
+            self?.exitAfterComments = exit
             self?.isShowingComments = false
         }
     }
 
-    /// The Comments sheet has closed: open Report if that is why it closed, and refresh the comment counts.
+    /// The Comments sheet has closed: go to Report or a profile if that is why it closed, and refresh the counts.
     func commentsDismissed() async {
-        if let id = reportAfterComments {
-            reportAfterComments = nil
-            router.present(.report(.comment(id)))
+        if let exit = exitAfterComments {
+            exitAfterComments = nil
+            switch exit {
+            case .report(let id): router.present(.report(.comment(id)))
+            case .profile(let id): router.open(.profile(id))
+            }
         }
         await reload()
     }

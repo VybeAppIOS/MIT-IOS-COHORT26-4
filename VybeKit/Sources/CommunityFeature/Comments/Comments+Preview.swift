@@ -13,15 +13,15 @@ extension CommentsViewModel {
         return CommentsViewModel(
             runID: run, feed: deps.feed, profiles: deps.profiles, session: deps.session,
             network: NetworkMonitor(isOffline: offline), now: deps.now, makeID: { UUID().uuidString },
-            onReport: { _ in })
+            onExit: { _ in })
     }
 
     /// For the Feed and Post detail previews and tests.
     static func previewFactory(_ deps: AppDependencies) -> CommentsFactory {
-        { runID, onReport in
+        { runID, onExit in
             CommentsViewModel(
                 runID: runID, feed: deps.feed, profiles: deps.profiles, session: deps.session,
-                network: deps.network, now: deps.now, makeID: { UUID().uuidString }, onReport: onReport)
+                network: deps.network, now: deps.now, makeID: { UUID().uuidString }, onExit: onExit)
         }
     }
 }

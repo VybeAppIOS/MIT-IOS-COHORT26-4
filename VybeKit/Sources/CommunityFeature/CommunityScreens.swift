@@ -16,10 +16,10 @@ public enum CommunityScreens {
 
     /// Builds the Comments sheet for a post. The Feed and Post detail share it.
     private static func commentsFactory(_ deps: AppDependencies) -> CommentsFactory {
-        { runID, onReport in
+        { runID, onExit in
             CommentsViewModel(
                 runID: runID, feed: deps.feed, profiles: deps.profiles, session: deps.session, network: deps.network,
-                now: deps.now, makeID: { UUID().uuidString }, onReport: onReport)
+                now: deps.now, makeID: { UUID().uuidString }, onExit: onExit)
         }
     }
 

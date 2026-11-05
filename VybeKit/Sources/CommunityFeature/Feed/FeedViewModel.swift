@@ -22,7 +22,7 @@ final class FeedViewModel {
     var commentsRunID: RunID?
 
     private let makeComments: CommentsFactory
-    private var reportAfterComments: CommentID?
+    private var exitAfterComments: CommentsExit?
     private let feed: any FeedRepository
     private let hangouts: any HangoutRepository
     private let places: any PlaceRepository
@@ -178,17 +178,20 @@ final class FeedViewModel {
     func commentTapped(_ post: PostCardData) { commentsRunID = post.id }
 
     func makeCommentsViewModel(for id: RunID) -> CommentsViewModel {
-        makeComments(id) { [weak self] commentID in
-            self?.reportAfterComments = commentID
+        makeComments(id) { [weak self] exit in
+            self?.exitAfterComments = exit
             self?.commentsRunID = nil
         }
     }
 
-    /// The Comments sheet has closed: open Report if that is why it closed, and refresh the comment counts.
+    /// The Comments sheet has closed: go to Report or a profile if that is why it closed, and refresh the counts.
     func commentsDismissed() async {
-        if let id = reportAfterComments {
-            reportAfterComments = nil
-            router.present(.report(.comment(id)))
+        if let exit = exitAfterComments {
+            exitAfterComments = nil
+            switch exit {
+            case .report(let id): router.present(.report(.comment(id)))
+            case .profile(let id): router.open(.profile(id))
+            }
         }
         await reload()
     }

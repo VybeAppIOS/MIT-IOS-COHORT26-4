@@ -80,7 +80,8 @@ struct CommentsView: View {
                 composerFocused = true
             },
             report: { viewModel.reportTapped(row.id) },
-            delete: { viewModel.deleteTapped(row.id) })
+            delete: { viewModel.deleteTapped(row.id) },
+            openAuthor: { viewModel.authorTapped(row.id) })
     }
 
     /// Your own comment before the server confirms it: dimmed while sending, with Retry and Remove if it failed.

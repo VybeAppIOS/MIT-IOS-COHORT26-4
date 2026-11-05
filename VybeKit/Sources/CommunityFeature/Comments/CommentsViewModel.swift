@@ -4,9 +4,16 @@ import Foundation
 import Models
 import Observation
 
+/// Why the Comments sheet wants to close: the person chose Report on a comment, or tapped a commenter's name.
+/// The parent closes the sheet first, then goes there through the Router (a second sheet cannot open on top).
+enum CommentsExit: Equatable {
+    case report(CommentID)
+    case profile(UserID)
+}
+
 /// Builds the Comments sheet's ViewModel. The Feed and Post detail hold one, so neither needs to know what Comments
-/// is made of. `onReport` is called when the person chooses Report on a comment (the parent closes the sheet first).
-typealias CommentsFactory = @MainActor (RunID, @escaping @MainActor (CommentID) -> Void) -> CommentsViewModel
+/// is made of.
+typealias CommentsFactory = @MainActor (RunID, @escaping @MainActor (CommentsExit) -> Void) -> CommentsViewModel
 
 /// The view-ready values of the Comments sheet (never a raw model).
 struct CommentsContent: Equatable, Sendable {
@@ -49,7 +56,7 @@ final class CommentsViewModel {
     private let network: NetworkMonitor
     private let now: @Sendable () -> Date
     private let makeID: @Sendable () -> String
-    private let onReport: @MainActor (CommentID) -> Void
+    private let onExit: @MainActor (CommentsExit) -> Void
     private var comments: [Comment] = []
     private var authors: [UserID: UserProfile] = [:]
     private var likedComments: Set<CommentID> = []
@@ -61,7 +68,7 @@ final class CommentsViewModel {
     init(
         runID: RunID, feed: any FeedRepository, profiles: any ProfileRepository, session: SessionStore,
         network: NetworkMonitor, now: @escaping @Sendable () -> Date, makeID: @escaping @Sendable () -> String,
-        onReport: @escaping @MainActor (CommentID) -> Void
+        onExit: @escaping @MainActor (CommentsExit) -> Void
     ) {
         self.runID = runID
         self.feed = feed
@@ -70,7 +77,7 @@ final class CommentsViewModel {
         self.network = network
         self.now = now
         self.makeID = makeID
-        self.onReport = onReport
+        self.onExit = onExit
     }
 
     // MARK: Words
@@ -174,8 +181,21 @@ final class CommentsViewModel {
 
     /// Turns the loaded comments into rows. The repository keeps a reply after its parent, so the order is the thread.
     private func publish(hasMore: Bool) {
-        let rows = comments.map(row(for:))
+        let rows = Self.threaded(comments).map(row(for:))
         state = rows.isEmpty && pending.isEmpty ? .empty : .loaded(CommentsContent(rows: rows, hasMore: hasMore))
+    }
+
+    /// Each reply sits directly under its parent, and comments at the same level go oldest first. A reply whose
+    /// parent is not loaded is shown as a top-level comment.
+    static func threaded(_ comments: [Comment]) -> [Comment] {
+        let known = Set(comments.map(\.id))
+        let byParent = Dictionary(grouping: comments) { comment in
+            comment.parentID.flatMap { known.contains($0) ? $0 : nil }
+        }
+        func walk(_ parent: CommentID?) -> [Comment] {
+            (byParent[parent] ?? []).sorted { $0.createdAt < $1.createdAt }.flatMap { [$0] + walk($0.id) }
+        }
+        return walk(nil)
     }
 
     private func row(for comment: Comment) -> CommentRowData {
@@ -300,5 +320,10 @@ final class CommentsViewModel {
         }
     }
 
-    func reportTapped(_ rowID: String) { onReport(CommentID(rowID)) }
+    func reportTapped(_ rowID: String) { onExit(.report(CommentID(rowID))) }
+
+    /// Opens the commenter's profile (the sheet closes first).
+    func authorTapped(_ rowID: String) {
+        if let comment = comments.first(where: { $0.id.rawValue == rowID }) { onExit(.profile(comment.authorID)) }
+    }
 }
