@@ -10,8 +10,8 @@ extension ProfileViewModel {
         let deps = AppDependencies.preview(mode)
         let me = asFriend ? SampleData.friend.id : SampleData.signedInUser.id
         let profiles = StubProfileRepository(mode: mode, people: SampleSocialData.people, currentID: me)
-        return ProfileViewModel(profiles: profiles, feed: deps.feed, photos: deps.photos, session: deps.session,
-                                libraryStore: deps.libraryStore, router: deps.router)
+        return ProfileViewModel(profiles: profiles, auth: deps.auth, feed: deps.feed, photos: deps.photos,
+                                session: deps.session, libraryStore: deps.libraryStore, router: deps.router)
     }
 }
 

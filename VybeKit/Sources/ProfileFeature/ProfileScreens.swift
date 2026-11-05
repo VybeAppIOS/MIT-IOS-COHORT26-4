@@ -8,7 +8,7 @@ public enum ProfileScreens {
     @ViewBuilder
     public static func root(_ deps: AppDependencies) -> some View {
         ProfileView(viewModel: ProfileViewModel(
-            profiles: deps.profiles, feed: deps.feed, photos: deps.photos, session: deps.session,
+            profiles: deps.profiles, auth: deps.auth, feed: deps.feed, photos: deps.photos, session: deps.session,
             libraryStore: deps.libraryStore, router: deps.router))
     }
 

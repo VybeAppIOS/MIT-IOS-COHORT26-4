@@ -7,8 +7,9 @@ import Testing
 struct ProfileViewModelTests {
     private func make(_ mode: StubMode = .loaded) -> (viewModel: ProfileViewModel, deps: AppDependencies) {
         let deps = AppDependencies.preview(mode)
-        let viewModel = ProfileViewModel(profiles: deps.profiles, feed: deps.feed, photos: deps.photos,
-                                         session: deps.session, libraryStore: deps.libraryStore, router: deps.router)
+        let viewModel = ProfileViewModel(profiles: deps.profiles, auth: deps.auth, feed: deps.feed,
+                                         photos: deps.photos, session: deps.session, libraryStore: deps.libraryStore,
+                                         router: deps.router)
         return (viewModel, deps)
     }
 
@@ -57,10 +58,12 @@ struct ProfileViewModelTests {
         #expect(deps.router.path(for: .tab(.profile)) == [.drafts, .settings, .post("run-1")])
     }
 
-    @Test func editOpensTheSheet() {
+    @Test func editOpensTheSheetWithMyProfile() async {
         let (viewModel, _) = make()
+        await viewModel.load()
         viewModel.editTapped()
-        #expect(viewModel.isEditing)
+        #expect(viewModel.editing?.id == SampleData.signedInUser.id)
+        #expect(viewModel.makeEditViewModel(SampleData.signedInUser).name == SampleData.signedInUser.displayName)
     }
 
     @Test func aFailedFirstLoadShowsTheError() async {

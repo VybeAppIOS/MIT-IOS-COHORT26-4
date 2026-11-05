@@ -34,8 +34,8 @@ struct ProfileView: View {
                 .accessibilityIdentifier("profile.profile.settings")
             }
         }
-        .sheet(isPresented: $viewModel.isEditing) {
-            EditProfilePlaceholder()
+        .sheet(item: $viewModel.editing, onDismiss: { Task { await viewModel.editingEnded() } }) { profile in
+            EditProfileView(viewModel: viewModel.makeEditViewModel(profile))
         }
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
@@ -75,14 +75,5 @@ struct ProfileView: View {
             }
         }
         .background(Theme.Color.surfaceRaised, in: RoundedRectangle(cornerRadius: Theme.Radius.large))
-    }
-}
-
-/// Stands in for Edit profile (SC-PR6) until that screen is built in this branch.
-private struct EditProfilePlaceholder: View {
-    var body: some View {
-        Text(verbatim: "PR6")
-            .font(Theme.Font.largeTitle)
-            .presentationDragIndicator(.visible)
     }
 }

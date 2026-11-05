@@ -397,6 +397,259 @@
         }
       }
     },
+    "profile.edit.banner" : {
+      "comment" : "Picker row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Banner"
+          }
+        }
+      }
+    },
+    "profile.edit.bio" : {
+      "comment" : "Field label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bio"
+          }
+        }
+      }
+    },
+    "profile.edit.bio.long" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep your bio to 150 characters."
+          }
+        }
+      }
+    },
+    "profile.edit.discard" : {
+      "comment" : "Destructive button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discard changes"
+          }
+        }
+      }
+    },
+    "profile.edit.discard.confirm" : {
+      "comment" : "Confirmation title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discard your changes?"
+          }
+        }
+      }
+    },
+    "profile.edit.error" : {
+      "comment" : "Shown when saving failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't save your profile. Your changes are still here. Try again."
+          }
+        }
+      }
+    },
+    "profile.edit.interests" : {
+      "comment" : "Section header.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interests"
+          }
+        }
+      }
+    },
+    "profile.edit.interests.count" : {
+      "comment" : "Counter under the chips.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld chosen, pick at least %2$lld"
+          }
+        }
+      }
+    },
+    "profile.edit.interests.few" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick at least 3 interests."
+          }
+        }
+      }
+    },
+    "profile.edit.keep" : {
+      "comment" : "Cancel button of the discard confirmation.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep editing"
+          }
+        }
+      }
+    },
+    "profile.edit.name" : {
+      "comment" : "Field label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Name"
+          }
+        }
+      }
+    },
+    "profile.edit.name.empty" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your name."
+          }
+        }
+      }
+    },
+    "profile.edit.name.long" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep your name under 40 characters."
+          }
+        }
+      }
+    },
+    "profile.edit.photo" : {
+      "comment" : "Picker row.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile photo"
+          }
+        }
+      }
+    },
+    "profile.edit.photo.error" : {
+      "comment" : "Shown when a picked photo could not be read.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't use that photo. Try another one."
+          }
+        }
+      }
+    },
+    "profile.edit.photo.ready" : {
+      "comment" : "A new photo was picked and prepared.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready"
+          }
+        }
+      }
+    },
+    "profile.edit.save" : {
+      "comment" : "Primary button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save"
+          }
+        }
+      }
+    },
+    "profile.edit.title" : {
+      "comment" : "Sheet title.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit profile"
+          }
+        }
+      }
+    },
+    "profile.edit.username" : {
+      "comment" : "Field label.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Username"
+          }
+        }
+      }
+    },
+    "profile.edit.username.characters" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use lower-case letters, numbers, dots and underscores. No dot at the start or end, and never two in a row."
+          }
+        }
+      }
+    },
+    "profile.edit.username.hold" : {
+      "comment" : "Shown when changing the username.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your old username is kept for you for 30 days, then anyone can take it."
+          }
+        }
+      }
+    },
+    "profile.edit.username.length" : {
+      "comment" : "Inline error.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use 3 to 30 characters."
+          }
+        }
+      }
+    },
+    "profile.edit.username.taken" : {
+      "comment" : "Inline error after the save check.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That username is taken. Try another."
+          }
+        }
+      }
+    },
     "profile.help.blocked" : {
       "comment" : "Row that opens the Blocked list.",
       "localizations" : {
@@ -547,6 +800,138 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Help and contact"
+          }
+        }
+      }
+    },
+    "profile.interest.art" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Art"
+          }
+        }
+      }
+    },
+    "profile.interest.cafes" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cafés"
+          }
+        }
+      }
+    },
+    "profile.interest.forts" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forts"
+          }
+        }
+      }
+    },
+    "profile.interest.gaming" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gaming"
+          }
+        }
+      }
+    },
+    "profile.interest.live-music" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Live music"
+          }
+        }
+      }
+    },
+    "profile.interest.markets" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markets"
+          }
+        }
+      }
+    },
+    "profile.interest.museums" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Museums"
+          }
+        }
+      }
+    },
+    "profile.interest.parks" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Parks"
+          }
+        }
+      }
+    },
+    "profile.interest.sports" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sports"
+          }
+        }
+      }
+    },
+    "profile.interest.street-food" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Street food"
+          }
+        }
+      }
+    },
+    "profile.interest.study-spots" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Study spots"
+          }
+        }
+      }
+    },
+    "profile.interest.treks" : {
+      "comment" : "Interest chip.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Treks"
           }
         }
       }

@@ -23,25 +23,29 @@ struct ProfileLibraryRow: Identifiable, Equatable {
 @MainActor @Observable
 final class ProfileViewModel {
     private(set) var state: LoadState<ProfileContent> = .loading
-    /// The Edit profile sheet (PR6) is up.
-    var isEditing = false
+    /// The profile being edited in the Edit profile sheet (PR6); nil when the sheet is down.
+    var editing: UserProfile?
 
     private let profiles: any ProfileRepository
+    private let auth: any AuthRepository
     private let feed: any FeedRepository
     private let photos: any PhotoStore
     private let session: SessionStore
     private let libraryStore: LibraryStore
     private let router: Router
     private var hasLoaded = false
+    /// The profile from the last load, used to start Edit profile.
+    private var loadedProfile: UserProfile?
     /// The feed is paged; reading my own posts stops after this many pages.
     static let maxPages = 20
 
     /// Cheap: nothing loads here (ADR 005).
     init(
-        profiles: any ProfileRepository, feed: any FeedRepository, photos: any PhotoStore, session: SessionStore,
-        libraryStore: LibraryStore, router: Router
+        profiles: any ProfileRepository, auth: any AuthRepository, feed: any FeedRepository, photos: any PhotoStore,
+        session: SessionStore, libraryStore: LibraryStore, router: Router
     ) {
         self.profiles = profiles
+        self.auth = auth
         self.feed = feed
         self.photos = photos
         self.session = session
@@ -79,6 +83,7 @@ final class ProfileViewModel {
         do {
             await libraryStore.ensureLoaded()
             let me = try await profiles.currentProfile()
+            loadedProfile = me
             let posts = try await myPosts(me.id)
             state = .loaded(ProfileContent(header: header(for: me), posts: posts.map(card)))
             hasLoaded = true
@@ -126,6 +131,14 @@ final class ProfileViewModel {
 
     func libraryRowTapped(_ row: ProfileLibraryRow) { router.open(row.route) }
     func settingsTapped() { router.open(.settings) }
-    func editTapped() { isEditing = true }
+    func editTapped() { editing = loadedProfile ?? session.currentUser }
+
+    /// The Edit profile sheet's ViewModel, for the profile being edited.
+    func makeEditViewModel(_ profile: UserProfile) -> EditProfileViewModel {
+        EditProfileViewModel(profile: profile, profiles: profiles, auth: auth, session: session)
+    }
+
+    /// The sheet closed: show what was saved.
+    func editingEnded() async { await reload() }
     func postTapped(_ id: RunID) { router.open(.post(id)) }
 }
