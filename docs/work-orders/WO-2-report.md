@@ -212,7 +212,8 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 9 Group info: ••• menu, Mute, Add members for all | done (own commit) |
 | 10 Chats list shows invitations (CH7) | done (own commit; checked at the end of Group 5) |
 | 11 Photos in chat | done (own commit) |
-| 12-25 | not started |
+| 12 Group photos (CH8) | done (own commit) |
+| 13-25 | not started |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -317,4 +318,11 @@ Tests: `ConversationPhotosTests` (picked photos are processed, location gone fro
 Looked at (screenshot opened, with a temporary line that opened the viewer, since reverted): the viewer on the second of two photos, with the Close button top left and two page dots. The sample photos have no image files, so the placeholder shows.
 Not driven by hand: the "+" menu, the system photo picker and picking a real picture (cannot be automated here; the ViewModel is tested with fakes and real JPEG bytes that carry a GPS position), swiping in the viewer, VoiceOver, the viewer on a real image, the saved file on disk from the app.
 Needs from Lohitaksh: the backend upload (Phase 2) replaces `LocalPhotoStore.save`; the upload must also strip location (already done on the phone before `save`).
+
+### Item 12: Group photos (CH8)
+What changed: new screen `GroupPhotosView` + `GroupPhotosViewModel` (made with `scripts/new_screen.py`, then rewritten). It listens to the group's messages stream and shows every photo as a `LazyVGrid` with adaptive columns (the column width is a `@ScaledMetric`, so large text gives fewer, bigger columns), newest message first; the pictures of one message keep their order. Deleted messages and messages from blocked people are left out. Tapping a picture opens the shared full-screen viewer (item 11) on it, with all the group's photos to swipe between. States: loading (nine placeholder tiles), empty ("No photos yet..."), failed (Retry), and a broken stream after photos keeps them and marks them stale. Group info has a new Photos row (own section, chevron, 44 pt) that calls `router.open(.groupPhotos(id))`. New route `ChatRoute.groupPhotos(ConversationID)` with the `Route.groupPhotos` helper, launch short form `group-photos/<id>`, `docs/IA.md` row CH8.
+Files (shared, approved): `Core/Navigation/Routes/ChatRoute.swift`, `Vybe/App/LaunchOptions.swift`, `docs/IA.md`, `VybeTests/AppShellTests.swift` (row `view:GroupPhotosView`), `VybeTests/LaunchOptionsTests.swift`, `CoreTests/RouteCodingTests.swift` and `IACoverageTests.swift` (CH8 row, 61 screens). Feature: `ChatFeature/GroupPhotos/*` (4 files), `ChatScreens.swift`, `GroupInfo/GroupInfoView.swift`, `GroupInfoViewModel.swift`, `Resources/Localizable.xcstrings` (Photos row, new empty text), tests below.
+Tests: `GroupPhotosViewModelTests` (newest first with ids, deleted left out, blocked hidden, no photos is empty, only blocked photos is empty, failed first load, sample group has photos and the empty mode is empty, tapping opens the viewer on the tapped photo with all of them and ignores unknown ids, a broken stream keeps the photos and marks them stale), `GroupInfoViewModelTests` (Photos row opens the route), `ChatScreensTests` (entry point builds). `ControlledChat` got `failStreamAfterFirstBatch` for the stale test. They assert IDs, counts and states, not sample text.
+Looked at (screenshots opened): the grid (two sample photos as placeholder tiles, since the sample photos have no image files), the empty state, and Group info with the new Photos row. Not driven by hand: tapping the Photos row or a tile (covered by ViewModel tests; the route is covered by AppShell and launch tests), swiping in the viewer, the failed and loading states and the largest text size on the device (previews exist), VoiceOver, a grid with many real pictures.
+Needs from Lohitaksh: none. The backend list of group photos can reuse the messages endpoint (this screen filters on the phone).
 

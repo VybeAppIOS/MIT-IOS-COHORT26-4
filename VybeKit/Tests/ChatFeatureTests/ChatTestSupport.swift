@@ -14,6 +14,8 @@ final class ControlledChat: ChatRepository {
     let adminOverride = Mutex<UserID?>(nil)
     /// When set, `messages(in:)` returns exactly these messages (and finishes).
     let fixedMessages: Mutex<[Message]?>
+    /// When set, the fixed messages arrive once and then the stream ends with an error.
+    let failStreamAfterFirstBatch = Mutex(false)
 
     init(base: any ChatRepository, messages: [Message]? = nil) {
         self.base = base
@@ -34,7 +36,11 @@ final class ControlledChat: ChatRepository {
         if let fixed = fixedMessages.withLock({ $0 }) {
             return AsyncThrowingStream { continuation in
                 continuation.yield(fixed)
-                continuation.finish()
+                if failStreamAfterFirstBatch.withLock({ $0 }) {
+                    continuation.finish(throwing: AppError.offline)
+                } else {
+                    continuation.finish()
+                }
             }
         }
         return base.messages(in: id)

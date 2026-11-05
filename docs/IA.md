@@ -145,6 +145,7 @@ sheet-on-sheet.
 | CH2 | Conversation | text, photos, Hangout cards, links, voice, polls; read receipts | CH1, profile "Message" | Push | 2 |
 | CH3 | New chat or group | pick friends (3+ for a group) | CH1 | Sheet | 2 |
 | CH4 | Group info | rename, members, add, remove (admin), leave | CH2 header | Push | 2 |
+| CH8 | Group photos | every photo sent in the group, newest first, as a grid; tap one to open it full screen and swipe | CH4 "Photos" row | Push | 2 |
 | CH7 | Group invitation | "Alex added you to Kothrud Crew": Join / Leave and block (shown when the adder isn't your friend) | notification, CH1 | Sheet | 2 |
 | CH5 | Share to… | friends and groups, plus "More…" (system share sheet, e.g. WhatsApp) | HD1, CM2 Share | Sheet (medium) | 2 |
 | CH6 | Poll composer | "I'm in" / "Not for me" | CH2 | Sheet | 2 |
