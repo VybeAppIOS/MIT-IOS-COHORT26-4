@@ -10,7 +10,9 @@ public enum AuthScreens {
         switch route {
         case .signIn:
             SignInView(viewModel: SignInViewModel(auth: deps.auth, session: deps.session, router: deps.router))
-        case .emailSignIn: ScreenPlaceholder(id: "A2", name: "Email sign-in")
+        case .emailSignIn:
+            EmailCodeView(viewModel: EmailCodeViewModel(
+                auth: deps.auth, session: deps.session, router: deps.router, now: deps.now))
         case .accountBasics: ScreenPlaceholder(id: "A3", name: "Account basics")
         }
     }

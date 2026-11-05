@@ -78,16 +78,7 @@ final class SignInViewModel {
     }
 
     private func signedIn(_ user: UserProfile) {
-        session.setCurrentUser(user)
-        if user.username.isEmpty {
-            router.open(.accountBasics)         // new: choose a username, date of birth, 18+
-            return
-        }
-        // An existing account skips onboarding. Copy its interests into the draft first, because finishing
-        // saves the draft's interests onto the profile.
-        session.onboardingDraft.interests = user.interests
-        session.completeOnboarding()
-        router.reset()                          // RootView switches to the tabs
+        SignedInRoute.finish(user, session: session, router: router)   // shared with Email sign-in (A2)
     }
 }
 
