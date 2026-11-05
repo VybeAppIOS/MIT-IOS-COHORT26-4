@@ -166,7 +166,10 @@ struct CommunityModelsTests {
         #expect(report.status == .open)
         #expect(try roundTrip(report) == report)
         #expect(try json(report).contains(#""target":{"id":"c1","kind":"comment"}"#))
-        for target in [ReportTarget.run("r1"), .comment("c1"), .user("u1"), .message("m1"), .place("p1")] {
+        let targets: [ReportTarget] = [
+            .run("r1"), .comment("c1"), .user("u1"), .message("m1"), .place("p1"), .hangout("h1")
+        ]
+        for target in targets {
             let sample = Report(id: "rep", reporterID: "u1", target: target, reason: .other, createdAt: day)
             #expect(try roundTrip(sample).target == target)
         }

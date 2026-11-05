@@ -50,13 +50,20 @@ final class ReportViewModel {
     private let target: ReportTarget
     private let presentation: ReportPresentation
     private let safety: any SafetyRepository
+    private let session: SessionStore
     private let router: Router
+    /// Who owns the reported thing, once the report is filed: the person "Also block" would block.
+    private(set) var ownerToBlock: UserID?
 
     /// Cheap: nothing loads here (ADR 005).
-    init(target: ReportTarget, presentation: ReportPresentation, safety: any SafetyRepository, router: Router) {
+    init(
+        target: ReportTarget, presentation: ReportPresentation, safety: any SafetyRepository, session: SessionStore,
+        router: Router
+    ) {
         self.target = target
         self.presentation = presentation
         self.safety = safety
+        self.session = session
         self.router = router
     }
 
@@ -71,6 +78,7 @@ final class ReportViewModel {
         case .user: String(localized: "moderation.report.headline.user", bundle: #bundle)
         case .message: String(localized: "moderation.report.headline.message", bundle: #bundle)
         case .place: String(localized: "moderation.report.headline.place", bundle: #bundle)
+        case .hangout: String(localized: "moderation.report.headline.hangout", bundle: #bundle)
         }
     }
 
@@ -82,6 +90,9 @@ final class ReportViewModel {
     var thanksBody: String { String(localized: "moderation.report.sent.body", bundle: #bundle) }
     var hiddenNote: String { String(localized: "moderation.report.sent.hidden", bundle: #bundle) }
     var doneTitle: String { String(localized: "moderation.report.done", bundle: #bundle) }
+    var blockTitle: String { String(localized: "moderation.report.block", bundle: #bundle) }
+    /// "Also block?" is offered only when we know whose it is, and it is not you and not already blocked.
+    var offersBlock: Bool { isSent && ownerToBlock != nil }
     var helpTitle: String { String(localized: "moderation.report.help.title", bundle: #bundle) }
     var helpBody: String { String(localized: "moderation.report.help.body", bundle: #bundle) }
 
@@ -136,13 +147,22 @@ final class ReportViewModel {
         phase = .sending
         let words = reason == .other ? detail.trimmingCharacters(in: .whitespacesAndNewlines) : nil
         do {
-            _ = try await safety.report(target, reason: reason, detail: words)
+            let filed = try await safety.report(target, reason: reason, detail: words)
+            if let owner = filed.targetOwnerID, owner != session.currentUser?.id, !session.isBlocked(owner) {
+                ownerToBlock = owner
+            }
             phase = .sent(hidden: reason.hidesContentImmediately)
         } catch is CancellationError {
             phase = .choosing   // leaving the screen is not an error (ADR 005)
         } catch {
             phase = .failed
         }
+    }
+
+    /// Swaps this sheet for the Block confirmation (R2).
+    func blockTapped() {
+        guard let owner = ownerToBlock else { return }
+        router.present(.blockConfirm(owner))
     }
 
     func cancelTapped() { close() }
@@ -201,7 +221,10 @@ enum ReportReasonInfo {
 #if DEBUG
 extension ReportViewModel {
     /// Puts the screen in a given state for previews and screenshots, so each state can be seen without tapping.
-    func showForPreview(selected: ReportReason?, phase: Phase = .choosing, detail: String = "") {
+    func showForPreview(
+        selected: ReportReason?, phase: Phase = .choosing, detail: String = "", ownerToBlock: UserID? = nil
+    ) {
+        self.ownerToBlock = ownerToBlock
         self.selected = selected
         self.phase = phase
         self.detail = detail

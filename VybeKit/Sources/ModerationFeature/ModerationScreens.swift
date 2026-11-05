@@ -11,7 +11,8 @@ public enum ModerationScreens {
         switch route {
         case .report(let target):
             ReportView(viewModel: ReportViewModel(
-                target: target, presentation: .pushed, safety: deps.safety, router: deps.router))
+                target: target, presentation: .pushed, safety: deps.safety, session: deps.session,
+                router: deps.router))
         case .admin(.reports): ScreenPlaceholder(id: "AD1", name: "Reports queue")
         case .admin(.placeSuggestions): ScreenPlaceholder(id: "AD2", name: "Place suggestions")
         case .admin(.users): ScreenPlaceholder(id: "AD3", name: "Users")
@@ -21,7 +22,13 @@ public enum ModerationScreens {
     @ViewBuilder
     public static func reportSheet(_ target: ReportTarget, _ deps: AppDependencies) -> some View {
         ReportView(viewModel: ReportViewModel(
-            target: target, presentation: .sheet, safety: deps.safety, router: deps.router))
+            target: target, presentation: .sheet, safety: deps.safety, session: deps.session, router: deps.router))
+    }
+
+    @ViewBuilder
+    public static func blockConfirmSheet(_ user: UserID, _ deps: AppDependencies) -> some View {
+        BlockConfirmView(viewModel: BlockConfirmViewModel(
+            userID: user, profiles: deps.profiles, safety: deps.safety, session: deps.session, router: deps.router))
     }
 }
 

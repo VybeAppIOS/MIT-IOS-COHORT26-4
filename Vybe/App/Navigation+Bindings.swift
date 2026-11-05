@@ -29,6 +29,8 @@ struct RoutedStack<Root: View>: View {
     let stack: StackID
     let deps: AppDependencies
     @ViewBuilder let root: () -> Root
+    /// One per stack: the tapped card and the screen that opens share it (`vybeZoomSource`, `vybeZoomDestination`).
+    @Namespace private var zoomNamespace
 
     var body: some View {
         NavigationStack(path: deps.router.pathBinding(for: stack)) {
@@ -36,6 +38,7 @@ struct RoutedStack<Root: View>: View {
                 ScreenFactory(deps: deps).screen(for: route)
             }
         }
+        .environment(\.vybeZoomNamespace, zoomNamespace)
     }
 }
 

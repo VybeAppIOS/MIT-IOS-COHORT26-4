@@ -9,11 +9,11 @@ struct ReportViewModelTests {
     private let target = ReportTarget.comment(CommentID("comment-example"))
 
     private func make(
-        _ mode: StubMode = .loaded, presentation: ReportPresentation = .sheet
+        _ mode: StubMode = .loaded, presentation: ReportPresentation = .sheet, target: ReportTarget? = nil
     ) -> (viewModel: ReportViewModel, deps: AppDependencies) {
         let deps = AppDependencies.preview(mode)
-        let viewModel = ReportViewModel(target: target, presentation: presentation, safety: deps.safety,
-                                        router: deps.router)
+        let viewModel = ReportViewModel(target: target ?? self.target, presentation: presentation,
+                                        safety: deps.safety, session: deps.session, router: deps.router)
         return (viewModel, deps)
     }
 
@@ -102,5 +102,34 @@ struct ReportViewModelTests {
         #expect(!viewModel.showsCancel)
         viewModel.doneTapped()
         #expect(deps.router.path(for: deps.router.currentStack).isEmpty)
+    }
+
+    @Test func afterReportingAPersonWeOfferToBlockThem() async {
+        let person = SampleSocialData.aarav.id
+        let (viewModel, deps) = make(target: .user(person))
+        #expect(!viewModel.offersBlock)
+        viewModel.select(.harassment)
+        await viewModel.sendTapped()
+        #expect(viewModel.offersBlock)
+        deps.router.present(.report(.user(person)))
+        viewModel.blockTapped()
+        #expect(deps.router.sheet == .blockConfirm(person))
+    }
+
+    @Test func weNeverOfferToBlockYourself() async {
+        let (viewModel, deps) = make(target: .user(SampleData.signedInUser.id))
+        deps.session.setCurrentUser(SampleData.signedInUser)
+        viewModel.select(.spam)
+        await viewModel.sendTapped()
+        #expect(!viewModel.offersBlock)
+    }
+
+    @Test func weDoNotOfferToBlockSomeoneAlreadyBlocked() async {
+        let person = SampleSocialData.aarav.id
+        let (viewModel, deps) = make(target: .user(person))
+        deps.session.block(person)
+        viewModel.select(.spam)
+        await viewModel.sendTapped()
+        #expect(!viewModel.offersBlock)
     }
 }

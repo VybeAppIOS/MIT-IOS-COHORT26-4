@@ -47,3 +47,14 @@ Easy chains to remember: D1 then D2. A1 then A2 and A3. H1 then H4.
 - Get a screenshot with `scripts/snap.sh <name> <route> all`, for example
   `scripts/snap.sh hd1 hangout/hangout-example-evening-c3d4 all`.
 - Branch: `<initial>/<task-id>-<short-name>`, PR title `SC-HD1: what it does`. Small PRs, squash-merge.
+
+## Shared pieces added on 5 Nov (use these, do not rebuild them)
+- **Block a person:** `router.present(.blockConfirm(userID))` opens SC-R2 (a small sheet). After it succeeds
+  `session.isBlocked(id)` is true everywhere. Unblock: `safety.unblock(id)` then `session.unblock(id)`.
+- **Report a whole Hangout:** `router.present(.report(.hangout(hangoutID)))`. Other targets: run, comment, user, message, place.
+- **Offline:** `deps.network.isOffline` (a `NetworkMonitor`). Disable actions that need a connection while it is true.
+- **Card-to-detail zoom:** put `.vybeZoomSource(id: hangout.id)` on the tapped card and
+  `.vybeZoomDestination(sourceID: hangout.id)` on the screen that opens. Nothing else is needed.
+- **Buttons:** `PrimaryButton` and `SecondaryButton` are now the standard large size (about 51 pt tall, 44 pt minimum).
+  Never set a fixed height on a button.
+- **Looking up another person:** `deps.profiles.profile(id:)` now knows the sample social people too.

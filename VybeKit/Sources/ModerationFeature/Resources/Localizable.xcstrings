@@ -1,6 +1,72 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "moderation.block.body" : {
+      "comment" : "What blocking does.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "They won't be able to see your posts or message you, and you won't see theirs. They won't be told."
+          }
+        }
+      }
+    },
+    "moderation.block.confirm" : {
+      "comment" : "Destructive button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Block"
+          }
+        }
+      }
+    },
+    "moderation.block.error" : {
+      "comment" : "Shown when blocking failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't block them. Check your connection and try again."
+          }
+        }
+      }
+    },
+    "moderation.block.title.generic" : {
+      "comment" : "Title when the name could not be loaded.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Block this person?"
+          }
+        }
+      }
+    },
+    "moderation.block.title.named" : {
+      "comment" : "Title of the Block confirmation with the person's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Block %@?"
+          }
+        }
+      }
+    },
+    "moderation.report.block" : {
+      "comment" : "Button after a report: opens the Block confirmation.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Also block this person"
+          }
+        }
+      }
+    },
     "moderation.report.detail.count" : {
       "comment" : "Characters typed and the most allowed.",
       "localizations" : {
@@ -52,6 +118,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Report this comment"
+          }
+        }
+      }
+    },
+    "moderation.report.headline.hangout" : {
+      "comment" : "Headline when the thing reported is a Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report this Hangout"
           }
         }
       }

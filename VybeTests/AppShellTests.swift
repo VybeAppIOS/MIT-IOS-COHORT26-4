@@ -35,7 +35,8 @@ struct AppShellTests {
     }
 
     @Test(arguments: [
-        (Sheet.spot("p1"), "HD2"), (.report(.place("p1")), "view:ReportView"), (.share(.post("r1")), "CH5"),
+        (Sheet.spot("p1"), "HD2"), (.report(.place("p1")), "view:ReportView"),
+        (.blockConfirm("u1"), "view:BlockConfirmView"), (.share(.post("r1")), "CH5"),
         (.suggestPlace, "E3"), (.editPost("r1"), "PO2"), (.groupInvitation("c1"), "CH7")
     ])
     func sheetsReachTheirScreen(sheet: Sheet, screenID: String) {

@@ -90,7 +90,12 @@ struct ReportSentView: View {
             .multilineTextAlignment(.center)
             if hidden { SafetyNote(viewModel.hiddenNote, style: .info) }
             Spacer(minLength: Theme.Spacing.large)
-            PrimaryButton(verbatim: viewModel.doneTitle) { viewModel.doneTapped() }
+            VStack(spacing: Theme.Spacing.small) {
+                if viewModel.offersBlock {
+                    SecondaryButton(verbatim: viewModel.blockTitle) { viewModel.blockTapped() }
+                }
+                PrimaryButton(verbatim: viewModel.doneTitle) { viewModel.doneTapped() }
+            }
         }
         .padding(Theme.Spacing.large)
         .onAppear { shown = true }
