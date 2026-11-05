@@ -196,8 +196,9 @@ final class ActivityViewModel {
         case .run(let id): router.open(.post(id))
         case .hangout(let id): router.open(.hangout(id))
         case .user(let id): router.open(.profile(id))
-        // A comment's post is not part of the Activity data yet, so the row opens the person who wrote it.
-        case .comment: router.open(.profile(item.actorID))
+        // A comment or reply row opens the post it is on; only an older row without a post opens the commenter.
+        case .comment:
+            if let runID = item.runID { router.open(.post(runID)) } else { router.open(.profile(item.actorID)) }
         }
     }
 

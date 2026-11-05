@@ -72,17 +72,11 @@ struct ActivityView: View {
             .buttonStyle(.plain)
             if row.phase == .waiting {
                 HStack(spacing: Theme.Spacing.small) {
-                    Button { Task { await viewModel.acceptTapped(row.id) } } label: {
-                        Text(verbatim: viewModel.acceptLabel).frame(maxWidth: .infinity)
+                    PillButton(verbatim: viewModel.acceptLabel, style: .prominent, fillsWidth: true) {
+                        Task { await viewModel.acceptTapped(row.id) }
                     }
-                    .buttonStyle(.borderedProminent)
-                    Button { viewModel.ignoreTapped(row.id) } label: {
-                        Text(verbatim: viewModel.ignoreLabel).frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.bordered)
+                    PillButton(verbatim: viewModel.ignoreLabel, fillsWidth: true) { viewModel.ignoreTapped(row.id) }
                 }
-                .controlSize(.large)
-                .frame(minHeight: Theme.Size.minTapTarget)
             }
         }
         .accessibilityElement(children: row.phase == .waiting ? .contain : .combine)

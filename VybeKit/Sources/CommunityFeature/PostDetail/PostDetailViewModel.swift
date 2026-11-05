@@ -186,7 +186,8 @@ final class PostDetailViewModel {
                 id: comment.id.rawValue, authorName: author?.displayName ?? "", username: "@\(author?.username ?? "")",
                 text: comment.text, relativeTimeText: relativeText(since: comment.createdAt),
                 likeCount: comment.likeCount, isLiked: likes.contains(.comment(comment.id)),
-                depth: Self.depth(of: comment.id, in: parents), isDeleted: comment.deletedAt != nil))
+                depth: Self.depth(of: comment.id, in: parents), isDeleted: comment.deletedAt != nil,
+                canReport: comment.authorID != session.currentUser?.id))
         }
         return rows
     }

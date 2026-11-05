@@ -35,6 +35,7 @@ struct AppShellTests {
         (.mutualFriends("u1"), "view:MutualFriendsView"),
         (.conversation("c1"), "view:ConversationView"),
         (.groupInfo("c1"), "view:GroupInfoView"),
+        (.groupPhotos("c1"), "view:GroupPhotosView"),
         (.chatList, "view:ListView"),
         (.report(.user("u1")), "view:ReportView"), (.admin(.users), "AD3"),
         (.suggestPlace, "E3")
@@ -53,7 +54,7 @@ struct AppShellTests {
     }
 
     @Test func coversReachTheirScreen() {
-        #expect(describe(factory.cover(for: .live("h1"))).contains("\"H1\""))
+        #expect(reaches(factory.cover(for: .live("h1")), "view:LiveView"))
         #expect(describe(factory.cover(for: .editor(.new))).contains("\"E1\""))
     }
 

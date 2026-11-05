@@ -26,6 +26,10 @@ struct ListViewModelTests {
         if case .loaded(let content, _) = viewModel.state { content.rows } else { [] }
     }
 
+    private func invitations(_ viewModel: ListViewModel) -> [InvitationRowData] {
+        if case .loaded(let content, _) = viewModel.state { content.invitations } else { [] }
+    }
+
     @Test func everyChatIsARowWithItsUnreadCount() async throws {
         let deps = AppDependencies.preview(.loaded)
         let viewModel = makeViewModel(deps: deps)
@@ -92,6 +96,52 @@ struct ListViewModelTests {
         #expect(!viewModel.isShowingNewChat)
         await viewModel.newChatDismissed()
         #expect(deps.router.path(for: deps.router.currentStack).last == .conversation("conversation-new"))
+    }
+
+    @Test func pendingInvitationsAreRowsAboveTheChatsAndNotChatRows() async throws {
+        let deps = AppDependencies.preview(.loaded)
+        let viewModel = makeViewModel(deps: deps)
+        await viewModel.load()
+        let pending = try await deps.chat.pendingInvitations()
+        #expect(!pending.isEmpty)
+        #expect(invitations(viewModel).map(\.id) == pending.map(\.id))
+        #expect(rows(viewModel).allSatisfy { row in !pending.contains { $0.id == row.id } })
+        for invitation in invitations(viewModel) {
+            #expect(!invitation.title.isEmpty && !invitation.memberNames.isEmpty)
+            #expect(!invitation.memberNames.contains(SampleData.signedInUser.displayName))
+        }
+    }
+
+    @Test func tappingAnInvitationOpensTheInvitationSheet() async throws {
+        let deps = AppDependencies.preview(.loaded)
+        let viewModel = makeViewModel(deps: deps)
+        await viewModel.load()
+        let first = try #require(invitations(viewModel).first)
+        viewModel.invitationTapped(first.id)
+        #expect(deps.router.sheet == .groupInvitation(first.id))
+        #expect(viewModel.isRouterSheetOpen)
+    }
+
+    @Test func answeringAnInvitationMovesItIntoTheChatsOnReload() async throws {
+        let deps = AppDependencies.preview(.loaded)
+        let viewModel = makeViewModel(deps: deps)
+        await viewModel.load()
+        let first = try #require(invitations(viewModel).first)
+        try await deps.chat.respondToInvitation(to: first.id, accept: true)
+        await viewModel.reload()
+        #expect(invitations(viewModel).isEmpty)
+        #expect(rows(viewModel).contains { $0.id == first.id })
+    }
+
+    @Test func leavingAnInvitationRemovesItFromTheListWithoutAChat() async throws {
+        let deps = AppDependencies.preview(.loaded)
+        let viewModel = makeViewModel(deps: deps)
+        await viewModel.load()
+        let first = try #require(invitations(viewModel).first)
+        try await deps.chat.respondToInvitation(to: first.id, accept: false)
+        await viewModel.reload()
+        #expect(invitations(viewModel).isEmpty)
+        #expect(!rows(viewModel).contains { $0.id == first.id })
     }
 
     @Test func noChatsIsTheEmptyState() async {

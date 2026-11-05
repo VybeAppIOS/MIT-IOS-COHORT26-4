@@ -26,12 +26,13 @@ extension AppDependencies {
         let session = SessionStore(settings: AppSettings())
         let libraryStore = LibraryStore(repository: library, now: now)
         let social = socialRepositories()
+        let profiles = profileRepository(now: now)
         return AppDependencies(
             hangouts: hangouts,
             places: LocalPlaceRepository(content: content),
             library: library,
-            profiles: LocalProfileRepository(now: now),
-            search: LocalSearchRepository(content: content),
+            profiles: profiles,
+            search: searchRepository(content: content),
             photos: LocalPhotoStore(loader: loader),
             feed: social.feed,
             friends: social.friends,
@@ -48,6 +49,26 @@ extension AppDependencies {
             router: Router(),
             flags: .current,
             now: now)
+    }
+
+    /// The person's own profile file. While the social data is stubbed (DEBUG only) "you" must carry the sample
+    /// person's ID, or chat, comments and Group info cannot tell which messages and rights are yours.
+    private static func profileRepository(now: @escaping @Sendable () -> Date) -> any ProfileRepository {
+        #if DEBUG
+        SampleIdentityProfileRepository(wrapping: LocalProfileRepository(now: now))
+        #else
+        LocalProfileRepository(now: now)
+        #endif
+    }
+
+    /// Hangouts and Places are searched locally. While the social data is stubbed (DEBUG only) People come from the
+    /// sample people, because the bundled content has none.
+    private static func searchRepository(content: ContentStore) -> any SearchRepository {
+        #if DEBUG
+        SampleSocialSearchRepository(wrapping: LocalSearchRepository(content: content))
+        #else
+        LocalSearchRepository(content: content)
+        #endif
     }
 
     /// Community, friends, chat, safety, sign-in and admin have no local data: until the backend (Phase 2) they run

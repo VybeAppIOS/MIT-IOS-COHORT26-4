@@ -34,7 +34,8 @@ public enum CommunityScreens {
         case .trending:
             TrendingView(viewModel: TrendingViewModel(
                 feed: deps.feed, hangouts: deps.hangouts, places: deps.places, photos: deps.photos,
-                libraryStore: deps.libraryStore, router: deps.router, makeComments: commentsFactory(deps)))
+                libraryStore: deps.libraryStore, session: deps.session, router: deps.router,
+                makeComments: commentsFactory(deps)))
         case .activity:
             ActivityView(viewModel: ActivityViewModel(
                 feed: deps.feed, friends: deps.friends, profiles: deps.profiles, badges: deps.badges,

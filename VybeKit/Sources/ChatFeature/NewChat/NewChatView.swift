@@ -53,7 +53,12 @@ struct NewChatView: View {
                 }
             }
             Section {
-                ForEach(content.friends) { person in
+                let people = viewModel.visibleFriends(in: content)
+                if people.isEmpty && viewModel.isSearching {
+                    ContentUnavailableView.search(text: viewModel.searchText)
+                        .listRowBackground(Color.clear)
+                }
+                ForEach(people) { person in
                     Button { viewModel.toggle(person.id) } label: {
                         HStack(spacing: Theme.Spacing.medium) {
                             Avatar(url: nil, name: person.name, size: .medium)
@@ -79,6 +84,11 @@ struct NewChatView: View {
         }
         .listStyle(.insetGrouped)
         .scrollDismissesKeyboard(.interactively)
+        .searchable(
+            text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always),
+            prompt: Text(verbatim: viewModel.searchPrompt))
+        .textInputAutocapitalization(.never)
+        .autocorrectionDisabled()
     }
 }
 

@@ -191,6 +191,12 @@ final class FeedViewModel {
     func shareTapped(_ post: PostCardData) { router.present(.share(.post(post.id))) }
     func reportTapped(_ post: PostCardData) { router.present(.report(.run(post.id))) }
 
+    /// Report is offered on other people's posts only: you cannot report yourself.
+    func canReport(_ post: PostCardData) -> Bool {
+        guard let run = runs[post.id] else { return true }
+        return run.runnerID != session.currentUser?.id
+    }
+
     /// Block is offered on other people's posts only, and never on the official Vybe account.
     func canBlock(_ post: PostCardData) -> Bool {
         guard let run = runs[post.id] else { return false }

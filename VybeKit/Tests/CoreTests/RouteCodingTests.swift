@@ -17,7 +17,7 @@ struct RouteCodingTests {
     ] + SettingsPage.allCases.map { Route.profile(.settingsPage($0)) } + [
         .community(.post("r1")), .community(.trending), .community(.activity),
         .friends(.hub), .friends(.profile("u1")), .friends(.mutualFriends("u1")),
-        .chat(.list), .chat(.conversation("c1")), .chat(.groupInfo("c1")),
+        .chat(.list), .chat(.conversation("c1")), .chat(.groupInfo("c1")), .chat(.groupPhotos("c1")),
         .moderation(.report(.run("r1"))), .moderation(.report(.comment("c1"))), .moderation(.report(.user("u1"))),
         .moderation(.report(.message("m1"))), .moderation(.report(.place("p1")))
     ] + AdminPage.allCases.map { Route.moderation(.admin($0)) } + [

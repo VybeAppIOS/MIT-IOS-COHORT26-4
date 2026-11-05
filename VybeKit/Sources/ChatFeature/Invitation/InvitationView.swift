@@ -56,12 +56,9 @@ struct InvitationView: View {
                     Task { await viewModel.joinTapped() }
                 }
                 .disabled(!viewModel.canAnswer)
-                Button(role: .destructive) { Task { await viewModel.leaveAndBlockTapped() } } label: {
-                    Text(verbatim: viewModel.leaveAndBlockLabel).frame(maxWidth: .infinity)
+                SecondaryButton(verbatim: viewModel.leaveAndBlockLabel, role: .destructive) {
+                    Task { await viewModel.leaveAndBlockTapped() }
                 }
-                .buttonStyle(.bordered)
-                .controlSize(.large)
-                .frame(minHeight: Theme.Size.minTapTarget)
                 .disabled(!viewModel.canAnswer)
             }
             .padding(.horizontal, Theme.Spacing.large)

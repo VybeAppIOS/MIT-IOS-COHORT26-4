@@ -24,6 +24,7 @@ final class TrendingViewModel {
 
     private let feed: any FeedRepository
     private let libraryStore: LibraryStore
+    private let session: SessionStore
     private let router: Router
     private let makeComments: CommentsFactory
     private let maker: PostCardMaker
@@ -36,10 +37,12 @@ final class TrendingViewModel {
     /// Cheap: no loading here (ADR 005). Takes only what the screen needs, never `AppDependencies`.
     init(
         feed: any FeedRepository, hangouts: any HangoutRepository, places: any PlaceRepository,
-        photos: any PhotoStore, libraryStore: LibraryStore, router: Router, makeComments: @escaping CommentsFactory
+        photos: any PhotoStore, libraryStore: LibraryStore, session: SessionStore, router: Router,
+        makeComments: @escaping CommentsFactory
     ) {
         self.feed = feed
         self.libraryStore = libraryStore
+        self.session = session
         self.router = router
         self.makeComments = makeComments
         self.maker = PostCardMaker(hangouts: hangouts, places: places, photos: photos, libraryStore: libraryStore)
@@ -110,6 +113,12 @@ final class TrendingViewModel {
     }
     func shareTapped(_ post: PostCardData) { router.present(.share(.post(post.id))) }
     func reportTapped(_ post: PostCardData) { router.present(.report(.run(post.id))) }
+
+    /// Report is offered on other people's posts only: you cannot report yourself.
+    func canReport(_ post: PostCardData) -> Bool {
+        guard let run = runs.first(where: { $0.id == post.id }) else { return true }
+        return run.runnerID != session.currentUser?.id
+    }
 
     func saveTapped(_ post: PostCardData) async {
         guard let run = runs.first(where: { $0.id == post.id }) else { return }

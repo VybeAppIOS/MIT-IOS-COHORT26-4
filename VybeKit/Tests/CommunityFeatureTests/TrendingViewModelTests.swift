@@ -64,7 +64,8 @@ struct TrendingViewModelTests {
         let feed = TrendingFeed(base: deps.feed, list: list)
         let viewModel = TrendingViewModel(
             feed: feed, hangouts: deps.hangouts, places: deps.places, photos: deps.photos,
-            libraryStore: deps.libraryStore, router: deps.router, makeComments: CommentsViewModel.previewFactory(deps))
+            libraryStore: deps.libraryStore, session: deps.session, router: deps.router,
+            makeComments: CommentsViewModel.previewFactory(deps))
         return (viewModel, feed)
     }
 
@@ -161,6 +162,18 @@ struct TrendingViewModelTests {
         #expect(deps.router.path(for: deps.router.currentStack).last == .profile(list[0].runnerID))
         viewModel.commentTapped(post)
         #expect(viewModel.commentsRunID == post.id)
+    }
+
+    @Test func reportIsOfferedOnOthersPostsButNotOnYours() async {
+        let myself = SampleData.signedInUser
+        var list = manyPosts(2)
+        list[0].runnerID = myself.id
+        let (viewModel, _) = makeViewModel(list: list)
+        await viewModel.load()
+        let cards = content(viewModel)!.posts
+        #expect(!viewModel.canReport(cards[0]))
+        #expect(viewModel.canReport(cards[1]) == (list[1].runnerID != myself.id))
+        #expect(list[1].runnerID != myself.id)
     }
 
     @Test func nothingOnACardIsAClockTime() async {

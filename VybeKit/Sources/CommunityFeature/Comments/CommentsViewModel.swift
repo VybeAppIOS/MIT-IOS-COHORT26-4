@@ -204,7 +204,8 @@ final class CommentsViewModel {
             id: comment.id.rawValue, authorName: author?.displayName ?? "", username: "@\(author?.username ?? "")",
             text: comment.text, relativeTimeText: relativeText(since: comment.createdAt),
             likeCount: comment.likeCount, isLiked: likedComments.contains(comment.id), depth: depth(of: comment),
-            isDeleted: comment.deletedAt != nil, canDelete: canDelete(comment))
+            isDeleted: comment.deletedAt != nil, canDelete: canDelete(comment),
+            canReport: comment.authorID != session.currentUser?.id)
     }
 
     /// The author may delete their own comment; the owner of the post may delete any comment on it.

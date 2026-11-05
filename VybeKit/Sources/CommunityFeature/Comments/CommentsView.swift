@@ -96,14 +96,13 @@ struct CommentsView: View {
                     .font(Theme.Font.footnote)
                     .foregroundStyle(Theme.Color.critical)
                 HStack(spacing: Theme.Spacing.medium) {
-                    Button { Task { await viewModel.retryTapped(item.id) } } label: {
-                        Text(verbatim: viewModel.retryLabel).frame(minHeight: Theme.Size.minTapTarget)
+                    PillButton(verbatim: viewModel.retryLabel, style: .prominent) {
+                        Task { await viewModel.retryTapped(item.id) }
                     }
-                    Button(role: .destructive) { viewModel.removePending(item.id) } label: {
-                        Text(verbatim: viewModel.removeLabel).frame(minHeight: Theme.Size.minTapTarget)
+                    PillButton(verbatim: viewModel.removeLabel, role: .destructive) {
+                        viewModel.removePending(item.id)
                     }
                 }
-                .font(Theme.Font.subheadline.weight(.semibold))
             }
         }
         .opacity(item.phase == .sending ? 0.6 : 1)

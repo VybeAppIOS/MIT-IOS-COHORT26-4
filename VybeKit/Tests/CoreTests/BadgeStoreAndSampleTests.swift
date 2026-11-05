@@ -18,7 +18,7 @@ struct BadgeStoreTests {
         #expect(badges.communityBadge == 0)
         await badges.refresh()
         #expect(badges.unreadChatCount == 4)       // 2 in the friend chat, 2 in the crew chat
-        #expect(badges.unseenActivityCount == 3)   // the sample has 3 unread of 5
+        #expect(badges.unseenActivityCount == 3)   // the sample has 3 unread of 6
         #expect(badges.pendingRequestCount == 1)   // the "Other" folder does not count
         #expect(badges.communityBadge == 8)
     }
@@ -70,8 +70,11 @@ struct SampleSocialDataTests {
         #expect(Set(SampleSocialData.people.map(\.id)).count == 12)
         #expect(SampleSocialData.posts.count == 8)
         #expect(SampleSocialData.posts.filter { $0.runnerID == SampleSocialData.vybe.id }.count == 2)
-        #expect(SampleSocialData.conversations.count == 3)
-        #expect(SampleSocialData.conversations.filter { $0.kind == .group }.count == 1)
+        #expect(SampleSocialData.conversations.count == 4)
+        #expect(SampleSocialData.conversations.filter { $0.kind == .group }.count == 2)
+        #expect(SampleSocialData.pendingInvitationIDs == [SampleSocialData.invitation.id])
+        let adder = SampleSocialData.addedBy[SampleSocialData.invitation.id]?[SampleSocialData.currentUser.id]
+        #expect(adder != nil && !SampleSocialData.myFriendIDs.contains(adder ?? ""))
         #expect(!SampleSocialData.comments.isEmpty && SampleSocialData.comments.contains { $0.parentID != nil })
         #expect(SampleSocialData.reports.count >= 2)
     }

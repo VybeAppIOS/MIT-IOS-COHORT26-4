@@ -12,6 +12,19 @@ struct MemberRowData: Identifiable, Equatable {
     let isMe: Bool
     /// The admin can remove everyone but themselves.
     let canRemove: Bool
+    /// The admin can mute everyone but themselves.
+    let canMute: Bool
+    /// Muted: the person stays and can read, but cannot send.
+    let isMuted: Bool
+    /// "Muted" is shown to the admin and to the muted person only. Nobody else sees it.
+    let showsMutedLabel: Bool
+    /// "Unmute" for a muted person, otherwise "Mute".
+    let muteLabel: String
+    /// Spoken name of the ••• menu: "Actions for Sample Isha".
+    let menuLabel: String
+
+    /// The ••• menu is for the admin, on every other member.
+    var hasMenu: Bool { canRemove || canMute }
 }
 
 /// The view-ready values of the Group info screen (never a raw model).
@@ -25,8 +38,8 @@ struct GroupInfoContent: Equatable {
     var addable: [PersonChoice]
 }
 
-/// Group info (SC-CH4): the name, the members and their roles. The admin renames the group, adds friends and removes
-/// members; anyone can leave. A group of fewer than 3 people becomes read-only.
+/// Group info (SC-CH4): the name, the members and their roles. The admin renames the group, removes and mutes
+/// members; every member can add their own friends; anyone can leave. A group of fewer than 3 people becomes read-only.
 @MainActor @Observable
 final class GroupInfoViewModel {
     static let minimumMembers = 3
@@ -72,12 +85,16 @@ final class GroupInfoViewModel {
     var nameHeader: String { String(localized: "chat.group.name", bundle: #bundle) }
     var membersHeader: String { String(localized: "chat.group.members", bundle: #bundle) }
     var adminLabel: String { String(localized: "chat.group.admin", bundle: #bundle) }
+    var photosLabel: String { String(localized: "chat.group.photos", bundle: #bundle) }
     var addLabel: String { String(localized: "chat.group.add", bundle: #bundle) }
     var addTitle: String { String(localized: "chat.group.addTitle", bundle: #bundle) }
     var doneLabel: String { String(localized: "chat.group.done", bundle: #bundle) }
     var leaveLabel: String { String(localized: "chat.group.leave", bundle: #bundle) }
     var leaveTitle: String { String(localized: "chat.group.leaveTitle", bundle: #bundle) }
     var removeLabel: String { String(localized: "chat.group.remove", bundle: #bundle) }
+    var mutedLabel: String { String(localized: "chat.group.muted", bundle: #bundle) }
+    private var muteActionLabel: String { String(localized: "chat.group.mute", bundle: #bundle) }
+    private var unmuteActionLabel: String { String(localized: "chat.group.unmute", bundle: #bundle) }
     var cancelLabel: String { String(localized: "chat.group.cancel", bundle: #bundle) }
     var saveLabel: String { String(localized: "chat.group.save", bundle: #bundle) }
     var readOnlyNote: String { String(localized: "chat.group.readOnly", bundle: #bundle) }
@@ -89,6 +106,9 @@ final class GroupInfoViewModel {
     }
 
     var isOffline: Bool { network.isOffline }
+
+    /// The Photos row: every picture sent in this group (CH8).
+    func photosTapped() { router.open(.groupPhotos(conversationID)) }
 
     // MARK: Loading
 
@@ -113,10 +133,19 @@ final class GroupInfoViewModel {
             people.add(myFriends)
             let myID = session.currentUser?.id
             let isAdmin = group.adminID != nil && group.adminID == myID
+            let memberships = try await chat.memberships(in: conversationID)
+            let mutedIDs = Set(memberships.filter { $0.mutedAt != nil }.map(\.userID))
             let members = group.memberIDs.map { id in
-                MemberRowData(
-                    id: id, name: people.name(id), username: "@\(people.profiles[id]?.username ?? "")",
-                    isAdmin: id == group.adminID, isMe: id == myID, canRemove: isAdmin && id != myID)
+                let isMe = id == myID
+                let isMuted = mutedIDs.contains(id)
+                let name = people.name(id)
+                return MemberRowData(
+                    id: id, name: name, username: "@\(people.profiles[id]?.username ?? "")",
+                    isAdmin: id == group.adminID, isMe: isMe, canRemove: isAdmin && !isMe,
+                    canMute: isAdmin && !isMe && id != group.adminID, isMuted: isMuted,
+                    showsMutedLabel: isMuted && (isAdmin || isMe),
+                    muteLabel: isMuted ? unmuteActionLabel : muteActionLabel,
+                    menuLabel: String(localized: "chat.group.actions \(name)", bundle: #bundle))
             }
             let addable = myFriends.filter { friend in
                 !group.memberIDs.contains(friend.id) && !session.isBlocked(friend.id)
@@ -152,7 +181,13 @@ final class GroupInfoViewModel {
         await perform { try await self.chat.rename(self.conversationID, to: self.draftName) }
     }
 
-    func addTapped() { isAddingMembers = true }
+    /// Every member can add their own friends (docs/PRODUCT.md), but not offline.
+    var canAdd: Bool { !network.isOffline }
+
+    func addTapped() {
+        guard canAdd else { return }
+        isAddingMembers = true
+    }
     func togglePick(_ id: UserID) {
         if let index = picked.firstIndex(of: id) { picked.remove(at: index) } else { picked.append(id) }
     }
@@ -165,11 +200,30 @@ final class GroupInfoViewModel {
         await perform { try await self.chat.add(chosen, to: self.conversationID) }
     }
 
-    func removeTapped(_ id: UserID) { removingID = id }
+    func removeTapped(_ id: UserID) {
+        guard canAdminister else { return }
+        removingID = id
+    }
     func cancelRemove() { removingID = nil }
 
+    /// Mute or unmute. The person stays in the group and can read, but cannot send while muted.
+    func muteTapped(_ id: UserID) async {
+        guard canAdminister, case .loaded(let content, _) = state,
+              let member = content.members.first(where: { $0.id == id }), member.canMute else { return }
+        await perform { try await self.chat.setMuted(!member.isMuted, member: id, in: self.conversationID) }
+    }
+
+    /// Remove, mute and rename are admin-only and need a connection.
+    var canAdminister: Bool {
+        guard case .loaded(let content, _) = state else { return false }
+        return content.isAdmin && !network.isOffline
+    }
+
     func confirmRemove() async {
-        guard let id = removingID else { return }
+        guard canAdminister, let id = removingID else {
+            removingID = nil
+            return
+        }
         removingID = nil
         await perform { try await self.chat.remove(id, from: self.conversationID) }
     }

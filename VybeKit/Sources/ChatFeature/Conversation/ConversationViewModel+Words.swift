@@ -19,6 +19,16 @@ extension ConversationViewModel {
     var finishLabel: String { String(localized: "chat.conversation.finishRecording", bundle: #bundle) }
     var cancelRecordingLabel: String { String(localized: "chat.conversation.cancelRecording", bundle: #bundle) }
     var recordingText: String { String(localized: "chat.conversation.recording", bundle: #bundle) }
+    /// Under the recording: how to cancel. Words change (not only colour) once letting go would cancel.
+    var slideHint: String {
+        willCancel
+            ? String(localized: "chat.conversation.releaseToCancel", bundle: #bundle)
+            : String(localized: "chat.conversation.slideToCancel", bundle: #bundle)
+    }
+    /// The spoken hint on the microphone: the hold gesture does not work with VoiceOver, so it says what does.
+    var micHint: String { String(localized: "chat.conversation.micHint", bundle: #bundle) }
+    /// What the microphone says: it becomes "send" while a recording is running.
+    var micControlLabel: String { isRecording ? finishLabel : micLabel }
     var editMenuLabel: String { String(localized: "chat.conversation.edit", bundle: #bundle) }
     var deleteLabel: String { String(localized: "chat.conversation.delete", bundle: #bundle) }
     var deleteTitle: String { String(localized: "chat.conversation.deleteTitle", bundle: #bundle) }
@@ -26,6 +36,7 @@ extension ConversationViewModel {
     var reportLabel: String { String(localized: "chat.conversation.report", bundle: #bundle) }
     var linkNote: String { String(localized: "chat.conversation.linkNote", bundle: #bundle) }
     var readOnlyNote: String { String(localized: "chat.conversation.readOnly", bundle: #bundle) }
+    var mutedNote: String { String(localized: "chat.conversation.muted", bundle: #bundle) }
     var offlineNote: String { String(localized: "chat.conversation.offline", bundle: #bundle) }
     var savedTitle: String { String(localized: "chat.conversation.savedTitle", bundle: #bundle) }
     var savedEmpty: String { String(localized: "chat.conversation.savedEmpty", bundle: #bundle) }
@@ -36,10 +47,10 @@ extension ConversationViewModel {
 
     var isOffline: Bool { network.isOffline }
 
-    /// Whether the composer works: not offline, and not a group that has shrunk below 3 people.
+    /// Whether the composer works: not offline, not a group that has shrunk below 3 people, and not muted.
     var canWrite: Bool {
         guard !network.isOffline else { return false }
-        if case .loaded(let content, _) = state { return !content.isReadOnly }
+        if case .loaded(let content, _) = state { return !content.isReadOnly && !content.isMuted }
         return true
     }
 

@@ -17,7 +17,7 @@ public enum SearchScreens {
         switch route {
         case .seeAll(let kind):
             SeeAllView(viewModel: SeeAllViewModel(
-                kind: kind, hangouts: deps.hangouts, places: deps.places, friends: deps.friends,
+                kind: kind, hangouts: deps.hangouts, places: deps.places, friends: deps.friends, search: deps.search,
                 session: deps.session, router: deps.router))
         }
     }

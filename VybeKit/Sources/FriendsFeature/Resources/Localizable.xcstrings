@@ -267,6 +267,17 @@
         }
       }
     },
+    "friends.hub.searchPrompt" : {
+      "comment" : "Placeholder of the search field on the Friends screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search your friends"
+          }
+        }
+      }
+    },
     "friends.hub.sent" : {
       "comment" : "Header of requests you sent.",
       "localizations" : {

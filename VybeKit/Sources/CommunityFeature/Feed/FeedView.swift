@@ -81,8 +81,10 @@ struct FeedView: View {
 
     /// The long-press menu. The card's own ••• menu only has Report, so Block lives here too.
     @ViewBuilder private func postMenu(for post: PostCardData) -> some View {
-        Button(role: .destructive) { viewModel.reportTapped(post) } label: {
-            Label { Text(verbatim: viewModel.reportLabel) } icon: { Image(systemName: "flag") }
+        if viewModel.canReport(post) {
+            Button(role: .destructive) { viewModel.reportTapped(post) } label: {
+                Label { Text(verbatim: viewModel.reportLabel) } icon: { Image(systemName: "flag") }
+            }
         }
         if viewModel.canBlock(post) {
             Button(role: .destructive) { viewModel.blockTapped(post) } label: {
@@ -113,7 +115,7 @@ struct FeedView: View {
             remix: { viewModel.remixTapped(post) },
             share: { viewModel.shareTapped(post) },
             save: { Task { await viewModel.saveTapped(post) } },
-            report: { viewModel.reportTapped(post) })
+            report: viewModel.canReport(post) ? { viewModel.reportTapped(post) } : nil)
     }
 
     @ToolbarContentBuilder private var topBar: some ToolbarContent {

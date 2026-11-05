@@ -157,4 +157,63 @@ struct HubViewModelTests {
         await viewModel.load()
         #expect(viewModel.state == .failed(.offline))
     }
+
+    // MARK: Search
+
+    private func shownFriends(_ viewModel: HubViewModel) -> [UserID] {
+        guard let loaded = content(viewModel) else { return [] }
+        return viewModel.matchingFriends(in: loaded).map(\.id)
+    }
+
+    @Test func noSearchShowsAllFriends() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        #expect(!viewModel.isSearching && shownFriends(viewModel).count == 3)
+    }
+
+    @Test func searchMatchesFriendsIgnoringCaseAndAccents() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        viewModel.searchText = SampleSocialData.aarav.displayName.uppercased()
+        #expect(viewModel.isSearching && shownFriends(viewModel) == [SampleSocialData.aarav.id])
+        viewModel.searchText = SampleSocialData.aarav.displayName.uppercased().replacingOccurrences(of: "A", with: "Á")
+        #expect(shownFriends(viewModel) == [SampleSocialData.aarav.id])
+    }
+
+    @Test func searchMatchesTheUsernameToo() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        viewModel.searchText = SampleSocialData.isha.username
+        #expect(shownFriends(viewModel) == [SampleSocialData.isha.id])
+    }
+
+    @Test func searchOnlyLooksAtFriendsNotRequestsOrSuggestions() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        viewModel.searchText = SampleSocialData.vihaan.displayName   // a suggestion, not a friend
+        #expect(viewModel.isSearching && shownFriends(viewModel).isEmpty)
+        viewModel.searchText = SampleSocialData.sanya.displayName   // a request, not a friend
+        #expect(shownFriends(viewModel).isEmpty)
+    }
+
+    @Test func searchDoesNotChangeTheLoadedSectionsAndAsksNobody() async {
+        let friends = FakeFriends.standard()
+        let viewModel = makeViewModel(friends)
+        await viewModel.load()
+        let before = content(viewModel)
+        viewModel.searchText = SampleSocialData.rohan.displayName
+        viewModel.searchText = "zzzzqx"
+        #expect(content(viewModel) == before)   // the sections are only hidden by the View, never removed
+        #expect(friends.calls.withLock { $0.isEmpty })
+    }
+
+    @Test func clearingTheSearchBringsEverythingBack() async {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        viewModel.searchText = SampleSocialData.rohan.displayName
+        #expect(shownFriends(viewModel).count == 1)
+        viewModel.searchText = "   "   // only spaces is the same as empty
+        #expect(!viewModel.isSearching && shownFriends(viewModel).count == 3)
+        #expect(content(viewModel)?.requests.count == 1 && content(viewModel)?.suggestions.count == 1)
+    }
 }

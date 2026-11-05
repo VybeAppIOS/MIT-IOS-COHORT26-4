@@ -24,6 +24,7 @@ final class InvitationViewModel {
     private let conversationID: ConversationID
     private let chat: any ChatRepository
     private let profiles: any ProfileRepository
+    private let session: SessionStore
     private let network: NetworkMonitor
     private let router: Router
     private var hasLoaded = false
@@ -31,11 +32,12 @@ final class InvitationViewModel {
     /// Cheap: no loading here (ADR 005). Takes only what the screen needs, never `AppDependencies`.
     init(
         conversationID: ConversationID, chat: any ChatRepository, profiles: any ProfileRepository,
-        network: NetworkMonitor, router: Router
+        session: SessionStore, network: NetworkMonitor, router: Router
     ) {
         self.conversationID = conversationID
         self.chat = chat
         self.profiles = profiles
+        self.session = session
         self.network = network
         self.router = router
     }
@@ -63,18 +65,24 @@ final class InvitationViewModel {
 
     private func fetch() async {
         do {
-            guard let group = try await chat.conversations().first(where: { $0.id == conversationID }) else {
+            guard let group = try await chat.pendingInvitations().first(where: { $0.id == conversationID }) else {
                 state = .empty   // the invitation was withdrawn, or already answered
                 hasLoaded = true
                 return
             }
+            // The person who added me is named in my own membership, not guessed from the admin.
+            let myID = session.currentUser?.id
+            let memberships = try await chat.memberships(in: conversationID)
+            let adderID = memberships.first { $0.userID == myID }?.addedByID
             var people = ChatPeople()
-            await people.load(group.memberIDs, from: profiles)
-            let adder = group.adminID.map(people.name) ?? ""
+            await people.load(group.memberIDs + (adderID.map { [$0] } ?? []), from: profiles)
+            let adder = adderID.map(people.name) ?? ""
             let name = group.name ?? ""
             state = .loaded(InvitationContent(
-                headline: String(localized: "chat.invite.headline \(adder) \(name)", bundle: #bundle),
-                memberNames: group.memberIDs.map(people.name), adderID: group.adminID))
+                headline: adder.isEmpty
+                    ? String(localized: "chat.invite.headlineUnknown \(name)", bundle: #bundle)
+                    : String(localized: "chat.invite.headline \(adder) \(name)", bundle: #bundle),
+                memberNames: group.memberIDs.map(people.name), adderID: adderID))
             hasLoaded = true
         } catch is CancellationError {
             return   // leaving the screen is not an error (ADR 005)

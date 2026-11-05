@@ -33,6 +33,9 @@ struct ListView: View {
         }
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
+        .onChange(of: viewModel.isRouterSheetOpen) { _, isOpen in
+            if !isOpen { Task { await viewModel.reload() } }
+        }
         .sheet(
             isPresented: $viewModel.isShowingNewChat,
             onDismiss: { Task { await viewModel.newChatDismissed() } },
@@ -40,14 +43,59 @@ struct ListView: View {
     }
 
     private func list(_ content: ChatListContent) -> some View {
-        List(content.rows) { row in
-            Button { viewModel.rowTapped(row.id) } label: { rowView(row) }
-                .buttonStyle(.plain)
-                .listRowInsets(EdgeInsets(
-                    top: Theme.Spacing.small, leading: Theme.Spacing.large, bottom: Theme.Spacing.small,
-                    trailing: Theme.Spacing.large))
+        List {
+            if !content.invitations.isEmpty {
+                Section {
+                    ForEach(content.invitations) { invitation in
+                        Button { viewModel.invitationTapped(invitation.id) } label: { invitationView(invitation) }
+                            .buttonStyle(.plain)
+                            .listRowInsets(rowInsets)
+                    }
+                } header: {
+                    Text(verbatim: viewModel.invitationsHeader).accessibilityAddTraits(.isHeader)
+                }
+            }
+            Section {
+                ForEach(content.rows) { row in
+                    Button { viewModel.rowTapped(row.id) } label: { rowView(row) }
+                        .buttonStyle(.plain)
+                        .listRowInsets(rowInsets)
+                }
+            } header: {
+                if !content.invitations.isEmpty {
+                    Text(verbatim: viewModel.chatsHeader).accessibilityAddTraits(.isHeader)
+                }
+            }
         }
         .listStyle(.plain)
+    }
+
+    private var rowInsets: EdgeInsets {
+        EdgeInsets(
+            top: Theme.Spacing.small, leading: Theme.Spacing.large, bottom: Theme.Spacing.small,
+            trailing: Theme.Spacing.large)
+    }
+
+    private func invitationView(_ invitation: InvitationRowData) -> some View {
+        HStack(spacing: Theme.Spacing.medium) {
+            AvatarStack(invitation.memberNames.enumerated().map {
+                AvatarStackPerson(id: "\($0.offset)", name: $0.element)
+            })
+            .frame(width: avatarWidth, alignment: .leading)
+            VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {
+                Text(verbatim: invitation.title)
+                    .font(Theme.Font.headline).foregroundStyle(Theme.Color.textPrimary).lineLimit(1)
+                Text(verbatim: invitation.subtitle).font(Theme.Font.subheadline)
+                    .foregroundStyle(Theme.Color.textSecondary).lineLimit(2)
+            }
+            Spacer(minLength: Theme.Spacing.small)
+            Image(systemName: "envelope.badge").foregroundStyle(Theme.Color.accent).accessibilityHidden(true)
+        }
+        .frame(minHeight: Theme.Size.minTapTarget)
+        .contentShape(.rect)
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(Text(verbatim: [invitation.title, invitation.subtitle].joined(separator: ", ")))
+        .accessibilityAddTraits(.isButton)
     }
 
     private func rowView(_ row: ChatRowData) -> some View {

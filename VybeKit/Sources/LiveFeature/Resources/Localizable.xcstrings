@@ -1,5 +1,215 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "live.allVisited" : {
+      "comment" : "H1 when no Spot is left.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every Spot visited!"
+          }
+        }
+      }
+    },
+    "live.distance %@ %@" : {
+      "comment" : "H1 distance line. First: distance (250 m), second: walking time (4 min).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ · %2$@ walk"
+          }
+        }
+      }
+    },
+    "live.end" : {
+      "comment" : "H1 button that ends the run.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End Hangout"
+          }
+        }
+      }
+    },
+    "live.endConfirmMessage" : {
+      "comment" : "H1 confirmation message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Some Spots aren't visited yet. You can still post what you did."
+          }
+        }
+      }
+    },
+    "live.endConfirmTitle" : {
+      "comment" : "H1 confirmation title when Spots remain.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "End Hangout?"
+          }
+        }
+      }
+    },
+    "live.keepGoing" : {
+      "comment" : "H1 confirmation: cancel.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keep going"
+          }
+        }
+      }
+    },
+    "live.markVisited" : {
+      "comment" : "H1 main button; opens the Mark visited sheet (H2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark visited"
+          }
+        }
+      }
+    },
+    "live.markVisited.addPhoto" : {
+      "comment" : "H2 optional photo button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add a photo"
+          }
+        }
+      }
+    },
+    "live.markVisited.allVisited" : {
+      "comment" : "H2 success text on the last Spot.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Every Spot visited!"
+          }
+        }
+      }
+    },
+    "live.markVisited.done" : {
+      "comment" : "H2 button that marks the Spot visited.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "live.markVisited.limitReached %lld" : {
+      "comment" : "H2 when the photo limit (2 per visited Spot) is reached.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You can add up to %lld photos so far."
+          }
+        }
+      }
+    },
+    "live.markVisited.photoError" : {
+      "comment" : "H2 when a photo cannot be processed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't use that photo. Try another one."
+          }
+        }
+      }
+    },
+    "live.markVisited.question %@" : {
+      "comment" : "H2 question. %@ is the Spot's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mark %@ as visited?"
+          }
+        }
+      }
+    },
+    "live.markVisited.removePhoto" : {
+      "comment" : "VoiceOver label for removing a picked photo.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove photo"
+          }
+        }
+      }
+    },
+    "live.markVisited.visited" : {
+      "comment" : "H2 success text.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Visited!"
+          }
+        }
+      }
+    },
+    "live.minimise" : {
+      "comment" : "H1 toolbar button; the run goes on in the mini-bar.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Minimise"
+          }
+        }
+      }
+    },
+    "live.now" : {
+      "comment" : "H1 small label above the current Spot's name.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "NOW"
+          }
+        }
+      }
+    },
+    "live.progress %lld %lld" : {
+      "comment" : "H1 progress. First: visited Spots, second: all Spots.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld of %2$lld visited"
+          }
+        }
+      }
+    },
+    "live.spotsHeader" : {
+      "comment" : "H1 heading above the Spot rows.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spots"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }

@@ -141,10 +141,11 @@ sheet-on-sheet.
 ### Chats (inside the Community tab)
 | ID | Screen | Purpose | From | Pres. | Phase |
 |---|---|---|---|---|---|
-| CH1 | Chats list | DMs and groups, unread counts | chat icon in Community's top bar | Push | 2 |
-| CH2 | Conversation | text, photos, Hangout cards, links, voice, polls; read receipts | CH1, profile "Message" | Push | 2 |
+| CH1 | Chats list | DMs and groups, unread counts; pending group invitations in an "Invitations" section on top | chat icon in Community's top bar | Push | 2 |
+| CH2 | Conversation | text, photos (max 2, full-screen viewer), Hangout cards, links, voice (hold to record, slide to cancel, 2 min), polls; "Seen" read receipts; a muted member can read only | CH1, profile "Message" | Push | 2 |
 | CH3 | New chat or group | pick friends (3+ for a group) | CH1 | Sheet | 2 |
-| CH4 | Group info | rename, members, add, remove (admin), leave | CH2 header | Push | 2 |
+| CH4 | Group info | rename, members, add (any member), remove and mute (admin, from a ••• menu on the member's row), Photos row, leave | CH2 header | Push | 2 |
+| CH8 | Group photos | every photo sent in the group, newest first, as a grid; tap one to open it full screen and swipe (route `.groupPhotos(id)`; approved by Lohitaksh) | CH4 "Photos" row | Push | 2 |
 | CH7 | Group invitation | "Alex added you to Kothrud Crew": Join / Leave and block (shown when the adder isn't your friend) | notification, CH1 | Sheet | 2 |
 | CH5 | Share to… | friends and groups, plus "More…" (system share sheet, e.g. WhatsApp) | HD1, CM2 Share | Sheet (medium) | 2 |
 | CH6 | Poll composer | "I'm in" / "Not for me" | CH2 | Sheet | 2 |
@@ -271,6 +272,10 @@ cover); and **CM2's "Save" on a post saves the underlying Hangout** (Save is a l
 2. **D2 pin preview:** card overlay (tab bar stays visible) or a sheet (covers the tab bar)?
 3. **"Search only in the Search tab" vs pickers.** Add Spot (E2), pick friends (CH3) and share (CH5) need typing: is a small filter
    field inside a picker acceptable, or must it all go through the Search tab?
+   *Answer for pickers (WO-2 fixes, approved by Atharva and by Lohitaksh):* a small on-device filter (`.searchable`, name or
+   username, nothing sent anywhere) is allowed in pickers and lists of people you already have: New chat (CH3) and the
+   Friends hub (FR1). Finding new people and Hangouts stays in the Search tab. Add Spot (E2) and share (CH5) are not
+   decided here.
 4. **Done-but-not-posted runs:** keep them in "Ready to post" forever, or expire them?
 5. **When does a user's own Hangout appear publicly or on the map?** Only after its first posted run?
 6. **Live Hangout while using other tabs:** worth building the mini-bar (H4), or keep the live screen full-screen only?

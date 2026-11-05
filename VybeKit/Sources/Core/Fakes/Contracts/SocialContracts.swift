@@ -114,7 +114,10 @@ public enum ChatRepositoryContract {
         let unread = try await repository.unreadCounts()
         let known = Set(conversations.map(\.id))
         try require(unread.keys.allSatisfy(known.contains), "unread for a missing chat")
+        let invitations = try await repository.pendingInvitations()
+        try require(invitations.allSatisfy { !known.contains($0.id) }, "a pending group is not a conversation yet")
         guard let chat = conversations.first else { return }
+        try await verifyMembers(repository, conversations, myID: myID)
 
         let sent = try await repository.send(.text("EXAMPLE contract message"), in: chat.id)
         let latest = try await firstList(repository, chat.id)
@@ -133,6 +136,33 @@ public enum ChatRepositoryContract {
         }
 
         try await requireInvalid { _ = try await repository.createGroup(name: "EXAMPLE", members: []) }
+    }
+
+    /// Memberships, and muting (admin only, never the admin, a muted person cannot send).
+    private static func verifyMembers(
+        _ repository: any ChatRepository, _ conversations: [Conversation], myID: UserID
+    ) async throws {
+        try await requireNotFound("memberships of an unknown chat") {
+            _ = try await repository.memberships(in: "contract-missing")
+        }
+        try await requireNotFound("mute in an unknown chat") {
+            try await repository.setMuted(true, member: myID, in: "contract-missing")
+        }
+        guard let group = conversations.first(where: { $0.kind == .group && $0.adminID == myID }),
+              let other = group.memberIDs.first(where: { $0 != myID }) else { return }
+        let members = try await repository.memberships(in: group.id)
+        try require(Set(members.map(\.userID)) == Set(group.memberIDs), "one membership per member")
+        try require(members.first { $0.userID == myID }?.role == .admin, "the admin has the admin role")
+        try await repository.markRead(group.id)
+        let afterRead = try await repository.memberships(in: group.id).first { $0.userID == myID }
+        try require(afterRead?.lastReadAt != nil, "markRead must set my lastReadAt")
+        try await requireInvalid { try await repository.setMuted(true, member: myID, in: group.id) }
+        try await repository.setMuted(true, member: other, in: group.id)
+        let muted = try await repository.memberships(in: group.id).first { $0.userID == other }
+        try require(muted?.mutedAt != nil, "muting must set mutedAt")
+        try await repository.setMuted(false, member: other, in: group.id)
+        let unmuted = try await repository.memberships(in: group.id).first { $0.userID == other }
+        try require(unmuted?.mutedAt == nil, "unmuting must clear mutedAt")
     }
 
     private static func firstList(_ repository: any ChatRepository, _ id: ConversationID) async throws -> [Message] {

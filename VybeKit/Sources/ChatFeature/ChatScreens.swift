@@ -24,8 +24,9 @@ public enum ChatScreens {
         case .conversation(let id):
             ConversationView(viewModel: ConversationViewModel(
                 conversationID: id, chat: deps.chat, profiles: deps.profiles, hangouts: deps.hangouts,
-                libraryStore: deps.libraryStore, session: deps.session, badges: deps.badges, network: deps.network,
-                router: deps.router, now: deps.now, recorder: SystemVoiceRecorder(), player: AudioPlayer(),
+                photos: deps.photos, libraryStore: deps.libraryStore, session: deps.session, badges: deps.badges,
+                network: deps.network, router: deps.router, now: deps.now, recorder: SystemVoiceRecorder(),
+                player: AudioPlayer(),
                 makePoll: { conversationID, onClose in
                     PollViewModel(
                         conversationID: conversationID, chat: deps.chat, network: deps.network, onClose: onClose)
@@ -34,6 +35,9 @@ public enum ChatScreens {
             GroupInfoView(viewModel: GroupInfoViewModel(
                 conversationID: id, chat: deps.chat, friends: deps.friends, profiles: deps.profiles,
                 session: deps.session, network: deps.network, router: deps.router))
+        case .groupPhotos(let id):
+            GroupPhotosView(viewModel: GroupPhotosViewModel(
+                conversationID: id, chat: deps.chat, photos: deps.photos, session: deps.session))
         }
     }
 
@@ -47,7 +51,8 @@ public enum ChatScreens {
     @ViewBuilder
     public static func groupInvitationSheet(_ id: ConversationID, _ deps: AppDependencies) -> some View {
         InvitationView(viewModel: InvitationViewModel(
-            conversationID: id, chat: deps.chat, profiles: deps.profiles, network: deps.network, router: deps.router))
+            conversationID: id, chat: deps.chat, profiles: deps.profiles, session: deps.session,
+            network: deps.network, router: deps.router))
     }
 }
 

@@ -63,7 +63,7 @@ struct TrendingView: View {
             remix: { viewModel.remixTapped(post) },
             share: { viewModel.shareTapped(post) },
             save: { Task { await viewModel.saveTapped(post) } },
-            report: { viewModel.reportTapped(post) })
+            report: viewModel.canReport(post) ? { viewModel.reportTapped(post) } : nil)
     }
 }
 

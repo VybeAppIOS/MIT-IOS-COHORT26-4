@@ -122,7 +122,18 @@ public enum SampleSocialData {
     public static let crew = Conversation(
         id: "conversation-sample-crew", kind: .group, name: "Kothrud Crew", adminID: currentUser.id,
         memberIDs: [currentUser.id, friend.id, aarav.id, isha.id], createdAt: hours(-24))
-    public static let conversations = [friendChat, aaravChat, crew]
+    /// A group I was added to by someone who is not my friend. It waits for Join or Leave and block.
+    public static let invitation = Conversation(
+        id: "conversation-sample-invitation", kind: .group, name: "EXAMPLE Sunday Walkers", adminID: vihaan.id,
+        memberIDs: [vihaan.id, tara.id, currentUser.id], createdAt: hours(-5))
+    public static let conversations = [friendChat, aaravChat, crew, invitation]
+    /// Groups I have been invited to but not joined yet.
+    public static let pendingInvitationIDs: Set<ConversationID> = [invitation.id]
+    /// Who added whom: group, then member, then the person who added them.
+    public static let addedBy: [ConversationID: [UserID: UserID]] = [
+        crew.id: [friend.id: currentUser.id, aarav.id: currentUser.id, isha.id: currentUser.id],
+        invitation.id: [tara.id: vihaan.id, currentUser.id: vihaan.id]
+    ]
 
     private static func message(
         _ number: Int, in chat: Conversation, by sender: UserProfile, hoursAgo: Double, _ payload: MessagePayload
@@ -140,13 +151,22 @@ public enum SampleSocialData {
         message(6, in: crew, by: isha, hoursAgo: 12, .text("What are we doing on Saturday?")),
         message(7, in: crew, by: currentUser, hoursAgo: 11, .poll(question: "Coffee at 5?")),
         message(8, in: crew, by: aarav, hoursAgo: 10, .voice(path: "voice/EXAMPLE.m4a", seconds: 12)),
-        message(9, in: crew, by: friend, hoursAgo: 2, .photos([Photo(id: "photo-sample-1", path: "EXAMPLE.jpg",
-                                                                      width: 800, height: 600)]))
+        message(9, in: crew, by: friend, hoursAgo: 2, .photos([
+            Photo(id: "photo-sample-1", path: "EXAMPLE.jpg", width: 800, height: 600),
+            Photo(id: "photo-sample-2", path: "EXAMPLE2.jpg", width: 600, height: 800)
+        ]))
     ]
 
     /// When I last read each chat (the friend chat and the crew chat have 2 unread messages each).
     public static let lastRead: [ConversationID: Date] = [
         friendChat.id: hours(-6.5), aaravChat.id: hours(-38), crew.id: hours(-11.5)
+    ]
+
+    /// When the other people last read each chat, so "Seen" shows under my last message. Only people in that chat.
+    public static let othersLastRead: [ConversationID: [UserID: Date]] = [
+        friendChat.id: [friend.id: hours(-5.5)],
+        aaravChat.id: [aarav.id: hours(-38.5)],
+        crew.id: [friend.id: hours(-1.5), isha.id: hours(-10.5), aarav.id: hours(-9)]
     ]
 
     public static let pollVotes = [
@@ -182,12 +202,14 @@ public enum SampleSocialData {
                  target: .user(sanya.id), createdAt: hours(-3)),
         Activity(id: "activity-sample-2", recipientID: currentUser.id, kind: .like, actorID: friend.id,
                  target: .run("run-sample-3"), createdAt: hours(-2)),
-        Activity(id: "activity-sample-3", recipientID: currentUser.id, kind: .comment, actorID: rohan.id,
-                 target: .comment("comment-sample-5"), createdAt: hours(-3.5)),
+        Activity(id: "activity-sample-3", recipientID: currentUser.id, kind: .reply, actorID: rohan.id,
+                 target: .comment("comment-sample-5"), createdAt: hours(-3.5), runID: "run-sample-3"),
         Activity(id: "activity-sample-4", recipientID: currentUser.id, kind: .friendAccepted, actorID: meera.id,
                  target: .user(meera.id), createdAt: hours(-26), readAt: hours(-25)),
         Activity(id: "activity-sample-5", recipientID: currentUser.id, kind: .remixCredit, actorID: isha.id,
-                 target: .hangout(SampleData.morning.id), createdAt: hours(-50), readAt: hours(-49))
+                 target: .hangout(SampleData.morning.id), createdAt: hours(-50), readAt: hours(-49)),
+        Activity(id: "activity-sample-6", recipientID: currentUser.id, kind: .comment, actorID: meera.id,
+                 target: .comment("comment-sample-6"), createdAt: hours(-28), readAt: hours(-27), runID: "run-sample-5")
     ]
 }
 #endif

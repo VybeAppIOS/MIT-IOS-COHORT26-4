@@ -221,6 +221,18 @@ public struct StubChatRepository: ChatRepository {
     public func respondToInvitation(to id: ConversationID, accept: Bool) async throws {
         try await mode.social((), { try await store.respondToInvitation(to: id, accept: accept) })
     }
+
+    public func memberships(in id: ConversationID) async throws -> [Membership] {
+        try await mode.social([], { try await store.memberships(in: id) })
+    }
+
+    public func setMuted(_ muted: Bool, member: UserID, in id: ConversationID) async throws {
+        try await mode.social((), { try await store.setMuted(muted, member: member, in: id) })
+    }
+
+    public func pendingInvitations() async throws -> [Conversation] {
+        try await mode.social([], { await store.pendingInvitations() })
+    }
 }
 
 public struct StubSafetyRepository: SafetyRepository {
