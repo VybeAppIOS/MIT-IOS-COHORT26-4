@@ -20,7 +20,7 @@ struct DiscoverMapView: View {
             .safeAreaInset(edge: .top) { topBar }
             .safeAreaInset(edge: .bottom) { bottomBar }    // keeps Apple's logo and Legal link above our views
             .overlay { statusOverlay }
-            .sheet(isPresented: $viewModel.isShowingFilters) { FiltersPlaceholder() }
+            .sheet(isPresented: $viewModel.isShowingFilters) { FiltersSheetView(viewModel: viewModel) }
             .toolbar(.hidden, for: .navigationBar)
             .task { await viewModel.load() }
             .onChange(of: viewModel.zoomRequest) { _, cluster in
@@ -183,16 +183,5 @@ struct DiscoverMapView: View {
             center: location(cluster.center),
             span: MKCoordinateSpan(latitudeDelta: max(minimum, (cluster.maxLatitude - cluster.minLatitude) * 2),
                                    longitudeDelta: max(minimum, (cluster.maxLongitude - cluster.minLongitude) * 2)))
-    }
-}
-
-/// Stands in for the filters sheet until SC-D3 replaces it. Developer-only text, so it is not localized.
-private struct FiltersPlaceholder: View {
-    var body: some View {
-        Text(verbatim: "Filters: SC-D3")
-            .font(Theme.Font.headline)
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .presentationDetents([.medium, .large])
-            .presentationDragIndicator(.visible)
     }
 }

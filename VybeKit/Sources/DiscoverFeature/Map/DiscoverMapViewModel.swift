@@ -55,9 +55,15 @@ final class DiscoverMapViewModel {
     /// What the map draws right now: pins and clusters for the current zoom.
     private(set) var markers: [MapMarker] = []
     private(set) var selectedHangoutID: HangoutID?
-    private(set) var selectedChips: Set<Chip> = []
-    /// The filters sent to the repository (the chips' categories, plus SC-D3's filters later).
+    /// The filters sent to the repository: the map chips and the filters sheet (SC-D3) both write here.
     private(set) var filters = HangoutFilters()
+    /// The applied time choice. Its minimum ("3 h or more") is applied here, after the repository answers.
+    private(set) var appliedTime: TimeChoice = .any
+    /// The filters sheet's working copy: edited on both of its pages, copied into `filters` only by Apply.
+    private(set) var draft = HangoutFilters()
+    private(set) var draftTime: TimeChoice = .any
+    /// "Apply (n results)": how many Hangouts the draft matches; nil while counting or if counting failed.
+    private(set) var draftResultCount: Int?
     /// A cluster the person tapped: the View zooms the camera to it, then calls `zoomHandled()`.
     private(set) var zoomRequest: PinCluster?
     /// Shows the filters sheet (SC-D3). Settable so the sheet can close itself.
@@ -154,7 +160,7 @@ final class DiscoverMapViewModel {
 
     private func fetch() async {
         do {
-            let found = try await hangouts.hangouts(near: nil, filters: filters)
+            let found = Self.longEnough(try await hangouts.hangouts(near: nil, filters: filters), for: appliedTime)
             await library.ensureLoaded()        // so cards show the right saved state
             let pins = await pins(for: found)
             let picks = await pickCards()
@@ -177,12 +183,17 @@ final class DiscoverMapViewModel {
 
     /// Turns a category chip on or off, then asks the repository again with the new filters.
     func chipTapped(_ chip: Chip) async {
-        if selectedChips.contains(chip) { selectedChips.remove(chip) } else { selectedChips.insert(chip) }
-        filters.categories = selectedChips.reduce(into: Set<PlaceCategory>()) { $0.formUnion($1.categories) }
+        if selectedChips.contains(chip) {
+            filters.categories.subtract(chip.categories)
+        } else {
+            filters.categories.formUnion(chip.categories)
+        }
         await fetch()
     }
 
-    func moreFiltersTapped() { isShowingFilters = true }
+    /// The map chips that are on: worked out from the applied categories, so the chips and the filters sheet
+    /// always agree.
+    var selectedChips: Set<Chip> { Set(Chip.allCases.filter { $0.categories.isSubset(of: filters.categories) }) }
 
     /// The map's selection changed (`Map(selection:)`): a pin selects its Hangout, a cluster asks to zoom in,
     /// nil (a tap on the map) clears the selection.
@@ -266,6 +277,109 @@ final class DiscoverMapViewModel {
             cards.append(HangoutCardData(hangout, coverURL: coverURL, isSaved: library.isSaved(hangout.id)))
         }
         return cards
+    }
+}
+
+// MARK: The filters sheet (SC-D3)
+
+/// The sheet edits a draft copy of the filters on both of its pages. Apply copies the draft into `filters` and reloads
+/// the map; closing the sheet any other way leaves `filters` as it was (the next opening starts a fresh draft).
+extension DiscoverMapViewModel {
+    /// What `.task(id:)` watches to recount "Apply (n results)" whenever the draft changes.
+    struct DraftID: Hashable {
+        let filters: HangoutFilters
+        let time: TimeChoice
+    }
+
+    var draftID: DraftID { DraftID(filters: draft, time: draftTime) }
+
+    func moreFiltersTapped() {
+        draft = filters
+        draftTime = appliedTime
+        draftResultCount = nil
+        isShowingFilters = true
+    }
+
+    // Budget
+
+    var draftBudgetLower: Int { draft.budget?.lower ?? BudgetRange.lowest }
+    var draftBudgetUpper: Int { draft.budget?.upper ?? BudgetRange.highest }
+    /// "₹0–1,000"
+    var draftBudgetText: String { DisplayFormat.rupeeRange(lower: draftBudgetLower, upper: draftBudgetUpper) }
+
+    /// The full ₹0–1,000 range means "any budget", so no budget filter is sent.
+    func setDraftBudget(lower: Int, upper: Int) {
+        let low = max(BudgetRange.lowest, min(lower, upper))
+        let high = min(BudgetRange.highest, max(lower, upper))
+        let isFullRange = low == BudgetRange.lowest && high == BudgetRange.highest
+        draft.budget = isFullRange ? nil : RupeeRange(lower: low, upper: high)
+    }
+
+    // Time
+
+    func setDraftTime(_ time: TimeChoice) {
+        draftTime = time
+        draft.maxMinutes = time.maxMinutes
+    }
+
+    // Categories, vibes and interests (the main sheet's short lists and the "Find your Vybe" page)
+
+    func isDraftChipSelected(_ chip: Chip) -> Bool { chip.categories.isSubset(of: draft.categories) }
+
+    func toggleDraftChip(_ chip: Chip) {
+        if isDraftChipSelected(chip) {
+            draft.categories.subtract(chip.categories)
+        } else {
+            draft.categories.formUnion(chip.categories)
+        }
+    }
+
+    func isInterestSelected(_ interest: VybeInterest) -> Bool {
+        interest.categories.isSubset(of: draft.categories) && interest.vibeTags.isSubset(of: draft.vibeTags)
+    }
+
+    func toggleInterest(_ interest: VybeInterest) {
+        if isInterestSelected(interest) {
+            draft.categories.subtract(interest.categories)
+            draft.vibeTags.subtract(interest.vibeTags)
+        } else {
+            draft.categories.formUnion(interest.categories)
+            draft.vibeTags.formUnion(interest.vibeTags)
+        }
+    }
+
+    func setDraftGoodForGroups(_ isOn: Bool) { draft.goodForGroups = isOn }
+
+    // Reset, count, Apply
+
+    func resetDraft() {
+        draft = HangoutFilters()
+        draftTime = .any
+    }
+
+    /// Counts the Hangouts the draft matches, the same way the map would show them.
+    func countDraftResults() async {
+        draftResultCount = nil
+        do {
+            let found = try await hangouts.hangouts(near: nil, filters: draft)
+            draftResultCount = Self.longEnough(found, for: draftTime).count
+        } catch {
+            draftResultCount = nil          // the button then says "Apply" without a number
+        }
+    }
+
+    func applyFilters() async {
+        filters = draft
+        appliedTime = draftTime
+        isShowingFilters = false
+        await fetch()
+    }
+
+    /// "3 h or more": `HangoutFilters` has no minimum yet, so it is applied here (the same rule for the map and the
+    /// count).
+    static func longEnough(_ hangouts: [Hangout], for time: TimeChoice) -> [Hangout] {
+        guard let minimum = time.minMinutes else { return hangouts }
+        return hangouts.filter { $0.estimatedMinutes >= minimum }
     }
 }
 
