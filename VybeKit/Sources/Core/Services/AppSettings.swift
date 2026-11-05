@@ -7,6 +7,7 @@ public struct AppSettings: Sendable {
         static let onboardingDone = "onboardingDone"
         static let selectedAreaID = "selectedAreaID"
         static let interests = "interests"
+        static let notificationPrefix = "notify."
     }
 
     /// Nil means the app's standard settings. Only the name is stored: `UserDefaults` itself is not `Sendable`,
@@ -35,6 +36,16 @@ public struct AppSettings: Sendable {
     public var interests: [String] {
         get { defaults.stringArray(forKey: Key.interests) ?? [] }
         nonmutating set { defaults.set(newValue, forKey: Key.interests) }
+    }
+
+    /// Whether one kind of notification may be sent ("friendRequests", "messages", "likes", "comments",
+    /// "reminders"). All start on; the system permission is asked separately, at the first friend request or chat.
+    public func notificationOn(_ name: String) -> Bool {
+        defaults.object(forKey: Key.notificationPrefix + name) as? Bool ?? true
+    }
+
+    public func setNotification(_ name: String, on enabled: Bool) {
+        defaults.set(enabled, forKey: Key.notificationPrefix + name)
     }
 
     /// Forget everything (sign out, delete account, reset onboarding).

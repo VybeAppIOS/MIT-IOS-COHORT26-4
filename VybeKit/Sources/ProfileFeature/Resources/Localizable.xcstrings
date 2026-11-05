@@ -1090,6 +1090,259 @@
         }
       }
     },
+    "profile.privacy.audience" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New posts are seen by"
+          }
+        }
+      }
+    },
+    "profile.privacy.audience.friends" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    },
+    "profile.privacy.audience.private" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A private profile keeps new posts friends-only."
+          }
+        }
+      }
+    },
+    "profile.privacy.audience.public" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everyone"
+          }
+        }
+      }
+    },
+    "profile.privacy.audience.warning" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everyone means anyone using Vybe can see your new posts, not only your friends."
+          }
+        }
+      }
+    },
+    "profile.privacy.comment" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Who can comment"
+          }
+        }
+      }
+    },
+    "profile.privacy.comment.everyone" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everyone"
+          }
+        }
+      }
+    },
+    "profile.privacy.comment.friends" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    },
+    "profile.privacy.comment.nobody" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nobody"
+          }
+        }
+      }
+    },
+    "profile.privacy.error" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not save that change. It was put back, so try again."
+          }
+        }
+      }
+    },
+    "profile.privacy.groups" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Who can add you to groups"
+          }
+        }
+      }
+    },
+    "profile.privacy.groups.askMe" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ask me first"
+          }
+        }
+      }
+    },
+    "profile.privacy.groups.everyone" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everyone"
+          }
+        }
+      }
+    },
+    "profile.privacy.groups.friends" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    },
+    "profile.privacy.offline" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You are offline. Privacy changes need a connection."
+          }
+        }
+      }
+    },
+    "profile.privacy.private" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Private profile"
+          }
+        }
+      }
+    },
+    "profile.privacy.private.hint" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Only friends see your profile, and your new posts are friends-only."
+          }
+        }
+      }
+    },
+    "profile.privacy.requests" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Who can send friend requests"
+          }
+        }
+      }
+    },
+    "profile.privacy.requests.everyone" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Everyone"
+          }
+        }
+      }
+    },
+    "profile.privacy.requests.fof" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends of friends"
+          }
+        }
+      }
+    },
+    "profile.privacy.search" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Show me in search"
+          }
+        }
+      }
+    },
+    "profile.privacy.search.hint" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let people find you in Search and in \"You might know\"."
+          }
+        }
+      }
+    },
+    "profile.privacy.title" : {
+      "comment" : "Privacy page (ST2).",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Privacy"
+          }
+        }
+      }
+    },
     "profile.profile.drafts" : {
       "comment" : "Row: my Drafts.",
       "localizations" : {
