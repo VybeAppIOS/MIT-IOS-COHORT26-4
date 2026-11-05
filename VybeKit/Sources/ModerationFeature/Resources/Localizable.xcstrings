@@ -1,5 +1,380 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "moderation.report.detail.count" : {
+      "comment" : "Characters typed and the most allowed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%d / %d"
+          }
+        }
+      }
+    },
+    "moderation.report.detail.placeholder" : {
+      "comment" : "Placeholder of the text box for 'Something else'.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tell us what happened"
+          }
+        }
+      }
+    },
+    "moderation.report.done" : {
+      "comment" : "Closes the screen after sending.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done"
+          }
+        }
+      }
+    },
+    "moderation.report.error" : {
+      "comment" : "Shown when sending failed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We couldn't send your report. Check your connection and try again."
+          }
+        }
+      }
+    },
+    "moderation.report.headline.comment" : {
+      "comment" : "Headline when the thing reported is a comment.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report this comment"
+          }
+        }
+      }
+    },
+    "moderation.report.headline.message" : {
+      "comment" : "Headline when the thing reported is a chat message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report this message"
+          }
+        }
+      }
+    },
+    "moderation.report.headline.place" : {
+      "comment" : "Headline when the thing reported is a Place.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report this Place"
+          }
+        }
+      }
+    },
+    "moderation.report.headline.run" : {
+      "comment" : "Headline when the thing reported is a post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report this post"
+          }
+        }
+      }
+    },
+    "moderation.report.headline.user" : {
+      "comment" : "Headline when the thing reported is a person.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report this person"
+          }
+        }
+      }
+    },
+    "moderation.report.help.body" : {
+      "comment" : "Self-harm help card.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "If you or someone you know is thinking about self-harm, please talk to someone now."
+          }
+        }
+      }
+    },
+    "moderation.report.help.emergency" : {
+      "comment" : "Name of the 112 number.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Emergency services"
+          }
+        }
+      }
+    },
+    "moderation.report.help.telemanas" : {
+      "comment" : "Name of the helpline.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tele-MANAS"
+          }
+        }
+      }
+    },
+    "moderation.report.help.title" : {
+      "comment" : "Heading of the self-harm help card.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You're not alone"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.copyright" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.harassment" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Harassment or bullying"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.hate" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hate"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.illegalGoods" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drugs or illegal goods"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.impersonation" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impersonation"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.nudity" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nudity or sexual content"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.other" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something else"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.photoWithoutConsent" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo of me without consent"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.possiblyUnderage" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Possibly under 18"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.privateAddress" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Private address"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.scam" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scam or fraud"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.selfHarm" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Self-harm"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.spam" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spam"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.unsafePlace" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fake or unsafe Spot"
+          }
+        }
+      }
+    },
+    "moderation.report.reason.violence" : {
+      "comment" : "Report reason.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Violence or threats"
+          }
+        }
+      }
+    },
+    "moderation.report.send" : {
+      "comment" : "Main button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Send report"
+          }
+        }
+      }
+    },
+    "moderation.report.sent.body" : {
+      "comment" : "Text after the report is sent.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your report is anonymous. They won't be told it was you."
+          }
+        }
+      }
+    },
+    "moderation.report.sent.hidden" : {
+      "comment" : "Shown after nudity, self-harm or threat reports.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We've hidden this for you straight away."
+          }
+        }
+      }
+    },
+    "moderation.report.sent.title" : {
+      "comment" : "Headline after the report is sent.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Thanks. We'll look at it."
+          }
+        }
+      }
+    },
+    "moderation.report.subtitle" : {
+      "comment" : "Line under the headline.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pick the closest reason. Your report is anonymous. They won't be told it was you."
+          }
+        }
+      }
+    },
+    "moderation.report.title" : {
+      "comment" : "Title of the Report screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }
