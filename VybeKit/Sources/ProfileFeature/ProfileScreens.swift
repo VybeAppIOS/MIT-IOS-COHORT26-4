@@ -7,7 +7,9 @@ import SwiftUI
 public enum ProfileScreens {
     @ViewBuilder
     public static func root(_ deps: AppDependencies) -> some View {
-        ScreenPlaceholder(id: "PR1", name: "My profile")
+        ProfileView(viewModel: ProfileViewModel(
+            profiles: deps.profiles, feed: deps.feed, photos: deps.photos, session: deps.session,
+            libraryStore: deps.libraryStore, router: deps.router))
     }
 
     @ViewBuilder

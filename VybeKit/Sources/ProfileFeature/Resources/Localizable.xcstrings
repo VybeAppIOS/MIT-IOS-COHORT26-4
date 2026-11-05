@@ -485,6 +485,83 @@
         }
       }
     },
+    "profile.profile.drafts" : {
+      "comment" : "Row: my Drafts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Drafts"
+          }
+        }
+      }
+    },
+    "profile.profile.posts" : {
+      "comment" : "Header above my posted Hangouts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "My Hangouts"
+          }
+        }
+      }
+    },
+    "profile.profile.posts.empty" : {
+      "comment" : "When I have not posted yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your first Hangout will show up here."
+          }
+        }
+      }
+    },
+    "profile.profile.ready" : {
+      "comment" : "Row: finished Hangouts not posted yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ready to post"
+          }
+        }
+      }
+    },
+    "profile.profile.saved" : {
+      "comment" : "Row: saved Hangouts.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved"
+          }
+        }
+      }
+    },
+    "profile.profile.settings" : {
+      "comment" : "Label of the gear button.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Settings"
+          }
+        }
+      }
+    },
+    "profile.profile.title" : {
+      "comment" : "Title of My profile.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profile"
+          }
+        }
+      }
+    },
     "profile.settings.reset" : {
       "comment" : "Destructive row: go back to the Welcome screen.",
       "localizations" : {
