@@ -11,8 +11,9 @@ struct SeeAllContent: Equatable {
     var hasMore: Bool
 }
 
-/// See all (SC-S2): the whole list for one group. The route carries only the group, not what was typed, so this
-/// lists everything in the group; it is paged 20 at a time as the last row comes into view.
+/// See all (SC-S2): the list for one group, paged 20 at a time as the last row comes into view. The route carries
+/// only the group, so the words typed in Search come from `SessionStore.lastSearchQuery`: with words, this lists the
+/// matches in the group; with none (for example a restored route), it lists the whole group.
 @MainActor @Observable
 final class SeeAllViewModel {
     static let pageSize = 20
@@ -25,6 +26,7 @@ final class SeeAllViewModel {
     private let hangouts: any HangoutRepository
     private let places: any PlaceRepository
     private let friends: any FriendsRepository
+    private let search: any SearchRepository
     private let session: SessionStore
     private let router: Router
     private var all: [SearchRowData] = []
@@ -34,12 +36,13 @@ final class SeeAllViewModel {
     /// Cheap: no loading here (ADR 005). Takes only what the screen needs, never `AppDependencies`.
     init(
         kind: SearchKind, hangouts: any HangoutRepository, places: any PlaceRepository,
-        friends: any FriendsRepository, session: SessionStore, router: Router
+        friends: any FriendsRepository, search: any SearchRepository, session: SessionStore, router: Router
     ) {
         self.kind = kind
         self.hangouts = hangouts
         self.places = places
         self.friends = friends
+        self.search = search
         self.session = session
         self.router = router
     }
@@ -83,23 +86,46 @@ final class SeeAllViewModel {
     }
 
     private func loadAll() async throws -> [SearchRowData] {
+        let words = session.lastSearchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+        if !words.isEmpty { return try await matches(for: words) }
         switch kind {
         case .hangouts:
-            return try await hangouts.hangouts(near: nil, filters: HangoutFilters()).map {
-                let card = HangoutCardData($0, coverURL: nil, isSaved: false)
-                return SearchRowData(id: $0.id.rawValue, title: $0.title, subtitle: card.factsText)
-            }
+            return try await hangouts.hangouts(near: nil, filters: HangoutFilters()).map(row(for:))
         case .places:
-            return try await places.places(in: Self.area).map {
-                SearchRowData(
-                    id: $0.id.rawValue, title: $0.name,
-                    subtitle: [ComponentStrings.categoryName($0.category), $0.area].joined(separator: " · "))
-            }
+            return try await places.places(in: Self.area).map(row(for:))
         case .people:
-            return try await friends.friends().filter { !session.isBlocked($0.id) }
+            return try await friends.friends().filter(isShownPerson)
                 .sorted { $0.displayName.localizedCaseInsensitiveCompare($1.displayName) == .orderedAscending }
-                .map { SearchRowData(id: $0.id.rawValue, title: $0.displayName, subtitle: "@\($0.username)") }
+                .map(row(for:))
         }
+    }
+
+    /// The matches for what was typed, in this group only.
+    private func matches(for words: String) async throws -> [SearchRowData] {
+        let found = try await search.search(text: words, scope: [kind])
+        switch kind {
+        case .hangouts: return found.hangouts.map(row(for:))
+        case .places: return found.places.map(row(for:))
+        case .people: return found.people.filter(isShownPerson).map(row(for:))
+        }
+    }
+
+    /// Blocked people never appear.
+    private func isShownPerson(_ person: UserProfile) -> Bool { !session.isBlocked(person.id) }
+
+    private func row(for hangout: Hangout) -> SearchRowData {
+        let card = HangoutCardData(hangout, coverURL: nil, isSaved: false)
+        return SearchRowData(id: hangout.id.rawValue, title: hangout.title, subtitle: card.factsText)
+    }
+
+    private func row(for place: Place) -> SearchRowData {
+        SearchRowData(
+            id: place.id.rawValue, title: place.name,
+            subtitle: [ComponentStrings.categoryName(place.category), place.area].joined(separator: " · "))
+    }
+
+    private func row(for person: UserProfile) -> SearchRowData {
+        SearchRowData(id: person.id.rawValue, title: person.displayName, subtitle: "@\(person.username)")
     }
 
     private func publish() {

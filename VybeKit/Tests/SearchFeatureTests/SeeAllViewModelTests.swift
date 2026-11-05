@@ -1,6 +1,7 @@
 import Core
 import Foundation
 import Models
+import Synchronization
 import Testing
 @testable import SearchFeature
 
@@ -22,14 +23,28 @@ private struct ManyFriends: FriendsRepository {
     func removeFriend(_ user: UserID) async throws {}
 }
 
+/// A search repository with fixed results that remembers what it was asked.
+private final class RecordingSearch: SearchRepository {
+    let results: SearchResults
+    let asked = Mutex<[(text: String, scope: Set<SearchKind>)]>([])
+
+    init(_ results: SearchResults) { self.results = results }
+
+    func search(text: String, scope: Set<SearchKind>) async throws -> SearchResults {
+        asked.withLock { $0.append((text, scope)) }
+        return results
+    }
+}
+
 @MainActor
 struct SeeAllViewModelTests {
     private func makeViewModel(
-        _ kind: SearchKind, friends: (any FriendsRepository)? = nil, deps: AppDependencies = .preview(.loaded)
+        _ kind: SearchKind, friends: (any FriendsRepository)? = nil, search: (any SearchRepository)? = nil,
+        deps: AppDependencies = .preview(.loaded)
     ) -> SeeAllViewModel {
         SeeAllViewModel(
             kind: kind, hangouts: deps.hangouts, places: deps.places, friends: friends ?? deps.friends,
-            session: deps.session, router: deps.router)
+            search: search ?? deps.search, session: deps.session, router: deps.router)
     }
 
     private func content(_ viewModel: SeeAllViewModel) -> SeeAllContent? {
@@ -64,9 +79,71 @@ struct SeeAllViewModelTests {
             blockedIDs: ["user-many-0"])
         let viewModel = SeeAllViewModel(
             kind: .people, hangouts: deps.hangouts, places: deps.places, friends: ManyFriends(count: 3),
-            session: blocking, router: deps.router)
+            search: deps.search, session: blocking, router: deps.router)
         await viewModel.load()
         #expect(content(viewModel)?.rows.map(\.id) == ["user-many-1", "user-many-2"])
+    }
+
+    @Test func withTypedWordsItShowsOnlyTheMatchesInThatGroup() async {
+        let deps = AppDependencies.preview(.loaded)
+        let search = RecordingSearch(SearchResults(
+            hangouts: Array(SampleData.hangouts.prefix(1)), places: Array(SampleData.places.prefix(1)),
+            people: [SampleSocialData.aarav]))
+        deps.session.lastSearchQuery = "  ca  "
+        let viewModel = makeViewModel(.places, search: search, deps: deps)
+        await viewModel.load()
+        #expect(content(viewModel)?.rows.map(\.id) == SampleData.places.prefix(1).map(\.id.rawValue))
+        #expect(search.asked.withLock { $0.map(\.text) } == ["ca"])
+        #expect(search.asked.withLock { $0.map(\.scope) } == [[.places]])
+        // The whole group has more places than the matches.
+        let everything = makeViewModel(.places, deps: .preview(.loaded))
+        await everything.load()
+        #expect((content(everything)?.rows.count ?? 0) > 1)
+    }
+
+    @Test func withoutTypedWordsItShowsTheWholeGroupAndNeverSearches() async {
+        let deps = AppDependencies.preview(.loaded)
+        let search = RecordingSearch(SearchResults())
+        deps.session.lastSearchQuery = "   "
+        let viewModel = makeViewModel(.hangouts, search: search, deps: deps)
+        await viewModel.load()
+        #expect(search.asked.withLock { $0.isEmpty })
+        #expect(content(viewModel)?.rows.isEmpty == false)
+    }
+
+    @Test func matchesStillKeepBlockedPeopleOut() async {
+        let deps = AppDependencies.preview(.loaded)
+        let blocking = SessionStore(
+            settings: AppSettings(suiteName: "test.\(UUID().uuidString)"), currentUser: SampleData.signedInUser,
+            blockedIDs: [SampleSocialData.aarav.id])
+        blocking.lastSearchQuery = "a"
+        let search = RecordingSearch(SearchResults(people: [SampleSocialData.aarav, SampleSocialData.currentUser]))
+        let viewModel = SeeAllViewModel(
+            kind: .people, hangouts: deps.hangouts, places: deps.places, friends: deps.friends, search: search,
+            session: blocking, router: deps.router)
+        await viewModel.load()
+        #expect(content(viewModel)?.rows.map(\.id) == [SampleSocialData.currentUser.id.rawValue])
+    }
+
+    @Test func matchesArePagedToo() async {
+        let deps = AppDependencies.preview(.loaded)
+        let many = (0..<45).map { UserProfile(
+            id: UserID("user-many-\($0)"), username: "many.\($0)", displayName: "Person \($0)",
+            createdAt: SampleData.day) }
+        deps.session.lastSearchQuery = "person"
+        let viewModel = makeViewModel(.people, search: RecordingSearch(SearchResults(people: many)), deps: deps)
+        await viewModel.load()
+        #expect(content(viewModel)?.rows.count == SeeAllViewModel.pageSize && content(viewModel)?.hasMore == true)
+        viewModel.loadMoreIfNeeded(after: content(viewModel)!.rows.last!)
+        #expect(content(viewModel)?.rows.count == SeeAllViewModel.pageSize * 2)
+    }
+
+    @Test func noMatchesIsTheEmptyState() async {
+        let deps = AppDependencies.preview(.loaded)
+        deps.session.lastSearchQuery = "zzzz"
+        let viewModel = makeViewModel(.places, search: RecordingSearch(SearchResults()), deps: deps)
+        await viewModel.load()
+        #expect(viewModel.state == .empty)
     }
 
     @Test func tappingARowGoesThroughTheRouter() async {

@@ -205,7 +205,9 @@ final class SearchViewModel {
         showIdle()
     }
 
+    /// Hands the typed words to See all (the route carries only the group), then opens it.
     func seeAllTapped(_ kind: SearchGroup.Kind) {
+        session.lastSearchQuery = query.trimmingCharacters(in: .whitespacesAndNewlines)
         switch kind {
         case .hangouts, .saved: router.open(.searchSeeAll(.hangouts))
         case .places: router.open(.searchSeeAll(.places))

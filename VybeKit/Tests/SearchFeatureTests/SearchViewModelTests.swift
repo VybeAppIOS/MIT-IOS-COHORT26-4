@@ -190,8 +190,10 @@ struct SearchViewModelTests {
         #expect(deps.router.sheet == .spot("p1"))
         viewModel.rowTapped(SearchRowData(id: "u1", title: "", subtitle: ""), in: .people)
         #expect(deps.router.path(for: deps.router.currentStack).last == .profile("u1"))
+        viewModel.query = "  sam "
         viewModel.seeAllTapped(.people)
         #expect(deps.router.path(for: deps.router.currentStack).last == .searchSeeAll(.people))
+        #expect(deps.session.lastSearchQuery == "sam")   // See all shows the matches for these words
     }
 
     @Test func aFailedFirstLoadShowsTheError() async {
