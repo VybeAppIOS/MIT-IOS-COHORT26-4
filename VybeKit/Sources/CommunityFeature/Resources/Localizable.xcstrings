@@ -1,5 +1,171 @@
 {
   "sourceLanguage" : "en",
-  "strings" : {},
+  "strings" : {
+    "community.postDetail.empty" : {
+      "comment" : "Shown when a post was removed or its author is blocked.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This post is unavailable"
+          }
+        }
+      }
+    },
+    "community.postDetail.title" : {
+      "comment" : "Title of the Post detail screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hangout"
+          }
+        }
+      }
+    },
+    "community.postDetail.spots" : {
+      "comment" : "Header of the list of visited Spots.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spots visited"
+          }
+        }
+      }
+    },
+    "community.postDetail.comments" : {
+      "comment" : "Header of the comments preview.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comments"
+          }
+        }
+      }
+    },
+    "community.postDetail.viewAll" : {
+      "comment" : "Button that opens all comments.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "View all comments"
+          }
+        }
+      }
+    },
+    "community.postDetail.noComments" : {
+      "comment" : "Shown when a post has no comments yet.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Be the first to comment."
+          }
+        }
+      }
+    },
+    "community.postDetail.friendsOnly" : {
+      "comment" : "Note on a post only friends can see.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends only"
+          }
+        }
+      }
+    },
+    "community.postDetail.edit" : {
+      "comment" : "Menu item on your own post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Edit post"
+          }
+        }
+      }
+    },
+    "community.postDetail.report" : {
+      "comment" : "Menu item on someone else's post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report"
+          }
+        }
+      }
+    },
+    "community.postDetail.more" : {
+      "comment" : "VoiceOver label of the ••• menu.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "More"
+          }
+        }
+      }
+    },
+    "community.postDetail.ok" : {
+      "comment" : "Button that closes a short message.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "community.postDetail.likeFailed" : {
+      "comment" : "Shown when a like could not be saved and was undone.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couldn't save your like. Try again."
+          }
+        }
+      }
+    },
+    "community.postDetail.pickStats %lld %lld" : {
+      "comment" : "Line on a Pick: how many times it was done and remixed.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Done %1$lld× · Remixed %2$lld×"
+          }
+        }
+      }
+    },
+    "community.postDetail.save" : {
+      "comment" : "VoiceOver label of the bookmark on a post that is not saved.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save Hangout"
+          }
+        }
+      }
+    },
+    "community.postDetail.unsave" : {
+      "comment" : "VoiceOver label of the bookmark on a saved post.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Remove from saved"
+          }
+        }
+      }
+    }
+  },
   "version" : "1.0"
 }

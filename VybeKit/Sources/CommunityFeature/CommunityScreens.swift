@@ -14,7 +14,11 @@ public enum CommunityScreens {
     @ViewBuilder
     public static func view(for route: CommunityRoute, _ deps: AppDependencies) -> some View {
         switch route {
-        case .post: ScreenPlaceholder(id: "CM2", name: "Post detail")
+        case .post(let id):
+            PostDetailView(viewModel: PostDetailViewModel(
+                runID: id, feed: deps.feed, hangouts: deps.hangouts, places: deps.places, profiles: deps.profiles,
+                friends: deps.friends, photos: deps.photos, libraryStore: deps.libraryStore, session: deps.session,
+                router: deps.router, now: deps.now))
         case .trending: ScreenPlaceholder(id: "CM4", name: "Trending")
         case .activity: ScreenPlaceholder(id: "CM5", name: "Activity")
         }
