@@ -84,6 +84,21 @@ struct CommunityModelsTests {
         #expect(try roundTrip(admin) == admin)
     }
 
+    @Test func membershipKeepsMutedAndWhoAddedThemAndOldJSONStillDecodes() throws {
+        let muted = Membership(conversationID: "c1", userID: "u2", joinedAt: day, mutedAt: day, addedByID: "u1")
+        #expect(try roundTrip(muted) == muted)
+        #expect(muted.mutedAt == day && muted.addedByID == "u1")
+        let plain = Membership(conversationID: "c1", userID: "u2", joinedAt: day)
+        #expect(plain.mutedAt == nil && plain.addedByID == nil)
+        // Saved before these two fields existed: no "mutedAt" and no "addedByID" in the JSON.
+        var object = try #require(
+            JSONSerialization.jsonObject(with: JSONCoding.encoder.encode(plain)) as? [String: Any])
+        object["mutedAt"] = nil
+        object["addedByID"] = nil
+        let old = try JSONSerialization.data(withJSONObject: object)
+        #expect(try JSONCoding.decoder.decode(Membership.self, from: old) == plain)
+    }
+
     private static let payloads: [MessagePayload] = [
         .text("EXAMPLE hello"),
         .photos([Photo(id: "ph1", path: "a.jpg", width: 10, height: 10),
@@ -187,6 +202,14 @@ struct CommunityModelsTests {
                                     createdAt: day, readAt: day)
             #expect(try roundTrip(activity) == activity)
         }
+        let withPost = Activity(id: "a2", recipientID: "u1", kind: .comment, actorID: "u2", target: .comment("c1"),
+                                createdAt: day, runID: "r1")
+        #expect(try roundTrip(withPost) == withPost && withPost.runID == "r1")
+        let oldJSON = try JSONCoding.encoder.encode(withPost)
+        var object = try #require(try JSONSerialization.jsonObject(with: oldJSON) as? [String: Any])
+        object["runID"] = nil   // a row written before the field existed
+        let decoded = try JSONCoding.decoder.decode(Activity.self, from: JSONSerialization.data(withJSONObject: object))
+        #expect(decoded.runID == nil && decoded.target == .comment("c1"))
         #expect(try JSONCoding.decoder.decode(ActivityKind.self, from: Data("\"poke\"".utf8)) == .unknown)
         #expect(ActivityKind.friendRequest.rawValue == "friend-request")
     }

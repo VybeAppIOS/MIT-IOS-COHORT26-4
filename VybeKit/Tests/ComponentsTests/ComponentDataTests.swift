@@ -8,6 +8,13 @@ import Testing
 /// The display values the components build (CP-1, CP-2, CP-4, CP-6, CP-8, CP-11): what people and VoiceOver read.
 @MainActor
 struct ComponentDataTests {
+    @Test func aCommentCanBeReportedUnlessTheFlagSaysItIsYours() {
+        let theirs = CommentRowData(id: "c1", authorName: "A", username: "@a", text: "t", relativeTimeText: "1 h")
+        let mine = CommentRowData(id: "c2", authorName: "B", username: "@b", text: "t", relativeTimeText: "1 h",
+                                  canReport: false)
+        #expect(theirs.canReport && !mine.canReport)
+    }
+
     // MARK: CP-1 HangoutCard
 
     @Test func aHangoutCardIsBuiltFromTheHangoutWithTheSharedFormatting() {

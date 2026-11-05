@@ -28,9 +28,11 @@ struct AppShellTests {
         (.remixTree("h1"), "view:RemixTreeView"), (.liveSummary("r1"), "view:SummaryView"),
         (.composePost("r1"), "view:ComposerView"), (.searchSeeAll(.places), "view:SeeAllView"),
         (.saved, "view:SavedView"), (.settingsPage(.privacy), "view:PrivacyView"),
-        (.settingsPage(.notifications), "view:NotificationsView"), (.post("r1"), "CM2"), (.friendsHub, "FR1"),
-        (.profile("u1"), "PR3"),
-        (.conversation("c1"), "CH2"), (.report(.user("u1")), "view:ReportView"),
+        (.settingsPage(.notifications), "view:NotificationsView"), (.post("r1"), "view:PostDetailView"),
+        (.trending, "view:TrendingView"), (.activity, "view:ActivityView"), (.friendsHub, "view:HubView"),
+        (.profile("u1"), "view:OtherProfileView"), (.mutualFriends("u1"), "view:MutualFriendsView"),
+        (.conversation("c1"), "view:ConversationView"), (.groupInfo("c1"), "view:GroupInfoView"),
+        (.chatList, "view:ListView"), (.report(.user("u1")), "view:ReportView"),
         (.admin(.users), "view:AdminUsersView"),
         (.suggestPlace, "view:SuggestPlaceView"), (.settings, "view:SettingsView"),
         (.settingsPage(.account), "view:AccountSettingsView"), (.deleteAccount, "view:DeleteAccountView"),
@@ -46,9 +48,9 @@ struct AppShellTests {
 
     @Test(arguments: [
         (Sheet.spot("p1"), "view:SpotSheetView"), (.report(.place("p1")), "view:ReportView"),
-        (.blockConfirm("u1"), "view:BlockConfirmView"), (.share(.post("r1")), "CH5"),
+        (.blockConfirm("u1"), "view:BlockConfirmView"), (.share(.post("r1")), "view:ShareSheetView"),
         (.suggestPlace, "view:SuggestPlaceView"), (.editPost("r1"), "view:EditPostView"),
-        (.groupInvitation("c1"), "CH7")
+        (.groupInvitation("c1"), "view:InvitationView")
     ])
     func sheetsReachTheirScreen(sheet: Sheet, screenID: String) {
         #expect(reaches(factory.sheet(for: sheet), screenID))

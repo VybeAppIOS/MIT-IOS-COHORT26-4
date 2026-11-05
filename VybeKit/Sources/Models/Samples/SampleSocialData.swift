@@ -115,7 +115,18 @@ public enum SampleSocialData {
     public static let crew = Conversation(
         id: "conversation-sample-crew", kind: .group, name: "EXAMPLE Kothrud Crew", adminID: currentUser.id,
         memberIDs: [currentUser.id, friend.id, aarav.id, isha.id], createdAt: hours(-24))
-    public static let conversations = [friendChat, aaravChat, crew]
+    /// A group I was added to by someone who is not my friend. It waits for Join or Leave and block.
+    public static let invitation = Conversation(
+        id: "conversation-sample-invitation", kind: .group, name: "EXAMPLE Sunday Walkers", adminID: vihaan.id,
+        memberIDs: [vihaan.id, tara.id, currentUser.id], createdAt: hours(-5))
+    public static let conversations = [friendChat, aaravChat, crew, invitation]
+    /// Groups I have been invited to but not joined yet.
+    public static let pendingInvitationIDs: Set<ConversationID> = [invitation.id]
+    /// Who added whom: group, then member, then the person who added them.
+    public static let addedBy: [ConversationID: [UserID: UserID]] = [
+        crew.id: [friend.id: currentUser.id, aarav.id: currentUser.id, isha.id: currentUser.id],
+        invitation.id: [tara.id: vihaan.id, currentUser.id: vihaan.id]
+    ]
 
     private static func message(
         _ number: Int, in chat: Conversation, by sender: UserProfile, hoursAgo: Double, _ payload: MessagePayload
@@ -174,12 +185,14 @@ public enum SampleSocialData {
                  target: .user(sanya.id), createdAt: hours(-3)),
         Activity(id: "activity-sample-2", recipientID: currentUser.id, kind: .like, actorID: friend.id,
                  target: .run("run-sample-3"), createdAt: hours(-2)),
-        Activity(id: "activity-sample-3", recipientID: currentUser.id, kind: .comment, actorID: rohan.id,
-                 target: .comment("comment-sample-5"), createdAt: hours(-3.5)),
+        Activity(id: "activity-sample-3", recipientID: currentUser.id, kind: .reply, actorID: rohan.id,
+                 target: .comment("comment-sample-5"), createdAt: hours(-3.5), runID: "run-sample-3"),
         Activity(id: "activity-sample-4", recipientID: currentUser.id, kind: .friendAccepted, actorID: meera.id,
                  target: .user(meera.id), createdAt: hours(-26), readAt: hours(-25)),
         Activity(id: "activity-sample-5", recipientID: currentUser.id, kind: .remixCredit, actorID: isha.id,
-                 target: .hangout(SampleData.morning.id), createdAt: hours(-50), readAt: hours(-49))
+                 target: .hangout(SampleData.morning.id), createdAt: hours(-50), readAt: hours(-49)),
+        Activity(id: "activity-sample-6", recipientID: currentUser.id, kind: .comment, actorID: meera.id,
+                 target: .comment("comment-sample-6"), createdAt: hours(-28), readAt: hours(-27), runID: "run-sample-5")
     ]
 }
 #endif

@@ -70,10 +70,13 @@ public struct Activity: Codable, Hashable, Sendable, Identifiable {
     public var target: ActivityTarget
     public var createdAt: Date
     public var readAt: Date?
+    /// The post a comment or reply row is about, so tapping the row can open that post. Optional so older JSON still
+    /// decodes (ADR 004); when it is nil a comment row falls back to the commenter's profile.
+    public var runID: RunID?
 
     public init(
         id: ActivityID, recipientID: UserID, kind: ActivityKind, actorID: UserID, target: ActivityTarget,
-        createdAt: Date, readAt: Date? = nil
+        createdAt: Date, readAt: Date? = nil, runID: RunID? = nil
     ) {
         self.id = id
         self.recipientID = recipientID
@@ -82,5 +85,6 @@ public struct Activity: Codable, Hashable, Sendable, Identifiable {
         self.target = target
         self.createdAt = createdAt
         self.readAt = readAt
+        self.runID = runID
     }
 }

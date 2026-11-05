@@ -86,7 +86,7 @@ Vocabulary: Hangout, Spot, Remix, Picks, "Start Hangout". Never Plan, Trace, out
 ## 5. Button and tap-target protocol (do this for every screen, the lead has been burned by bad button sizes)
 **Rules**
 - Full-width actions use the shared `PrimaryButton` or `SecondaryButton`. They render the standard large size, about
-  **51 pt** tall with a **44 pt** floor. Do not wrap them in frames, add vertical padding to make them bigger, or re-style them.
+  **48 pt** tall with a **44 pt** floor. Do not wrap them in frames, add vertical padding to make them bigger, or re-style them.
 - Any custom button uses a system style with `.controlSize(.large)` plus `.frame(minHeight: Theme.Size.minTapTarget)`
   on the **button**, never inside its label. A fixed `.frame(height:)` or `.frame(width:)` on anything tappable is a bug,
   unless the value is a `@ScaledMetric`.
