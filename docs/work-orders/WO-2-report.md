@@ -326,3 +326,5 @@ Tests: `GroupPhotosViewModelTests` (newest first with ids, deleted left out, blo
 Looked at (screenshots opened): the grid (two sample photos as placeholder tiles, since the sample photos have no image files), the empty state, and Group info with the new Photos row. Not driven by hand: tapping the Photos row or a tile (covered by ViewModel tests; the route is covered by AppShell and launch tests), swiping in the viewer, the failed and loading states and the largest text size on the device (previews exist), VoiceOver, a grid with many real pictures.
 Needs from Lohitaksh: none. The backend list of group photos can reuse the messages endpoint (this screen filters on the phone).
 
+
+Group 6a full check: one `./scripts/check.sh` run after items 11 and 12 ended with `==> All checks passed` (exit 0).
