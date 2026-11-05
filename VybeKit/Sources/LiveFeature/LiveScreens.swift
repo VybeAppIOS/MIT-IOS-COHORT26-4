@@ -8,7 +8,9 @@ import SwiftUI
 public enum LiveScreens {
     @ViewBuilder
     public static func liveCover(_ id: HangoutID, _ deps: AppDependencies) -> some View {
-        ScreenPlaceholder(id: "H1", name: "Hangout live")
+        LiveView(viewModel: LiveViewModel(
+            id: id, hangouts: deps.hangouts, places: deps.places, photos: deps.photos, liveStore: deps.liveStore,
+            location: deps.location, router: deps.router))
     }
 
     @ViewBuilder
