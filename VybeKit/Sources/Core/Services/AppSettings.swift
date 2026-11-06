@@ -1,5 +1,12 @@
 import Foundation
 
+/// Light, dark, or follow the phone (Settings > Appearance). Stored as its raw value.
+public enum AppearanceChoice: String, CaseIterable, Sendable {
+    case system
+    case light
+    case dark
+}
+
 /// Small settings in `UserDefaults` (Foundation only; `@AppStorage` is SwiftUI and not allowed in Core).
 /// Never personal data or tokens.
 public struct AppSettings: Sendable {
@@ -13,6 +20,10 @@ public struct AppSettings: Sendable {
     /// Nil means the app's standard settings. Only the name is stored: `UserDefaults` itself is not `Sendable`,
     /// and every `UserDefaults` object for the same suite shares the same storage.
     private let suiteName: String?
+
+    /// The `UserDefaults` key of the appearance choice. The App reads it with `@AppStorage` (SwiftUI) so a change
+    /// applies at once; everything else goes through `appearance` below.
+    public static let appearanceKey = "appearance"
 
     public init(suiteName: String? = nil) {
         self.suiteName = suiteName
@@ -46,6 +57,11 @@ public struct AppSettings: Sendable {
 
     public func setNotification(_ name: String, on enabled: Bool) {
         defaults.set(enabled, forKey: Key.notificationPrefix + name)
+    }
+
+    public var appearance: AppearanceChoice {
+        get { defaults.string(forKey: Self.appearanceKey).flatMap(AppearanceChoice.init(rawValue:)) ?? .system }
+        nonmutating set { defaults.set(newValue.rawValue, forKey: Self.appearanceKey) }
     }
 
     /// Forget everything (sign out, delete account, reset onboarding).

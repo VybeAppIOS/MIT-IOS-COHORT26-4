@@ -23,6 +23,10 @@ struct SettingsSection: Identifiable, Equatable {
 final class SettingsViewModel {
     /// The "Reset onboarding" confirmation is up.
     var isConfirmingReset = false
+    /// The Appearance choice. Changing it saves at once; the app switches without a restart.
+    var appearance: AppearanceChoice {
+        didSet { session.appearance = appearance }
+    }
 
     private let session: SessionStore
     private let router: Router
@@ -31,6 +35,7 @@ final class SettingsViewModel {
     init(session: SessionStore, router: Router) {
         self.session = session
         self.router = router
+        appearance = session.appearance
     }
 
     var title: String { String(localized: "profile.settings.title", bundle: #bundle) }
@@ -39,6 +44,16 @@ final class SettingsViewModel {
     var resetConfirmTitle: String { String(localized: "profile.settings.reset.confirm.title", bundle: #bundle) }
     var resetConfirmMessage: String { String(localized: "profile.settings.reset.confirm.message", bundle: #bundle) }
     var resetConfirmButton: String { String(localized: "profile.settings.reset.confirm.button", bundle: #bundle) }
+    var appearanceTitle: String { String(localized: "profile.settings.section.appearance", bundle: #bundle) }
+
+    func appearanceName(_ choice: AppearanceChoice) -> String {
+        switch choice {
+        case .system: String(localized: "profile.settings.appearance.system", bundle: #bundle)
+        case .light: String(localized: "profile.settings.appearance.light", bundle: #bundle)
+        case .dark: String(localized: "profile.settings.appearance.dark", bundle: #bundle)
+        }
+    }
+
     var startAgainTitle: String { String(localized: "profile.settings.section.startAgain", bundle: #bundle) }
 
     let sections: [SettingsSection] = [

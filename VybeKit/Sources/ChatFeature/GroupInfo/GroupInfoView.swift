@@ -82,6 +82,7 @@ struct GroupInfoView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
     }
 
     private func memberRow(_ member: MemberRowData) -> some View {
@@ -166,6 +167,7 @@ struct GroupInfoView: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .vybeListBackground()
             .navigationTitle(Text(verbatim: viewModel.addTitle))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

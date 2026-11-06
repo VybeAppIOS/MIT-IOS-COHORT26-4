@@ -235,6 +235,7 @@ struct ConversationView: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .vybeListBackground()
             .navigationTitle(Text(verbatim: viewModel.savedTitle))
             .navigationBarTitleDisplayMode(.inline)
         }

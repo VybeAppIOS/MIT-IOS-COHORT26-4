@@ -69,6 +69,7 @@ struct ListView: View {
             }
         }
         .listStyle(.plain)
+        .vybeListBackground()
     }
 
     private var rowInsets: EdgeInsets {

@@ -31,6 +31,7 @@ struct AboutView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .navigationTitle(Text(verbatim: viewModel.title))
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }

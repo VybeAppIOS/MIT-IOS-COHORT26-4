@@ -31,6 +31,7 @@ struct AddSpotView: View {
                     }
                 }
                 .listStyle(.insetGrouped)
+                .vybeListBackground()
             } placeholder: {
                 List(0..<4, id: \.self) { _ in Text(verbatim: viewModel.title).frame(minHeight: thumbnailSize) }
             } empty: {

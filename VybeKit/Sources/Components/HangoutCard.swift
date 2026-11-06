@@ -113,8 +113,8 @@ private struct FeaturedCard: View {
 }
 
 /// The card's picture: the photo, or (when there is none) a warm tinted gradient with a big map symbol, never a grey
-/// box. Decorative: the card's own VoiceOver text says everything.
-private struct CardPicture: View {
+/// box. Decorative: the card's own VoiceOver text says everything. Shared with `PostCard`.
+struct CardPicture: View {
     let url: URL?
     let aspectRatio: CGFloat
 

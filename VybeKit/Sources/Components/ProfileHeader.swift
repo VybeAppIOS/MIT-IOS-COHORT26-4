@@ -55,6 +55,8 @@ public enum ProfileRelationship: Hashable, Sendable, CaseIterable {
 /// relationship button. The button's look always matches its words, so state is never colour alone.
 public struct ProfileHeader: View {
     private let data: ProfileHeaderData
+    /// Half the 96 pt photo plus a little air; scales with Dynamic Type like the photo itself.
+    @ScaledMetric(relativeTo: .body) private var avatarRoom = Theme.Spacing.huge + Theme.Spacing.large
     private let relationship: ProfileRelationship
     private let action: () -> Void
 
@@ -83,16 +85,28 @@ public struct ProfileHeader: View {
         }
     }
 
+    @ViewBuilder private var bannerPicture: some View {
+        if data.bannerURL != nil {
+            PlaceImage(url: data.bannerURL, aspectRatio: 3)
+        } else {
+            // No banner yet: a soft brand gradient, never a broken-picture box.
+            LinearGradient(colors: [Theme.Color.accent, Theme.Color.mint], startPoint: .leading, endPoint: .trailing)
+                .aspectRatio(3, contentMode: .fit)
+                .accessibilityHidden(true)
+        }
+    }
+
     private var banner: some View {
-        PlaceImage(url: data.bannerURL, aspectRatio: 3)
+        bannerPicture
             .overlay(alignment: .bottomLeading) {
                 Avatar(url: data.avatarURL, name: data.name, size: .extraLarge, isVerifiedVybe: data.isVerifiedVybe)
                     .overlay(Circle().stroke(Theme.Color.surface, lineWidth: 3))
                     .padding(.leading, Theme.Spacing.large)
                     .alignmentGuide(.bottom) { $0[.bottom] - $0.height / 2 }
             }
-            // Room for the half of the photo that hangs below the banner (96 pt at the default text size).
-            .padding(.bottom, Theme.Spacing.huge + Theme.Spacing.large)
+            // Room for the half of the photo that hangs below the banner. It grows with the photo (which follows
+            // Dynamic Type), so the name never slides under the photo at large text sizes.
+            .padding(.bottom, avatarRoom)
     }
 
     private var names: some View {

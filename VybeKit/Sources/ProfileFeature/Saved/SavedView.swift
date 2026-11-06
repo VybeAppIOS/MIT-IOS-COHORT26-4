@@ -26,6 +26,7 @@ struct SavedView: View {
                     }
             }
             .listStyle(.plain)
+            .vybeListBackground()
         } placeholder: {
             List(0..<2, id: \.self) { _ in
                 HangoutCard(HangoutCardData(id: "placeholder", title: viewModel.title, spotCount: 3,
@@ -33,6 +34,7 @@ struct SavedView: View {
                     .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
+            .vybeListBackground()
         } empty: {
             EmptyStateView(systemImage: "bookmark", message: viewModel.emptyMessage)
         }

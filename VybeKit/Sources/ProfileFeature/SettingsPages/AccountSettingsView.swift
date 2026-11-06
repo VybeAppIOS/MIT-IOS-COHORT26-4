@@ -47,6 +47,7 @@ struct AccountSettingsView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .navigationTitle(Text(verbatim: viewModel.title))
         .navigationBarTitleDisplayMode(.inline)
         .confirmationDialog(viewModel.signOutConfirmTitle, isPresented: $viewModel.isConfirmingSignOut,

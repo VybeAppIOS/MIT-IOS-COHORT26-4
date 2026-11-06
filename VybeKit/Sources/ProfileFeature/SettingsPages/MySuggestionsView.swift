@@ -17,6 +17,7 @@ struct MySuggestionsView: View {
                 SuggestionRow(row: row)
             }
             .listStyle(.insetGrouped)
+            .vybeListBackground()
         } placeholder: {
             List(0..<3, id: \.self) { _ in
                 SuggestionRow(row: SuggestionRowData(id: "placeholder", name: "EXAMPLE Suggested Café",
@@ -24,6 +25,7 @@ struct MySuggestionsView: View {
                                                      status: .pending, note: nil))
             }
             .listStyle(.insetGrouped)
+            .vybeListBackground()
         } empty: {
             EmptyStateView(systemImage: "mappin.and.ellipse", message: viewModel.emptyMessage)
         }

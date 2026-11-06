@@ -55,6 +55,7 @@ struct ComposerView: View {
             ComposerChoicesSection(viewModel: viewModel)
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .scrollDismissesKeyboard(.interactively)
         .safeAreaInset(edge: .bottom) { postBar }
     }

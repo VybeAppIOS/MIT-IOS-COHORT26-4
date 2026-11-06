@@ -64,7 +64,7 @@ struct DiscoverMapViewModelTests {
             now: now ?? deps.now)
     }
 
-    /// The map opens on Picks; these tests are about every Hangout, so they switch to Public first.
+    /// The map opens on Picks; these tests are about every Hangout, so they turn Public on too (Picks + Public = all).
     private func loadPublic(_ viewModel: DiscoverMapViewModel) async {
         await viewModel.load()
         await viewModel.scopeTapped(.publicAll)
@@ -157,20 +157,33 @@ struct DiscoverMapViewModelTests {
     @Test func theMapOpensOnPicksAndPublicShowsEveryHangout() async {
         let viewModel = makeViewModel(hangouts: filtering())
         await viewModel.load()
-        #expect(viewModel.scope == .picks)
+        #expect(viewModel.scopes == [.picks])
         #expect(pinIDs(viewModel) == [SampleData.evening.id])           // only the team's Picks
-        await viewModel.scopeTapped(.publicAll)
-        #expect(viewModel.scope == .publicAll)
+        await viewModel.scopeTapped(.publicAll)                         // multi-select: Picks and Public
+        #expect(viewModel.scopes == [.picks, .publicAll])
         #expect(pinIDs(viewModel).contains(parkOnly.id))
-        #expect(pinIDs(viewModel).count > 1)
+        #expect(pinIDs(viewModel).contains(SampleData.evening.id))
     }
 
-    @Test func tappingTheScopeThatIsAlreadyOnDoesNotReload() async {
+    @Test func publicAloneLeavesOutThePicks() async {
+        let viewModel = makeViewModel(hangouts: filtering())
+        await viewModel.load()
+        await viewModel.scopeTapped(.picks)                             // Picks off
+        await viewModel.scopeTapped(.publicAll)                         // Public on
+        #expect(viewModel.scopes == [.publicAll])
+        #expect(!pinIDs(viewModel).contains(SampleData.evening.id))
+        #expect(pinIDs(viewModel).contains(parkOnly.id))
+    }
+
+    @Test func turningEveryScopeOffShowsEveryHangout() async {
         let hangouts = filtering()
         let viewModel = makeViewModel(hangouts: hangouts)
         await viewModel.load()
         await viewModel.scopeTapped(.picks)
-        #expect(await hangouts.loads == 1)
+        #expect(viewModel.scopes.isEmpty)
+        #expect(await hangouts.loads == 2)
+        #expect(pinIDs(viewModel).contains(parkOnly.id))
+        #expect(pinIDs(viewModel).contains(SampleData.evening.id))
     }
 
     @Test func friendsShowsOnlyHangoutsMadeByMyFriends() async throws {
@@ -179,6 +192,7 @@ struct DiscoverMapViewModelTests {
         let all = SampleData.hangouts + [parkOnly]
         let viewModel = makeViewModel(deps, hangouts: filtering())
         await viewModel.load()
+        await viewModel.scopeTapped(.picks)                             // Picks off, so only Friends is on
         await viewModel.scopeTapped(.friends)
         #expect(pinIDs(viewModel) == Set(all.filter { friendIDs.contains($0.authorID) }.map(\.id)))
         if pinIDs(viewModel).isEmpty {

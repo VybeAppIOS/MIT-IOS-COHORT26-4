@@ -84,6 +84,7 @@ struct NewChatView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .scrollDismissesKeyboard(.interactively)
         .searchable(
             text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always),

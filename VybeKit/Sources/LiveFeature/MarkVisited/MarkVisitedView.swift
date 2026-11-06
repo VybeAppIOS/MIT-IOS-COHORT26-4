@@ -43,7 +43,7 @@ struct MarkVisitedView: View {
         }
         .vybeAnimation(reduceMotion ? Theme.Motion.fade : Theme.Motion.playful, value: viewModel.isDone)
         .vybeHaptic(.success, trigger: viewModel.isDone)
-        .presentationDetents([.height(340), .medium])
+        .presentationDetents([.medium, .large])   // no fixed height: large text never gets cut off
         .presentationDragIndicator(.visible)
         .photosPicker(isPresented: $showsPicker, selection: $pickedItem, matching: .images, photoLibrary: .shared())
         .onChange(of: pickedItem) { _, item in

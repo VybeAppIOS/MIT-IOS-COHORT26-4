@@ -29,6 +29,7 @@ struct DraftsView: View {
                 }
             }
             .listStyle(.plain)
+            .vybeListBackground()
         } placeholder: {
             List(0..<2, id: \.self) { _ in
                 HangoutCard(HangoutCardData(id: "placeholder", title: viewModel.title, spotCount: 2,
@@ -36,6 +37,7 @@ struct DraftsView: View {
                     .listRowSeparator(.hidden)
             }
             .listStyle(.plain)
+            .vybeListBackground()
         } empty: {
             EmptyStateView(systemImage: "pencil", message: viewModel.emptyMessage, actionTitle: viewModel.newTitle) {
                 viewModel.newTapped()
