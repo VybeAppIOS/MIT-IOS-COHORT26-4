@@ -57,6 +57,7 @@ struct PrivacyView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
     }
 
     /// A switch that saves when flipped.

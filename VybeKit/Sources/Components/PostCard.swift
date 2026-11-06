@@ -137,18 +137,7 @@ public struct PostCard: View {
         } else if hasRoute {
             RouteMiniMap(points: data.routePoints).aspectRatio(4 / 3, contentMode: .fit)
         } else {
-            // No photo and no route: a warm tinted picture with a big symbol, never a grey box.
-            LinearGradient(colors: [Theme.Color.sunset, Theme.Color.sun], startPoint: .topLeading,
-                           endPoint: .bottomTrailing)
-                .aspectRatio(4 / 3, contentMode: .fit)
-                .overlay(alignment: .topTrailing) {
-                    Image(systemName: "map.fill")
-                        .font(Theme.Font.display)
-                        .imageScale(.large)
-                        .foregroundStyle(Theme.Color.ink.opacity(0.25))
-                        .padding(Theme.Spacing.large)
-                        .accessibilityHidden(true)
-                }
+            CardPicture(url: nil, aspectRatio: 4 / 3)   // no photo and no route: the warm tinted picture
         }
     }
 }

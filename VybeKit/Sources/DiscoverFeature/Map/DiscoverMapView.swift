@@ -100,7 +100,7 @@ struct DiscoverMapView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: Theme.Spacing.small) {
                         ForEach(DiscoverMapViewModel.Scope.allCases, id: \.self) { scope in
-                            FilterChip(verbatim: scope.title, isSelected: viewModel.scope == scope) {
+                            FilterChip(verbatim: scope.title, isSelected: viewModel.scopes.contains(scope)) {
                                 Task { await viewModel.scopeTapped(scope) }
                             }
                         }
@@ -109,7 +109,7 @@ struct DiscoverMapView: View {
                 filterButton
             }
             .padding(.horizontal, Theme.Spacing.large)
-            .vybeAnimation(Theme.Motion.quick, value: viewModel.scope)
+            .vybeAnimation(Theme.Motion.quick, value: viewModel.scopes)
             if viewModel.showsOfflineBanner {
                 OfflineBanner()
             }

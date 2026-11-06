@@ -1695,6 +1695,39 @@
         }
       }
     },
+    "profile.settings.appearance.dark" : {
+      "comment" : "Appearance choice: always dark.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dark"
+          }
+        }
+      }
+    },
+    "profile.settings.appearance.light" : {
+      "comment" : "Appearance choice: always light.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Light"
+          }
+        }
+      }
+    },
+    "profile.settings.appearance.system" : {
+      "comment" : "Appearance choice: follow the phone's setting.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Automatic"
+          }
+        }
+      }
+    },
     "profile.settings.reset" : {
       "comment" : "Destructive row: go back to the Welcome screen.",
       "localizations" : {
@@ -1845,6 +1878,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Help and info"
+          }
+        }
+      }
+    },
+    "profile.settings.section.appearance" : {
+      "comment" : "Settings section and picker: light, dark or follow the phone.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appearance"
           }
         }
       }

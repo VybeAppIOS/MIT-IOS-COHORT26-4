@@ -62,6 +62,7 @@ struct ShareSheetView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
     }
 
     private func row(_ target: ShareTarget) -> some View {

@@ -28,6 +28,7 @@ struct SeeAllView: View {
                 .onAppear { viewModel.loadMoreIfNeeded(after: row) }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
     }
 }
 

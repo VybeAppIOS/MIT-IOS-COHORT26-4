@@ -47,6 +47,7 @@ struct HelpView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .navigationTitle(Text(verbatim: viewModel.title))
         .navigationBarTitleDisplayMode(.inline)
         .hidesTabBar()

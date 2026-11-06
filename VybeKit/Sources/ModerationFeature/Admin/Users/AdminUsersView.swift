@@ -51,6 +51,7 @@ struct AdminUsersView: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .vybeListBackground()
         } placeholder: {
             List { Text(verbatim: viewModel.title) }.redacted(reason: .placeholder)
         } empty: {

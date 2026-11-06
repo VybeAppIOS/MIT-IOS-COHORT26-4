@@ -42,6 +42,7 @@ struct ActivityView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
     }
 
     private func rowView(_ row: ActivityRowData) -> some View {

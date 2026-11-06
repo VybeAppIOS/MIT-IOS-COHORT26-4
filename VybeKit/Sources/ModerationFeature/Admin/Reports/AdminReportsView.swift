@@ -34,6 +34,7 @@ struct AdminReportsView: View {
                 Button { viewModel.rowTapped(row) } label: { AdminReportLine(row: row) }
             }
             .listStyle(.insetGrouped)
+            .vybeListBackground()
         } placeholder: {
             List { AdminReportLine(row: .placeholder) }.redacted(reason: .placeholder)
         } empty: {
@@ -105,6 +106,7 @@ private struct AdminReportDetail: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .navigationTitle(Text(verbatim: row.reasonText))
         .navigationBarTitleDisplayMode(.inline)
         .confirmationDialog(String(localized: "admin.action.hide.confirm", bundle: #bundle),

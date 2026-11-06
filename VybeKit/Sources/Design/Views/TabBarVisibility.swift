@@ -8,3 +8,12 @@ extension View {
         toolbarVisibility(.hidden, for: .tabBar)
     }
 }
+
+extension View {
+    /// Lists and forms draw the system grey behind their rows. This swaps it for the app's own surface colour (warm
+    /// cream in light, near-black in dark), so every screen has the same background.
+    public func vybeListBackground() -> some View {
+        scrollContentBackground(.hidden)
+            .background(Theme.Color.surface)
+    }
+}

@@ -55,6 +55,12 @@ public final class SessionStore {
     public func notificationOn(_ name: String) -> Bool { settings.notificationOn(name) }
     public func setNotification(_ name: String, on enabled: Bool) { settings.setNotification(name, on: enabled) }
 
+    /// Light, dark or the phone's setting (Settings > Appearance).
+    public var appearance: AppearanceChoice {
+        get { settings.appearance }
+        set { settings.appearance = newValue }
+    }
+
     public func isBlocked(_ id: UserID) -> Bool { blockedIDs.contains(id) }
 
     #if DEBUG

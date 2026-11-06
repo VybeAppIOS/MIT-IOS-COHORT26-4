@@ -66,6 +66,7 @@ struct EditorView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .scrollDismissesKeyboard(.interactively)
     }
 }

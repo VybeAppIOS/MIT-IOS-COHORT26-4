@@ -103,6 +103,7 @@ struct EditPostView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .scrollDismissesKeyboard(.interactively)
     }
 }
