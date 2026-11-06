@@ -50,16 +50,14 @@ private struct RegularCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.small) {
-            PlaceImage(url: data.coverURL, aspectRatio: 16 / 9)
+            // Photo-first: the picture fills the card and the title sits on it, in the big display font.
+            CardPicture(url: data.coverURL, aspectRatio: 4 / 3)
+                .overlay(alignment: .bottomLeading) {
+                    CardCaption(title: data.title, facts: data.factsText, hasPhoto: data.coverURL != nil,
+                                titleFont: Theme.Font.display, titleLines: 2)
+                }
                 .overlay(alignment: .topLeading) { CardMarks(data: data).padding(Theme.Spacing.small) }
-                .clipShape(.rect(cornerRadius: Theme.Radius.large))
-            Text(verbatim: data.title)
-                .font(Theme.Font.headline)
-                .foregroundStyle(Theme.Color.textPrimary)
-                .lineLimit(2)
-            Text(verbatim: data.factsText)
-                .font(Theme.Font.subheadline)
-                .foregroundStyle(Theme.Color.textSecondary)
+                .clipShape(.rect(cornerRadius: Theme.Radius.extraLarge, style: .continuous))
             if let authorName = data.authorName {
                 Text(verbatim: authorName)
                     .font(Theme.Font.footnote)
@@ -102,27 +100,71 @@ private struct FeaturedCard: View {
     var body: some View {
         // Wider than tall, so the strip stays short and the next card peeks in from the side. The row is already
         // headed "Picks", so the card leaves out the Picks badge and shows only the saved mark.
-        PlaceImage(url: data.coverURL, aspectRatio: 4 / 3)
-            .overlay(alignment: .bottomLeading) { caption }
+        CardPicture(url: data.coverURL, aspectRatio: 4 / 3)
+            .overlay(alignment: .bottomLeading) {
+                CardCaption(title: data.title, facts: data.factsText, hasPhoto: data.coverURL != nil,
+                            titleFont: Theme.Font.headline, titleLines: 2)
+            }
             .overlay(alignment: .topTrailing) {
                 CardMarks(data: data, showsPick: false).padding(Theme.Spacing.small)
             }
-            .clipShape(.rect(cornerRadius: Theme.Radius.large))
+            .clipShape(.rect(cornerRadius: Theme.Radius.extraLarge, style: .continuous))
     }
+}
 
-    private var caption: some View {
+/// The card's picture: the photo, or (when there is none) a warm tinted gradient with a big map symbol, never a grey
+/// box. Decorative: the card's own VoiceOver text says everything.
+private struct CardPicture: View {
+    let url: URL?
+    let aspectRatio: CGFloat
+
+    var body: some View {
+        if url != nil {
+            PlaceImage(url: url, aspectRatio: aspectRatio)
+        } else {
+            LinearGradient(colors: [Theme.Color.sunset, Theme.Color.sun], startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
+                .aspectRatio(aspectRatio, contentMode: .fit)
+                .overlay(alignment: .topTrailing) {
+                    Image(systemName: "map.fill")
+                        .font(Theme.Font.display)
+                        .imageScale(.large)
+                        .foregroundStyle(Theme.Color.textPrimary.opacity(0.25))
+                        .padding(Theme.Spacing.large)
+                        .accessibilityHidden(true)
+                }
+        }
+    }
+}
+
+/// The title and facts at the bottom of a photo-first card: white on a dark fade over a photo; dark ink on the bright
+/// tint when there is no photo (white on a bright fill would fail contrast).
+private struct CardCaption: View {
+    let title: String
+    let facts: String
+    let hasPhoto: Bool
+    let titleFont: Font
+    let titleLines: Int
+
+    var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {
-            Text(verbatim: data.title)
-                .font(Theme.Font.headline)
-                .lineLimit(2)
-            Text(verbatim: data.factsText)
+            Text(verbatim: title)
+                .font(titleFont)
+                .lineLimit(titleLines)
+                .minimumScaleFactor(0.6)
+            Text(verbatim: facts)
                 .font(Theme.Font.caption)
                 .lineLimit(1)
         }
-        .foregroundStyle(Theme.Color.onAccent)
+        .foregroundStyle(hasPhoto ? Theme.Color.onAccent : Theme.Color.textPrimary)
         .padding(Theme.Spacing.medium)
         .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Theme.Color.scrim)
+        .background {
+            if hasPhoto {
+                LinearGradient(colors: [.clear, Theme.Color.scrim, Theme.Color.scrim], startPoint: .top,
+                               endPoint: .bottom)
+            }
+        }
     }
 }
 

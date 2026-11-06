@@ -74,17 +74,15 @@ public struct PostCard: View {
 
     private var content: some View {
         VStack(alignment: .leading, spacing: 0) {
-            media.clipShape(.rect(cornerRadius: Theme.Radius.large))
-            Text(verbatim: data.title)
-                .font(Theme.Font.title3.weight(.bold))
-                .foregroundStyle(Theme.Color.textPrimary)
-                .lineSpacing(lineSpacing)
-                .padding(.top, Theme.Spacing.medium)
+            media
+                .overlay(alignment: .bottomLeading) { if titleOnMedia { titleOverlay } }
+                .clipShape(.rect(cornerRadius: Theme.Radius.extraLarge, style: .continuous))
+            if !titleOnMedia { titleBelow }
             Text(verbatim: data.factsText)
                 .font(Theme.Font.subheadline)
                 .foregroundStyle(Theme.Color.textSecondary)
                 .lineSpacing(lineSpacing)
-                .padding(.top, Theme.Spacing.tiny)
+                .padding(.top, Theme.Spacing.small)
             if let caption = data.caption {
                 Text(verbatim: caption)
                     .font(Theme.Font.body.weight(.regular))
@@ -102,11 +100,55 @@ public struct PostCard: View {
     /// A little extra space between wrapped lines (half of the smallest spacing token).
     private var lineSpacing: CGFloat { Theme.Spacing.tiny / 2 }
 
+    private var hasPhoto: Bool { data.coverURL != nil }
+    private var hasRoute: Bool { data.routePoints.count >= 2 }
+    /// The title sits on the photo (or on the tinted picture when there is no photo). A route drawing keeps the title
+    /// underneath, so the words never cover the dots.
+    private var titleOnMedia: Bool { hasPhoto || !hasRoute }
+
+    /// Photo: white title on a bottom scrim. No photo: dark ink on the bright tint (white on a bright fill fails).
+    private var titleOverlay: some View {
+        Text(verbatim: data.title)
+            .font(Theme.Font.display)
+            .minimumScaleFactor(0.6)
+            .lineLimit(3)
+            .foregroundStyle(hasPhoto ? Theme.Color.onAccent : Theme.Color.textPrimary)
+            .padding(Theme.Spacing.medium)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .background {
+                if hasPhoto {
+                    LinearGradient(colors: [.clear, Theme.Color.scrim, Theme.Color.scrim],
+                                   startPoint: .top, endPoint: .bottom)
+                }
+            }
+    }
+
+    private var titleBelow: some View {
+        Text(verbatim: data.title)
+            .font(Theme.Font.title3.weight(.bold))
+            .foregroundStyle(Theme.Color.textPrimary)
+            .lineSpacing(lineSpacing)
+            .padding(.top, Theme.Spacing.medium)
+    }
+
     @ViewBuilder private var media: some View {
-        if data.coverURL != nil || data.routePoints.count < 2 {
+        if hasPhoto {
             PlaceImage(url: data.coverURL, aspectRatio: 4 / 3)
-        } else {
+        } else if hasRoute {
             RouteMiniMap(points: data.routePoints).aspectRatio(4 / 3, contentMode: .fit)
+        } else {
+            // No photo and no route: a warm tinted picture with a big symbol, never a grey box.
+            LinearGradient(colors: [Theme.Color.sunset, Theme.Color.sun], startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
+                .aspectRatio(4 / 3, contentMode: .fit)
+                .overlay(alignment: .topTrailing) {
+                    Image(systemName: "map.fill")
+                        .font(Theme.Font.display)
+                        .imageScale(.large)
+                        .foregroundStyle(Theme.Color.textPrimary.opacity(0.25))
+                        .padding(Theme.Spacing.large)
+                        .accessibilityHidden(true)
+                }
         }
     }
 }
