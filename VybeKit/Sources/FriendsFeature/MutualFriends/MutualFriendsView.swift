@@ -20,6 +20,7 @@ struct MutualFriendsView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
+        .hidesTabBar()
     }
 
     private func list(_ content: MutualFriendsContent) -> some View {

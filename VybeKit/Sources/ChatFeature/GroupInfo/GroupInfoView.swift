@@ -46,6 +46,7 @@ struct GroupInfoView: View {
         ) {
             Button(role: .cancel) {} label: { Text(verbatim: viewModel.okLabel) }
         }
+        .hidesTabBar()
     }
 
     private func list(_ content: GroupInfoContent) -> some View {

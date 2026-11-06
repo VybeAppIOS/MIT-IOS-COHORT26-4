@@ -48,6 +48,7 @@ struct EditPostView: View {
             Text(verbatim: viewModel.deleteConfirmMessage)
         }
         .task { await viewModel.load() }
+        .hidesTabBar()
     }
 
     private var form: some View {

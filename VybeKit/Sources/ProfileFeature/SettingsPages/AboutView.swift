@@ -35,6 +35,7 @@ struct AboutView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
+        .hidesTabBar()
     }
 
     /// The credits part follows the load state inside its own section, so the rest of the page never waits.

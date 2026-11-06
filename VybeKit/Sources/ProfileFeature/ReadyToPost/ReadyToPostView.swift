@@ -49,6 +49,7 @@ struct ReadyToPostView: View {
         }
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
+        .hidesTabBar()
     }
 
     private func section<Actions: View>(

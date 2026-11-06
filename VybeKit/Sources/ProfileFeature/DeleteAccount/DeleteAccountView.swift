@@ -35,6 +35,7 @@ struct DeleteAccountView: View {
         .navigationTitle(Text(verbatim: viewModel.title))
         .navigationBarTitleDisplayMode(.inline)
         .safeAreaInset(edge: .bottom) { deleteBar }
+        .hidesTabBar()
     }
 
     private var consequences: some View {

@@ -25,6 +25,7 @@ struct PrivacyView: View {
         .navigationTitle(Text(verbatim: viewModel.title))
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
+        .hidesTabBar()
     }
 
     private func form(_ profile: UserProfile) -> some View {

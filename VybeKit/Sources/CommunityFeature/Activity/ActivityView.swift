@@ -28,6 +28,7 @@ struct ActivityView: View {
         ) {
             Button(role: .cancel) {} label: { Text(verbatim: viewModel.okLabel) }
         }
+        .hidesTabBar()
     }
 
     private func list(_ content: ActivityContent) -> some View {

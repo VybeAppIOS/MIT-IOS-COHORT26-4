@@ -56,5 +56,6 @@ struct AccountSettingsView: View {
         } message: {
             Text(verbatim: viewModel.signOutMessage)
         }
+        .hidesTabBar()
     }
 }

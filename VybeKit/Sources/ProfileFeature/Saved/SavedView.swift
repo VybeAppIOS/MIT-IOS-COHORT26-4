@@ -42,6 +42,7 @@ struct SavedView: View {
         .vybeAnimation(Theme.Motion.standard, value: viewModel.lastRemoved)
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
+        .hidesTabBar()
     }
 
     @ViewBuilder private func row(_ item: SavedItem) -> some View {

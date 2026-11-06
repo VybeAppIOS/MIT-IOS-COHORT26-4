@@ -49,5 +49,6 @@ struct HelpView: View {
         .listStyle(.insetGrouped)
         .navigationTitle(Text(verbatim: viewModel.title))
         .navigationBarTitleDisplayMode(.inline)
+        .hidesTabBar()
     }
 }
