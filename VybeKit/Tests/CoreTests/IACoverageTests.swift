@@ -26,7 +26,7 @@ struct IACoverageTests {
         ("CM5", .route(.activity)), ("FR1", .route(.friendsHub)),
         ("CH1", .route(.chatList)), ("CH2", .route(.conversation("c1"))), ("CH3", .local),
         ("CH4", .route(.groupInfo("c1"))), ("CH5", .sheet(.share(.hangout("h1")))), ("CH6", .local),
-        ("CH7", .sheet(.groupInvitation("c1"))),
+        ("CH7", .sheet(.groupInvitation("c1"))), ("CH8", .route(.groupPhotos("c1"))),
         ("PR1", .root), ("PR2", .route(.settings)), ("PR3", .route(.profile("u1"))), ("PR4", .route(.saved)),
         ("PR5", .route(.drafts)), ("PR6", .local), ("PR7", .route(.mutualFriends("u1"))),
         ("PR8", .route(.readyToPost)),
@@ -55,6 +55,6 @@ struct IACoverageTests {
     @Test func everyScreenIDInTheIAIsListedOnce() {
         let ids = Self.screens.map(\.id)
         #expect(Set(ids).count == ids.count)
-        #expect(ids.count == 60)   // every screen in `docs/IA.md` section 4 except the WEB1 web page
+        #expect(ids.count == 61)   // every screen in `docs/IA.md` section 4 except the WEB1 web page
     }
 }

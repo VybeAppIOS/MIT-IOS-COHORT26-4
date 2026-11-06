@@ -18,7 +18,7 @@ extension ConversationViewModel {
         let deps = AppDependencies.preview(mode)
         return ConversationViewModel(
             conversationID: id, chat: deps.chat, profiles: deps.profiles, hangouts: deps.hangouts,
-            libraryStore: deps.libraryStore, session: deps.session, badges: deps.badges,
+            photos: deps.photos, libraryStore: deps.libraryStore, session: deps.session, badges: deps.badges,
             network: NetworkMonitor(isOffline: offline), router: deps.router, now: deps.now,
             recorder: PreviewRecorder(), player: AudioPlayer(),
             makePoll: { id, onClose in

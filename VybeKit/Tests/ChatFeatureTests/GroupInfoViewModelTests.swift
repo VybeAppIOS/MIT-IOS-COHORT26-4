@@ -87,6 +87,14 @@ struct GroupInfoViewModelTests {
         #expect(content(viewModel)?.members.contains { $0.id == pick.id } == true)
     }
 
+    @Test func thePhotosRowOpensTheGroupPhotosScreen() {
+        let deps = AppDependencies.preview(.loaded)
+        let viewModel = makeViewModel(deps: deps)
+        viewModel.photosTapped()
+        #expect(deps.router.path(for: deps.router.currentStack).last == .groupPhotos(crew))
+        #expect(!viewModel.photosLabel.isEmpty)
+    }
+
     @Test func leavingHandsTheAdminRoleToSomeoneElseAndGoesBack() async throws {
         let deps = AppDependencies.preview(.loaded)
         deps.router.open(.groupInfo(crew))

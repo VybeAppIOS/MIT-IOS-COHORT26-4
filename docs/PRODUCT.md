@@ -39,7 +39,7 @@ IDs is `docs/IA.md` section 4. A screen ID is a short code name used in the bran
 
 - **Tabs (4):** **Discover**, **Community** (feed, friends and chat are built on sample social data; `docs/tasks/40-...`),
   **Profile**, and **Search** as a separate tab at the trailing end (never in the middle). Chat lives inside Community. Search is a
-  search-role tab and the only search in the app: no segment control, results ranked by the last non-Search tab.
+  search-role tab and the only place to find new things: no segment control, results ranked by the last non-Search tab.
 - **Phase 1 screens** (`docs/IA.md` marks each with its phase): O1 to O4 onboarding · D1 Discover map, D2 pin preview card (an
   overlay, not a sheet, so the tab bar stays visible), D3 filters · HD1 Hangout detail, HD2 Spot sheet · S1 Search · PR1 Profile,
   PR2 Settings (edit name and photo, reset onboarding, about) · H1 Hangout live, H2 Mark visited, H3 summary · CM1 Community feed
@@ -94,11 +94,22 @@ and TestFlight. Data-level decisions: `docs/DATA-MODEL.md` section 7.
 - Friends only. Direct messages and groups. Groups are permanent friend groups (not one per Hangout), minimum 3 people; the admin
   removes members; any member can add their own friends, but anyone added by a non-friend must accept first ("Join" / "Leave and
   block"); groups can be renamed; new members do not see earlier messages.
+- **Mute (approved by Lohitaksh):** the admin can mute a member from the ••• menu on their row in Group info. A muted person stays in
+  the group and can read, but cannot send, add a photo, record a voice note or start a poll. The admin cannot be muted. Only the
+  admin and the muted person see the "Muted" label.
+- **Group photos (approved by Lohitaksh):** Group info has a Photos row that opens a grid of every photo sent in the group, newest
+  first; tap one to open it full screen and swipe between them.
 - Messages: text, photos (max 2 per message), shared Hangouts, links, voice notes. Delete for everyone and edit are allowed. Read
   receipts always on. No typing indicators or online status. Polls ("I'm in" / "Not for me") in the first version of chat.
+- **Voice notes (approved by Lohitaksh):** hold the microphone to record, let go to send, slide left and let go to cancel; 2 minute
+  cap (the note is sent when the cap is reached). A tap shorter than 1 second is thrown away.
+- **Read receipts (approved by Lohitaksh):** "Seen" under your last message shows when another active, unblocked member has read
+  the chat after it was sent (from each member's `lastReadAt`); until then it says "Delivered".
 
 ### Search, Places, Photos
-- **Search:** every search in the app is in the Search tab: Hangouts, Places and people.
+- **Search:** every search for new things is in the Search tab: Hangouts, Places and people. One exception (approved by Lohitaksh):
+  a small on-device filter (name or username, nothing sent anywhere) in lists of people you already have, New chat and the Friends
+  hub. It is not a second search.
 - **Places:** our own Place database, checked by the team, is the source of truth. Apple's Place ID is stored on each Place for live
   details; MapKit and Google data are never copied into our files. Users can suggest Places; the team reviews them (pending,
   approved, rejected).
@@ -146,7 +157,7 @@ field.
 
 ## 6. Technical decisions
 Details: `docs/ARCHITECTURE.md` and `docs/adr/`.
-- **iOS 26 minimum** (decided 3 Nov; iPhone XS/XR can't install). iPhone only, portrait only, light only.
+- **iOS 26 minimum** (decided 3 Nov; iPhone XS/XR can't install). iPhone only, portrait only, light and dark appearance (decided 6 Nov).
 - SwiftUI and `@Observable`. No third-party libraries (a backend SDK will need an exception; see open questions).
 - Plain `Codable` structs with stable string IDs. **MVVM:** every screen is a `SomethingView` (layout only) plus a
   `SomethingViewModel` (`@Observable`, the screen's state and logic); data structs and repositories are the Model layer.

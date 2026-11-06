@@ -153,6 +153,9 @@ public enum ChatRepositoryContract {
         let members = try await repository.memberships(in: group.id)
         try require(Set(members.map(\.userID)) == Set(group.memberIDs), "one membership per member")
         try require(members.first { $0.userID == myID }?.role == .admin, "the admin has the admin role")
+        try await repository.markRead(group.id)
+        let afterRead = try await repository.memberships(in: group.id).first { $0.userID == myID }
+        try require(afterRead?.lastReadAt != nil, "markRead must set my lastReadAt")
         try await requireInvalid { try await repository.setMuted(true, member: myID, in: group.id) }
         try await repository.setMuted(true, member: other, in: group.id)
         let muted = try await repository.memberships(in: group.id).first { $0.userID == other }

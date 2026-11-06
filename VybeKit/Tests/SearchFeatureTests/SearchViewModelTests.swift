@@ -137,6 +137,23 @@ struct SearchViewModelTests {
         #expect(!groups(viewModel).isEmpty)
     }
 
+    @Test func youNeverAppearInYourOwnPeopleResults() async {
+        let deps = AppDependencies.preview(.loaded)
+        let mine = SampleSocialData.currentUser
+        let viewModel = makeViewModel(
+            FixedSearch(SearchResults(people: [mine, SampleSocialData.aarav])), deps: deps)
+        viewModel.query = "sample"
+        await viewModel.queryChanged()
+        let people = groups(viewModel).first { $0.kind == .people }
+        #expect(deps.session.currentUser?.id == mine.id)
+        #expect(people?.rows.map(\.id) == [SampleSocialData.aarav.id.rawValue])
+        // Only me found: the People group disappears altogether.
+        let alone = makeViewModel(FixedSearch(SearchResults(people: [mine])), deps: deps)
+        alone.query = "sample"
+        await alone.queryChanged()
+        #expect(alone.state == .empty)
+    }
+
     @Test func recentSearchesAreKeptNewestFirstAndLimited() async {
         let viewModel = makeViewModel(FixedSearch(everything))
         for word in ["one", "two", "three", "four", "five", "six"] {
@@ -156,6 +173,31 @@ struct SearchViewModelTests {
         if case .loaded(.idle(_, let after), _) = viewModel.state { #expect(after.isEmpty) }
     }
 
+    @Test func recentSearchesComeBackAfterTheAppRestarts() async {
+        let settings = AppSettings(suiteName: "vybe.test.\(UUID().uuidString)")
+        let deps = AppDependencies.preview(.loaded)
+        let first = SessionStore(settings: settings, currentUser: SampleData.signedInUser)
+        let viewModel = makeViewModel(FixedSearch(everything), deps: deps, session: first)
+        for word in ["one", "two"] {
+            viewModel.query = word
+            await viewModel.queryChanged()
+        }
+        // A new session and a new view model on the same settings: the app was closed and opened again.
+        let second = SessionStore(settings: settings, currentUser: SampleData.signedInUser)
+        let reopened = makeViewModel(FixedSearch(everything), deps: deps, session: second)
+        await reopened.load()
+        guard case .loaded(.idle(_, let recents), _) = reopened.state else {
+            Issue.record("expected idle, got \(reopened.state)")
+            return
+        }
+        #expect(recents == ["two", "one"])
+        reopened.clearRecents()
+        #expect(second.recentSearches.isEmpty && settings.recentSearches.isEmpty)
+        let third = makeViewModel(deps: deps, session: SessionStore(settings: settings))
+        await third.load()
+        if case .loaded(.idle(_, let after), _) = third.state { #expect(after.isEmpty) }
+    }
+
     @Test func tapsGoThroughTheRouter() {
         let deps = AppDependencies.preview(.loaded)
         let viewModel = makeViewModel(deps: deps)
@@ -165,8 +207,10 @@ struct SearchViewModelTests {
         #expect(deps.router.sheet == .spot("p1"))
         viewModel.rowTapped(SearchRowData(id: "u1", title: "", subtitle: ""), in: .people)
         #expect(deps.router.path(for: deps.router.currentStack).last == .profile("u1"))
+        viewModel.query = "  sam "
         viewModel.seeAllTapped(.people)
         #expect(deps.router.path(for: deps.router.currentStack).last == .searchSeeAll(.people))
+        #expect(deps.session.lastSearchQuery == "sam")   // See all shows the matches for these words
     }
 
     @Test func aFailedFirstLoadShowsTheError() async {

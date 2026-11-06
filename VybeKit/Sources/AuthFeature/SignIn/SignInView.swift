@@ -7,6 +7,7 @@ struct SignInView: View {
     @State private var viewModel: SignInViewModel
     /// Matches the height of the bordered Google and email buttons.
     @ScaledMetric(relativeTo: .headline) private var appleButtonHeight = 57.0
+    @Environment(\.colorScheme) private var colorScheme
 
     init(viewModel: SignInViewModel) {
         _viewModel = State(initialValue: viewModel)
@@ -76,7 +77,7 @@ struct SignInView: View {
     private var appleButton: some View {
         Button { Task { await viewModel.appleTapped() } } label: {
             SignInWithAppleButton(.signIn, onRequest: { _ in }, onCompletion: { _ in })
-                .signInWithAppleButtonStyle(.black)
+                .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)   // Apple's own light/dark pair
                 .frame(height: appleButtonHeight)
                 .clipShape(Capsule())               // the same capsule shape as the Google and email buttons
                 .allowsHitTesting(false)

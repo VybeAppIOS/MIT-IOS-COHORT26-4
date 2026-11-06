@@ -124,7 +124,7 @@ public enum SampleSocialData {
         memberIDs: [currentUser.id, friend.id, aarav.id, isha.id], createdAt: hours(-24))
     /// A group I was added to by someone who is not my friend. It waits for Join or Leave and block.
     public static let invitation = Conversation(
-        id: "conversation-sample-invitation", kind: .group, name: "EXAMPLE Sunday Walkers", adminID: vihaan.id,
+        id: "conversation-sample-invitation", kind: .group, name: "Sunday Walkers", adminID: vihaan.id,
         memberIDs: [vihaan.id, tara.id, currentUser.id], createdAt: hours(-5))
     public static let conversations = [friendChat, aaravChat, crew, invitation]
     /// Groups I have been invited to but not joined yet.
@@ -151,13 +151,22 @@ public enum SampleSocialData {
         message(6, in: crew, by: isha, hoursAgo: 12, .text("What are we doing on Saturday?")),
         message(7, in: crew, by: currentUser, hoursAgo: 11, .poll(question: "Coffee at 5?")),
         message(8, in: crew, by: aarav, hoursAgo: 10, .voice(path: "voice/EXAMPLE.m4a", seconds: 12)),
-        message(9, in: crew, by: friend, hoursAgo: 2, .photos([Photo(id: "photo-sample-1", path: "EXAMPLE.jpg",
-                                                                      width: 800, height: 600)]))
+        message(9, in: crew, by: friend, hoursAgo: 2, .photos([
+            Photo(id: "photo-sample-1", path: "EXAMPLE.jpg", width: 800, height: 600),
+            Photo(id: "photo-sample-2", path: "EXAMPLE2.jpg", width: 600, height: 800)
+        ]))
     ]
 
     /// When I last read each chat (the friend chat and the crew chat have 2 unread messages each).
     public static let lastRead: [ConversationID: Date] = [
         friendChat.id: hours(-6.5), aaravChat.id: hours(-38), crew.id: hours(-11.5)
+    ]
+
+    /// When the other people last read each chat, so "Seen" shows under my last message. Only people in that chat.
+    public static let othersLastRead: [ConversationID: [UserID: Date]] = [
+        friendChat.id: [friend.id: hours(-5.5)],
+        aaravChat.id: [aarav.id: hours(-38.5)],
+        crew.id: [friend.id: hours(-1.5), isha.id: hours(-10.5), aarav.id: hours(-9)]
     ]
 
     public static let pollVotes = [

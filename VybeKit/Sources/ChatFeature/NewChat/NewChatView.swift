@@ -42,6 +42,7 @@ struct NewChatView: View {
         }
         .presentationDetents([.large])
         .presentationDragIndicator(.visible)
+        .hidesTabBar()
     }
 
     private func list(_ content: NewChatContent) -> some View {

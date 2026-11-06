@@ -53,5 +53,6 @@ struct BlockedView: View {
         .navigationTitle(Text(verbatim: viewModel.title))
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
+        .hidesTabBar()
     }
 }

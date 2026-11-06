@@ -41,6 +41,7 @@ struct HubView: View {
         ) {
             Button(role: .cancel) {} label: { Text(verbatim: viewModel.okLabel) }
         }
+        .hidesTabBar()
     }
 
     // MARK: Sections

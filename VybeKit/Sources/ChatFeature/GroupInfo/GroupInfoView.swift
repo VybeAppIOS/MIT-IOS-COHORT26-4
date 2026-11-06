@@ -46,6 +46,7 @@ struct GroupInfoView: View {
         ) {
             Button(role: .cancel) {} label: { Text(verbatim: viewModel.okLabel) }
         }
+        .hidesTabBar()
     }
 
     private func list(_ content: GroupInfoContent) -> some View {
@@ -65,6 +66,21 @@ struct GroupInfoView: View {
                 }
             } header: { Text(verbatim: viewModel.nameHeader) } footer: {
                 if content.isReadOnly { Text(verbatim: viewModel.readOnlyNote) }
+            }
+            Section {
+                Button { viewModel.photosTapped() } label: {
+                    HStack {
+                        Label { Text(verbatim: viewModel.photosLabel).foregroundStyle(Theme.Color.textPrimary) }
+                            icon: { Image(systemName: "photo.on.rectangle") }
+                        Spacer(minLength: 0)
+                        Image(systemName: "chevron.right")
+                            .font(Theme.Font.footnote)
+                            .foregroundStyle(Theme.Color.textSecondary)
+                            .accessibilityHidden(true)
+                    }
+                    .frame(minHeight: Theme.Size.minTapTarget)
+                    .contentShape(.rect)
+                }
             }
             Section {
                 ForEach(content.members) { member in memberRow(member) }

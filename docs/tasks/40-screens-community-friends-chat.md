@@ -96,10 +96,14 @@ message. Common dependencies: **F-4, F-5, F-7, F-9, DS-1/2/3**.
 - **Build:** `Conversation/`: message list (`MessageBubble`s, grouped, newest at the bottom, scroll to latest);
   a composer with text, **photos (max 2 per message)**, **voice note** (hold to record, slide to cancel, 2
   minute cap), a "+" menu for **Hangout** (pick from Saved) and **Poll** (→ SC-CH6); long-press a message:
-  **Edit** (own text), **Delete for everyone**, Copy, Report (push); **read receipts always on** ("Seen");
+  **Edit** (own text), **Delete for everyone**, Copy, Report (push); **read receipts always on** ("Seen" comes from
+  the other members' `lastReadAt` through `memberships(in:)`; otherwise "Delivered"); a **muted** member can read but
+  the composer is off with a short note; photos open in a full-screen viewer (swipe between them);
   tap a Hangout card → `.hangout(id)`; links show a small "Be careful with links" note; group header →
   `.groupInfo`, DM header → profile. Incoming messages arrive through the `AsyncStream` (the stub sends one
   after 2 s). Offline: read-only, composer disabled. Blocked person in a group: their messages hidden for you.
+  (Hold to record, slide to cancel, the 2 minute cap, mute, photos and read receipts were approved by Lohitaksh in
+  the WO-2 fixes.)
 - **Done when:** tests: send/edit/delete update state; read receipt logic; poll vote; voice cap; the stream
   cancels when the screen disappears.
 
@@ -116,8 +120,11 @@ message. Common dependencies: **F-4, F-5, F-7, F-9, DS-1/2/3**.
 - **Build:** `GroupInfo/`: name (admin edits), members with roles, **add members** (your friends; a non-friend
   of the added person must accept first → their invitation is SC-CH7), **remove** (admin only), **leave**
   (confirm; if the admin leaves, the oldest member becomes admin; below 3 members the group becomes
-  read-only with a note).
-- **Done when:** tests for admin handover and the below-3 rule.
+  read-only with a note). Every member sees **Add members**; rename, remove and **mute** are admin-only, from a visible
+  ••• menu on each member's row (swipe to remove stays). A muted person stays in the group and can read but not
+  send; the admin cannot be muted; "Muted" shows only to the admin and that person. A **Photos** row opens SC-CH8.
+  (Approved by Lohitaksh in the WO-2 fixes.)
+- **Done when:** tests for admin handover and the below-3 rule; mute, unmute and the label rules.
 
 ### SC-CH5 — Share to…  `[M]`
 - **Depends on:** common, CP-1, CP-4
@@ -138,4 +145,16 @@ message. Common dependencies: **F-4, F-5, F-7, F-9, DS-1/2/3**.
 - **Read:** RISKS 3 (added by a non-friend) · IA 4 (CH7)
 - **Build:** `Invitation/`: opened with `Sheet.groupInvitation(id)`: "Alex added you to Kothrud Crew" with the
   member avatars and **Join** or **Leave and block**.
+  The Chats list (SC-CH1) shows pending invitations in an "Invitations" section on top; the adder is the person in
+  my membership's `addedByID`.
 - **Done when:** tests: Join activates the membership; Leave and block blocks the adder and removes the invite.
+
+### SC-CH8 — Group photos  `[S]`
+- **Depends on:** common, SC-CH2, SC-CH4
+- **Read:** IA 4 (CH8) · RISKS 3 (photos) · approved by Lohitaksh in the WO-2 fixes
+- **Build:** `GroupPhotos/`: opened with `router.open(.groupPhotos(id))` from the Photos row in Group info. A
+  `LazyVGrid` of every photo sent in the group, newest message first; deleted messages and blocked people are left
+  out; tap one to open the shared full-screen viewer (swipe between all the group's photos). Loading, empty ("No
+  photos yet...") and failed (Retry) states; a broken stream keeps the photos and marks them stale.
+- **Done when:** tests: newest first, deleted and blocked left out, empty, failed first load, tap opens the viewer on
+  that photo, stale after a broken stream.

@@ -24,13 +24,19 @@ struct PinPreviewCard: View {
             HangoutCard(card, style: .compact, action: onOpen)
                 .vybeZoomSource(id: card.id)            // zooms into Hangout detail (MOTION moment 2)
             HStack(spacing: Theme.Spacing.small) {
+                // Icon only: a round 44 pt button beside the main button, not a second wide one.
                 Button(action: onSave) {
-                    Label(card.isSaved ? PinPreviewText.saved : PinPreviewText.save,
-                          systemImage: card.isSaved ? "bookmark.fill" : "bookmark")
+                    Image(systemName: card.isSaved ? "bookmark.fill" : "bookmark")
                         .font(Theme.Font.headline)
-                        .frame(minHeight: Theme.Size.minTapTarget)
+                        .foregroundStyle(Theme.Color.accent)
+                        .frame(width: Theme.Size.minTapTarget, height: Theme.Size.minTapTarget)
+                        .background(Theme.Color.surfaceRaised, in: Circle())
+                        .overlay { Circle().strokeBorder(Theme.Color.separator) }
+                        .contentShape(.circle)
                 }
-                .buttonStyle(.bordered)
+                .buttonStyle(.plain)
+                .accessibilityLabel(Text(verbatim: card.isSaved ? PinPreviewText.saved : PinPreviewText.save))
+                .accessibilityAddTraits(card.isSaved ? .isSelected : [])
                 .vybeHaptic(.selection, trigger: card.isSaved)
                 .accessibilityIdentifier("discover.pinPreview.save")
                 PrimaryButton(verbatim: PinPreviewText.seeHangout, action: onOpen)

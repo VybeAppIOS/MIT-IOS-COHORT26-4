@@ -50,16 +50,14 @@ private struct RegularCard: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.small) {
-            PlaceImage(url: data.coverURL, aspectRatio: 16 / 9)
+            // Photo-first: the picture fills the card and the title sits on it, in the big display font.
+            CardPicture(url: data.coverURL, aspectRatio: 4 / 3)
+                .overlay(alignment: .bottomLeading) {
+                    CardCaption(title: data.title, facts: data.factsText, hasPhoto: data.coverURL != nil,
+                                titleFont: Theme.Font.display, titleLines: 2)
+                }
                 .overlay(alignment: .topLeading) { CardMarks(data: data).padding(Theme.Spacing.small) }
-                .clipShape(.rect(cornerRadius: Theme.Radius.large))
-            Text(verbatim: data.title)
-                .font(Theme.Font.headline)
-                .foregroundStyle(Theme.Color.textPrimary)
-                .lineLimit(2)
-            Text(verbatim: data.factsText)
-                .font(Theme.Font.subheadline)
-                .foregroundStyle(Theme.Color.textSecondary)
+                .clipShape(.rect(cornerRadius: Theme.Radius.extraLarge, style: .continuous))
             if let authorName = data.authorName {
                 Text(verbatim: authorName)
                     .font(Theme.Font.footnote)
@@ -100,35 +98,94 @@ private struct FeaturedCard: View {
     let data: HangoutCardData
 
     var body: some View {
-        PlaceImage(url: data.coverURL, aspectRatio: 4 / 5)
-            .overlay(alignment: .bottomLeading) { caption }
-            .overlay(alignment: .topLeading) { CardMarks(data: data).padding(Theme.Spacing.small) }
-            .clipShape(.rect(cornerRadius: Theme.Radius.large))
-    }
-
-    private var caption: some View {
-        VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {
-            Text(verbatim: data.title)
-                .font(Theme.Font.title3)
-                .lineLimit(3)
-            Text(verbatim: data.factsText)
-                .font(Theme.Font.footnote)
-        }
-        .foregroundStyle(Theme.Color.onAccent)
-        .padding(Theme.Spacing.medium)
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .background(Theme.Color.scrim)
+        // Wider than tall, so the strip stays short and the next card peeks in from the side. The row is already
+        // headed "Picks", so the card leaves out the Picks badge and shows only the saved mark.
+        CardPicture(url: data.coverURL, aspectRatio: 4 / 3)
+            .overlay(alignment: .bottomLeading) {
+                CardCaption(title: data.title, facts: data.factsText, hasPhoto: data.coverURL != nil,
+                            titleFont: Theme.Font.headline, titleLines: 2)
+            }
+            .overlay(alignment: .topTrailing) {
+                CardMarks(data: data, showsPick: false).padding(Theme.Spacing.small)
+            }
+            .clipShape(.rect(cornerRadius: Theme.Radius.extraLarge, style: .continuous))
     }
 }
 
-/// The Picks badge and the Saved mark (icon and word, never colour alone).
+/// The card's picture: the photo, or (when there is none) a warm tinted gradient with a big map symbol, never a grey
+/// box. Decorative: the card's own VoiceOver text says everything.
+private struct CardPicture: View {
+    let url: URL?
+    let aspectRatio: CGFloat
+
+    var body: some View {
+        if url != nil {
+            PlaceImage(url: url, aspectRatio: aspectRatio)
+        } else {
+            LinearGradient(colors: [Theme.Color.sunset, Theme.Color.sun], startPoint: .topLeading,
+                           endPoint: .bottomTrailing)
+                .aspectRatio(aspectRatio, contentMode: .fit)
+                .overlay(alignment: .topTrailing) {
+                    Image(systemName: "map.fill")
+                        .font(Theme.Font.display)
+                        .imageScale(.large)
+                        .foregroundStyle(Theme.Color.ink.opacity(0.25))
+                        .padding(Theme.Spacing.large)
+                        .accessibilityHidden(true)
+                }
+        }
+    }
+}
+
+/// The title and facts at the bottom of a photo-first card: white on a dark fade over a photo; dark ink on the bright
+/// tint when there is no photo (white on a bright fill would fail contrast).
+private struct CardCaption: View {
+    let title: String
+    let facts: String
+    let hasPhoto: Bool
+    let titleFont: Font
+    let titleLines: Int
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {
+            Text(verbatim: title)
+                .font(titleFont)
+                .lineLimit(titleLines)
+                .minimumScaleFactor(0.6)
+            Text(verbatim: facts)
+                .font(Theme.Font.caption)
+                .lineLimit(1)
+        }
+        .foregroundStyle(hasPhoto ? Theme.Color.onPhoto : Theme.Color.ink)
+        .padding(Theme.Spacing.medium)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background {
+            if hasPhoto {
+                LinearGradient(colors: [.clear, Theme.Color.scrim, Theme.Color.scrim], startPoint: .top,
+                               endPoint: .bottom)
+            }
+        }
+    }
+}
+
+/// The Picks badge (icon and word) and the Saved mark (a bookmark icon only; the card's VoiceOver text already says
+/// "Saved").
 private struct CardMarks: View {
     let data: HangoutCardData
+    var showsPick = true
+    @ScaledMetric(relativeTo: .body) private var markSize = 28.0
 
     var body: some View {
         HStack(spacing: Theme.Spacing.tiny) {
-            if data.isPick { PickBadge() }
-            if data.isSaved { StatusBadge(.saved) }
+            if data.isPick && showsPick { PickBadge() }
+            if data.isSaved {
+                Image(systemName: "bookmark.fill")
+                    .font(Theme.Font.caption.weight(.semibold))
+                    .foregroundStyle(Theme.Color.accent)
+                    .frame(width: markSize, height: markSize)
+                    .background(Theme.Color.surface, in: Circle())
+                    .accessibilityHidden(true)
+            }
         }
     }
 }
@@ -173,6 +230,18 @@ private var longTitle: HangoutCardData {
         }
         .padding(Theme.Spacing.large)
     }
+}
+
+#Preview("Dark") {
+    ScrollView {
+        VStack(spacing: Theme.Spacing.large) {
+            HangoutCard(.previewPick) {}
+            HangoutCard(.previewPick, style: .featured) {}
+        }
+        .padding(Theme.Spacing.large)
+    }
+    .background(Theme.Color.surface)
+    .preferredColorScheme(.dark)
 }
 
 #Preview("Large text") {

@@ -222,6 +222,28 @@
         }
       }
     },
+    "discover.map.empty.friends" : {
+      "comment" : "Discover map when the Friends choice has nothing to show.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "None of your friends have shared a Hangout yet."
+          }
+        }
+      }
+    },
+    "discover.map.filters.label" : {
+      "comment" : "VoiceOver label of the filter icon button on the Discover map.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Filters"
+          }
+        }
+      }
+    },
     "discover.map.monsoon" : {
       "comment" : "Discover safety note shown June to September (RISKS 7).",
       "localizations" : {
@@ -251,6 +273,50 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Picks"
+          }
+        }
+      }
+    },
+    "discover.map.scope.friends" : {
+      "comment" : "Discover top row: Hangouts my friends made.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Friends"
+          }
+        }
+      }
+    },
+    "discover.map.scope.picks" : {
+      "comment" : "Discover top row: Hangouts the Vybe team did and posted.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Picks"
+          }
+        }
+      }
+    },
+    "discover.map.scope.public" : {
+      "comment" : "Discover top row: every public Hangout.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Public"
+          }
+        }
+      }
+    },
+    "discover.map.spot.label" : {
+      "comment" : "VoiceOver label of one Spot dot on the Discover map: Hangout title, then the Spot's number out of the total.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@, Spot %2$lld of %3$lld"
           }
         }
       }

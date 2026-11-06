@@ -13,6 +13,7 @@ Supabase's documentation. Sources at the end. Items marked **(decide)** need a t
 | Saved Hangouts, Drafts, Hangout runs | one JSON file `Application Support/Vybe/library.json` | backend; the **live run** stays in `library.json` until it ends |
 | Photos from a run | JPEG files in `Application Support/Vybe/photos/<runID>/` | uploaded to backend storage; a small photo cache on the phone |
 | Name and photo from onboarding | `profile.json` + an image file | backend profile |
+| Photos sent in chat | processed on the phone (resized, location removed), then saved as files in `Application Support/Vybe/Photos` by `PhotoStore.save` | uploaded to backend storage (`save` is replaced); the upload also strips location |
 | Small settings (onboarding done, chosen area, interests) | `UserDefaults` through `Core/Services/AppSettings` (not `@AppStorage`: SwiftUI-only) | same |
 | Login tokens | none | kept by the backend SDK in the Keychain (we never store tokens ourselves) |
 | Offline copy of what you last saw | not needed (everything is local) | Firebase: built-in cache. Supabase: our own JSON cache files |
@@ -84,16 +85,17 @@ when data came from the cache (checked). With Supabase (no cache), revisit only 
 | Entity | Fields | Read |
 |---|---|---|
 | **Conversation** | id (DM: `dm_<idA>_<idB>` sorted), kind (dm / group), name?, photo?, adminID?, memberIDs, last-message preview, createdAt | members only |
-| **Membership** | conversationID, userID, role (admin / member), status (pending / active: pending until a non-friend add is accepted), joinedAt (hides older messages), lastReadAt? | members |
+| **Membership** | conversationID, userID, role (admin / member), status (pending / active: pending until a non-friend add is accepted), joinedAt (hides older messages), lastReadAt?, **mutedAt?** (set when the admin mutes: the member can read but not send), **addedByID?** (who added them; an invitation names this person) | members. The admin sees `mutedAt` of everyone; a member sees only their own |
 | **Message** | id, conversationID, senderID, createdAt (server), editedAt?, deletedAt?, payload: text / photos (max 2) / hangout / link / voice (path, seconds) / poll (question) | members who joined before it was sent |
 | **PollVote** | messageID, userID, choice ("I'm in" / "Not for me"), votedAt. One per person. | members |
-| Read receipts | not their own record: "Seen" = members whose `lastReadAt` is after the message. One write when you open a chat. | members |
+| Read receipts | not their own record: "Seen" = other active, unblocked members whose `lastReadAt` is after the message (read through `ChatRepository.memberships(in:)`; your own `lastReadAt` never counts). One write when you open a chat. | members |
+| Chat calls (`ChatRepository`) | `memberships(in:)` (roles, read times, mutes, who added whom), `setMuted(_:member:in:)` (admin only; the admin cannot be muted; a muted member's `send` fails with `AppError.invalid`), `pendingInvitations()` (groups you were added to by a non-friend and have not answered; they are not in `conversations()`, `unreadCounts()` or `messages(in:)` until you Join). All approved by Lohitaksh (WO-2 fixes). | |
 
 ### Safety and activity
 | Entity | Fields | Read |
 |---|---|---|
 | **Report** | id, reporterID, target (run / comment / user / message / place), targetOwnerID?, reason, detail?, status (open / actioned / dismissed), createdAt | the team only. "Anonymous" means the reported person never sees who reported them |
-| **Activity** | id, recipientID, kind (like, comment, reply, friend request, friend accepted, Remix credit), actorID, target, createdAt, readAt? | recipient only; written by the server |
+| **Activity** | id, recipientID, kind (like, comment, reply, friend request, friend accepted, Remix credit), actorID, target, **runID?** (the post a comment or reply row opens; the server must fill it for those kinds, without it the row opens the commenter's profile), createdAt, readAt? | recipient only; written by the server |
 
 ```mermaid
 erDiagram
@@ -277,6 +279,9 @@ blocked either way, and (public, or mine, or we are friends)*.
   from the web creates a lightweight `GuestResponse` (hangoutID, display name typed by the guest, createdAt, optional reminder email)
   without an account. Guests never appear in friend lists or chats.
 - **Group adds:** a `Membership` added by a non-friend of the added person starts as `pending` until the person accepts.
+- **Mute, invitations, photos, read times (WO-2 fixes, approved by Lohitaksh):** `Membership` gains optional `mutedAt` and
+  `addedByID` (ADR 004: older JSON still decodes); `Activity` gains optional `runID`; `PhotoStore` gains `save(_:)`. New fields are
+  optional and new calls are added to the repository and to its stub and contract checks together.
 - **Friend requests:** requests with no mutual friends are marked `other` and shown in a separate folder; caps of 30 sent per day and
   100 pending.
 

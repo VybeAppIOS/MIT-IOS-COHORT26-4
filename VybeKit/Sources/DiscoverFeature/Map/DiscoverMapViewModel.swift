@@ -3,55 +3,13 @@ import Core
 import Foundation
 import Models
 
-/// One Hangout on the map: where its pin goes and what its pin and card show.
-struct DiscoverPin: Equatable, Sendable, Identifiable {
-    let id: HangoutID
-    let title: String
-    /// The first Spot's category: the pin's symbol when there is no photo.
-    let category: PlaceCategory
-    /// The first Spot's position.
-    let coordinate: Coordinate
-    let photoURL: URL?
-    let isPick: Bool
-    /// The card shown when the pin is selected.
-    let card: HangoutCardData
-}
-
-/// Everything the map shows once loaded.
-struct DiscoverMapContent: Equatable, Sendable {
-    let pins: [DiscoverPin]
-    /// The Picks strip at the bottom.
-    let picks: [HangoutCardData]
-}
-
 /// D1: the Discover map. Pins for each Hangout (clustered by `PinClusterer`), category chips, the Picks strip,
 /// and the selection that shows a Hangout's card (SC-D2 replaces that card later).
 @MainActor @Observable
 final class DiscoverMapViewModel {
-    /// The quick category chips above the map. "More filters" (SC-D3) has everything else.
-    enum Chip: CaseIterable, Sendable {
-        case food
-        case outdoors
-        case games
-
-        var categories: Set<PlaceCategory> {
-            switch self {
-            case .food: [.cafe, .streetFood, .chaiTapri, .restaurant, .dessert, .juiceShakes]
-            case .outdoors: [.parkGarden, .viewpointHill, .lakeDam, .fort, .trek, .waterfall]
-            case .games: [.gamingArcade, .bowling, .goKarting, .trampoline, .escapeRoom, .boardGameCafe]
-            }
-        }
-
-        var title: String {
-            switch self {
-            case .food: DiscoverMapText.chipFood
-            case .outdoors: DiscoverMapText.chipOutdoors
-            case .games: DiscoverMapText.chipGames
-            }
-        }
-    }
-
     private(set) var state: LoadState<DiscoverMapContent> = .loading
+    /// Picks (the team's Hangouts), Public (everything) or Friends (made by my friends). Exactly one is on.
+    private(set) var scope: Scope = .picks
     /// What the map draws right now: pins and clusters for the current zoom.
     private(set) var markers: [MapMarker] = []
     private(set) var selectedHangoutID: HangoutID?
@@ -73,6 +31,7 @@ final class DiscoverMapViewModel {
     private let places: any PlaceRepository
     private let photos: any PhotoStore
     private let library: LibraryStore
+    private let friends: (any FriendsRepository)?
     private let network: NetworkMonitor
     private let router: Router
     private let now: @Sendable () -> Date
@@ -89,8 +48,10 @@ final class DiscoverMapViewModel {
     /// Cheap: no loading here (ADR 005). `now` is injected, never `Date()`.
     init(
         hangouts: any HangoutRepository, places: any PlaceRepository, photos: any PhotoStore, library: LibraryStore,
-        network: NetworkMonitor, router: Router, now: @escaping @Sendable () -> Date
+        friends: (any FriendsRepository)? = nil, network: NetworkMonitor, router: Router,
+        now: @escaping @Sendable () -> Date
     ) {
+        self.friends = friends
         self.hangouts = hangouts
         self.places = places
         self.photos = photos
@@ -120,6 +81,12 @@ final class DiscoverMapViewModel {
     }
 
     /// "No Hangouts here. Try zooming out.": nothing loaded, or the chips filtered every pin away.
+    /// "No Hangouts here. Try zooming out." (or the Friends wording when that choice is on).
+    var emptyMessage: String { scope == .friends ? DiscoverMapText.emptyFriends : DiscoverMapText.empty }
+
+    /// True when the filters sheet has changed anything: the filter icon then shows as on.
+    var hasActiveFilters: Bool { filters != HangoutFilters() || appliedTime != .any }
+
     var showsEmptyMessage: Bool {
         switch state {
         case .empty: true
@@ -160,7 +127,8 @@ final class DiscoverMapViewModel {
 
     private func fetch() async {
         do {
-            let found = Self.longEnough(try await hangouts.hangouts(near: nil, filters: filters), for: appliedTime)
+            let all = Self.longEnough(try await hangouts.hangouts(near: nil, filters: filters), for: appliedTime)
+            let found = await inScope(all)
             await library.ensureLoaded()        // so cards show the right saved state
             let pins = await pins(for: found)
             let picks = await pickCards()
@@ -180,6 +148,28 @@ final class DiscoverMapViewModel {
     }
 
     // MARK: Actions
+
+    /// One of Picks, Public or Friends was tapped. Tapping the one that is already on does nothing.
+    func scopeTapped(_ choice: Scope) async {
+        guard choice != scope else { return }
+        scope = choice
+        await fetch()
+    }
+
+    /// Keeps only the Hangouts the chosen scope shows. Friends needs the friends list; if it cannot be loaded the
+    /// Friends choice simply shows nothing (the map never fails because of it).
+    private func inScope(_ found: [Hangout]) async -> [Hangout] {
+        switch scope {
+        case .picks:
+            return found.filter(\.isPick)
+        case .publicAll:
+            return found
+        case .friends:
+            guard let list = try? await friends?.friends() else { return [] }
+            let ids = Set(list.map(\.id))
+            return found.filter { ids.contains($0.authorID) }
+        }
+    }
 
     /// Turns a category chip on or off, then asks the repository again with the new filters.
     func chipTapped(_ chip: Chip) async {
@@ -257,9 +247,13 @@ final class DiscoverMapViewModel {
             guard let first = hangout.spots.first,
                   let place = try? await places.place(id: first.placeID) else { continue }
             let photoURL = place.photos.first.flatMap(photos.url(for:))
+            var route: [Coordinate] = []
+            for spot in hangout.spots {
+                if let stop = try? await places.place(id: spot.placeID) { route.append(stop.coordinate) }
+            }
             pins.append(DiscoverPin(
                 id: hangout.id, title: hangout.title, category: place.category, coordinate: place.coordinate,
-                photoURL: photoURL, isPick: hangout.isPick,
+                route: route.isEmpty ? [place.coordinate] : route, photoURL: photoURL, isPick: hangout.isPick,
                 card: HangoutCardData(hangout, coverURL: photoURL, isSaved: library.isSaved(hangout.id))))
         }
         return pins
@@ -381,15 +375,4 @@ extension DiscoverMapViewModel {
         guard let minimum = time.minMinutes else { return hangouts }
         return hangouts.filter { $0.estimatedMinutes >= minimum }
     }
-}
-
-/// The Discover map's text, read from DiscoverFeature's own catalog (`bundle: #bundle`, task X-3).
-enum DiscoverMapText {
-    static var chipFood: String { String(localized: "discover.map.chip.food", bundle: #bundle) }
-    static var chipOutdoors: String { String(localized: "discover.map.chip.outdoors", bundle: #bundle) }
-    static var chipGames: String { String(localized: "discover.map.chip.games", bundle: #bundle) }
-    static var moreFilters: String { String(localized: "discover.map.moreFilters", bundle: #bundle) }
-    static var empty: String { String(localized: "discover.map.empty", bundle: #bundle) }
-    static var monsoon: String { String(localized: "discover.map.monsoon", bundle: #bundle) }
-    static var picksHeader: String { String(localized: "discover.map.picksHeader", bundle: #bundle) }
 }

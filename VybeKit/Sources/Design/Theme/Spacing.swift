@@ -16,6 +16,8 @@ public extension Theme {
         public static let small: CGFloat = 8
         public static let medium: CGFloat = 12
         public static let large: CGFloat = 20
+        /// Photo-first cards: soft, generous corners (use with `.continuous`).
+        public static let extraLarge: CGFloat = 28
     }
 
     /// Fixed sizes that are not gaps or radii.
