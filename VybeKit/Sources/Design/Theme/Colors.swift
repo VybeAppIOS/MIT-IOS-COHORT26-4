@@ -2,7 +2,8 @@ import Models
 import SwiftUI
 
 public extension Theme {
-    /// Semantic colours. Values live in `Resources/Colors.xcassets`, never in code, so one asset edit restyles the app.
+    /// Semantic colours, light and dark. Values live in `Resources/Colors.xcassets`, never in code, so one asset edit
+    /// restyles the app.
     enum Color {
         public static let surface = SwiftUI.Color("Surface", bundle: .module)
         public static let surfaceRaised = SwiftUI.Color("SurfaceRaised", bundle: .module)
@@ -16,8 +17,15 @@ public extension Theme {
         public static let separator = SwiftUI.Color("Separator", bundle: .module)
         public static let scrim = SwiftUI.Color("Scrim", bundle: .module)
 
+        /// White text and icons on a photo with a dark scrim. Fixed in both appearances (`onAccent` flips in dark).
+        public static let onPhoto = SwiftUI.Color("OnPhoto", bundle: .module)
+
+        /// Dark text for bright fills. Unlike `textPrimary` it stays dark in both appearances, because the tints below
+        /// stay bright in both.
+        public static let ink = SwiftUI.Color("Ink", bundle: .module)
+
         // Bright tints for energy: category chips, empty-photo cards, small highlights. They are fills, not text
-        // colours: always put `textPrimary` (dark ink) on them, never white (white on Sunset is 2.8:1 and fails).
+        // colours: always put `ink` on them, never white and never `textPrimary` (it turns light in dark mode).
         public static let sunset = SwiftUI.Color("Sunset", bundle: .module)
         public static let sun = SwiftUI.Color("Sun", bundle: .module)
         public static let lime = SwiftUI.Color("Lime", bundle: .module)

@@ -129,7 +129,7 @@ private struct CardPicture: View {
                     Image(systemName: "map.fill")
                         .font(Theme.Font.display)
                         .imageScale(.large)
-                        .foregroundStyle(Theme.Color.textPrimary.opacity(0.25))
+                        .foregroundStyle(Theme.Color.ink.opacity(0.25))
                         .padding(Theme.Spacing.large)
                         .accessibilityHidden(true)
                 }
@@ -156,7 +156,7 @@ private struct CardCaption: View {
                 .font(Theme.Font.caption)
                 .lineLimit(1)
         }
-        .foregroundStyle(hasPhoto ? Theme.Color.onAccent : Theme.Color.textPrimary)
+        .foregroundStyle(hasPhoto ? Theme.Color.onPhoto : Theme.Color.ink)
         .padding(Theme.Spacing.medium)
         .frame(maxWidth: .infinity, alignment: .leading)
         .background {
@@ -230,6 +230,18 @@ private var longTitle: HangoutCardData {
         }
         .padding(Theme.Spacing.large)
     }
+}
+
+#Preview("Dark") {
+    ScrollView {
+        VStack(spacing: Theme.Spacing.large) {
+            HangoutCard(.previewPick) {}
+            HangoutCard(.previewPick, style: .featured) {}
+        }
+        .padding(Theme.Spacing.large)
+    }
+    .background(Theme.Color.surface)
+    .preferredColorScheme(.dark)
 }
 
 #Preview("Large text") {
