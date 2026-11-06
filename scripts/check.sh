@@ -11,6 +11,8 @@ swiftlint lint --strict
 # The structural rules a lint regex cannot express (ADR 006, task X-13), then proof that the check itself works.
 ./scripts/check_architecture.sh
 ./scripts/check_architecture_selftest.sh
+echo "==> Colour fallbacks match Colors.xcassets"
+python3 scripts/gen_color_fallbacks.py --check
 
 # Use $SIMULATOR if set, otherwise the first available iPhone simulator.
 SIMULATOR="${SIMULATOR:-$(xcrun simctl list devices available | grep -m1 -o 'iPhone[^(]*' | sed 's/ *$//')}"
