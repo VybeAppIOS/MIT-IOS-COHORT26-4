@@ -37,5 +37,6 @@ struct NotificationsView: View {
         .background(Theme.Color.surface)
         .navigationTitle(Text(verbatim: viewModel.title))
         .task { await viewModel.load() }
+        .hidesTabBar()
     }
 }

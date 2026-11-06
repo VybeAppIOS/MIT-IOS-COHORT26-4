@@ -49,5 +49,6 @@ struct PollView: View {
         }
         .presentationDetents([.medium])
         .presentationDragIndicator(.visible)
+        .hidesTabBar()
     }
 }

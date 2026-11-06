@@ -33,6 +33,7 @@ struct TrendingView: View {
         ) {
             Button(role: .cancel) {} label: { Text(verbatim: viewModel.okLabel) }
         }
+        .hidesTabBar()
     }
 
     @ViewBuilder private var commentsSheet: some View {

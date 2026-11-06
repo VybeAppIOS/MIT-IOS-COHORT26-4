@@ -30,6 +30,7 @@ struct InvitationView: View {
         ) {
             Button(role: .cancel) {} label: { Text(verbatim: viewModel.okLabel) }
         }
+        .hidesTabBar()
     }
 
     private func invitation(_ content: InvitationContent) -> some View {

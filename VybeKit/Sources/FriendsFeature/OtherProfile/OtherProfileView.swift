@@ -37,6 +37,7 @@ struct OtherProfileView: View {
         ) {
             Button(role: .cancel) {} label: { Text(verbatim: viewModel.okLabel) }
         }
+        .hidesTabBar()
     }
 
     @ToolbarContentBuilder private var toolbar: some ToolbarContent {
