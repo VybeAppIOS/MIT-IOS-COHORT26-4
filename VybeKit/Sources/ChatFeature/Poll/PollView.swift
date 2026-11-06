@@ -27,6 +27,7 @@ struct PollView: View {
                     }
                 } header: { Text(verbatim: viewModel.optionsHeader) }
             }
+            .vybeListBackground()
             .scrollDismissesKeyboard(.interactively)
             .navigationTitle(Text(verbatim: viewModel.title))
             .navigationBarTitleDisplayMode(.inline)

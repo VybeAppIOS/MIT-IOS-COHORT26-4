@@ -55,6 +55,7 @@ struct HubView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .searchable(
             text: $viewModel.searchText, placement: .navigationBarDrawer(displayMode: .always),
             prompt: Text(verbatim: viewModel.searchPrompt))
@@ -212,6 +213,7 @@ private struct OtherRequestsSheet: View {
                 }
             }
             .listStyle(.insetGrouped)
+            .vybeListBackground()
             .navigationTitle(Text(verbatim: viewModel.otherTitle))
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

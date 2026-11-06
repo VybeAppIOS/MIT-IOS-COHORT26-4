@@ -8,8 +8,9 @@ import Models
 @MainActor @Observable
 final class DiscoverMapViewModel {
     private(set) var state: LoadState<DiscoverMapContent> = .loading
-    /// Picks (the team's Hangouts), Public (everything) or Friends (made by my friends). Exactly one is on.
-    private(set) var scope: Scope = .picks
+    /// Picks (the team's Hangouts), Public (made by anyone else) and Friends (made by my friends). Any mix can be on;
+    /// the map shows Hangouts matching at least one. None on means no filter: every Hangout shows.
+    private(set) var scopes: Set<Scope> = [.picks]
     /// What the map draws right now: pins and clusters for the current zoom.
     private(set) var markers: [MapMarker] = []
     private(set) var selectedHangoutID: HangoutID?
@@ -82,7 +83,7 @@ final class DiscoverMapViewModel {
 
     /// "No Hangouts here. Try zooming out.": nothing loaded, or the chips filtered every pin away.
     /// "No Hangouts here. Try zooming out." (or the Friends wording when that choice is on).
-    var emptyMessage: String { scope == .friends ? DiscoverMapText.emptyFriends : DiscoverMapText.empty }
+    var emptyMessage: String { scopes == [.friends] ? DiscoverMapText.emptyFriends : DiscoverMapText.empty }
 
     /// True when the filters sheet has changed anything: the filter icon then shows as on.
     var hasActiveFilters: Bool { filters != HangoutFilters() || appliedTime != .any }
@@ -149,25 +150,24 @@ final class DiscoverMapViewModel {
 
     // MARK: Actions
 
-    /// One of Picks, Public or Friends was tapped. Tapping the one that is already on does nothing.
+    /// Picks, Public or Friends was tapped: it turns on or off, and the map reloads.
     func scopeTapped(_ choice: Scope) async {
-        guard choice != scope else { return }
-        scope = choice
+        if scopes.contains(choice) { scopes.remove(choice) } else { scopes.insert(choice) }
         await fetch()
     }
 
-    /// Keeps only the Hangouts the chosen scope shows. Friends needs the friends list; if it cannot be loaded the
-    /// Friends choice simply shows nothing (the map never fails because of it).
+    /// Keeps the Hangouts that match at least one chosen scope, in the repository's order. Friends needs the friends
+    /// list; if it cannot be loaded, Friends simply matches nothing (the map never fails because of it).
     private func inScope(_ found: [Hangout]) async -> [Hangout] {
-        switch scope {
-        case .picks:
-            return found.filter(\.isPick)
-        case .publicAll:
-            return found
-        case .friends:
-            guard let list = try? await friends?.friends() else { return [] }
-            let ids = Set(list.map(\.id))
-            return found.filter { ids.contains($0.authorID) }
+        guard !scopes.isEmpty else { return found }
+        var friendIDs: Set<UserID> = []
+        if scopes.contains(.friends), let list = try? await friends?.friends() {
+            friendIDs = Set(list.map(\.id))
+        }
+        return found.filter { hangout in
+            (scopes.contains(.picks) && hangout.isPick)
+                || (scopes.contains(.publicAll) && !hangout.isPick)
+                || (scopes.contains(.friends) && friendIDs.contains(hangout.authorID))
         }
     }
 

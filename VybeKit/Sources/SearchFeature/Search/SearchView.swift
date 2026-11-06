@@ -37,6 +37,7 @@ struct SearchView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .scrollDismissesKeyboard(.interactively)
     }
 

@@ -1,3 +1,4 @@
+import Core
 import Design
 import SwiftUI
 
@@ -11,6 +12,20 @@ struct SettingsView: View {
 
     var body: some View {
         List {
+            Section {
+                Picker(selection: $viewModel.appearance) {
+                    ForEach(AppearanceChoice.allCases, id: \.self) { choice in
+                        Text(verbatim: viewModel.appearanceName(choice)).tag(choice)
+                    }
+                } label: {
+                    Text(verbatim: viewModel.appearanceTitle)
+                }
+                .pickerStyle(.segmented)
+                .frame(minHeight: Theme.Size.minTapTarget)
+                .accessibilityIdentifier("profile.settings.appearance")
+            } header: {
+                Text(verbatim: viewModel.appearanceTitle)
+            }
             ForEach(viewModel.sections) { section in
                 Section {
                     ForEach(section.rows) { row in
@@ -38,6 +53,7 @@ struct SettingsView: View {
             }
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
         .navigationTitle(Text(verbatim: viewModel.title))
         .confirmationDialog(viewModel.resetConfirmTitle, isPresented: $viewModel.isConfirmingReset,
                             titleVisibility: .visible) {

@@ -28,5 +28,6 @@ struct MutualFriendsView: View {
             PersonRow(person: person, open: { viewModel.personTapped(person.id) }, trailing: { EmptyView() })
         }
         .listStyle(.insetGrouped)
+        .vybeListBackground()
     }
 }
