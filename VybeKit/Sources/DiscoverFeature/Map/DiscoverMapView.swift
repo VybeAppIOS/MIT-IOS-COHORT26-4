@@ -35,12 +35,7 @@ struct DiscoverMapView: View {
     private var map: some View {
         Map(position: $position, selection: selection) {
             ForEach(viewModel.visiblePins) { pin in
-                Annotation(pin.title, coordinate: Self.location(pin.coordinate), anchor: .bottom) {
-                    HangoutPin(title: pin.title, category: pin.category, photoURL: pin.photoURL, isPick: pin.isPick,
-                               isSelected: viewModel.selectedHangoutID == pin.id)
-                }
-                .annotationTitles(.hidden)
-                .tag(pin.id.rawValue)
+                route(of: pin)
             }
             ForEach(viewModel.visibleClusters) { cluster in
                 Annotation(ComponentStrings.clusterLabel(cluster.ids.count),
@@ -64,33 +59,57 @@ struct DiscoverMapView: View {
         .vybeAnimation(Theme.Motion.quick, value: viewModel.markers)   // pins fade, never fly (MOTION 3)
     }
 
-    /// `Map(selection:)` speaks in tags; the ViewModel decides what a tag means (pin, cluster, or none).
+    /// One Hangout on the map: its Spots as numbered dots, joined by a line, so a multi-Spot Hangout never looks like
+    /// a single place. Tapping any dot selects the whole Hangout.
+    @MapContentBuilder
+    private func route(of pin: DiscoverPin) -> some MapContent {
+        let isSelected = viewModel.selectedHangoutID == pin.id
+        if pin.route.count > 1 {
+            MapPolyline(coordinates: pin.route.map(Self.location))
+                .stroke(Theme.Color.accent.opacity(isSelected ? 1 : 0.75),
+                        style: StrokeStyle(lineWidth: isSelected ? 5 : 3, lineCap: .round, lineJoin: .round))
+        }
+        ForEach(Array(pin.route.enumerated()), id: \.offset) { index, stop in
+            Annotation(pin.title, coordinate: Self.location(stop), anchor: .center) {
+                RouteSpotPin(title: pin.title, number: index + 1, total: pin.route.count, isPick: pin.isPick,
+                             isSelected: isSelected)
+            }
+            .annotationTitles(.hidden)
+            .tag(Self.tag(for: pin.id, spot: index))
+        }
+    }
+
+    /// The first dot carries the plain Hangout ID; later dots add `#n` so every tag on the map is unique.
+    private static func tag(for id: HangoutID, spot index: Int) -> String {
+        index == 0 ? id.rawValue : "\(id.rawValue)#\(index)"
+    }
+
+    /// `Map(selection:)` speaks in tags; the ViewModel decides what a tag means (pin, cluster, or none). A `#n`
+    /// suffix (a later Spot's dot) is dropped, so every dot of a Hangout selects that Hangout.
     private var selection: Binding<String?> {
-        Binding(get: { viewModel.selectedHangoutID?.rawValue }, set: { viewModel.select(markerID: $0) })
+        Binding(
+            get: { viewModel.selectedHangoutID.map { Self.tag(for: $0, spot: 0) } },
+            set: { viewModel.select(markerID: $0.map { String($0.split(separator: "#").first ?? "") }) })
     }
 
     // MARK: Overlays
 
     private var topBar: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.small) {
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: Theme.Spacing.small) {
-                    ForEach(DiscoverMapViewModel.Chip.allCases, id: \.self) { chip in
-                        FilterChip(verbatim: chip.title, isSelected: viewModel.selectedChips.contains(chip)) {
-                            Task { await viewModel.chipTapped(chip) }
+            HStack(spacing: Theme.Spacing.small) {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: Theme.Spacing.small) {
+                        ForEach(DiscoverMapViewModel.Scope.allCases, id: \.self) { scope in
+                            FilterChip(verbatim: scope.title, isSelected: viewModel.scope == scope) {
+                                Task { await viewModel.scopeTapped(scope) }
+                            }
                         }
                     }
-                    Button { viewModel.moreFiltersTapped() } label: {
-                        Label(DiscoverMapText.moreFilters, systemImage: "slider.horizontal.3")
-                            .font(Theme.Font.subheadline)
-                    }
-                    .buttonStyle(.bordered)
-                    .buttonBorderShape(.capsule)
-                    .frame(minHeight: Theme.Size.minTapTarget)
                 }
-                .padding(.horizontal, Theme.Spacing.large)
+                filterButton
             }
-            .vybeAnimation(Theme.Motion.quick, value: viewModel.selectedChips)
+            .padding(.horizontal, Theme.Spacing.large)
+            .vybeAnimation(Theme.Motion.quick, value: viewModel.scope)
             if viewModel.showsOfflineBanner {
                 OfflineBanner()
             }
@@ -100,6 +119,24 @@ struct DiscoverMapView: View {
             }
         }
         .padding(.vertical, Theme.Spacing.small)
+    }
+
+    /// The filters sheet opens from this icon. It fills with the accent colour while any filter is on.
+    private var filterButton: some View {
+        let isOn = viewModel.hasActiveFilters
+        return Button { viewModel.moreFiltersTapped() } label: {
+            Image(systemName: "slider.horizontal.3")
+                .font(Theme.Font.subheadline)
+                .foregroundStyle(isOn ? Theme.Color.onAccent : Theme.Color.textPrimary)
+                .frame(width: Theme.Size.minTapTarget, height: Theme.Size.minTapTarget)
+                .background(isOn ? Theme.Color.accent : Theme.Color.surfaceRaised, in: Circle())
+                .overlay { Circle().strokeBorder(isOn ? Color.clear : Theme.Color.separator) }
+                .contentShape(.circle)
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(Text(verbatim: DiscoverMapText.filtersLabel))
+        .accessibilityAddTraits(isOn ? .isSelected : [])
+        .accessibilityIdentifier("discover.map.filters")
     }
 
     /// The selected pin's preview card (SC-D2), or the Picks strip when nothing is selected.
@@ -130,9 +167,9 @@ struct DiscoverMapView: View {
                     ForEach(picks) { card in
                         HangoutCard(card, style: .featured) { viewModel.cardTapped(card.id) }
                             .vybeZoomSource(id: card.id)
-                            // The featured card is a 4:5 photo, so its width sets its height: about 42% of the
-                            // screen keeps the strip to roughly a third of it and the map in view.
-                            .containerRelativeFrame(.horizontal) { width, _ in width * 0.42 }
+                            // The featured card is a 4:3 photo, so its width sets its height: about 62% of the
+                            // screen keeps the strip short, the map in view and the next card peeking in.
+                            .containerRelativeFrame(.horizontal) { width, _ in width * 0.62 }
                     }
                 }
                 .scrollTargetLayout()
@@ -157,7 +194,7 @@ struct DiscoverMapView: View {
                 .background(.regularMaterial, in: RoundedRectangle(cornerRadius: Theme.Radius.large))
                 .padding(Theme.Spacing.large)
         } else if viewModel.showsEmptyMessage {
-            Text(verbatim: DiscoverMapText.empty)
+            Text(verbatim: viewModel.emptyMessage)
                 .font(Theme.Font.callout)
                 .foregroundStyle(Theme.Color.textPrimary)
                 .multilineTextAlignment(.center)

@@ -56,12 +56,13 @@ struct FiltersTests {
             places: [SampleData.cafe, park])
         return DiscoverMapViewModel(
             hangouts: hangouts, places: deps.places, photos: deps.photos, library: deps.libraryStore,
-            network: deps.network, router: deps.router, now: deps.now)
+            friends: deps.friends, network: deps.network, router: deps.router, now: deps.now)
     }
 
     private func openedSheet() async -> DiscoverMapViewModel {
         let viewModel = makeViewModel()
         await viewModel.load()
+        await viewModel.scopeTapped(.publicAll)     // the map opens on Picks; the sheet tests count every Hangout
         viewModel.moreFiltersTapped()
         return viewModel
     }

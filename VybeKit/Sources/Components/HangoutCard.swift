@@ -100,19 +100,24 @@ private struct FeaturedCard: View {
     let data: HangoutCardData
 
     var body: some View {
-        PlaceImage(url: data.coverURL, aspectRatio: 4 / 5)
+        // Wider than tall, so the strip stays short and the next card peeks in from the side. The row is already
+        // headed "Picks", so the card leaves out the Picks badge and shows only the saved mark.
+        PlaceImage(url: data.coverURL, aspectRatio: 4 / 3)
             .overlay(alignment: .bottomLeading) { caption }
-            .overlay(alignment: .topLeading) { CardMarks(data: data).padding(Theme.Spacing.small) }
+            .overlay(alignment: .topTrailing) {
+                CardMarks(data: data, showsPick: false).padding(Theme.Spacing.small)
+            }
             .clipShape(.rect(cornerRadius: Theme.Radius.large))
     }
 
     private var caption: some View {
         VStack(alignment: .leading, spacing: Theme.Spacing.tiny) {
             Text(verbatim: data.title)
-                .font(Theme.Font.title3)
-                .lineLimit(3)
+                .font(Theme.Font.headline)
+                .lineLimit(2)
             Text(verbatim: data.factsText)
-                .font(Theme.Font.footnote)
+                .font(Theme.Font.caption)
+                .lineLimit(1)
         }
         .foregroundStyle(Theme.Color.onAccent)
         .padding(Theme.Spacing.medium)
@@ -121,14 +126,24 @@ private struct FeaturedCard: View {
     }
 }
 
-/// The Picks badge and the Saved mark (icon and word, never colour alone).
+/// The Picks badge (icon and word) and the Saved mark (a bookmark icon only; the card's VoiceOver text already says
+/// "Saved").
 private struct CardMarks: View {
     let data: HangoutCardData
+    var showsPick = true
+    @ScaledMetric(relativeTo: .body) private var markSize = 28.0
 
     var body: some View {
         HStack(spacing: Theme.Spacing.tiny) {
-            if data.isPick { PickBadge() }
-            if data.isSaved { StatusBadge(.saved) }
+            if data.isPick && showsPick { PickBadge() }
+            if data.isSaved {
+                Image(systemName: "bookmark.fill")
+                    .font(Theme.Font.caption.weight(.semibold))
+                    .foregroundStyle(Theme.Color.accent)
+                    .frame(width: markSize, height: markSize)
+                    .background(Theme.Color.surface, in: Circle())
+                    .accessibilityHidden(true)
+            }
         }
     }
 }

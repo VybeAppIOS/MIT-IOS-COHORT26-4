@@ -119,6 +119,20 @@ final class FeedViewModel {
         }
     }
 
+    /// The Picks row: each card's photo is its first Spot's Place photo (the same cover Discover shows). A Hangout
+    /// whose first Place has no photo still shows, with the neutral picture placeholder.
+    private func pickCards() async -> [HangoutCardData] {
+        var cards: [HangoutCardData] = []
+        for hangout in (try? await hangouts.picks()) ?? [] {
+            var coverURL: URL?
+            if let first = hangout.spots.first, let place = try? await places.place(id: first.placeID) {
+                coverURL = place.photos.first.flatMap(photos.url(for:))
+            }
+            cards.append(HangoutCardData(hangout, coverURL: coverURL, isSaved: libraryStore.isSaved(hangout.id)))
+        }
+        return cards
+    }
+
     private func fetch() async {
         do {
             let page = try await feed.feed(after: nil)
@@ -126,9 +140,7 @@ final class FeedViewModel {
                 if case .run(let id) = target { id } else { nil }
             })
             await libraryStore.ensureLoaded()
-            let picks = ((try? await hangouts.picks()) ?? []).map {
-                HangoutCardData($0, coverURL: nil, isSaved: libraryStore.isSaved($0.id))
-            }
+            let picks = await pickCards()
             runs = [:]
             let posts = await cards(for: page.items)
             nextCursor = page.nextCursor
