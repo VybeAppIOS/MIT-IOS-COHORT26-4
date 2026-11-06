@@ -51,6 +51,7 @@ struct EditProfileView: View {
         .onChange(of: viewModel.isSaved) { _, saved in if saved { dismiss() } }
         .onChange(of: photoItem) { _, item in load(item, isBanner: false) }
         .onChange(of: bannerItem) { _, item in load(item, isBanner: true) }
+        .hidesTabBar()
     }
 
     private var pictures: some View {

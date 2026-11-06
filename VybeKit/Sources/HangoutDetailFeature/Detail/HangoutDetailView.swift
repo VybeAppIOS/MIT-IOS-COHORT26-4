@@ -23,6 +23,7 @@ struct HangoutDetailView: View {
         .vybeZoomDestination(sourceID: viewModel.id)     // zooms in from the Hangout card (MOTION moment 2)
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
+        .hidesTabBar()
     }
 
     private func loaded(_ content: HangoutDetailContent) -> some View {

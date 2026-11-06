@@ -40,6 +40,7 @@ struct ListView: View {
             isPresented: $viewModel.isShowingNewChat,
             onDismiss: { Task { await viewModel.newChatDismissed() } },
             content: { NewChatView(viewModel: viewModel.makeNewChatViewModel()) })
+        .hidesTabBar()
     }
 
     private func list(_ content: ChatListContent) -> some View {

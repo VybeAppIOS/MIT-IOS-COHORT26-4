@@ -8,6 +8,6 @@ public enum DiscoverScreens {
     public static func root(_ deps: AppDependencies) -> some View {
         DiscoverMapView(viewModel: DiscoverMapViewModel(
             hangouts: deps.hangouts, places: deps.places, photos: deps.photos, library: deps.libraryStore,
-            network: deps.network, router: deps.router, now: deps.now))
+            friends: deps.friends, network: deps.network, router: deps.router, now: deps.now))
     }
 }

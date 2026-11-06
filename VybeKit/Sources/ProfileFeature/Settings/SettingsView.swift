@@ -46,5 +46,6 @@ struct SettingsView: View {
         } message: {
             Text(verbatim: viewModel.resetConfirmMessage)
         }
+        .hidesTabBar()
     }
 }

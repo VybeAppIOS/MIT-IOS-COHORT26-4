@@ -61,5 +61,6 @@ struct DraftsView: View {
         }
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
+        .hidesTabBar()
     }
 }

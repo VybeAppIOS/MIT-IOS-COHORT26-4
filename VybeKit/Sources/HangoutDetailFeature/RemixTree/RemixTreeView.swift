@@ -23,6 +23,7 @@ struct RemixTreeView: View {
         .navigationBarTitleDisplayMode(.inline)
         .task { await viewModel.load() }
         .refreshable { await viewModel.reload() }
+        .hidesTabBar()
     }
 
     private func loaded(_ content: RemixTreeContent) -> some View {

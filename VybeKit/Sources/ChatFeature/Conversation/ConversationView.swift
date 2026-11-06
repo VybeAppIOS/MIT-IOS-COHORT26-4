@@ -55,6 +55,7 @@ struct ConversationView: View {
         ) {
             Button(role: .cancel) {} label: { Text(verbatim: viewModel.okLabel) }
         }
+        .hidesTabBar()
     }
 
     private var title: String {
