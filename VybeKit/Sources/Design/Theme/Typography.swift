@@ -14,5 +14,10 @@ public extension Theme {
         public static let footnote = SwiftUI.Font.footnote
         public static let caption = SwiftUI.Font.caption
         public static let caption2 = SwiftUI.Font.caption2
+        /// Big, friendly headings on photo cards and hero moments. Rounded and heavy, still a text style, so it
+        /// follows Dynamic Type.
+        public static let display = SwiftUI.Font.system(.largeTitle, design: .rounded, weight: .heavy)
+        /// Numbers that should pop (counts on a profile, prices). Rounded and bold, title-sized, Dynamic Type aware.
+        public static let stat = SwiftUI.Font.system(.title, design: .rounded, weight: .bold)
     }
 }
