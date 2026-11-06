@@ -44,11 +44,8 @@ public struct PillButton: View {
 
     public var body: some View {
         styledButton
-            .buttonBorderShape(.capsule)
-            .controlSize(.regular)
             // The style adds its own padding, so the 44 pt floor goes on the button, not inside the label.
             .frame(minHeight: Theme.Size.minTapTarget)
-            .tint(role == .destructive ? Theme.Color.critical : Theme.Color.accent)
     }
 
     private var button: some View {
@@ -63,9 +60,10 @@ public struct PillButton: View {
     }
 
     @ViewBuilder private var styledButton: some View {
+        let tint = role == .destructive ? Theme.Color.critical : Theme.Color.accent
         switch style {
-        case .prominent: button.buttonStyle(.borderedProminent)
-        case .bordered: button.buttonStyle(.bordered)
+        case .prominent: button.buttonStyle(PressableButtonStyle(look: .prominent, tint: tint))
+        case .bordered: button.buttonStyle(PressableButtonStyle(look: .tinted, tint: tint))
         }
     }
 }

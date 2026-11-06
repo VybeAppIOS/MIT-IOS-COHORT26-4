@@ -37,12 +37,10 @@ public struct PrimaryButton: View {
             .padding(.vertical, verticalPadding)
             .frame(maxWidth: .infinity)
         }
-        .buttonStyle(.borderedProminent)
-        .buttonBorderShape(.roundedRectangle(radius: Theme.Radius.medium))
-        .controlSize(.regular)
+        .buttonStyle(PressableButtonStyle(look: .prominent, tint: Theme.Color.accent,
+                                          cornerRadius: Theme.Radius.medium))
         // The style adds its own padding, so the 44 pt floor goes on the button, not inside the label.
         .frame(minHeight: Theme.Size.minTapTarget)
-        .tint(Theme.Color.accent)
         .disabled(isLoading)
         .accessibilityValue(isLoading ? Text("Loading", bundle: .module) : Text(verbatim: ""))
     }
