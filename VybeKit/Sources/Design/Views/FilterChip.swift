@@ -68,3 +68,8 @@ private struct ChipDemo: View {
     ChipDemo()
         .dynamicTypeSize(.accessibility3)
 }
+
+#Preview("FilterChip, dark") {
+    ChipDemo()
+        .preferredColorScheme(.dark)
+}

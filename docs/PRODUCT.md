@@ -146,7 +146,7 @@ field.
 
 ## 6. Technical decisions
 Details: `docs/ARCHITECTURE.md` and `docs/adr/`.
-- **iOS 26 minimum** (decided 3 Nov; iPhone XS/XR can't install). iPhone only, portrait only, light only.
+- **iOS 26 minimum** (decided 3 Nov; iPhone XS/XR can't install). iPhone only, portrait only, light and dark appearance (decided 6 Nov).
 - SwiftUI and `@Observable`. No third-party libraries (a backend SDK will need an exception; see open questions).
 - Plain `Codable` structs with stable string IDs. **MVVM:** every screen is a `SomethingView` (layout only) plus a
   `SomethingViewModel` (`@Observable`, the screen's state and logic); data structs and repositories are the Model layer.

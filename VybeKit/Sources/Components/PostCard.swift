@@ -112,7 +112,7 @@ public struct PostCard: View {
             .font(Theme.Font.display)
             .minimumScaleFactor(0.6)
             .lineLimit(3)
-            .foregroundStyle(hasPhoto ? Theme.Color.onAccent : Theme.Color.textPrimary)
+            .foregroundStyle(hasPhoto ? Theme.Color.onPhoto : Theme.Color.ink)
             .padding(Theme.Spacing.medium)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background {
@@ -145,7 +145,7 @@ public struct PostCard: View {
                     Image(systemName: "map.fill")
                         .font(Theme.Font.display)
                         .imageScale(.large)
-                        .foregroundStyle(Theme.Color.textPrimary.opacity(0.25))
+                        .foregroundStyle(Theme.Color.ink.opacity(0.25))
                         .padding(Theme.Spacing.large)
                         .accessibilityHidden(true)
                 }

@@ -53,7 +53,7 @@ Four college students who are new to shipping code and rely heavily on AI.
   storing it. Storing Apple's Place ID is allowed.
 
 ## 5. Architecture
-- SwiftUI with `@Observable`. **iOS 26 minimum.** iPhone, portrait, light only.
+- SwiftUI with `@Observable`. **iOS 26 minimum.** iPhone, portrait, light and dark (follows the system setting).
 - Xcode folders are synchronized: a new file inside `Vybe/` or `VybeTests/` is picked
   up automatically. Do not edit `Vybe.xcodeproj` or `project.pbxproj` by hand.
 - Never touch signing settings or `Local.xcconfig` (per-machine, git-ignored).
@@ -119,6 +119,8 @@ Four college students who are new to shipping code and rely heavily on AI.
   Money, distance and time only with `.formatted(...)` (₹, km). Plurals in `Localizable.xcstrings`.
   Never type "Rs" or "km" by hand.
 - **Icons:** SF Symbols. **Colours:** Asset Catalog colours through Theme, no hex.
+  Every colour has a Light and a Dark value there. Text on a bright tint uses `Theme.Color.ink` and text on a photo
+  scrim uses `Theme.Color.onPhoto`: both stay fixed in dark mode.
 - **System components only** for tab bar, navigation bars and sheets; no custom backgrounds.
 - **Logging:** `os.Logger`, never `print`. No personal data in logs.
 - **Location:** only through Core's `LocationService` (`CLLocationUpdate.liveUpdates`).
@@ -161,7 +163,7 @@ Never paste passwords, keys or personal data into any AI.
 - **Not yet (no task, backend phase):** real network calls, the backend package (`VybeRemote`), any server SDK,
   real sign-in and accounts, push notifications, deep links and URL schemes, universal links.
   Sign-in screens are built against stubs only.
-- **Not in version 1:** Dynamic Island, Live Activity, turn-by-turn navigation, dark mode, iPad,
+- **Not in version 1:** Dynamic Island, Live Activity, turn-by-turn navigation, iPad,
   landscape, multi-person live Hangouts.
 - **"Phase 1 / Phase 2"** (in `docs/IA.md`, Route comments, `docs/DATA-MODEL.md`) means *build order
   only*. It never means "skip this" and never means "this week". Phase 1 = frontend on sample
