@@ -1,0 +1,67 @@
+{
+  "address": "Kothrud, Pune (street address to confirm)",
+  "applePlaceID": null,
+  "area": "Kothrud",
+  "category": "chai-tapri",
+  "city": "Pune",
+  "coordinate": {
+    "latitude": 18.5038,
+    "longitude": 73.8166
+  },
+  "costPerPerson": {
+    "lower": 115,
+    "upper": 189
+  },
+  "hours": [
+    {
+      "close": "00:00",
+      "open": "09:00",
+      "weekday": 1
+    },
+    {
+      "close": "00:00",
+      "open": "09:00",
+      "weekday": 2
+    },
+    {
+      "close": "00:00",
+      "open": "09:00",
+      "weekday": 3
+    },
+    {
+      "close": "00:00",
+      "open": "09:00",
+      "weekday": 4
+    },
+    {
+      "close": "00:00",
+      "open": "09:00",
+      "weekday": 5
+    },
+    {
+      "close": "00:00",
+      "open": "09:00",
+      "weekday": 6
+    },
+    {
+      "close": "00:00",
+      "open": "09:00",
+      "weekday": 7
+    }
+  ],
+  "hoursNote": null,
+  "id": "place-chai-sutta-bar-m5v8",
+  "name": "Chai Sutta Bar",
+  "photos": [
+    {
+      "credit": "Vybe team",
+      "height": 1000,
+      "id": "photo-chai-1",
+      "path": "place-chai-sutta-bar-m5v8-1.jpg",
+      "width": 750
+    }
+  ],
+  "schemaVersion": 1,
+  "status": "approved",
+  "verifiedAt": "2026-11-06T00:00:00Z"
+}

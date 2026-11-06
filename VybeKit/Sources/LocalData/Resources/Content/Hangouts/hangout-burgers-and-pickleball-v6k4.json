@@ -1,0 +1,41 @@
+{
+  "authorID": "user-vybe-team",
+  "bestTimes": [
+    "evening"
+  ],
+  "budgetPerPerson": {
+    "lower": 500,
+    "upper": 800
+  },
+  "createdAt": "2026-11-06T00:00:00Z",
+  "estimatedMinutes": 150,
+  "id": "hangout-burgers-and-pickleball-v6k4",
+  "isPick": true,
+  "remixedFromID": null,
+  "remixedFromPlaceIDs": null,
+  "schemaVersion": 1,
+  "spots": [
+    {
+      "id": "s1",
+      "minutes": 60,
+      "note": null,
+      "placeID": "place-the-daily-b2n6"
+    },
+    {
+      "id": "s2",
+      "minutes": 90,
+      "note": null,
+      "placeID": "place-metrocity-pickleball-x7q3"
+    }
+  ],
+  "status": "published",
+  "summary": "Smash burgers at The Daily, then a game of pickleball at Metrocity.",
+  "tags": [
+    "good-for-groups"
+  ],
+  "title": "Burgers and Pickleball",
+  "updatedAt": "2026-11-06T00:00:00Z",
+  "vibeTags": [
+    "energetic"
+  ]
+}
