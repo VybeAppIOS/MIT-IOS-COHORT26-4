@@ -60,7 +60,14 @@ struct DiscoverMapViewModelTests {
     ) -> DiscoverMapViewModel {
         DiscoverMapViewModel(
             hangouts: hangouts ?? deps.hangouts, places: deps.places, photos: deps.photos,
-            library: deps.libraryStore, network: deps.network, router: deps.router, now: now ?? deps.now)
+            library: deps.libraryStore, friends: deps.friends, network: deps.network, router: deps.router,
+            now: now ?? deps.now)
+    }
+
+    /// The map opens on Picks; these tests are about every Hangout, so they switch to Public first.
+    private func loadPublic(_ viewModel: DiscoverMapViewModel) async {
+        await viewModel.load()
+        await viewModel.scopeTapped(.publicAll)
     }
 
     private func filtering() -> FilteringHangouts {
@@ -108,7 +115,7 @@ struct DiscoverMapViewModelTests {
     @Test func aChipSendsItsCategoriesAndThePinsUpdate() async {
         let hangouts = filtering()
         let viewModel = makeViewModel(hangouts: hangouts)
-        await viewModel.load()
+        await loadPublic(viewModel)
         #expect(pinIDs(viewModel).contains(parkOnly.id))
         await viewModel.chipTapped(.food)
         #expect(await hangouts.lastFilters?.categories == DiscoverMapViewModel.Chip.food.categories)
@@ -118,7 +125,7 @@ struct DiscoverMapViewModelTests {
     @Test func tappingAChipAgainClearsIt() async {
         let hangouts = filtering()
         let viewModel = makeViewModel(hangouts: hangouts)
-        await viewModel.load()
+        await loadPublic(viewModel)
         await viewModel.chipTapped(.food)
         await viewModel.chipTapped(.food)
         #expect(viewModel.selectedChips.isEmpty)
@@ -143,6 +150,52 @@ struct DiscoverMapViewModelTests {
         #expect(pinIDs(viewModel).isEmpty)
         #expect(viewModel.showsEmptyMessage)
         #expect(DiscoverMapText.empty == "No Hangouts here. Try zooming out.")
+    }
+
+    // MARK: Picks, Public, Friends
+
+    @Test func theMapOpensOnPicksAndPublicShowsEveryHangout() async {
+        let viewModel = makeViewModel(hangouts: filtering())
+        await viewModel.load()
+        #expect(viewModel.scope == .picks)
+        #expect(pinIDs(viewModel) == [SampleData.evening.id])           // only the team's Picks
+        await viewModel.scopeTapped(.publicAll)
+        #expect(viewModel.scope == .publicAll)
+        #expect(pinIDs(viewModel).contains(parkOnly.id))
+        #expect(pinIDs(viewModel).count > 1)
+    }
+
+    @Test func tappingTheScopeThatIsAlreadyOnDoesNotReload() async {
+        let hangouts = filtering()
+        let viewModel = makeViewModel(hangouts: hangouts)
+        await viewModel.load()
+        await viewModel.scopeTapped(.picks)
+        #expect(await hangouts.loads == 1)
+    }
+
+    @Test func friendsShowsOnlyHangoutsMadeByMyFriends() async throws {
+        let deps = AppDependencies.preview()
+        let friendIDs = Set(try await deps.friends.friends().map(\.id))
+        let all = SampleData.hangouts + [parkOnly]
+        let viewModel = makeViewModel(deps, hangouts: filtering())
+        await viewModel.load()
+        await viewModel.scopeTapped(.friends)
+        #expect(pinIDs(viewModel) == Set(all.filter { friendIDs.contains($0.authorID) }.map(\.id)))
+        if pinIDs(viewModel).isEmpty {
+            #expect(viewModel.emptyMessage == DiscoverMapText.emptyFriends)
+        }
+    }
+
+    @Test func aPinKnowsEverySpotOfItsHangout() async throws {
+        let viewModel = makeViewModel()
+        await viewModel.load()
+        guard case .loaded(let content, _) = viewModel.state else {
+            Issue.record("expected loaded, got \(viewModel.state)")
+            return
+        }
+        let evening = try #require(content.pins.first { $0.id == SampleData.evening.id })
+        #expect(evening.route.count == SampleData.evening.spots.count)    // one dot per Spot, in order
+        #expect(evening.route.first == evening.coordinate)
     }
 
     // MARK: States
@@ -197,7 +250,7 @@ struct DiscoverMapViewModelTests {
 
     @Test func zoomingInSplitsTheSampleClusterAndTappingAClusterAsksToZoom() async throws {
         let viewModel = makeViewModel()
-        await viewModel.load()
+        await loadPublic(viewModel)
         viewModel.cameraChanged(latitudeSpan: 1, longitudeSpan: 1)            // the café and park merge
         let cluster = try #require(viewModel.visibleClusters.first)
         #expect(viewModel.visiblePins.isEmpty)

@@ -1,6 +1,7 @@
 import SwiftUI
 
-/// A pill that turns a filter on or off. Selected chips show a checkmark, so state is never colour alone.
+/// A pill that turns a filter on or off. A selected chip is filled with the accent colour and keeps the same size as
+/// an unselected one (no tick mark that would change its width). VoiceOver still hears "selected" from the trait.
 public struct FilterChip: View {
     private let title: VybeText
     private let isSelected: Bool
@@ -20,22 +21,17 @@ public struct FilterChip: View {
 
     public var body: some View {
         Button(action: action) {
-            HStack(spacing: Theme.Spacing.tiny) {
-                if isSelected {
-                    Image(systemName: "checkmark").font(Theme.Font.caption.weight(.bold)).accessibilityHidden(true)
-                }
-                title.text
-                    .font(Theme.Font.subheadline)
-                    .multilineTextAlignment(.center)
-            }
-            .foregroundStyle(isSelected ? Theme.Color.onAccent : Theme.Color.textPrimary)
-            .padding(.horizontal, Theme.Spacing.medium)
-            .padding(.vertical, Theme.Spacing.small)
-            .background(isSelected ? Theme.Color.accent : Theme.Color.surfaceRaised, in: Capsule())
-            .overlay { Capsule().strokeBorder(isSelected ? Color.clear : Theme.Color.separator) }
-            // The pill looks small; the tappable area is still 44 pt tall (HIG), and it grows with the text.
-            .frame(minHeight: Theme.Size.minTapTarget)
-            .contentShape(.rect)
+            title.text
+                .font(Theme.Font.subheadline)
+                .multilineTextAlignment(.center)
+                .foregroundStyle(isSelected ? Theme.Color.onAccent : Theme.Color.textPrimary)
+                .padding(.horizontal, Theme.Spacing.medium)
+                .padding(.vertical, Theme.Spacing.small)
+                .background(isSelected ? Theme.Color.accent : Theme.Color.surfaceRaised, in: Capsule())
+                .overlay { Capsule().strokeBorder(isSelected ? Color.clear : Theme.Color.separator) }
+                // The pill looks small; the tappable area is still 44 pt tall (HIG), and it grows with the text.
+                .frame(minHeight: Theme.Size.minTapTarget)
+                .contentShape(.rect)
         }
         .buttonStyle(.plain)
         .accessibilityAddTraits(isSelected ? .isSelected : [])
