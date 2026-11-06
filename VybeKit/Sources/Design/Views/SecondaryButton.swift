@@ -29,12 +29,11 @@ public struct SecondaryButton: View {
                 .padding(.vertical, verticalPadding)
                 .frame(maxWidth: .infinity)
         }
-        .buttonStyle(.bordered)
-        .buttonBorderShape(.roundedRectangle(radius: Theme.Radius.medium))
-        .controlSize(.regular)
+        .buttonStyle(PressableButtonStyle(
+            look: .tinted, tint: role == .destructive ? Theme.Color.critical : Theme.Color.accent,
+            cornerRadius: Theme.Radius.medium))
         // The style adds its own padding, so the 44 pt floor goes on the button, not inside the label.
         .frame(minHeight: Theme.Size.minTapTarget)
-        .tint(role == .destructive ? Theme.Color.critical : Theme.Color.accent)
     }
 }
 

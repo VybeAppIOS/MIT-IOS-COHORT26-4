@@ -96,7 +96,7 @@ private struct SpotMarker: View {
 
     var body: some View {
         ZStack {
-            Circle().fill(state == .visited ? Theme.Color.positive : fill)
+            Circle().fill(fill)
             if state == .visited {
                 Image(systemName: "checkmark")
             } else {
@@ -109,13 +109,23 @@ private struct SpotMarker: View {
         .accessibilityHidden(true)
     }
 
+    /// A visited Spot's circle turns lime (a bright tint, so its checkmark is dark ink, not white); the current Spot's
+    /// is the accent; the others are plain.
     private var fill: Color {
-        state == .current ? Theme.Color.accent : Theme.Color.surfaceRaised
+        switch state {
+        case .visited: Theme.Color.lime
+        case .current: Theme.Color.accent
+        default: Theme.Color.surfaceRaised
+        }
     }
 
-    /// Text on the circle: light on the coloured circles (visited, current), dark on the plain one.
+    /// Text on the circle: dark ink on lime, light on the accent, the normal text colour on the plain one.
     private var onFill: Color {
-        state == .visited || state == .current ? Theme.Color.onAccent : Theme.Color.textPrimary
+        switch state {
+        case .visited: Theme.Color.ink
+        case .current: Theme.Color.onAccent
+        default: Theme.Color.textPrimary
+        }
     }
 }
 
