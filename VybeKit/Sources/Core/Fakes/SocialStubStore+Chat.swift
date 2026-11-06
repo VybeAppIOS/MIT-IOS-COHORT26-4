@@ -279,7 +279,7 @@ extension SocialStubStore {
         let newest = messages.filter { $0.conversationID == id }.map(\.createdAt).max() ?? now()
         messages.append(Message(id: MessageID(makeID()), conversationID: id, senderID: sender,
                                 createdAt: max(now(), newest.addingTimeInterval(1)),
-                                payload: .text("EXAMPLE incoming message")))
+                                payload: .text("Just got here, where are you?")))
         publish(id)
     }
 }

@@ -28,7 +28,7 @@ struct ComponentDataTests {
 
     @Test func theCardIsReadAsOneSentence() {
         let card = HangoutCardData(SampleData.evening, coverURL: nil, isSaved: false)
-        #expect(card.accessibilityText.hasPrefix("Hangout: EXAMPLE Evening Hangout, 2 Spots"))
+        #expect(card.accessibilityText.hasPrefix("Hangout: Coffee, Then a Garden Walk, 2 Spots"))
         #expect(card.accessibilityText.hasSuffix("Picks"))
     }
 
@@ -45,7 +45,7 @@ struct ComponentDataTests {
         #expect(row.placeName == SampleData.cafe.name)
         #expect(row.categoryText == "Café")
         #expect(row.minutesText == "45 min")
-        #expect(row.accessibilityText.hasPrefix("Spot 1 of 4, EXAMPLE Café, Café · 45 min, Visited"))
+        #expect(row.accessibilityText.hasPrefix("Spot 1 of 4, Amarii Cafe, Café · 45 min, Visited"))
     }
 
     @Test func aPlaceClosedByTheAuthoritiesAlwaysShowsAsClosed() {

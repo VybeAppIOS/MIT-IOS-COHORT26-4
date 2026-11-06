@@ -112,7 +112,7 @@ struct RoutePath {
 
 #if DEBUG
 public extension SimulatedLocationService {
-    /// A short walk between the two EXAMPLE places, for previews and desk demos before the real Kothrud walk
+    /// A short walk between the two sample places, for previews and desk demos before the real Kothrud walk
     /// (`Kothrud-Walk.gpx`, task X-9) exists.
     static var examplePreview: SimulatedLocationService {
         SimulatedLocationService(route: [SampleData.cafe.coordinate, SampleData.park.coordinate])

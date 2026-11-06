@@ -28,7 +28,7 @@ struct StubTests {
     @Test func searchRespectsScopeAndBlankText() async throws {
         let search = StubSearchRepository()
         #expect(try await search.search(text: "", scope: Set(SearchKind.allCases)).isEmpty)
-        let found = try await search.search(text: "example", scope: [.places])
+        let found = try await search.search(text: "a", scope: [.places])
         #expect(found.places.count == 2 && found.hangouts.isEmpty && found.people.isEmpty)
     }
 
