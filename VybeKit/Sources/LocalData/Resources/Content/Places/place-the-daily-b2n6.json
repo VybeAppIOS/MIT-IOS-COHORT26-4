@@ -1,0 +1,69 @@
+{
+  "address": "Shop no. 2, Girjashankar Vihar B, Karve Nagar",
+  "applePlaceID": null,
+  "area": "Karve Nagar",
+  "category": "restaurant",
+  "city": "Pune",
+  "coordinate": {
+    "latitude": 18.50989,
+    "longitude": 73.807182
+  },
+  "costPerPerson": {
+    "lower": 45,
+    "upper": 250
+  },
+  "hours": [
+    {
+      "close": "22:30",
+      "open": "12:00",
+      "weekday": 1
+    },
+    {
+      "close": "22:30",
+      "open": "12:00",
+      "weekday": 3
+    },
+    {
+      "close": "22:30",
+      "open": "12:00",
+      "weekday": 4
+    },
+    {
+      "close": "22:30",
+      "open": "12:00",
+      "weekday": 5
+    },
+    {
+      "close": "22:30",
+      "open": "12:00",
+      "weekday": 6
+    },
+    {
+      "close": "22:30",
+      "open": "12:00",
+      "weekday": 7
+    }
+  ],
+  "hoursNote": null,
+  "id": "place-the-daily-b2n6",
+  "name": "The Daily Burger, Fries & Coffee",
+  "photos": [
+    {
+      "credit": "Vybe team",
+      "height": 1000,
+      "id": "photo-daily-1",
+      "path": "place-the-daily-b2n6-1.jpg",
+      "width": 750
+    },
+    {
+      "credit": "Vybe team",
+      "height": 750,
+      "id": "photo-daily-2",
+      "path": "place-the-daily-b2n6-2.jpg",
+      "width": 1000
+    }
+  ],
+  "schemaVersion": 1,
+  "status": "approved",
+  "verifiedAt": "2026-11-06T00:00:00Z"
+}

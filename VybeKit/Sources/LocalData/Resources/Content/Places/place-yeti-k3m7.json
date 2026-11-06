@@ -1,0 +1,67 @@
+{
+  "address": "Deccan, Pune (street address to confirm)",
+  "applePlaceID": null,
+  "area": "Deccan",
+  "category": "restaurant",
+  "city": "Pune",
+  "coordinate": {
+    "latitude": 18.5135,
+    "longitude": 73.8329
+  },
+  "costPerPerson": {
+    "lower": 225,
+    "upper": 755
+  },
+  "hours": [
+    {
+      "close": "23:00",
+      "open": "12:00",
+      "weekday": 1
+    },
+    {
+      "close": "23:00",
+      "open": "12:00",
+      "weekday": 2
+    },
+    {
+      "close": "23:00",
+      "open": "12:00",
+      "weekday": 3
+    },
+    {
+      "close": "23:00",
+      "open": "12:00",
+      "weekday": 4
+    },
+    {
+      "close": "23:00",
+      "open": "12:00",
+      "weekday": 5
+    },
+    {
+      "close": "23:00",
+      "open": "12:00",
+      "weekday": 6
+    },
+    {
+      "close": "23:00",
+      "open": "12:00",
+      "weekday": 7
+    }
+  ],
+  "hoursNote": null,
+  "id": "place-yeti-k3m7",
+  "name": "Yeti, The Himalayan Kitchen",
+  "photos": [
+    {
+      "credit": "Vybe team",
+      "height": 1000,
+      "id": "photo-yeti-1",
+      "path": "place-yeti-k3m7-1.jpg",
+      "width": 750
+    }
+  ],
+  "schemaVersion": 1,
+  "status": "approved",
+  "verifiedAt": "2026-11-06T00:00:00Z"
+}
