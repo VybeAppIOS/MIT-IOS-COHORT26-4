@@ -128,7 +128,7 @@ struct MarkVisitedView: View {
             }
             Button { viewModel.removePhoto(at: index) } label: {
                 Image(systemName: "xmark.circle.fill")
-                    .foregroundStyle(Theme.Color.onAccent, Theme.Color.scrim)
+                    .foregroundStyle(Theme.Color.onPhoto, Theme.Color.scrim)
             }
             .accessibilityLabel(Text(verbatim: MarkVisitedText.removePhoto))
         }

@@ -96,7 +96,7 @@ struct SummaryView: View {
                                 .clipShape(RoundedRectangle(cornerRadius: Theme.Radius.small))
                             Button { viewModel.removePhoto(photo.id) } label: {
                                 Image(systemName: "xmark.circle.fill")
-                                    .foregroundStyle(Theme.Color.onAccent, Theme.Color.scrim)
+                                    .foregroundStyle(Theme.Color.onPhoto, Theme.Color.scrim)
                                     .frame(minWidth: Theme.Size.minTapTarget, minHeight: Theme.Size.minTapTarget)
                             }
                             .accessibilityLabel(Text(verbatim: SummaryText.removePhoto))
