@@ -1,5 +1,4 @@
 import Core
-import Design
 import SwiftUI
 
 /// The only public type in SearchFeature (ADR 002). The App's screen factory calls these; each one builds the
@@ -7,35 +6,18 @@ import SwiftUI
 public enum SearchScreens {
     @ViewBuilder
     public static func root(_ deps: AppDependencies) -> some View {
-        ScreenPlaceholder(id: "S1", name: "Search")
+        SearchView(viewModel: SearchViewModel(
+            search: deps.search, hangouts: deps.hangouts, libraryStore: deps.libraryStore, session: deps.session,
+            router: deps.router))
     }
 
     @ViewBuilder
     public static func view(for route: SearchRoute, _ deps: AppDependencies) -> some View {
         switch route {
-        case .seeAll: ScreenPlaceholder(id: "S2", name: "See all")
+        case .seeAll(let kind):
+            SeeAllView(viewModel: SeeAllViewModel(
+                kind: kind, hangouts: deps.hangouts, places: deps.places, friends: deps.friends,
+                session: deps.session, router: deps.router))
         }
-    }
-}
-
-/// Stands in for a screen until its task replaces the `case` in this feature's `Screens` (task F-16).
-/// Developer-only text, so it is not localized.
-private struct ScreenPlaceholder: View {
-    let id: String
-    let name: String
-
-    var body: some View {
-        VStack(spacing: Theme.Spacing.small) {
-            Text(verbatim: id).font(Theme.Font.largeTitle)
-            Text(verbatim: name).font(Theme.Font.headline)
-            Text(verbatim: "Placeholder until this screen's task replaces it")
-                .font(Theme.Font.footnote)
-                .foregroundStyle(Theme.Color.textSecondary)
-        }
-        .multilineTextAlignment(.center)
-        .padding(Theme.Spacing.large)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Theme.Color.surface)
-        .navigationTitle(Text(verbatim: name))
     }
 }

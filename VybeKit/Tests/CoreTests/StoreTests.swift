@@ -134,3 +134,14 @@ private actor UnreadableLibrary: LibraryRepository {
     func load() async throws -> Library { throw AppError.offline }
     func save(_ library: Library) async throws { saveCount += 1 }
 }
+
+@MainActor
+struct NotificationChoiceTests {
+    @Test func everyNotificationStartsOnAndRemembersAChange() {
+        let settings = AppSettings(suiteName: "test.notifications.\(UUID().uuidString)")
+        #expect(settings.notificationOn("likes"))
+        settings.setNotification("likes", on: false)
+        #expect(settings.notificationOn("likes") == false)
+        #expect(settings.notificationOn("messages"))
+    }
+}

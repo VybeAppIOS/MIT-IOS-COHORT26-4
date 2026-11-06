@@ -23,5 +23,13 @@ public protocol ChatRepository: Sendable {
     func add(_ members: [UserID], to id: ConversationID) async throws
     func remove(_ member: UserID, from id: ConversationID) async throws
     func leave(_ id: ConversationID) async throws
+    /// Everyone in the conversation with their role, who added them and whether they are muted.
+    func memberships(in id: ConversationID) async throws -> [Membership]
+    /// Admin only. A muted person stays in the group and can read, but sending fails with `AppError.invalid`.
+    /// The admin cannot be muted.
+    func setMuted(_ muted: Bool, member: UserID, in id: ConversationID) async throws
+    /// Groups the person was added to by a non-friend and has not answered yet. They are not in `conversations()`
+    /// until accepted.
+    func pendingInvitations() async throws -> [Conversation]
     func respondToInvitation(to id: ConversationID, accept: Bool) async throws
 }

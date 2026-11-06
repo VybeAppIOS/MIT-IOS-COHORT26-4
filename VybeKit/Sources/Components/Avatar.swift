@@ -59,10 +59,11 @@ public struct Avatar: View {
     @ViewBuilder private var photo: some View {
         if url == nil {
             ZStack {
-                Circle().fill(Theme.Color.surfaceRaised)
+                // A tinted circle, so initials still read as an avatar on white cards and rows.
+                Circle().fill(Theme.Color.accent.opacity(0.12))
                 Text(verbatim: Self.initials(of: name))
                     .font(size.points >= 64 ? Theme.Font.title2 : Theme.Font.caption)
-                    .foregroundStyle(Theme.Color.textSecondary)
+                    .foregroundStyle(Theme.Color.accent)
                     .minimumScaleFactor(0.5)
             }
         } else {

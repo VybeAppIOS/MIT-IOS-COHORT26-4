@@ -76,10 +76,15 @@ public struct Membership: Codable, Hashable, Sendable {
     public var joinedAt: Date
     /// "Seen" is every member whose `lastReadAt` is after the message.
     public var lastReadAt: Date?
+    /// Set when the admin muted this person: they stay in the group and can read, but cannot send.
+    public var mutedAt: Date?
+    /// Who added this person to the group (the name an invitation shows).
+    public var addedByID: UserID?
 
     public init(
         conversationID: ConversationID, userID: UserID, role: MembershipRole = .member,
-        status: MembershipStatus = .active, joinedAt: Date, lastReadAt: Date? = nil
+        status: MembershipStatus = .active, joinedAt: Date, lastReadAt: Date? = nil, mutedAt: Date? = nil,
+        addedByID: UserID? = nil
     ) {
         self.conversationID = conversationID
         self.userID = userID
@@ -87,5 +92,7 @@ public struct Membership: Codable, Hashable, Sendable {
         self.status = status
         self.joinedAt = joinedAt
         self.lastReadAt = lastReadAt
+        self.mutedAt = mutedAt
+        self.addedByID = addedByID
     }
 }

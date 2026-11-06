@@ -1,6 +1,7 @@
 import CommunityFeature
 import Core
 import DiscoverFeature
+import LiveFeature
 import ProfileFeature
 import SearchFeature
 import SwiftUI
@@ -24,10 +25,17 @@ struct TabShell: View {
             Tab("Profile", systemImage: "person.crop.circle", value: AppTab.profile) {
                 RoutedStack(stack: .tab(.profile), deps: deps) { ProfileScreens.root(deps) }
             }
-            Tab(value: AppTab.search, role: .search) {
-                RoutedStack(stack: .tab(.search), deps: deps) { SearchScreens.root(deps) }
+            if #available(iOS 27, *) {
+                Tab("Search", systemImage: "magnifyingglass", value: AppTab.search, role: .prominent) {
+                    RoutedStack(stack: .tab(.search), deps: deps) { SearchScreens.root(deps) }
+                }
+            } else {
+                Tab("Search", systemImage: "magnifyingglass", value: AppTab.search, role: .search) {
+                    RoutedStack(stack: .tab(.search), deps: deps) { SearchScreens.root(deps) }
+                }
             }
         }
+        .modifier(LiveScreens.miniBarAccessory(deps))   // the live mini-bar above the tabs (SC-H4)
         .modifier(RouterSheetHost(deps: deps, coverIsUp: false))
     }
 }

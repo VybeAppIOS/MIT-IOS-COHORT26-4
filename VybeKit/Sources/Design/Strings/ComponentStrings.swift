@@ -69,6 +69,8 @@ public enum ComponentStrings {
     public static var comment: String { String(localized: "component.post.comment", bundle: #bundle) }
     public static var remix: String { String(localized: "component.post.remix", bundle: #bundle) }
     public static var share: String { String(localized: "component.post.share", bundle: #bundle) }
+    public static var save: String { String(localized: "component.post.save", bundle: #bundle) }
+    public static var unsave: String { String(localized: "component.post.unsave", bundle: #bundle) }
     public static var routeMap: String { String(localized: "component.post.routeMap", bundle: #bundle) }
 
     public static func likeCount(_ count: Int) -> String {

@@ -42,7 +42,16 @@ public final class SessionStore {
 
     public func setCurrentUser(_ user: UserProfile?) { currentUser = user }
 
+    /// Notification choices live in `AppSettings`; the Notifications page reads and writes them here.
+    public func notificationOn(_ name: String) -> Bool { settings.notificationOn(name) }
+    public func setNotification(_ name: String, on enabled: Bool) { settings.setNotification(name, on: enabled) }
+
     public func isBlocked(_ id: UserID) -> Bool { blockedIDs.contains(id) }
+
+    #if DEBUG
+    /// Debug launch option `-teamAccount`: opens the admin pages for a screenshot (in release the server decides).
+    public func debugSetTeamAccount(_ enabled: Bool) { isTeamAccount = enabled }
+    #endif
 
     /// Called after `SafetyRepository.block` succeeds, so every screen that filters on `blockedIDs` hides them at once.
     public func block(_ id: UserID) { blockedIDs.insert(id) }

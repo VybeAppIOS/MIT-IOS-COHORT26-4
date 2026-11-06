@@ -1,0 +1,67 @@
+{
+  "address": "Deccan, Pune (street address to confirm)",
+  "applePlaceID": null,
+  "area": "Deccan",
+  "category": "cafe",
+  "city": "Pune",
+  "coordinate": {
+    "latitude": 18.5152,
+    "longitude": 73.8378
+  },
+  "costPerPerson": {
+    "lower": 250,
+    "upper": 890
+  },
+  "hours": [
+    {
+      "close": "22:30",
+      "open": "09:30",
+      "weekday": 1
+    },
+    {
+      "close": "22:30",
+      "open": "09:30",
+      "weekday": 2
+    },
+    {
+      "close": "22:30",
+      "open": "09:30",
+      "weekday": 3
+    },
+    {
+      "close": "22:30",
+      "open": "09:30",
+      "weekday": 4
+    },
+    {
+      "close": "22:30",
+      "open": "09:30",
+      "weekday": 5
+    },
+    {
+      "close": "22:30",
+      "open": "09:30",
+      "weekday": 6
+    },
+    {
+      "close": "22:30",
+      "open": "09:30",
+      "weekday": 7
+    }
+  ],
+  "hoursNote": null,
+  "id": "place-la-cassetta-p4w2",
+  "name": "La Cassetta",
+  "photos": [
+    {
+      "credit": "Vybe team",
+      "height": 750,
+      "id": "photo-cassetta-1",
+      "path": "place-la-cassetta-p4w2-1.jpg",
+      "width": 1000
+    }
+  ],
+  "schemaVersion": 1,
+  "status": "approved",
+  "verifiedAt": "2026-11-06T00:00:00Z"
+}

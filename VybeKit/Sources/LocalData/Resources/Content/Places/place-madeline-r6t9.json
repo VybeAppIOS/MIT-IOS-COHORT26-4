@@ -1,0 +1,74 @@
+{
+  "address": "Shivajinagar, Pune (street address to confirm)",
+  "applePlaceID": null,
+  "area": "Shivajinagar",
+  "category": "cafe",
+  "city": "Pune",
+  "coordinate": {
+    "latitude": 18.5255,
+    "longitude": 73.8415
+  },
+  "costPerPerson": {
+    "lower": 375,
+    "upper": 455
+  },
+  "hours": [
+    {
+      "close": "23:00",
+      "open": "11:00",
+      "weekday": 1
+    },
+    {
+      "close": "23:00",
+      "open": "11:00",
+      "weekday": 2
+    },
+    {
+      "close": "23:00",
+      "open": "11:00",
+      "weekday": 3
+    },
+    {
+      "close": "23:00",
+      "open": "11:00",
+      "weekday": 4
+    },
+    {
+      "close": "23:00",
+      "open": "11:00",
+      "weekday": 5
+    },
+    {
+      "close": "23:00",
+      "open": "11:00",
+      "weekday": 6
+    },
+    {
+      "close": "23:00",
+      "open": "11:00",
+      "weekday": 7
+    }
+  ],
+  "hoursNote": null,
+  "id": "place-madeline-r6t9",
+  "name": "Madeline",
+  "photos": [
+    {
+      "credit": "Vybe team",
+      "height": 1000,
+      "id": "photo-madeline-1",
+      "path": "place-madeline-r6t9-1.jpg",
+      "width": 750
+    },
+    {
+      "credit": "Vybe team",
+      "height": 1000,
+      "id": "photo-madeline-2",
+      "path": "place-madeline-r6t9-2.jpg",
+      "width": 750
+    }
+  ],
+  "schemaVersion": 1,
+  "status": "approved",
+  "verifiedAt": "2026-11-06T00:00:00Z"
+}

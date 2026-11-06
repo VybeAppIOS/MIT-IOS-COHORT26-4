@@ -1,0 +1,47 @@
+{
+  "authorID": "user-vybe-team",
+  "bestTimes": [
+    "evening"
+  ],
+  "budgetPerPerson": {
+    "lower": 700,
+    "upper": 900
+  },
+  "createdAt": "2026-11-06T00:00:00Z",
+  "estimatedMinutes": 180,
+  "id": "hangout-coffee-and-books-q2z8",
+  "isPick": true,
+  "remixedFromID": null,
+  "remixedFromPlaceIDs": null,
+  "schemaVersion": 1,
+  "spots": [
+    {
+      "id": "s1",
+      "minutes": 45,
+      "note": null,
+      "placeID": "place-chai-sutta-bar-m5v8"
+    },
+    {
+      "id": "s2",
+      "minutes": 75,
+      "note": null,
+      "placeID": "place-bookbar-h8d5"
+    },
+    {
+      "id": "s3",
+      "minutes": 60,
+      "note": null,
+      "placeID": "place-madeline-r6t9"
+    }
+  ],
+  "status": "published",
+  "summary": "Chai first, then coffee beside the shelves at BookBar, and Madeline next door for something sweet.",
+  "tags": [
+    "good-for-groups"
+  ],
+  "title": "Coffee and Books Crawl",
+  "updatedAt": "2026-11-06T00:00:00Z",
+  "vibeTags": [
+    "chill"
+  ]
+}

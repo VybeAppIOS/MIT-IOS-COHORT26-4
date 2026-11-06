@@ -26,6 +26,12 @@ public actor SocialStubStore {
     var myLikes: Set<LikeTarget> = [.run("run-sample-3")]
     var activity = SampleSocialData.activity
     var conversations = SampleSocialData.conversations
+    /// Groups I was invited to and have not answered. They stay out of my conversations until I join.
+    var pendingIDs = SampleSocialData.pendingInvitationIDs
+    var addedBy = SampleSocialData.addedBy
+    var joinedAt: [ConversationID: [UserID: Date]] = [:]
+    /// Who is muted, per group.
+    var mutedAt: [ConversationID: [UserID: Date]] = [:]
     var messages = SampleSocialData.messages
     var lastRead = SampleSocialData.lastRead
     var votes = SampleSocialData.pollVotes
@@ -35,13 +41,15 @@ public actor SocialStubStore {
     var simulated: Set<ConversationID> = []
 
     public init(
-        simulateIncomingMessages: Bool = false, now: @escaping @Sendable () -> Date = { SampleData.day },
+        simulateIncomingMessages: Bool = false, mutedIn mutedGroups: Set<ConversationID> = [],
+        now: @escaping @Sendable () -> Date = { SampleData.day },
         makeID: @escaping @Sendable () -> String = { UUID().uuidString.lowercased() }
     ) {
         currentUserID = SampleSocialData.currentUser.id
         simulateIncoming = simulateIncomingMessages
         self.now = now
         self.makeID = makeID
+        for group in mutedGroups { mutedAt[group, default: [:]][currentUserID] = now() }
     }
 
     // MARK: Visibility (blocking and hiding are applied here, like a backend would)
