@@ -154,7 +154,7 @@ enum DebugDestination: Equatable {
         "live-summary": { .liveSummary(RunID($0)) }, "compose-post": { .composePost(RunID($0)) },
         "post": { .post(RunID($0)) }, "profile": { .profile(UserID($0)) },
         "mutual-friends": { .mutualFriends(UserID($0)) }, "conversation": { .conversation(ConversationID($0)) },
-        "group-info": { .groupInfo(ConversationID($0)) }
+        "group-info": { .groupInfo(ConversationID($0)) }, "group-photos": { .groupPhotos(ConversationID($0)) }
     ]
 
     private static func route(_ parts: [String]) -> Route? {

@@ -133,6 +133,17 @@
         }
       }
     },
+    "chat.conversation.holdToRecord" : {
+      "comment" : "Chat screens: chat.conversation.holdToRecord",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold the microphone while you talk, then let go to send."
+          }
+        }
+      }
+    },
     "chat.conversation.info" : {
       "comment" : "Chat screens: chat.conversation.info",
       "localizations" : {
@@ -177,6 +188,17 @@
         }
       }
     },
+    "chat.conversation.micHint" : {
+      "comment" : "Chat screens: chat.conversation.micHint",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hold to record and slide left to cancel. With VoiceOver, double-tap to start recording and double-tap again to send."
+          }
+        }
+      }
+    },
     "chat.conversation.muted" : {
       "comment" : "Chat screens: chat.conversation.muted",
       "localizations" : {
@@ -206,6 +228,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "OK"
+          }
+        }
+      }
+    },
+    "chat.conversation.photoFailed" : {
+      "comment" : "Chat screens: chat.conversation.photoFailed",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Could not send your photo. Nothing was sent."
+          }
+        }
+      }
+    },
+    "chat.conversation.photos" : {
+      "comment" : "Chat screens: chat.conversation.photos",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
           }
         }
       }
@@ -276,6 +320,17 @@
         }
       }
     },
+    "chat.conversation.releaseToCancel" : {
+      "comment" : "Chat screens: chat.conversation.releaseToCancel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let go to cancel"
+          }
+        }
+      }
+    },
     "chat.conversation.report" : {
       "comment" : "Chat screens: chat.conversation.report",
       "localizations" : {
@@ -327,6 +382,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Send message"
+          }
+        }
+      }
+    },
+    "chat.conversation.slideToCancel" : {
+      "comment" : "Chat screens: chat.conversation.slideToCancel",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slide to cancel"
           }
         }
       }
@@ -507,6 +573,17 @@
         }
       }
     },
+    "chat.group.photos" : {
+      "comment" : "Group info: the row that opens every photo sent in the group.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photos"
+          }
+        }
+      }
+    },
     "chat.group.readOnly" : {
       "comment" : "Chat screens: chat.group.readOnly",
       "localizations" : {
@@ -569,6 +646,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unmute"
+          }
+        }
+      }
+    },
+    "chat.groupPhotos.empty" : {
+      "comment" : "Empty state of the Group photos screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No photos yet. Photos sent in this group show up here."
+          }
+        }
+      }
+    },
+    "chat.groupPhotos.title" : {
+      "comment" : "Title of the Group photos screen.",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Group photos"
           }
         }
       }
@@ -889,6 +988,39 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "New chat"
+          }
+        }
+      }
+    },
+    "chat.photo.close" : {
+      "comment" : "Chat screens: chat.photo.close",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Close photo"
+          }
+        }
+      }
+    },
+    "chat.photo.position %lld %lld" : {
+      "comment" : "Chat screens: chat.photo.position %lld %lld",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "chat.photo.single" : {
+      "comment" : "Chat screens: chat.photo.single",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Photo"
           }
         }
       }

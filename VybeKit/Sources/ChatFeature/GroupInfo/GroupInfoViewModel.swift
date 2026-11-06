@@ -85,6 +85,7 @@ final class GroupInfoViewModel {
     var nameHeader: String { String(localized: "chat.group.name", bundle: #bundle) }
     var membersHeader: String { String(localized: "chat.group.members", bundle: #bundle) }
     var adminLabel: String { String(localized: "chat.group.admin", bundle: #bundle) }
+    var photosLabel: String { String(localized: "chat.group.photos", bundle: #bundle) }
     var addLabel: String { String(localized: "chat.group.add", bundle: #bundle) }
     var addTitle: String { String(localized: "chat.group.addTitle", bundle: #bundle) }
     var doneLabel: String { String(localized: "chat.group.done", bundle: #bundle) }
@@ -105,6 +106,9 @@ final class GroupInfoViewModel {
     }
 
     var isOffline: Bool { network.isOffline }
+
+    /// The Photos row: every picture sent in this group (CH8).
+    func photosTapped() { router.open(.groupPhotos(conversationID)) }
 
     // MARK: Loading
 

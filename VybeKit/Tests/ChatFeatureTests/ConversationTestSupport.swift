@@ -43,16 +43,19 @@ struct ConversationKit {
 
     func makeViewModel(
         _ id: ConversationID? = nil, chat: (any ChatRepository)? = nil, deps: AppDependencies = .preview(.loaded),
-        recorder: FakeRecorder = FakeRecorder(), offline: Bool = false, session: SessionStore? = nil
+        recorder: FakeRecorder = FakeRecorder(), offline: Bool = false, session: SessionStore? = nil,
+        photos: (any PhotoStore)? = nil,
+        sleep: @escaping @Sendable (Duration) async throws -> Void = { try await Task.sleep(for: $0) }
     ) -> ConversationViewModel {
         ConversationViewModel(
             conversationID: id ?? crew, chat: chat ?? deps.chat, profiles: deps.profiles, hangouts: deps.hangouts,
+            photos: photos ?? deps.photos,
             libraryStore: deps.libraryStore, session: session ?? deps.session, badges: deps.badges,
             network: NetworkMonitor(isOffline: offline), router: deps.router, now: { SampleData.day },
             recorder: recorder, player: AudioPlayer(),
             makePoll: { chatID, onClose in
                 PollViewModel(conversationID: chatID, chat: deps.chat, network: deps.network, onClose: onClose)
-            })
+            }, sleep: sleep)
     }
 
     func rows(_ viewModel: ConversationViewModel) -> [MessageRowData] {
@@ -76,4 +79,18 @@ struct ConversationKit {
 
     var myID: UserID { SampleData.signedInUser.id }
     var ishaID: UserID { SampleSocialData.isha.id }
+}
+
+/// A stand-in for the 2 minute wait: it stays asleep until the test opens the gate, and remembers how long it was
+/// asked to wait. Cancelling the wait ends it (like the real sleep).
+final class CapGate: Sendable {
+    private let state = Mutex((isOpen: false, asked: Duration?.none))
+    var asked: Duration? { state.withLock { $0.asked } }
+    func open() { state.withLock { $0.isOpen = true } }
+    var sleep: @Sendable (Duration) async throws -> Void {
+        { [self] duration in
+            state.withLock { $0.asked = duration }
+            while !state.withLock({ $0.isOpen }) { try await Task.sleep(for: .milliseconds(5)) }
+        }
+    }
 }
