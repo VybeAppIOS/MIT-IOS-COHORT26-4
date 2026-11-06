@@ -1,38 +1,51 @@
 import Models
 import SwiftUI
+import UIKit
 
 public extension Theme {
     /// Semantic colours, light and dark. Values live in `Resources/Colors.xcassets`, never in code, so one asset edit
     /// restyles the app.
     enum Color {
-        public static let surface = SwiftUI.Color("Surface", bundle: .module)
-        public static let surfaceRaised = SwiftUI.Color("SurfaceRaised", bundle: .module)
-        public static let textPrimary = SwiftUI.Color("TextPrimary", bundle: .module)
-        public static let textSecondary = SwiftUI.Color("TextSecondary", bundle: .module)
-        public static let accent = SwiftUI.Color("Accent", bundle: .module)
-        public static let onAccent = SwiftUI.Color("OnAccent", bundle: .module)
-        public static let positive = SwiftUI.Color("Positive", bundle: .module)
-        public static let warning = SwiftUI.Color("Warning", bundle: .module)
-        public static let critical = SwiftUI.Color("Critical", bundle: .module)
-        public static let separator = SwiftUI.Color("Separator", bundle: .module)
-        public static let scrim = SwiftUI.Color("Scrim", bundle: .module)
+        /// The colour from the asset catalog, for the current light or dark appearance. If the catalog cannot be read
+        /// (an older iOS than the Xcode that built it), the generated copy in `ColorFallbacks` is used instead, so the
+        /// app never draws invisible text. Never edit colours here: edit `Colors.xcassets`.
+        static func named(_ name: String) -> SwiftUI.Color {
+            SwiftUI.Color(uiColor: UIColor { traits in
+                if let color = UIColor(named: name, in: .module, compatibleWith: traits) { return color }
+                guard let pair = ColorFallbacks.pairs[name] else { return .magenta }   // a missing name is a bug
+                let rgba = traits.userInterfaceStyle == .dark ? pair.dark : pair.light
+                return UIColor(red: rgba[0], green: rgba[1], blue: rgba[2], alpha: rgba[3])
+            })
+        }
+
+        public static let surface = named("Surface")
+        public static let surfaceRaised = named("SurfaceRaised")
+        public static let textPrimary = named("TextPrimary")
+        public static let textSecondary = named("TextSecondary")
+        public static let accent = named("Accent")
+        public static let onAccent = named("OnAccent")
+        public static let positive = named("Positive")
+        public static let warning = named("Warning")
+        public static let critical = named("Critical")
+        public static let separator = named("Separator")
+        public static let scrim = named("Scrim")
 
         /// White text and icons on a photo with a dark scrim. Fixed in both appearances (`onAccent` flips in dark).
-        public static let onPhoto = SwiftUI.Color("OnPhoto", bundle: .module)
+        public static let onPhoto = named("OnPhoto")
 
         /// Dark text for bright fills. Unlike `textPrimary` it stays dark in both appearances, because the tints below
         /// stay bright in both.
-        public static let ink = SwiftUI.Color("Ink", bundle: .module)
+        public static let ink = named("Ink")
 
         // Bright tints for energy: category chips, empty-photo cards, small highlights. They are fills, not text
         // colours: always put `ink` on them, never white and never `textPrimary` (it turns light in dark mode).
-        public static let sunset = SwiftUI.Color("Sunset", bundle: .module)
-        public static let sun = SwiftUI.Color("Sun", bundle: .module)
-        public static let lime = SwiftUI.Color("Lime", bundle: .module)
-        public static let lilac = SwiftUI.Color("Lilac", bundle: .module)
-        public static let pink = SwiftUI.Color("Pink", bundle: .module)
-        public static let mint = SwiftUI.Color("Mint", bundle: .module)
-        public static let sky = SwiftUI.Color("Sky", bundle: .module)
+        public static let sunset = named("Sunset")
+        public static let sun = named("Sun")
+        public static let lime = named("Lime")
+        public static let lilac = named("Lilac")
+        public static let pink = named("Pink")
+        public static let mint = named("Mint")
+        public static let sky = named("Sky")
 
         /// One tint per group of Place categories, so a card or chip says what kind of place it is at a glance.
         public static func category(_ category: PlaceCategory) -> SwiftUI.Color {
