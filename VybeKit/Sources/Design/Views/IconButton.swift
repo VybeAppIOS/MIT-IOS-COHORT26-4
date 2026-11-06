@@ -25,7 +25,7 @@ public struct IconButton: View {
                 .frame(minWidth: Theme.Size.minTapTarget, minHeight: Theme.Size.minTapTarget)
                 .contentShape(.rect)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(PressableButtonStyle(look: .plain))
         .foregroundStyle(Theme.Color.textPrimary)
         .accessibilityLabel(label.plain)
     }

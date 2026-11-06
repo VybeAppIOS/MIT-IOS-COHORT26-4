@@ -33,7 +33,7 @@ public struct FilterChip: View {
                 .frame(minHeight: Theme.Size.minTapTarget)
                 .contentShape(.rect)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(PressableButtonStyle(look: .plain))
         .accessibilityAddTraits(isSelected ? .isSelected : [])
         .vybeAnimation(Theme.Motion.quick, value: isSelected)
         .vybeHaptic(.selection, trigger: isSelected)
