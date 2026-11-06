@@ -139,4 +139,22 @@ struct PhotoProcessorTests {
         }
         await #expect(throws: PhotoProcessingError.notAnImage) { try await PhotoProcessor().process(Data()) }
     }
+
+    @Test func theProcessedPhotoKnowsItsSize() async throws {
+        let result = try await PhotoProcessor().process(try makeImage(width: 4000, height: 3000))
+        #expect(result.pixelSize?.width == 1600 && result.pixelSize?.height == 1200)
+        #expect(ProcessedPhoto(large: Data("x".utf8), thumbnail: Data()).pixelSize == nil)
+    }
+
+    #if DEBUG
+    @Test func theStubPhotoStoreHandsOutNewPhotosAndKeepsNoFiles() async throws {
+        let store = StubPhotoStore()
+        let processed = try await PhotoProcessor().process(try makeImage(width: 800, height: 600))
+        let first = try await store.save(processed)
+        let second = try await store.save(processed)
+        #expect(first.id != second.id && first.path != second.path)
+        #expect(first.width == 800 && first.height == 600)
+        #expect(store.url(for: first) == nil)
+    }
+    #endif
 }

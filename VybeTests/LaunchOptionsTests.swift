@@ -49,6 +49,7 @@ struct LaunchOptionsTests {
         ("compose-post/r1", .route(.composePost("r1"))), ("post/r1", .route(.post("r1"))),
         ("profile/u1", .route(.profile("u1"))), ("mutual-friends/u1", .route(.mutualFriends("u1"))),
         ("conversation/c1", .route(.conversation("c1"))), ("group-info/c1", .route(.groupInfo("c1"))),
+        ("group-photos/c1", .route(.groupPhotos("c1"))),
         ("saved", .route(.saved)), ("drafts", .route(.drafts)), ("ready-to-post", .route(.readyToPost)),
         ("settings", .route(.settings)), ("settings/privacy", .route(.settingsPage(.privacy))),
         ("settings/place-suggestions", .route(.settingsPage(.placeSuggestions))),

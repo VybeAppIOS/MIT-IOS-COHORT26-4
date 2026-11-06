@@ -1,6 +1,6 @@
 # WO-2 report: Community, Friends and Chat
 
-Branch: `a/wo2-screens`. Written by Claude Code (Sonnet 5.5) for Atharva Tawde. This file is updated with every screen.
+Branch: `a/wo2-remaining` (the WO-2 work that was not on main yet: chat photos, Group photos, read receipts, voice notes, the docs, and the Search fixes 20 to 25, picked from `a/wo2-screens` and `a/wo2-search-alt`; it replaces PR #66). Written by Claude Code (Sonnet 5.5) for Atharva Tawde. This file is updated with every screen.
 It contains Tanvi's Feed (SC-CM1), Post detail (SC-CM2) and the PostCard redesign (CP-6) until her PRs merge.
 Nothing here says a check passed unless the output was read; see "Checks" at the end.
 
@@ -116,28 +116,52 @@ Nothing here says a check passed unless the output was read; see "Checks" at the
 - Checklist (WO-3 prompt section 6): inline title, info button, composer in safeAreaInset(.bar), scrollDismissesKeyboard, long-press menu (Copy, Edit, Delete, Report), confirmation before delete pass; large text not looked at
 - Notes: NOT built: sending photos (PhotosPicker, max 2). There is no call to store a processed photo and the photo permission text is X-9, so photos are listed under Needs from Lohitaksh. Voice: tap the mic to record and tap again to send (not hold-to-record and slide-to-cancel); recording needs the microphone text (X-9); playback of old notes fails with a message because their files do not exist. Read receipts: only 'Delivered' is shown, because the repository does not report when others last read (the Seen logic is in and tested). Unread counts on the Community tab are refreshed. Report pushes the shared Report screen on the tab. The stream stops when the screen goes away. Hold-to-record, link opening uses UIApplication.shared.open.
 
-## Search (SC-S1, SC-S2)
-Not part of this branch. Tanvi is taking the last two screens, so the Search tab was taken out of `a/wo2-screens` (two revert commits) and lives on the separate branch `a/wo2-search-alt` (the earlier Search work and its report sections are there).
+## SC-S1: done (recent searches are kept between launches)
+- Files: SearchFeature/Search/* (3 files), SearchViewModelTests, SearchScreens (root), catalog; fixes: Core/Services/AppSettings, Core/Stores/SessionStore, Vybe/App (items 20, 22, 23)
+- Tests: 17 (SearchFeatureTests has 28 with See all)
+- Screenshots (opened, item 24): idle with recent search and with Picks, results from Discover, Community and Profile, no results with Suggest a place, error, keyboard open, largest text, largest text with the keyboard. Not opened: loading.
+- Button heights: rows 44 pt+ (system List)
+- Checklist (WO-3 prompt section 6): .searchable inside SearchView on the tab's own stack, no back button on the tab root, grouped inset list, section headers, VoiceOver headers pass; largest text and keyboard looked at; VoiceOver not run
+- Notes: Group order is read when a query runs (Discover: Hangouts first; Community: People first; Profile: your Saved Hangouts first). Typing is debounced 0.25 s. Blocked people and you are hidden from People. Recent searches (5, newest first) are kept in `AppSettings.recentSearches` through `SessionStore`. On a normal launch People come from the sample people (DEBUG wrapper in `Vybe/App`); Hangouts and Places stay empty until the real content is bundled. Not driven by hand: tapping rows and Suggest a place (ViewModel tests cover the Router calls).
+
+## SC-S2: done (lists the matches for what was typed)
+- Files: SearchFeature/SeeAll/* (3 files), SeeAllViewModelTests, SearchScreens, AppShellTests row, catalog; fixes: Core/Stores/SessionStore (item 21)
+- Tests: 11
+- Screenshots (opened, item 24): matches for a Place and for People, empty, largest text. Not opened: the whole-group list, the error and loading states.
+- Button heights: rows 44 pt+ (system List)
+- Checklist (WO-3 prompt section 6): inline title, back button, grouped inset list, paged on scroll pass; largest text looked at
+- Notes: `Route.searchSeeAll(kind)` is unchanged and carries only the group. The typed words travel in `SessionStore.lastSearchQuery` (in memory); with them, See all runs `SearchRepository.search` for that one group; with none (for example a restored route) it lists the whole group. Blocked people and you are left out. Paging is done on the phone, 20 at a time.
+
+### Search fixes (reusable in the PR description)
+- Recent searches are kept in settings (`AppSettings.recentSearches`, through `SessionStore`) and come back after closing the app; Clear really clears them.
+- See all shows the matches for what was typed, in that group only, still paged; with no typed words it shows the whole group. The route is unchanged (`SessionStore.lastSearchQuery`).
+- You never appear in your own People results, in Search or See all (blocked people were already hidden).
+- On a normal debug launch People are found: Hangouts and Places stay local, People come from the sample people (`Vybe/App`, DEBUG only).
+- Looked at on the simulator: every state of Search and See all, three starting tabs, keyboard open, largest text. Nothing else needed fixing.
+- Merge order: these Search fixes were picked from `a/wo2-search-alt` (PR #66) onto `a/wo2-remaining`, on top of the Search that is already on main; that PR replaces #66.
 
 ## Needs from Lohitaksh
 1. **Ignore a friend request**: `FriendsRepository` has no `ignoreRequest`, so Ignore (Activity, Friends hub) only hides the row on this phone.
-2. **Activity rows about a comment** now carry an optional `runID` (item 5) and open that post. The real server must fill `runID` for comment and reply rows; without it the row falls back to the commenter's profile.
-3. **ProfileHeader** always shows the Hangouts and Spots numbers, so a private profile shows "0" and "0". It needs a way to hide them.
-4. **PostCard** (Components): the ••• menu only has Report. A `block` action on `PostCardActions` would let the Feed offer Block there; today it is in the long-press menu.
-5. **Posts by one person**: there is no call for it, so a profile reads up to 3 feed pages and keeps that person's posts.
-8. **Read receipts**: the repository does not say when others last read a chat, so only "Delivered" is shown (the "Seen" logic is in and tested).
-9. **Group invitations**: no pending-member state is exposed, so Add members adds at once (the task says a non-friend must accept first) and the invitation screen assumes the group's admin added you.
-10. **Photos in chat**: no call to store a processed photo, and the photo and microphone permission texts (X-9) are not in the project. Sending photos is not built; recording a voice note asks for the microphone and needs that text. Voice notes: how a `path` maps to a playable file is not defined (recordings go to `voice/<file>` in the temporary folder).
-11. **App launch**: nothing calls `BadgeStore.refresh()` at launch, so the Community tab badge stays empty until the Feed or Chats list opens (they now refresh it).
-12. **Sample data** still has EXAMPLE places and titles on screen; the sample-natural-hangouts branch (separate PR) addresses that.
-13. `LaunchOptions.swift` was not changed: no new short form was needed.
+2. **ProfileHeader** always shows the Hangouts and Spots numbers, so a private profile shows "0" and "0". It needs a way to hide them.
+3. **PostCard** (Components): the ••• menu only has Report. A `block` action on `PostCardActions` would let the Feed offer Block there; today it is in the long-press menu.
+4. **Posts by one person**: there is no call for it, so a profile reads up to 3 feed pages and keeps that person's posts.
+5. **App launch**: nothing calls `BadgeStore.refresh()` at launch, so the Community tab badge stays empty until the Feed or Chats list opens (they now refresh it).
+6. **Sample data** still has EXAMPLE places and titles on screen; the sample-natural-hangouts branch (separate PR) addresses that.
+7. **`NSMicrophoneUsageDescription` is missing** (checked: no usage-description key anywhere in `Vybe.xcodeproj` or `Config/`). It is a project setting, so I did not add it. Without it the first real voice recording crashes when iOS asks for the microphone. Suggested text: "Vybe uses the microphone to record voice notes you send in chats."
+8. **Photo permission text (X-9)** is still not in the project. The chat photo picker is the system `PhotosPicker`, which runs outside the app, so chat photos do not need it; X-9 still has to decide what the camera and other photo screens need.
+9. **Tab bar change (issue #60, faculty)** is not built: it is a separate decision and stays out of this PR.
+10. **Backend (Phase 2)** for the approved fixes: endpoints for `memberships`, mute and `pendingInvitations` (with `addedByID` on a pending membership); `lastReadAt` on each member and updated by `markRead` (the app has no push for read times, so "Seen" moves when the next batch of messages arrives); `runID` on comment and reply Activity rows; a photo upload that replaces `LocalPhotoStore.save` and also strips location; and a list of group photos (the messages endpoint is enough, the phone filters). Details are in `docs/DATA-MODEL.md` 3 and 6a.
+11. **Voice notes**: how a voice `path` maps to a playable file is still not defined (recordings go to `voice/<file>` in the temporary folder), so old sample notes show a message when played.
+12. **Not driven by hand** (needs a person on a device): the hold, slide and release of the microphone, the system photo picker, the ••• menus and confirmation dialogs, tapping an invitation, and VoiceOver on all of them. See each item below.
+13. `LaunchOptions.swift` got one short form (`group-photos/<id>`, item 12); nothing else needed one.
 
 ## Decisions I need
 - **Report from the Comments sheet** closes the sheet and opens the shared Report sheet (a local sheet cannot push another feature's screen), instead of pushing inside the sheet as the task says. OK?
-- **Block in the Feed** is in the long-press menu for now. OK until item 4 above is done?
-- **Voice notes** are tap to record, tap to send (not hold-to-record with slide-to-cancel).
+- **Block in the Feed** is in the long-press menu for now. OK until item 3 above is done?
 - **Friend request limits**: the 30-a-day count is worked out from the sent requests' dates, since no counter exists.
-- **Photos in chat** left out (item 10): build a placeholder now, or wait for photo storage?
+- **Other large buttons** (`EmptyStateView`, `ErrorView`, `BlockConfirmView`, Report) are still about 51 pt while Primary and Secondary are 48 pt (item 3 of the fixes): switch them to `PrimaryButton` too?
+- **Add Spot (E2) and share (CH5) pickers** have no on-device filter; `docs/IA.md` 8 question 3 leaves them open.
+- **Group Photos row and Photos in chat** use the sample photos that have no image files, so the placeholder shows until real pictures exist.
 
 ## Risks I saw
 - Tanvi's Feed, Post detail and PostCard commits are on this branch too. When her PRs merge, `CommunityScreens.swift`, the Community catalog and `AppShellTests.swift` will conflict: merge `main` into this branch and keep both sides.
@@ -145,6 +169,8 @@ Not part of this branch. Tanvi is taking the last two screens, so the Search tab
 - For most screens I did not look at the largest text size or VoiceOver in the simulator; the previews and labels exist but were not exercised.
 - Screenshots are in `build/` on my Mac and are not committed (the folder is 400 MB and not ignored). Never `git add .`.
 - The Feed, Chats list and the Comments/New chat/Poll sheets have no debug route, so they were photographed with temporary changes that were reverted.
+- Found by the final review and not fixed (left for a human to decide): Activity still lists people you have blocked (the stub does not filter them; it was like this before this job). The stub's `mutedIn:` initialiser can mute the admin, which the real rules forbid (test setup only). "Muted" is hidden only in the UI: `memberships(in:)` returns every member's `mutedAt` to any member, so a real backend must redact it. Photos picked for a message are saved one by one, so a failed send leaves the saved files on the phone with no message. Leaving the Conversation while the very first microphone permission prompt is showing does not discard that recording. Picking and reading photos (`PhotoPicker`) is loaded in the View, not in the ViewModel.
+- Fixed after the review: the 2 minute voice cap no longer cancels its own sending task, and the microphone is now really disabled (VoiceOver says so) while you cannot write.
 
 ## Checks
 Final `./scripts/check.sh` (the run before the Search tab was moved to its own branch):
@@ -160,6 +186,9 @@ Done linting! Found 0 violations, 0 serious in 396 files.
 (app target: 123 test cases passed, 0 failed; package tests ran with -quiet)
 ==> All checks passed
 ```
+
+### Search branch (`a/wo2-search-alt`), group check after items 20 to 25
+`./scripts/check.sh` with `SIMULATOR="iPhone 18 Pro"`, log `~/Desktop/vybe-cp-notes/logs/group7-search-check.log`, read by me: SwiftLint `Found 0 violations, 0 serious in 424 files`, `Architecture rules passed`, `Architecture check self-test passed`, app tests and VybeKit package tests ran, then `==> All checks passed` and `exit=0`. The temporary launch changes used for the photographs were already reverted (`git status` was clean before the run).
 
 ## git log (commits on this branch beyond main, before this report commit)
 ```
@@ -211,7 +240,19 @@ Branch: `a/wo2-screens`, started from the merge of `origin/main` (no conflicts).
 | 8 Group data: memberships, mute, invitations | done (own commit) |
 | 9 Group info: ••• menu, Mute, Add members for all | done (own commit) |
 | 10 Chats list shows invitations (CH7) | done (own commit; checked at the end of Group 5) |
-| 11-25 | not started |
+| 11 Photos in chat | done (own commit) |
+| 12 Group photos (CH8) | done (own commit) |
+| 13 Read receipts | done (own commit) |
+| 14 Voice notes: hold to record | done (own commit; microphone purpose string still missing, see below) |
+| 15 Docs for the approved fixes | done (docs only; no check run, as agreed) |
+| 16 Full check and push | done (check passed at commit 74374d2, then pushed) |
+| 17-18 Preview build on the simulator | see the summary (local only, not pushed) |
+| 20 Recent searches are kept | done (own commit) |
+| 21 See all shows the matches | done (own commit) |
+| 22 You are not in your own People results | done (own commit) |
+| 23 People on a normal launch | done (own commit) |
+| 24 SC-S1 "Done when" on a real run | done (report only: nothing needed fixing in the code) |
+| 25 Report and check | done (check.sh passed, see "Checks") |
 
 ### Item 1: Who "you" are
 Problem: a normal launch uses `LocalProfileRepository` (ID `user-local`) while the social stubs use `SampleSocialData.currentUser` (ID `user-sample-me`), so chat, comments and Group info could not tell which things were yours.
@@ -309,3 +350,95 @@ Needs from Lohitaksh: none.
 
 Group 5 full check: one `./scripts/check.sh` run after items 8 to 10 ended with `==> All checks passed` (exit 0). The log also has one line, "error: the following command failed with exit code 0 but produced no further output", from the app-target test step; the run still passed. A pre-existing compiler warning (`var people` never mutated in `InvitationViewModel`) is still there.
 
+### Item 11: Photos in chat
+What changed: `PhotoStore` has `save(_ photo: ProcessedPhoto) async throws -> Photo`. `LocalPhotoStore` writes the large picture to `Application Support/Vybe/Photos` and `url(for:)` looks in the bundled folder and then the saved folder (a path with `..` is never found). `StubPhotoStore` (now a class, numbers its photos, keeps no file) conforms. Onboarding and Live were not touched (they only call `url(for:)`). `ProcessedPhoto.pixelSize` reads the width and height. The "+" menu has Photos (system `PhotosPicker`, max 2 per message, images only). Every picked picture goes through `PhotoProcessor` first (resized, location and all other details removed: docs/RISKS.md 3), is saved, and then all are sent as ONE message. If any step fails a short message shows and nothing is sent. Photos is off offline, while muted or read-only, while recording and while one is sending. The conversation now shows the real pictures through `PhotoStore` instead of nil. Tapping a photo opens the shared full-screen viewer (`ChatFeature/Shared/PhotoViewer.swift`, wired through the `openPhoto` closure): system page `TabView` to swipe between photos, a Close button with a VoiceOver label, a "Photo 2 of 3" label for each picture, no glass on the photos. The sample group message now has 2 photos so the viewer can be swiped.
+Files (shared, approved): `Core/Repositories/PhotoStore.swift`, `Core/Services/PhotoProcessor.swift`, `Core/Fakes/StubRepositories.swift`, `LocalData/LocalPhotoStore.swift`, `Models/Samples/SampleSocialData.swift`. Feature: `ChatFeature/ChatScreens.swift`, `Conversation/ConversationView.swift`, `ConversationViewModel.swift`, `ConversationViewModel+Photos.swift`, `Conversation+Preview.swift`, `Shared/PhotoPicker.swift`, `Shared/PhotoViewer.swift`, `Resources/Localizable.xcstrings` (5 strings).
+Tests: `ConversationPhotosTests` (picked photos are processed, location gone from what was saved, one message; max 2; not a picture sends nothing; one bad picture among two sends nothing; failed save; failed send; picker could not read; offline, muted and recording turn it off; real pictures from the store; tapping opens the viewer on that photo and ignores bad taps), `LocalPhotoStoreTests` (save and find again, separate files, bundled and saved both found, `..` path, no size for non-pictures), `PhotoProcessorTests` (size, stub store). No test file asserts sample text.
+Looked at (screenshot opened, with a temporary line that opened the viewer, since reverted): the viewer on the second of two photos, with the Close button top left and two page dots. The sample photos have no image files, so the placeholder shows.
+Not driven by hand: the "+" menu, the system photo picker and picking a real picture (cannot be automated here; the ViewModel is tested with fakes and real JPEG bytes that carry a GPS position), swiping in the viewer, VoiceOver, the viewer on a real image, the saved file on disk from the app.
+Needs from Lohitaksh: the backend upload (Phase 2) replaces `LocalPhotoStore.save`; the upload must also strip location (already done on the phone before `save`).
+
+### Item 12: Group photos (CH8)
+What changed: new screen `GroupPhotosView` + `GroupPhotosViewModel` (made with `scripts/new_screen.py`, then rewritten). It listens to the group's messages stream and shows every photo as a `LazyVGrid` with adaptive columns (the column width is a `@ScaledMetric`, so large text gives fewer, bigger columns), newest message first; the pictures of one message keep their order. Deleted messages and messages from blocked people are left out. Tapping a picture opens the shared full-screen viewer (item 11) on it, with all the group's photos to swipe between. States: loading (nine placeholder tiles), empty ("No photos yet..."), failed (Retry), and a broken stream after photos keeps them and marks them stale. Group info has a new Photos row (own section, chevron, 44 pt) that calls `router.open(.groupPhotos(id))`. New route `ChatRoute.groupPhotos(ConversationID)` with the `Route.groupPhotos` helper, launch short form `group-photos/<id>`, `docs/IA.md` row CH8.
+Files (shared, approved): `Core/Navigation/Routes/ChatRoute.swift`, `Vybe/App/LaunchOptions.swift`, `docs/IA.md`, `VybeTests/AppShellTests.swift` (row `view:GroupPhotosView`), `VybeTests/LaunchOptionsTests.swift`, `CoreTests/RouteCodingTests.swift` and `IACoverageTests.swift` (CH8 row, 61 screens). Feature: `ChatFeature/GroupPhotos/*` (4 files), `ChatScreens.swift`, `GroupInfo/GroupInfoView.swift`, `GroupInfoViewModel.swift`, `Resources/Localizable.xcstrings` (Photos row, new empty text), tests below.
+Tests: `GroupPhotosViewModelTests` (newest first with ids, deleted left out, blocked hidden, no photos is empty, only blocked photos is empty, failed first load, sample group has photos and the empty mode is empty, tapping opens the viewer on the tapped photo with all of them and ignores unknown ids, a broken stream keeps the photos and marks them stale), `GroupInfoViewModelTests` (Photos row opens the route), `ChatScreensTests` (entry point builds). `ControlledChat` got `failStreamAfterFirstBatch` for the stale test. They assert IDs, counts and states, not sample text.
+Looked at (screenshots opened): the grid (two sample photos as placeholder tiles, since the sample photos have no image files), the empty state, and Group info with the new Photos row. Not driven by hand: tapping the Photos row or a tile (covered by ViewModel tests; the route is covered by AppShell and launch tests), swiping in the viewer, the failed and loading states and the largest text size on the device (previews exist), VoiceOver, a grid with many real pictures.
+Needs from Lohitaksh: none. The backend list of group photos can reuse the messages endpoint (this screen filters on the phone).
+
+
+Group 6a full check: one `./scripts/check.sh` run after items 11 and 12 ended with `==> All checks passed` (exit 0).
+
+### Item 13: Read receipts ("Seen")
+What changed: the Conversation now loads `memberships(in:)` once before the stream starts and again after every batch of messages, so the read times move whenever the messages do. "Seen" under my last message uses the newest `lastReadAt` among the other members who are active and not blocked (my own read time never counts), fed into the existing `ConversationViewModel.receipt(for:othersLastReadAt:)`. A failed membership lookup keeps what was known before. The same lookup still decides whether I am muted. Sample data: `SampleSocialData.othersLastRead` (who read which chat and when, only people who are in that chat; no existing ID changed); the stub shows it as `lastReadAt` on their `Membership` and clears it when they are removed. The contract checks now also require `markRead` to set my own `lastReadAt`.
+Files (shared, approved): `Models/Samples/SampleSocialData.swift`, `Core/Fakes/SocialStubStore.swift`, `SocialStubStore+Chat.swift`, `Contracts/SocialContracts.swift`. Feature: `ChatFeature/Conversation/ConversationViewModel.swift`. Tests: `ChatFeatureTests/ConversationReceiptsTests.swift` (new), `ChatTestSupport.swift` (`ControlledChat` can return fixed memberships and counts the calls).
+Tests (8): the sample DM shows Seen; no read time is Delivered; reading before my message is Delivered and after is Seen; my own read time never counts; in a group the newest read of anyone counts; a blocked reader and a pending member do not count; the read times are reloaded when the messages change (a new message is Delivered, then Seen after the other person's read time moves); the stub reports other people's read times on their membership. They assert receipts and counts, not sample text.
+Looked at: see the screenshot note at the end of Group 6b. Not driven by hand: nothing here needs a tap.
+Needs from Lohitaksh: the backend must return each member's `lastReadAt` on `memberships` (and update it when `markRead` is called), and the app has no push for read times: "Seen" updates when the next message batch arrives.
+
+### Item 14: Voice notes, hold to record (SC-CH2)
+What changed: the microphone is now a hold control. Finger down starts recording, letting go sends, sliding left 80 points and letting go throws it away (the bar shows "Slide to cancel", and "Let go to cancel" with a trash icon once letting go would cancel: words and icon, not only colour; the bar follows the finger directly, with no animation). The 2 minute cap is enforced by the screen too: a cap task (the wait is injected as `sleep:`, default `Task.sleep`) stops the recording at `AudioRecorder.maximumDuration`, sends what was recorded and shows the "up to 2 minutes" notice, even while the finger is still down; letting go later does nothing. A tap that records under 1 second is thrown away (the file is deleted) and a notice says to hold the microphone. If the recorder cannot start (no permission) nothing is held and the existing message shows. Leaving the screen discards an unfinished recording (`onDisappear`). VoiceOver: the microphone is one accessibility element with a label ("Record a voice note", "Send voice note" while recording), a spoken hint that explains the hold gesture and the VoiceOver way, a default accessibility action that starts on the first activation and sends on the next (`micTapped()`), and a "Discard voice note" custom action while recording. A finger can take over a recording VoiceOver started. The trash button in the bar stays when nobody is holding. The mic control is 44 pt minimum and dimmed when writing is off. The read-receipt code moved to `ConversationViewModel+Receipts.swift` (same code as item 13) because the class hit the lint length limit.
+Files: `ChatFeature/Conversation/ConversationView.swift`, `MicControl.swift` (new: the microphone and the recording bar), `ConversationViewModel.swift`, `ConversationViewModel+Voice.swift`, `+Words.swift`, `+Receipts.swift` (new), `Resources/Localizable.xcstrings` (4 strings), tests below, this report.
+Tests (`ConversationHoldToRecordTests`, 15, all with `FakeRecorder`, no microphone): hold starts and letting go sends; letting go before the start finished still sends once; a second press does not start again; sliding far enough cancels and sends nothing; a short slide still sends and sliding back undoes the cancel; sliding right is ignored; the hint words change; a tap under 1 second is not sent and the file is deleted; no permission; offline and muted cannot hold; the cap stops and sends at 2 minutes (the wait asked for exactly 120 s) and a later release does nothing; finishing early stops the cap clock; VoiceOver start then send; VoiceOver discard; a finger takes over a VoiceOver recording; leaving the screen discards. The old voice tests in `ConversationVoiceAndRulesTests` still pass.
+Looked at: the Conversation screenshot (microphone in the composer, nothing recording). Not driven by hand: holding, sliding and letting go, the 2 minute wait, VoiceOver itself, and the system microphone prompt. I did not tap the microphone and did not record anything live. The gesture view code (`DragGesture(minimumDistance: 0)` plus `@GestureState`, `onChange` to call the ViewModel) is covered only through the ViewModel methods it calls; whether a real touch in a scroll view's bottom bar delivers press and release as expected needs a try on a device.
+Needs from Lohitaksh: `NSMicrophoneUsageDescription` (the microphone purpose string) is not in the project, and it is a project setting that I must not edit. Without it, the first real recording on a device or the simulator will crash when iOS asks for the microphone. Please add it (for example "Vybe uses the microphone to record voice notes you send in chats.") before anyone tries a real recording.
+
+Looked at for items 13 and 14 (screenshots opened, Debug build with sample data, iPhone 18 Pro): the sample chat with Sample Aarav shows "Seen" under my last message ("EXAMPLE thanks"), and the composer shows the "+" button, the Message field and the microphone (the new `MicControl`, same size and place as before; nothing recording). Not seen on screen: the recording bar with "Slide to cancel", because that needs a held touch, which I cannot do here.
+
+Group 6b full check: one `./scripts/check.sh` run after items 13 and 14 ended with `==> All checks passed` (exit 0).
+
+### Item 15: Docs for the approved fixes
+What changed (docs only, approved by Atharva and Lohitaksh): `docs/PRODUCT.md` (Chat: mute, group photos, hold-to-record voice notes with the 2 minute cap, read receipts from each member's `lastReadAt`; Search: the on-device filter in New chat and the Friends hub is not the Search tab, which stays the place to find new things), `docs/IA.md` (CH1 invitations section, CH2 and CH4 rows, CH8 route; the picker answer was already in section 8), `docs/DATA-MODEL.md` (`Membership.mutedAt` and `addedByID`, `Activity.runID`, `PhotoStore.save` and where chat photos live, read receipts through `memberships(in:)`, the three new `ChatRepository` calls and their rules), `docs/tasks/40-screens-community-friends-chat.md` (SC-CH2, SC-CH4, SC-CH7 text, new SC-CH8 section). "Needs from Lohitaksh" and "Decisions I need" above were rewritten: finished items removed (Activity post ID, read receipts, photos, group invitations, voice hold-to-record; Ignore stays) and new ones added (microphone text, photo text, tab bar issue #60, backend list).
+Not touched: anything about the Search tab (SC-S1, SC-S2): it is not part of this branch.
+Not run: `check.sh` (docs only). I read the edited files back by diff; I did not build.
+Needs from Lohitaksh: please read the new "approved by Lohitaksh" lines in the four documents and say if any is wrong.
+
+### Item 20: Recent searches survive closing the app (Search alternative branch)
+What changed: `AppSettings.recentSearches` (a string list in `UserDefaults`, cleared by `clear()`), `SessionStore.recentSearches` (reads and writes it), and `SearchViewModel` now reads and writes it through the session instead of an in-memory list. The limit (5, newest first, no duplicates) is unchanged; Clear writes an empty list, so it really clears.
+Files: `Core/Services/AppSettings.swift`, `Core/Stores/SessionStore.swift` (both approved for this group), `SearchFeature/Search/SearchViewModel.swift`, `SearchViewModelTests`, `CoreTests/StoreTests`, this report.
+Tests: `recentSearchesComeBackAfterTheAppRestarts` (a new SessionStore and a new view model on the same settings suite show the same recents; Clear empties the session, the settings and a third view model) and `recentSearchesAreKeptInSettingsAndForgottenOnReset` (Core). SearchFeatureTests: 21 passed.
+Not looked at: nothing visual changed in this item.
+
+### Item 21: See all shows the matches, not the whole group
+What changed: `SessionStore.lastSearchQuery` (in memory, like `onboardingDraft`; `Route.searchSeeAll(kind)` is unchanged). `SearchViewModel.seeAllTapped` stores the typed words (trimmed) before opening See all. `SeeAllViewModel` got a `search: SearchRepository` and, when `lastSearchQuery` is not empty, runs `search(text:scope:)` for that one group (scope is just the tapped group) and pages the result 20 at a time as before. With an empty query (for example a restored route) it lists the whole group exactly as before. Blocked people stay out in both cases. A "Matches only" preview was added.
+Files: `Core/Stores/SessionStore.swift`, `SearchFeature/SeeAll/SeeAllViewModel.swift`, `SeeAll+Preview.swift`, `SearchFeature/SearchScreens.swift`, `SearchFeature/Search/SearchViewModel.swift`, `SeeAllViewModelTests`, `SearchViewModelTests`, this report.
+Tests (SearchFeatureTests: 26 passed): only matches in that group and the repository is asked with only that group and the trimmed words; blank query never searches and lists the whole group; matches keep blocked people out; matches are paged; no matches is the empty state; the Search ViewModel stores the trimmed words when See all is tapped.
+Not looked at yet: the screen (item 24 looks at every state).
+
+### Item 22: You never appear in your own People results
+What changed: both ViewModels drop `session.currentUser?.id` from People (next to the existing blocked filter): `SearchViewModel` for the Search groups and `SeeAllViewModel` for the matches and for the whole friends list. If you are the only match, the People group disappears (and the empty state shows when nothing else matches).
+Files: `SearchFeature/Search/SearchViewModel.swift`, `SearchFeature/SeeAll/SeeAllViewModel.swift`, `SearchViewModelTests`, `SeeAllViewModelTests`, this report.
+Tests (SearchFeatureTests: 28 passed): Search drops me and keeps others, and shows the empty state when only I match; See all drops me from the matches and from a friends list that wrongly includes me.
+Not looked at: the screen (item 24).
+
+### Item 23: People on a normal launch (DEBUG only, `Vybe/App`)
+Reproduced first: normal launch (no `-stubMode`, `-skipOnboarding`), Search tab, typed "sample": only "Nothing yet. Know a good spot?" (`build/screenshots/s1-before-people.png`, opened). Cause: `LocalSearchRepository` has no people at all, while friends run on the sample social data.
+What changed: new `SampleSocialSearchRepository` wraps `LocalSearchRepository`: Hangouts and Places stay local (the local repository is never asked for people); People come from `SampleSocialData.people`, matched on name or @username like the stub. `AppDependencies+Local.swift` picks it in DEBUG through a small `searchRepository(content:)` helper, next to the profile wrapper from item 1. No change to Models or to the Search feature code. Release builds use the plain local repository (and stop at the social `fatalError` anyway). Phase 2: the server searches people and this file goes away.
+Files: `Vybe/App/SampleSocialSearchRepository.swift` (new), `Vybe/App/AppDependencies+Local.swift`, `VybeTests/SampleSocialSearchRepositoryTests.swift` (new), this report.
+Tests (app target, 4 passed): Hangouts and Places stay local and local is never asked for people; people found by name and by username and only from the sample people; no people unless asked; blank text and no match give none.
+Looked at (screenshot opened): same launch after the fix, typed "sample": a People group with Sample Friend, Sample Aarav, Sample Isha and See all; "Sample Me" (you) is not listed (`build/screenshots/s1-after-people.png`).
+
+### Item 24: SC-S1 "Done when" on a real run (report only, no code change)
+How: a normal launch (`-skipOnboarding`, no `-stubMode`) for the real data, and `-stubMode loaded|empty|failing|loading` where the bundled content is empty. Temporary launch changes (open the Search tab from a chosen tab, preset the query, focus the field, preset the See all words) were used for the photographs only and were reverted; `git status` was clean afterwards. The simulator text size was set with `simctl ui content_size accessibility-extra-extra-extra-large`, then put back to large.
+Opened and looked at (screenshots in `build/screenshots/`, not committed):
+- Search, normal launch: no results for "sample" before the fix and People after it (`s1-before-people`, `s1-after-people`); "Sample Me" (you) is not in the list; recent search "sample" is shown on the next launch (`s1-idle`) so item 20 works across launches; "Nothing yet. Know a good spot?" with the Suggest a place button (`s1-kothrud`).
+- Search, sample data: idle with Picks (`s1-stub-idle`); results from Discover (Hangouts, Places, People), from Community (People first) and from Profile (Saved first, then Hangouts, Places, People) (`s1-stub-discover`, `-community`, `-profile`); error with Retry (`s1-stub-failing`); keyboard open with results (`s1-stub-keyboard`); largest text (`s1-stub-xxxl`) and largest text with the keyboard (`s1-stub-xxxl-keyboard`): rows wrap, nothing is cut off, the field and the cancel button stay usable.
+- See all: only the matches for the typed words (`s2-stub-matches`: "Park" gives one Place; `s2-stub-people-matches`: "sample" gives only people you can see), empty (`s2-stub-empty`), largest text (`s2-stub-xxxl`), back button present on the pushed screen.
+- The Search tab root has no back button (its own `NavigationStack`, the field sits on the screen, not on the `TabView`).
+Taken but not opened: loading for Search and the error state for See all (`s1-stub-loading`, `s2-stub-failing`), the whole-group See all (`s2-stub-all`).
+Not driven by hand (no way to tap in this environment): tapping a row (Hangout pushes, Place opens the Spot sheet, Person pushes), Suggest a place opening its sheet, typing and the debounce, Clear on recent searches, the See all button. These are covered by ViewModel tests that check the Router call or sheet; VoiceOver was not run.
+Found while looking: the Search tab showed raw keys (`search.title`) because the built `VybeKit_SearchFeature.bundle` was a stale, empty resource bundle left from before the Search commits were reapplied; deleting that bundle in `build/` and rebuilding fixed it. It is a local build-cache problem, not a code problem; if Search shows raw keys on another machine, clean the build folder.
+Not fixable here: the bundled content (`LocalData/Resources/Content`) has no Hangouts or Places yet, so on a normal launch only People can be found and there are no Picks to suggest; that waits for the real content (and the sample-natural-hangouts PR #57).
+
+### Shared files touched in this job
+From `git diff --name-only 27fee49..HEAD` (the commits of the fixes, not the merge from `main`), restricted to the approved shared folders. The list for the whole PR (which also has Tanvi's Feed and PostCard commits and the first WO-2 round, for example `Components/PostCard.swift`) is `git diff --name-only origin/main...HEAD`.
+- Models: `Models/Chat/Conversation.swift`, `Models/Safety/Activity.swift`, `Models/Samples/SampleSocialData.swift`
+- Core: `Core/Repositories/ChatRepository.swift`, `Core/Repositories/PhotoStore.swift`, `Core/Services/PhotoProcessor.swift`, `Core/Fakes/StubRepositories.swift`, `Core/Fakes/StubSocialRepositories.swift`, `Core/Fakes/SocialStubStore.swift`, `Core/Fakes/SocialStubStore+Chat.swift`, `Core/Fakes/Contracts/SocialContracts.swift`, `Core/Navigation/Routes/ChatRoute.swift`
+- LocalData: `LocalData/LocalPhotoStore.swift`
+- Design/Views: `Design/Views/PillButton.swift` (new), `Design/Views/PrimaryButton.swift`, `Design/Views/SecondaryButton.swift`
+- Components: `Components/CommentRow.swift`
+- App: `Vybe/App/AppDependencies+Local.swift`, `Vybe/App/LaunchOptions.swift`, `Vybe/App/SampleIdentityProfileRepository.swift` (new)
+- App tests: `VybeTests/AppShellTests.swift`, `VybeTests/LaunchOptionsTests.swift`, `VybeTests/SampleIdentityProfileRepositoryTests.swift` (new)
+- Docs: `docs/IA.md`, `docs/PRODUCT.md`, `docs/DATA-MODEL.md`, `docs/tasks/40-screens-community-friends-chat.md`, `docs/prompts/WO-3-agent-prompt.md`, this report
+- Package tests beside these: `CoreTests/ChatMembersStubTests`, `RouteCodingTests`, `IACoverageTests`, `PhotoProcessorTests`, `BadgeStoreAndSampleTests`, `LocalDataTests/LocalPhotoStoreTests`, `ContentTests/CommunityModelsTests`, `ComponentsTests/ComponentDataTests`
+- Search branch only (items 20 to 23, `a/wo2-search-alt`): `Core/Services/AppSettings.swift` (recentSearches), `Core/Stores/SessionStore.swift` (recentSearches, lastSearchQuery), `Vybe/App/SampleSocialSearchRepository.swift` (new), `Vybe/App/AppDependencies+Local.swift`, `VybeTests/SampleSocialSearchRepositoryTests.swift` (new), `CoreTests/StoreTests`.
+- Never touched: `Package.swift`, signing, project settings, `Vybe.xcodeproj`, `Local.xcconfig`.

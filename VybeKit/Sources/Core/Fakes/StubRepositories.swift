@@ -1,6 +1,7 @@
 #if DEBUG
 import Foundation
 import Models
+import Synchronization
 
 public struct StubHangoutRepository: HangoutRepository {
     public let mode: StubMode
@@ -131,9 +132,22 @@ public struct StubSearchRepository: SearchRepository {
     }
 }
 
-/// No images in previews: every photo shows its placeholder.
-public struct StubPhotoStore: PhotoStore {
+/// No images in previews: every photo shows its placeholder. `save` keeps nothing and returns a new `Photo` value,
+/// numbered in order, so a preview can send a photo without touching the disk.
+public final class StubPhotoStore: PhotoStore {
+    private let saved = Mutex(0)
+
     public init() {}
     public func url(for photo: Photo) -> URL? { nil }
+
+    public func save(_ photo: ProcessedPhoto) async throws -> Photo {
+        let number = saved.withLock { count -> Int in
+            count += 1
+            return count
+        }
+        let size = photo.pixelSize
+        return Photo(id: PhotoID("photo-stub-\(number)"), path: "stub-\(number).jpg",
+                     width: size?.width ?? 0, height: size?.height ?? 0)
+    }
 }
 #endif

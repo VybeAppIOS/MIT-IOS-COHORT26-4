@@ -51,6 +51,11 @@ final class ConversationViewModel {
     var draft = ""
     var editingID: MessageID?
     var isRecording = false
+    /// True while a finger is held on the microphone (hold to record). VoiceOver records without holding.
+    var isHolding = false
+    /// How far the finger has slid to the left (0 or negative, in points). Past the cancel distance, letting go
+    /// throws the recording away.
+    var slideOffset = 0.0
     private(set) var isSending = false
     /// The message waiting for a "Delete for everyone?" answer.
     var deletingID: MessageID?
@@ -60,11 +65,17 @@ final class ConversationViewModel {
     var saved: [SavedHangoutChoice] = []
     /// A short message to show once. The View clears it.
     var notice: String?
+    /// The full-screen photo viewer, when a photo is open.
+    var viewer: PhotoViewerItem?
+    /// True while picked photos are being made safe, saved and sent.
+    var isSendingPhotos = false
 
     let conversationID: ConversationID
     let chat: any ChatRepository
     let profiles: any ProfileRepository
     let hangouts: any HangoutRepository
+    let photoStore: any PhotoStore
+    let processor: PhotoProcessor
     let libraryStore: LibraryStore
     let session: SessionStore
     let badges: BadgeStore
@@ -72,6 +83,10 @@ final class ConversationViewModel {
     let router: Router
     let now: @Sendable () -> Date
     let recorder: any VoiceRecording
+    /// Waits for the 2 minute cap. Injected so tests do not wait two minutes.
+    let sleep: @Sendable (Duration) async throws -> Void
+    var startTask: Task<Void, Never>?
+    var capTask: Task<Void, Never>?
     let player: AudioPlayer
     let makePoll: PollFactory
     var conversation: Conversation?
@@ -81,19 +96,26 @@ final class ConversationViewModel {
     var cards: [HangoutID: HangoutCardData] = [:]
     var playingID: MessageID?
     var hasMarkedRead = false
+    /// Everyone in this chat with their role, read time and mute (reloaded whenever the messages change).
+    var memberships: [Membership] = []
     var isMuted = false
 
     /// Cheap: no loading here (ADR 005). Takes only what the screen needs, never `AppDependencies`.
     init(
         conversationID: ConversationID, chat: any ChatRepository, profiles: any ProfileRepository,
-        hangouts: any HangoutRepository, libraryStore: LibraryStore, session: SessionStore, badges: BadgeStore,
-        network: NetworkMonitor, router: Router, now: @escaping @Sendable () -> Date, recorder: any VoiceRecording,
-        player: AudioPlayer, makePoll: @escaping PollFactory
+        hangouts: any HangoutRepository, photos: any PhotoStore, libraryStore: LibraryStore, session: SessionStore,
+        badges: BadgeStore, network: NetworkMonitor, router: Router, now: @escaping @Sendable () -> Date,
+        recorder: any VoiceRecording, player: AudioPlayer, makePoll: @escaping PollFactory,
+        processor: PhotoProcessor = PhotoProcessor(),
+        sleep: @escaping @Sendable (Duration) async throws -> Void = { try await Task.sleep(for: $0) }
     ) {
+        self.sleep = sleep
         self.conversationID = conversationID
         self.chat = chat
         self.profiles = profiles
         self.hangouts = hangouts
+        self.photoStore = photos
+        self.processor = processor
         self.libraryStore = libraryStore
         self.session = session
         self.badges = badges
@@ -117,10 +139,11 @@ final class ConversationViewModel {
             }
             conversation = found
             await people.load(found.memberIDs, from: profiles)
-            await loadMuted(in: found)
+            await loadMemberships(in: found)
             for try await batch in chat.messages(in: conversationID) {
                 messages = batch
                 await loadVotesAndCards()
+                await loadMemberships(in: found)   // read times move whenever the messages do, so "Seen" stays right
                 publish()
                 await markReadOnce()
             }
@@ -137,17 +160,6 @@ final class ConversationViewModel {
 
     /// The Retry button.
     func retry() async { await run() }
-
-    /// Whether the admin has muted me in this group. A failed lookup leaves the composer on: the repository still
-    /// refuses a muted person's message and the notice says why.
-    private func loadMuted(in conversation: Conversation) async {
-        guard conversation.kind == .group, let myID = session.currentUser?.id else {
-            isMuted = false
-            return
-        }
-        let members = (try? await chat.memberships(in: conversationID)) ?? []
-        isMuted = members.first { $0.userID == myID }?.mutedAt != nil
-    }
 
     private func loadVotesAndCards() async {
         for message in messages {
@@ -175,9 +187,10 @@ final class ConversationViewModel {
         guard let conversation else { return }
         let myID = session.currentUser?.id
         let visible = messages.filter { !session.isBlocked($0.senderID) }   // a blocked person's messages are hidden
+        let othersRead = othersLastReadAt(myID: myID)
         let rows = visible.enumerated().map { index, message in
             row(for: message, previous: index > 0 ? visible[index - 1] : nil, isLast: index == visible.count - 1,
-                myID: myID)
+                myID: myID, othersLastReadAt: othersRead)
         }
         let title = people.title(for: conversation, me: myID)
         let content = ConversationContent(
@@ -190,29 +203,24 @@ final class ConversationViewModel {
 
     // MARK: Building rows
 
-    private func row(for message: Message, previous: Message?, isLast: Bool, myID: UserID?) -> MessageRowData {
+    private func row(
+        for message: Message, previous: Message?, isLast: Bool, myID: UserID?, othersLastReadAt: Date?
+    ) -> MessageRowData {
         let isMine = message.senderID == myID
         let startsGroup = previous == nil || previous?.senderID != message.senderID
             || message.createdAt.timeIntervalSince(previous?.createdAt ?? .distantPast) > Self.groupGap
         return MessageRowData(
             id: message.id.rawValue, senderName: isMine ? ComponentStrings.you : people.name(message.senderID),
             isMine: isMine, content: content(for: message, myID: myID), isEdited: message.editedAt != nil,
-            receipt: isMine && isLast ? Self.receipt(for: message, othersLastReadAt: nil) : nil,
+            receipt: isMine && isLast ? Self.receipt(for: message, othersLastReadAt: othersLastReadAt) : nil,
             startsGroup: startsGroup)
-    }
-
-    /// "Seen" when someone else has read up to this message, otherwise "Delivered". Read receipts are always on.
-    /// The repository does not report when others last read yet, so callers pass nil until it does.
-    static func receipt(for message: Message, othersLastReadAt: Date?) -> MessageRowData.Receipt {
-        if let readAt = othersLastReadAt, readAt >= message.createdAt { return .seen }
-        return .delivered
     }
 
     private func content(for message: Message, myID: UserID?) -> MessageRowData.Content {
         if message.deletedAt != nil { return .deleted }
         switch message.payload {
         case .text(let text): return .text(text)
-        case .photos(let photos): return .photos(photos.map { _ in nil })
+        case .photos(let photos): return .photos(photos.map { photoStore.url(for: $0) })
         case .hangout(let id):
             if let card = cards[id] { return .hangout(card) }
             return .text(String(localized: "chat.conversation.hangoutMissing", bundle: #bundle))

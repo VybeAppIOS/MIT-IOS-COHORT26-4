@@ -68,6 +68,21 @@ struct GroupInfoView: View {
                 if content.isReadOnly { Text(verbatim: viewModel.readOnlyNote) }
             }
             Section {
+                Button { viewModel.photosTapped() } label: {
+                    HStack {
+                        Label { Text(verbatim: viewModel.photosLabel).foregroundStyle(Theme.Color.textPrimary) }
+                            icon: { Image(systemName: "photo.on.rectangle") }
+                        Spacer(minLength: 0)
+                        Image(systemName: "chevron.right")
+                            .font(Theme.Font.footnote)
+                            .foregroundStyle(Theme.Color.textSecondary)
+                            .accessibilityHidden(true)
+                    }
+                    .frame(minHeight: Theme.Size.minTapTarget)
+                    .contentShape(.rect)
+                }
+            }
+            Section {
                 ForEach(content.members) { member in memberRow(member) }
                 Button { viewModel.addTapped() } label: {
                     Label { Text(verbatim: viewModel.addLabel) } icon: { Image(systemName: "person.badge.plus") }

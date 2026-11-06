@@ -182,6 +182,7 @@ extension SocialStubStore {
         guard conversations[index].memberIDs.contains(member) else { throw AppError.notFound }
         conversations[index].memberIDs.removeAll { $0 == member }
         mutedAt[id]?[member] = nil
+        othersLastRead[id]?[member] = nil
     }
 
     private func membership(of user: UserID, in conversation: Conversation) -> Membership {
@@ -189,7 +190,7 @@ extension SocialStubStore {
             conversationID: conversation.id, userID: user, role: conversation.adminID == user ? .admin : .member,
             status: user == currentUserID && pendingIDs.contains(conversation.id) ? .pending : .active,
             joinedAt: joinedAt[conversation.id]?[user] ?? conversation.createdAt,
-            lastReadAt: user == currentUserID ? lastRead[conversation.id] : nil,
+            lastReadAt: user == currentUserID ? lastRead[conversation.id] : othersLastRead[conversation.id]?[user],
             mutedAt: mutedAt[conversation.id]?[user], addedByID: addedBy[conversation.id]?[user])
     }
 

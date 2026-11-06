@@ -32,7 +32,7 @@ extension AppDependencies {
             places: LocalPlaceRepository(content: content),
             library: library,
             profiles: profiles,
-            search: LocalSearchRepository(content: content),
+            search: searchRepository(content: content),
             photos: LocalPhotoStore(loader: loader),
             feed: social.feed,
             friends: social.friends,
@@ -58,6 +58,16 @@ extension AppDependencies {
         SampleIdentityProfileRepository(wrapping: LocalProfileRepository(now: now))
         #else
         LocalProfileRepository(now: now)
+        #endif
+    }
+
+    /// Hangouts and Places are searched locally. While the social data is stubbed (DEBUG only) People come from the
+    /// sample people, because the bundled content has none.
+    private static func searchRepository(content: ContentStore) -> any SearchRepository {
+        #if DEBUG
+        SampleSocialSearchRepository(wrapping: LocalSearchRepository(content: content))
+        #else
+        LocalSearchRepository(content: content)
         #endif
     }
 
