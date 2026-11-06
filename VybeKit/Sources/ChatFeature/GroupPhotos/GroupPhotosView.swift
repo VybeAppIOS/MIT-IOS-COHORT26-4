@@ -24,6 +24,7 @@ struct GroupPhotosView: View {
         .background(Theme.Color.surface)
         .task { await viewModel.run() }
         .fullScreenCover(item: $viewModel.viewer) { PhotoViewer(item: $0) }
+        .hidesTabBar()
     }
 
     private func grid(_ content: GroupPhotosContent) -> some View {
